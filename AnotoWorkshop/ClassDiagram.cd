@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AnotoWorkshop.Alias" Collapsed="true">
+    <Position X="6.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAABAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Alias.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnotoWorkshop.Field" Collapsed="true">
+    <Position X="6" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAABAhAYAASAACQAQAAJIAgAABAFAAAIAARgAgAECAA=</HashCode>
+      <FileName>Field.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.fieldSelection" Collapsed="true">
+    <Position X="1" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACEAAJAQAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fieldSelection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnotoWorkshop.FormatSet">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAIAAAAAAAAAACAAAAAAAAAAAEAAAAAAAQUAQAAAA=</HashCode>
+      <FileName>FormatSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnotoWorkshop.FormPage">
+    <Position X="8.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAABAAAAAAAAAAAAACAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>FormPage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Fields" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.frmMain" Collapsed="true">
+    <Position X="2.25" Y="7.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>9wUO9gg1aiwCmzJeooajYaYzA8GDqnZoX6LEQDgAgKQ=</HashCode>
+      <FileName>frmMain.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_settings" />
+      <Field Name="currentForm" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.loadingScreen" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAABEACAAAAAAhAChAAACAAAIAkgAAEgAAAAAIhA=</HashCode>
+      <FileName>loadingScreen.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_settings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.PenForm">
+    <Position X="11.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAAAQCCABAQAAAACEAAAEACEAAAAAAQAAAAAABAAkAM=</HashCode>
+      <FileName>PenForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="formPages" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.Settings">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAEIAAAAgAAAAAAAAAAAAByAARAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_instance" />
+      <Property Name="instance" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_globalFormatSet" />
+      <Field Name="_globalAliases" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.variablesBuilder" Collapsed="true">
+    <Position X="6.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAACBIAACAQABAAAAHAABACAAAAQIAAAJAAAAAACQA=</HashCode>
+      <FileName>variablesBuilder.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="TheAliases" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AnotoWorkshop.importWizard" Collapsed="true">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>importWizard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AnotoWorkshop.Type" Collapsed="true">
+    <Position X="6" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAAAAAAEAAAAAABAAEAAAAAAACAAAQAAAAAAAEAAAA=</HashCode>
+      <FileName>Field.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
