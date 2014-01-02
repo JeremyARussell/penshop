@@ -5,19 +5,15 @@ using System.Windows.Forms;
 using System.Xml;
 
 namespace AnotoWorkshop {
-
     public class PenForm {
 
         #region Variables
-
         //Public Variables
         public string FormName;
-
         public string thisFormsPath; //Todo - Internal Filepath for forms
 
         private List<FormPage> _formPages = new List<FormPage>();//TODO - Undid my privitizing of FormPages - it made it to where I couldn't access the functions in the class. Need to create public interface to this section when I get home.
-
-        //Form versioning variables?
+        private int _formVersion;
         private int _totalPages;
 
         private readonly XmlDocument _dom = new XmlDocument();
@@ -81,12 +77,13 @@ namespace AnotoWorkshop {
 
         #region Form Saving - Almost Done
 
-        public void safeForm(string savePath) {
+        public void saveForm() {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (XmlWriter writer = XmlWriter.Create(savePath + FormName + ".penform", settings)) {
+            using (XmlWriter writer = XmlWriter.Create(_settings.saveDirectory + FormName + ".penform", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PenForm");
                 writer.WriteAttributeString("name", FormName);
+                writer.WriteAttributeString("version", _formVersion.ToString());
 
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("Page");
@@ -125,7 +122,10 @@ namespace AnotoWorkshop {
 
         private void loadForm(XmlNode form) {
             XmlNode[] pages = new XmlNode[16];//Spot for 16 pages
-            if (form.Attributes != null) FormName = form.Attributes["name"].ToString();
+            if (form.Attributes != null) {
+                FormName = form.Attributes["name"].Value;
+                _formVersion = Convert.ToInt32(form.Attributes["version"].Value);
+            }
             foreach (XmlNode xn1 in form) {//Extract pages
                 if (xn1.Name == @"Page") {
                     pages[_counter] = xn1;
@@ -423,17 +423,22 @@ namespace AnotoWorkshop {
         }
 
         public void exportXDP() {//.xdp export
+            _formVersion++;
+
+            saveForm();
+
+            string versionString = _formVersion.ToString("D7");
+
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
 
-            //Version stuff for exporting
-            using (XmlWriter writer = XmlWriter.Create(FormName, settings)) {
+            using (XmlWriter writer = XmlWriter.Create(FormName + "." + versionString + ".xdp", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("xdp");
 
                 writer.WriteStartElement("template");
 
                 writer.WriteStartElement("subform");
-                writer.WriteAttributeString("name", "TESTING");
+                writer.WriteAttributeString("name", "TESTING");//TODO - Use formname
 
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("subform");
