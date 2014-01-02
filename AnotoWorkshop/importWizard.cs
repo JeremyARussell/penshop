@@ -181,7 +181,7 @@ namespace AnotoWorkshop {
                 string nameHolder = _formsToSave[i].FormName;
                 PenForm form = new PenForm(_formsToSave[i].thisFormsPath, _formatSets, nameHolder);
                 _formsToSave[i] = form;
-                _formsToSave[i].safeForm(_settings.saveDirectory);
+                _formsToSave[i].saveForm();
             }
 
             for (int i = 0; i < _formatSets.Count; i++) {//populating the test formatsets to cleanup list
