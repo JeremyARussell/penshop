@@ -6,21 +6,18 @@ using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace AnotoWorkshop
-{
-    public partial class frmMain : Form
-    {
+namespace AnotoWorkshop {
+    public partial class frmMain : Form {
         #region Variables
 
-        private Settings _settings = Settings.instance;
+        private Settings _settings = Settings.instance;//We'll use it later when we do formatSet stuff
         private int _currentPageNumber;//Used throughout the main forms mouse and paint events to track which page we are interacting with.
 
         #endregion Variables
 
         #region Initializers
 
-        public frmMain(PenForm form)
-        {
+        public frmMain(PenForm form) {
             currentForm = form;
 
             InitializeComponent();
@@ -30,8 +27,7 @@ namespace AnotoWorkshop
             //KeyDown += frmMain_KeyDown;
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
-        {
+        private void frmMain_Load(object sender, EventArgs e) {
             designerLoadStuff();//Misc things to initialize for the designer stuff
             //-Franklin - Refresh list of objects on load
             buildFieldTree();
@@ -58,8 +54,7 @@ namespace AnotoWorkshop
 
         private MouseMode _mode = MouseMode.None;
 
-        public enum MouseMode
-        {
+        public enum MouseMode {
             None,
             Selecting,
             Selected,
@@ -68,19 +63,16 @@ namespace AnotoWorkshop
 
         #endregion Variables
 
-        private void designerLoadStuff()
-        {//Some initilization stuff
+        private void designerLoadStuff() {//Some initilization stuff
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance |
                 BindingFlags.NonPublic, null, designPanel, new object[] { true });
         }
 
-        private void designer_Paint(object sender, PaintEventArgs e)
-        {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
+        private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1);
             lblTotalpages.Text = currentForm.totalPages().ToString();
 
-            if (currentForm.totalPages() > 0)
-            {
+            if (currentForm.totalPages() > 0) {
                 _selectionPen.DashStyle = DashStyle.Dash;
 
                 Rectangle pageRectangle = new Rectangle();
@@ -91,8 +83,7 @@ namespace AnotoWorkshop
 
                 e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);
 
-                switch (_mode)
-                {
+                switch (_mode) {
                     case MouseMode.None://No reason to paint anything when there is no selection mode.
                         break;
 
@@ -101,8 +92,7 @@ namespace AnotoWorkshop
                         break;
 
                     case MouseMode.Selected://The selection box and editing widgets
-                        if (_sfBoxRect.Height > 0)
-                        {
+                        if (_sfBoxRect.Height > 0) {
                             e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_sfBoxRect.X + _xOffset, _sfBoxRect.Y + _yOffset)), _sfBoxRect.Size));
                         }
                         break;
@@ -113,12 +103,9 @@ namespace AnotoWorkshop
                         break;
                 }
 
-                foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                {
-                    if (!fi.hidden)
-                    {
-                        switch (fi.type)
-                        {
+                foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                    if (!fi.hidden) {
+                        switch (fi.type) {
                             case Type.TextField:
                                 Pen p1 = new Pen(Color.DarkGray);
                                 e.Graphics.DrawRectangle(p1, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
@@ -168,15 +155,14 @@ namespace AnotoWorkshop
                                 break;
                         }
                     }
-                    if (fi.selected)
-                    {//Turn into a create selection box given a Rectangle
+                    if (fi.selected) {//Turn into a create selection box given a Rectangle
                         Rectangle selectedRect = fi.rect();//Initialize new rectangle based of field's position and size.
                         selectedRect.X = fi.zx - 1 + _xOffset;//Added "padding" for the individual selection rectangle
                         selectedRect.Y = fi.zy - 1 + _yOffset;
                         selectedRect.Width = fi.zwidth + 2;
                         selectedRect.Height = fi.zheight + 2;
                         e.Graphics.DrawRectangle(_selectionPen, selectedRect);
-                        e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(selectedRect.X, selectedRect.Y)), selectedRect.Size));
+                        //e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(selectedRect.X, selectedRect.Y)), selectedRect.Size));
                     }
                 }
             }
@@ -206,28 +192,20 @@ namespace AnotoWorkshop
 
         #endregion Mouse Related Variables
 
-        private void designer_MouseDown(object sender, MouseEventArgs e)
-        {//Controls the events that occur when the mouse is down. (not a click though, which is an down and up)
-            if (currentForm.totalPages() > 0)
-            {
+        private void designer_MouseDown(object sender, MouseEventArgs e) {//Controls the events that occur when the mouse is down. (not a click though, which is an down and up)
+            if (currentForm.totalPages() > 0) {
                 _startPoint.X = e.X;
                 _startPoint.Y = e.Y;
 
                 #region Left Click Down - Kind Done
 
-                if (e.Button == MouseButtons.Left)
-                {
-                    if (!_sfBoxRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding)
-                    {//Neither Adding or clicking within the group selection box
+                if (e.Button == MouseButtons.Left) {
+                    if (!_sfBoxRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding) {//Neither Adding or clicking within the group selection box
                         int notSelectedCount = 0;
-                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                        {
-                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset))
-                            {
+                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {
                                 _mode = MouseMode.Selected;
-                            }
-                            else
-                            {
+                            } else {
                                 ++notSelectedCount;
                                 if (notSelectedCount == currentForm.page(_currentPageNumber).Fields.Count) _mode = MouseMode.Selecting;
                                 _sfBoxRect = new Rectangle();
@@ -235,8 +213,7 @@ namespace AnotoWorkshop
                         }
                     }
 
-                    switch (_mode)
-                    {
+                    switch (_mode) {
                         case MouseMode.None:
                             break;
 
@@ -244,10 +221,8 @@ namespace AnotoWorkshop
                             break;
 
                         case MouseMode.Selected:
-                            if (e.Button == MouseButtons.Left)
-                            {//Preparing for moving fields/groups around.
-                                foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                                {
+                            if (e.Button == MouseButtons.Left) {//Preparing for moving fields/groups around.
+                                foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                                     fi.moveStart = new Point(fi.zx, fi.zy);
                                 }
                                 _sfBoxMoveStart = new Point(_sfBoxRect.X, _sfBoxRect.Y);
@@ -265,8 +240,7 @@ namespace AnotoWorkshop
 
                 #region Middle Click Down - Kinda Started
 
-                if (e.Button == MouseButtons.Middle)
-                {
+                if (e.Button == MouseButtons.Middle) {
                     _xOffset = _oldXOffset;
                     _yOffset = _oldYOffset;
 
@@ -281,47 +255,35 @@ namespace AnotoWorkshop
             }
         }
 
-        private void designer_MouseMove(object sender, MouseEventArgs e)
-        {//Handling what happens when the mouse is moving.
-            if (currentForm.totalPages() > 0)
-            {
-                if (e.Button == MouseButtons.Middle)
-                {
+        private void designer_MouseMove(object sender, MouseEventArgs e) {//Handling what happens when the mouse is moving.
+            if (currentForm.totalPages() > 0) {
+                if (e.Button == MouseButtons.Middle) {
                     _xOffset = e.X - _offsetMoveStart.X + _oldXOffset;
                     _yOffset = e.Y - _offsetMoveStart.Y + _oldYOffset;
                 }
 
-                if (e.Button == MouseButtons.Left)
-                {
-                    switch (_mode)
-                    {
+                if (e.Button == MouseButtons.Left) {
+                    switch (_mode) {
                         case MouseMode.None:
                             break;
 
                         case MouseMode.Selecting://Figuring out the position and size of the selection rectangle.
-                            if (e.X > _startPoint.X)
-                            {
+                            if (e.X > _startPoint.X) {
                                 _selectionRect.X = _startPoint.X;
                                 _selectionRect.Width = e.X - _startPoint.X;
-                            }
-                            else
-                            {
+                            } else {
                                 _selectionRect.X = e.X;
                                 _selectionRect.Width = _startPoint.X - e.X;
                             }
-                            if (e.Y > _startPoint.Y)
-                            {
+                            if (e.Y > _startPoint.Y) {
                                 _selectionRect.Y = _startPoint.Y;
                                 _selectionRect.Height = e.Y - _startPoint.Y;
-                            }
-                            else
-                            {
+                            } else {
                                 _selectionRect.Y = e.Y;
                                 _selectionRect.Height = _startPoint.Y - e.Y;
                             }
 
-                            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                            {//Checking if fields are within the selection rectangle.
+                            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {//Checking if fields are within the selection rectangle.
                                 if (fi.zx > _selectionRect.X - _xOffset && fi.zx < _selectionRect.Width + _selectionRect.X - _xOffset &&
                                     fi.zy > _selectionRect.Y - _yOffset && fi.zy < _selectionRect.Height + _selectionRect.Y - _yOffset &&
 
@@ -330,19 +292,15 @@ namespace AnotoWorkshop
                                     )
                                 {
                                     fi.selected = true;
-                                }
-                                else
-                                {
+                                } else {
                                     fi.selected = false;
                                 }
                             }
                             break;
 
                         case MouseMode.Selected:
-                            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                            {
-                                if (fi.selected)
-                                {//Moving stuff around code.
+                            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                                if (fi.selected) {//Moving stuff around code.
                                     fi.zx = fi.moveStart.X - (_startPoint.X - e.X);
                                     fi.zy = fi.moveStart.Y - (_startPoint.Y - e.Y);
                                 }
@@ -352,29 +310,22 @@ namespace AnotoWorkshop
                             break;
 
                         case MouseMode.Adding:
-                            if (e.X > _startPoint.X)
-                            {
+                            if (e.X > _startPoint.X) {
                                 _selectionRect.X = _startPoint.X;
                                 _selectionRect.Width = e.X - _startPoint.X;
-                            }
-                            else
-                            {
+                            } else {
                                 _selectionRect.X = e.X;
                                 _selectionRect.Width = _startPoint.X - e.X;
                             }
 
-                            if (e.Y > _startPoint.Y)
-                            {
+                            if (e.Y > _startPoint.Y) {
                                 _selectionRect.Y = _startPoint.Y;
                                 _selectionRect.Height = e.Y - _startPoint.Y;
-                            }
-                            else
-                            {
+                            } else {
                                 _selectionRect.Y = e.Y;
                                 _selectionRect.Height = _startPoint.Y - e.Y;
                             }
-                            switch (_fieldToAdd.type)
-                            {//Need to put in stuff that edits only length of control, etc, etc.
+                            switch (_fieldToAdd.type) {//Need to put in stuff that edits only length of control, etc, etc.
                                 case Type.TextField:
                                     _selectionRect.Height = (int)(16 * _zoomLevel);
                                     break;
@@ -408,29 +359,23 @@ namespace AnotoWorkshop
             }
         }
 
-        private void designer_MouseUp(object sender, MouseEventArgs e)
-        {//Handles what happene when you release the botton.
-            if (currentForm.totalPages() > 0)
-            {
+        private void designer_MouseUp(object sender, MouseEventArgs e) {//Handles what happene when you release the botton.
+            if (currentForm.totalPages() > 0) {
                 _endPoint.X = e.X;
                 _endPoint.Y = e.Y;
 
                 _oldXOffset = _xOffset;
                 _oldYOffset = _yOffset;
 
-                switch (_mode)
-                {
+                switch (_mode) {
                     case MouseMode.None:
                         break;
 
                     case MouseMode.Selecting:
                         bool toSelect = false;
-                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                        {
+                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) toSelect = true;
-                        }
-                        if (toSelect)
-                        {
+                        } if (toSelect) {
                             _mode = MouseMode.Selected;
                             goto case MouseMode.Selected;
                         }
@@ -439,10 +384,8 @@ namespace AnotoWorkshop
                     case MouseMode.Selected:
                         calculateSfBox();
 
-                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-                        {
-                            if (fi.selected)
-                            {
+                        foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                            if (fi.selected) {
                                 refreshProperties(fi);
                             }
                         }
@@ -450,10 +393,8 @@ namespace AnotoWorkshop
                         break;
 
                     case MouseMode.Adding:
-                        if (_selectionRect.Width > 0 && _selectionRect.Height > 0)
-                        {
-                            switch (_fieldToAdd.type)
-                            {
+                        if (_selectionRect.Width > 0 && _selectionRect.Height > 0) {
+                            switch (_fieldToAdd.type) {
                                 case Type.TextField:
                                     _fieldToAdd.zx = _selectionRect.X - _xOffset;
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
@@ -494,8 +435,7 @@ namespace AnotoWorkshop
                         break;
                 }
 
-                if (e.Button == MouseButtons.Right)
-                {
+                if (e.Button == MouseButtons.Right) {
                     int testX = e.X + designPanel.PointToScreen(designPanel.Location).X;
                     int testY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
 
@@ -510,35 +450,26 @@ namespace AnotoWorkshop
             }
         }
 
-        private void calculateSfBox()
-        {
+        private void calculateSfBox() {
             Point sfBoxPosition = new Point(99999, 99999);
             Size sfBoxSize = new Size();
 
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {//Figuring out where to place the TL corner of the sfBox.
-                if (fi.selected)
-                {
-                    if (fi.zx < sfBoxPosition.X)
-                    {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {//Figuring out where to place the TL corner of the sfBox.
+                if (fi.selected) {
+                    if (fi.zx < sfBoxPosition.X) {
                         sfBoxPosition.X = fi.zx - 6;
                     }
-                    if (fi.zy < sfBoxPosition.Y)
-                    {
+                    if (fi.zy < sfBoxPosition.Y) {
                         sfBoxPosition.Y = fi.zy - 6;
                     }
                 }
             }
-            foreach (Field pi in currentForm.page(_currentPageNumber).Fields)
-            {//Figuring out what size to make the sfBox.
-                if (pi.selected)
-                {
-                    if (pi.zx + pi.zwidth - sfBoxPosition.X > sfBoxSize.Width)
-                    {
+            foreach (Field pi in currentForm.page(_currentPageNumber).Fields) {//Figuring out what size to make the sfBox.
+                if (pi.selected) {
+                    if (pi.zx + pi.zwidth - sfBoxPosition.X > sfBoxSize.Width) {
                         sfBoxSize.Width = pi.zx + 6 + pi.zwidth - sfBoxPosition.X;
                     }
-                    if (pi.zy + pi.zheight - sfBoxPosition.Y > sfBoxSize.Height)
-                    {
+                    if (pi.zy + pi.zheight - sfBoxPosition.Y > sfBoxSize.Height) {
                         sfBoxSize.Height = pi.zy + 6 + pi.zheight - sfBoxPosition.Y;
                     }
                 }
@@ -553,73 +484,58 @@ namespace AnotoWorkshop
 
         #region Cut, Copy, and Paste.
 
-        private void btnCut_Click(object sender, EventArgs e)
-        {
+        private void btnCut_Click(object sender, EventArgs e) {
             cut();
         }
 
-        private void btnCopy_Click(object sender, EventArgs e)
-        {
+        private void btnCopy_Click(object sender, EventArgs e) {
             copy();
         }
 
-        private void btnPaste_Click(object sender, EventArgs e)
-        {
+        private void btnPaste_Click(object sender, EventArgs e) {
             paste();
         }
 
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e) {
             cut();
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             copy();
         }
 
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
             paste();
         }
 
-        private void cut()
-        {
+        private void cut() {
             _fieldsToCopy = new List<Field>();
 
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     _fieldsToCopy.Add(fi);
                 }
             }
-            foreach (Field fi2 in _fieldsToCopy)
-            {
+            foreach (Field fi2 in _fieldsToCopy) {
                 currentForm.page(_currentPageNumber).Fields.Remove(fi2);
             }
 
             designPanel.Invalidate();
         }
 
-        private void copy()
-        {
+        private void copy() {
             _fieldsToCopy = new List<Field>();
 
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     _fieldsToCopy.Add(returnCopy(fi));
                 }
             }
             designPanel.Invalidate();
         }
 
-        private void paste()
-        {
-            foreach (Field fi in _fieldsToCopy)
-            {
+        private void paste() {
+            foreach (Field fi in _fieldsToCopy) {
                 fi.x = fi.x + 15;
                 fi.y = fi.y + 15;
 
@@ -630,8 +546,7 @@ namespace AnotoWorkshop
 
         private List<Field> _fieldsToCopy = new List<Field>();
 
-        private Field returnCopy(Field fi)
-        {
+        private Field returnCopy(Field fi) {
             Field tempField = new Field();
 
             tempField.name = fi.name;
@@ -654,28 +569,22 @@ namespace AnotoWorkshop
 
         #region Field Deletion
 
-        private void btnDeleteField_Click(object sender, EventArgs e)
-        {
+        private void btnDeleteField_Click(object sender, EventArgs e) {
             deleteFields();
         }
 
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             deleteFields();
         }
 
-        private void deleteFields()
-        {
+        private void deleteFields() {
             List<Field> fieldsToDelete = new List<Field>();
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     fieldsToDelete.Add(fi);
                 }
             }
-            foreach (Field fi in fieldsToDelete)
-            {
+            foreach (Field fi in fieldsToDelete) {
                 currentForm.page(_currentPageNumber).Fields.Remove(fi);
             }
 
@@ -688,8 +597,7 @@ namespace AnotoWorkshop
 
         #region Field Addition
 
-        private void btn_AddField_Click(object sender, EventArgs e)
-        {
+        private void btn_AddField_Click(object sender, EventArgs e) {
             deselectAll();
 
             _mode = MouseMode.Adding;
@@ -697,8 +605,7 @@ namespace AnotoWorkshop
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
-        private void btnAddCheckBox_Click(object sender, EventArgs e)
-        {
+        private void btnAddCheckBox_Click(object sender, EventArgs e) {
             deselectAll();
 
             _mode = MouseMode.Adding;
@@ -706,8 +613,7 @@ namespace AnotoWorkshop
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
-        private void btnAddLabel_Click(object sender, EventArgs e)
-        {
+        private void btnAddLabel_Click(object sender, EventArgs e) {
             deselectAll();
 
             _mode = MouseMode.Adding;
@@ -716,8 +622,7 @@ namespace AnotoWorkshop
             _fieldToAdd.text = Interaction.InputBox("Text of Label");
         }
 
-        private void btnAddRectangle_Click(object sender, EventArgs e)
-        {
+        private void btnAddRectangle_Click(object sender, EventArgs e) {
             deselectAll();
 
             _mode = MouseMode.Adding;
@@ -725,8 +630,7 @@ namespace AnotoWorkshop
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
-        private void btnAddLine_Click(object sender, EventArgs e)
-        {
+        private void btnAddLine_Click(object sender, EventArgs e) {
             deselectAll();
 
             _mode = MouseMode.Adding;
@@ -738,10 +642,8 @@ namespace AnotoWorkshop
 
         #region Global Control Functions
 
-        private void deselectAll()
-        {
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
+        private void deselectAll() {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 fi.selected = false;
             }
 
@@ -752,16 +654,13 @@ namespace AnotoWorkshop
 
         #region Page Navigation/Switching
 
-        private void btnPreviousPage_Click(object sender, EventArgs e)
-        {
-            if (_currentPageNumber > 0)
-            {
+        private void btnPreviousPage_Click(object sender, EventArgs e) {
+            if (_currentPageNumber > 0) {
                 _currentPageNumber--;
                 btnNextPage.Enabled = true;
             }
 
-            if (_currentPageNumber == 0)
-            {
+            if (_currentPageNumber == 0) {
                 btnPreviousPage.Enabled = false;
             }
 
@@ -771,16 +670,13 @@ namespace AnotoWorkshop
             designPanel.Invalidate();
         }
 
-        private void btnNextPage_Click(object sender, EventArgs e)
-        {
-            if (_currentPageNumber < currentForm.totalPages() - 1)
-            {
+        private void btnNextPage_Click(object sender, EventArgs e) {
+            if (_currentPageNumber < currentForm.totalPages() - 1) {
                 _currentPageNumber++;
                 btnPreviousPage.Enabled = true;
             }
 
-            if (_currentPageNumber == currentForm.totalPages() - 1)
-            {
+            if (_currentPageNumber == currentForm.totalPages() - 1) {
                 btnNextPage.Enabled = false;
             }
 
@@ -794,8 +690,7 @@ namespace AnotoWorkshop
 
         #region New Page
 
-        private void btnNewPage_Click(object sender, EventArgs e)
-        {
+        private void btnNewPage_Click(object sender, EventArgs e) {
             currentForm.addNewBlankPage();
         }
 
@@ -803,9 +698,10 @@ namespace AnotoWorkshop
 
         #region Save News Form - TESTING
 
-        private void btnExportForm_Click(object sender, EventArgs e)
-        {
+        private void btnExportForm_Click(object sender, EventArgs e) {
             currentForm.exportXDP();
+
+            //TODO - Placeholder for EPS and PNG exporting, using the designPanel's white page area
         }
 
         #endregion Save News Form - TESTING
@@ -819,8 +715,7 @@ namespace AnotoWorkshop
         //real issue is there is no inherent linking of FormatSet's when the form is opened. The information comes through
         //fine as far as names, etc go. This is why I made the preview spot after all, time to go to sleep.
 
-        private void refreshProperties(Field fi)
-        {
+        private void refreshProperties(Field fi) {
             txtPropName.Text = fi.name;
             txtPropX.Text = fi.x.ToString();
             txtPropY.Text = fi.y.ToString();
@@ -829,17 +724,16 @@ namespace AnotoWorkshop
             chkPropHidden.Checked = fi.hidden;
             chkPropReadOnly.Checked = fi.readOnly;
             txtPropFieldType.Text = fi.type.ToString();
-            txtPropFontType.Text = fi.formatSet.fontTypeface;
-            txtPropFontSize.Text = fi.formatSet.fontSizeString;
-            txtPropFontWeight.Text = fi.formatSet.fontWeight;
+            //txtPropFontType.Text = fi.formatSet.fontTypeface;
+            //txtPropFontSize.Text = fi.formatSet.fontSizeString;
+            //txtPropFontWeight.Text = fi.formatSet.fontWeight;
             txtPropText.Text = fi.text;
-            txtPropFontName.Text = fi.formatSet.name;
+            //txtPropFontName.Text = fi.formatSet.name;
 
             _fieldInProperties = fi;
         }
 
-        private void btnPropSave_Click(object sender, EventArgs e)
-        {
+        private void btnPropSave_Click(object sender, EventArgs e) {
             currentForm.page(_currentPageNumber).removeField(_fieldInProperties);
 
             _fieldInProperties.name = txtPropName.Text;
@@ -850,11 +744,11 @@ namespace AnotoWorkshop
             _fieldInProperties.hidden = chkPropHidden.Checked;
             _fieldInProperties.readOnly = chkPropReadOnly.Checked;
             //txtPropFieldType.Text Stays the same, you don't change field types like this.
-            _fieldInProperties.formatSet.fontTypeface = txtPropFontType.Text;//TODO - Affect the FormatSet directly via the name,
-            _fieldInProperties.formatSet.fontSizeString = txtPropFontSize.Text;
-            _fieldInProperties.formatSet.fontWeight = txtPropFontWeight.Text;
+            //_fieldInProperties.formatSet.fontTypeface = txtPropFontType.Text;//TODO - Affect the FormatSet directly via the name,
+            //_fieldInProperties.formatSet.fontSizeString = txtPropFontSize.Text;
+            //_fieldInProperties.formatSet.fontWeight = txtPropFontWeight.Text;
             _fieldInProperties.text = txtPropText.Text;
-            _fieldInProperties.formatSet.name = txtPropFontName.Text;
+            //_fieldInProperties.formatSet.name = txtPropFontName.Text;
 
             currentForm.page(_currentPageNumber).addField(_fieldInProperties);
             designPanel.Invalidate();
@@ -866,8 +760,7 @@ namespace AnotoWorkshop
 
         #region Universal Methods
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             //Delete
             if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
             //Mouse Arrow Moving
@@ -884,16 +777,14 @@ namespace AnotoWorkshop
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void frmMain_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void frmMain_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == (Char)Keys.Up) moveFieldsUp();
             if (e.KeyChar == (Char)Keys.Down) moveFieldsDown();
             if (e.KeyChar == (Char)Keys.Left) moveFieldsLeft();
             if (e.KeyChar == (Char)Keys.Right) moveFieldsRight();
         }
 
-        private void frmMain_KeyDown(object sender, KeyEventArgs e)
-        {
+        private void frmMain_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Delete) deleteFields();
 
             if (e.Control && e.KeyCode == Keys.X) cut();
@@ -905,12 +796,9 @@ namespace AnotoWorkshop
 
         #region Arrow Key Moving - Mostly Finished, gradiant speed up would be intersting.
 
-        public void moveFieldsUp()
-        {
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+        public void moveFieldsUp() {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     fi.y--;
                 }
             }
@@ -918,12 +806,9 @@ namespace AnotoWorkshop
             calculateSfBox();
         }
 
-        public void moveFieldsDown()
-        {
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+        public void moveFieldsDown() {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     fi.y++;
                 }
             }
@@ -931,12 +816,9 @@ namespace AnotoWorkshop
             calculateSfBox();
         }
 
-        public void moveFieldsLeft()
-        {
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+        public void moveFieldsLeft() {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     fi.x--;
                 }
             }
@@ -944,12 +826,9 @@ namespace AnotoWorkshop
             calculateSfBox();
         }
 
-        public void moveFieldsRight()
-        {
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
-                if (fi.selected)
-                {
+        public void moveFieldsRight() {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
                     fi.x++;
                 }
             }
@@ -963,19 +842,16 @@ namespace AnotoWorkshop
 
         #region Camera Controls
 
-        public void mouseWheel(object sender, MouseEventArgs e)
-        {
+        public void mouseWheel(object sender, MouseEventArgs e) {
             if (e.Delta > 0)
                 zoomIn();
             else
                 zoomOut();
         }
 
-        private void zoomIn()
-        {
+        private void zoomIn() {
             _zoomLevel += 0.25;
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 fi.zoomLevel = _zoomLevel;
             }
 
@@ -983,14 +859,11 @@ namespace AnotoWorkshop
             designPanel.Invalidate();
         }
 
-        private void zoomOut()
-        {
-            if (_zoomLevel > 0.26)
-            {
+        private void zoomOut() {
+            if (_zoomLevel > 0.26) {
                 _zoomLevel -= 0.25;
             }
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 fi.zoomLevel = _zoomLevel;
             }
 
@@ -1002,13 +875,11 @@ namespace AnotoWorkshop
 
         #region Designer Focus
 
-        private void designPanel_MouseEnter(object sender, EventArgs e)
-        {
+        private void designPanel_MouseEnter(object sender, EventArgs e) {
             designPanel.Focus();
         }
 
-        private void designPanel_MouseLeave(object sender, EventArgs e)
-        {
+        private void designPanel_MouseLeave(object sender, EventArgs e) {
             //lstvForms.Focus();
         }
 
@@ -1016,16 +887,14 @@ namespace AnotoWorkshop
 
         #region Field Tree Management
 
-        private void btnRefreshFieldTree_Click(object sender, EventArgs e)
-        {
+        private void btnRefreshFieldTree_Click(object sender, EventArgs e) {
             buildFieldTree();
         }
 
         private void buildFieldTree()
         {
             trvFieldList.Nodes.Clear();
-            foreach (Field fi in currentForm.page(_currentPageNumber).Fields)
-            {
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 trvFieldList.Nodes.Add(fi.name);
             }
         }
@@ -1035,14 +904,10 @@ namespace AnotoWorkshop
         Field latestTreeSelectedField = null;
         
 
-        private void trvFieldList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.FullPath == currentForm.page(_currentPageNumber).Fields[e.Node.Index].name)
-            {
-                if (latestTreeSelectedField != (Field)currentForm.page(_currentPageNumber).Fields[e.Node.Index])
-                {
-                    if (latestTreeSelectedField != null)
-                    {
+        private void trvFieldList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) {
+            if (e.Node.FullPath == currentForm.page(_currentPageNumber).Fields[e.Node.Index].name) {
+                if (latestTreeSelectedField != (Field)currentForm.page(_currentPageNumber).Fields[e.Node.Index]) {
+                    if (latestTreeSelectedField != null) {
                         latestTreeSelectedField.selected = false;
                     }
                     currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = true;
@@ -1053,6 +918,11 @@ namespace AnotoWorkshop
                     designPanel.Invalidate();
                 }
             }
+        }
+
+        private void btnSaveForm_Click(object sender, EventArgs e)
+        {
+            currentForm.saveForm();
         }
     }
 }
