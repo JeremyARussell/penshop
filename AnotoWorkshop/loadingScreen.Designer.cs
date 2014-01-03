@@ -49,12 +49,12 @@
             // 
             // btnLoadSettings
             // 
+            this.btnLoadSettings.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
             this.btnLoadSettings.Location = new System.Drawing.Point(470, 11);
             this.btnLoadSettings.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoadSettings.Name = "btnLoadSettings";
             this.btnLoadSettings.Size = new System.Drawing.Size(32, 32);
             this.btnLoadSettings.TabIndex = 20;
-            this.btnLoadSettings.Text = "Settings";
             this.btnLoadSettings.UseVisualStyleBackColor = true;
             this.btnLoadSettings.Click += new System.EventHandler(this.btnLoadSettings_Click);
             // 

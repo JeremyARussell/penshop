@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabDesigner = new System.Windows.Forms.TabPage();
+            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.lblVersionNumber = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -95,7 +96,6 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -150,6 +150,17 @@
             this.tabDesigner.TabIndex = 1;
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadSettingsScreen
+            // 
+            this.btnLoadSettingsScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(1274, 3);
+            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
+            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(32, 32);
+            this.btnLoadSettingsScreen.TabIndex = 32;
+            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // lblVersionNumber
             // 
@@ -842,17 +853,6 @@
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // btnLoadSettingsScreen
-            // 
-            this.btnLoadSettingsScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(1274, 3);
-            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
-            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(32, 32);
-            this.btnLoadSettingsScreen.TabIndex = 32;
-            this.btnLoadSettingsScreen.Text = "S";
-            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
-            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // frmMain
             // 
