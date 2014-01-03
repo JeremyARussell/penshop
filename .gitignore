@@ -4,3 +4,7 @@ AnotoWorkshop/bin/Debug/AnotoWorkshop.vshost.exe.manifest
 AnotoWorkshop/obj/Debug/AnotoWorkshop.csproj.FileListAbsolute.txt
 AnotoWorkshop/obj/Debug/TemporaryGeneratedFile*
 AnotoWorkshop/obj/Debug/AnotoWorkshop.*.resources
+_ReSharper.AnotoWorkshop/
+*.cache
+*.exe
+*.pdb

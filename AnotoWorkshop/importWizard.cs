@@ -175,7 +175,7 @@ namespace AnotoWorkshop {
         #region Finish Importing
 
         private void btnFinish_Click(object sender, EventArgs e) {
-            Directory.CreateDirectory(_settings.saveDirectory);
+            Directory.CreateDirectory(_settings.formsFolderLocation);
 
             for (int i = 0; i < _formsToSave.Count; i++) {
                 string nameHolder = _formsToSave[i].FormName;

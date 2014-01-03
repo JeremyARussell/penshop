@@ -79,7 +79,7 @@ namespace AnotoWorkshop {
 
         public void saveForm() {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (XmlWriter writer = XmlWriter.Create(_settings.saveDirectory + FormName + ".penform", settings)) {
+            using (XmlWriter writer = XmlWriter.Create(_settings.formsFolderLocation + FormName + ".penform", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PenForm");
                 writer.WriteAttributeString("name", FormName);

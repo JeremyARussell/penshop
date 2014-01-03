@@ -31,10 +31,10 @@ namespace AnotoWorkshop {
 
         public void checkForForms() {
             try {
-                if (_settings.saveDirectory != null) {
-                    IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.saveDirectory, "*.penform");
+                if (_settings.formsFolderLocation != null) {
+                    IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
                     foreach (string file in fileList) {
-                        string formName = file.Remove(0, _settings.saveDirectory.Length + 1);
+                        string formName = file.Remove(0, _settings.formsFolderLocation.Length + 1);
 
                         ListViewItem workingListViewItem = new ListViewItem(formName);
                         workingListViewItem.Tag = file;

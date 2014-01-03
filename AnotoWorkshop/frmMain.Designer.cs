@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabDesigner = new System.Windows.Forms.TabPage();
+            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.lblVersionNumber = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -129,6 +130,7 @@
             // 
             // tabDesigner
             // 
+            this.tabDesigner.Controls.Add(this.btnLoadSettingsScreen);
             this.tabDesigner.Controls.Add(this.lblVersionNumber);
             this.tabDesigner.Controls.Add(this.label2);
             this.tabDesigner.Controls.Add(this.splitContainer1);
@@ -148,6 +150,17 @@
             this.tabDesigner.TabIndex = 1;
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadSettingsScreen
+            // 
+            this.btnLoadSettingsScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(1274, 3);
+            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
+            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(32, 32);
+            this.btnLoadSettingsScreen.TabIndex = 32;
+            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // lblVersionNumber
             // 
@@ -947,6 +960,7 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Label lblVersionNumber;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnLoadSettingsScreen;
     }
 }
 
