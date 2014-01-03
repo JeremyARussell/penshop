@@ -9,8 +9,8 @@ namespace AnotoWorkshop {
 
         #region Variables
 
-        public string formsFolderLocation;
-        private string _saveDirectory = @"C:\PenForms\";
+        public string formsFolderLocation = @"C:\PenForms\";
+        private string _saveDirectory = System.Windows.Forms.Application.StartupPath;
         public string testString;
 
         private Dictionary<string, FormatSet> _globalFormatSet;
@@ -42,7 +42,7 @@ namespace AnotoWorkshop {
             _globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Alias>();
 
-            if (System.IO.File.Exists(_saveDirectory + "settings.xml")) {
+            if (System.IO.File.Exists(_saveDirectory + @"\settings.xml")) {
                 loadFromFile();
             }
         }
@@ -54,9 +54,11 @@ namespace AnotoWorkshop {
         private readonly XmlDocument _dom = new XmlDocument();
 
         public void loadFromFile() {
-            _dom.Load(_saveDirectory + "settings.xml");
+            _dom.Load(_saveDirectory + @"\settings.xml");
 
             XmlReader node = XmlReader.Create(new StringReader(_dom.DocumentElement.OuterXml));
+
+            #region Load FormatSets
 
             while (node.Read()) {
                 if (node.Name == @"FormatSet") {//Loading the misc FormatSets
@@ -75,9 +77,16 @@ namespace AnotoWorkshop {
                     _globalFormatSet.Add(tempKey, tempSet);
                 }
 
+            #endregion Load FormatSets
+
+                #region Load Visisted Flags
+
                 if (node.Name == @"Flags") {
                     bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
                 }
+
+                #endregion Load Visited Flags
+
             }
         }
 
@@ -87,11 +96,10 @@ namespace AnotoWorkshop {
 
         public void saveToFile() {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (XmlWriter writer = XmlWriter.Create(_saveDirectory + "settings.xml", settings)) {
+            using (XmlWriter writer = XmlWriter.Create(_saveDirectory + @"\settings.xml", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Settings");
-                //writer.WriteAttributeString("name", FormName);
-
+                
                 #region Saving Format Sets
 
                 writer.WriteStartElement("FormatSets");
