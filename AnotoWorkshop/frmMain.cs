@@ -926,5 +926,10 @@ namespace AnotoWorkshop {
         {
             currentForm.saveForm();
         }
+
+        private void btnLoadSettingsScreen_Click(object sender, EventArgs e)
+        {
+            new settingsScreen().ShowDialog();
+        }
     }
 }

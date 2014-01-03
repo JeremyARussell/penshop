@@ -49,10 +49,10 @@
             // 
             // btnLoadSettings
             // 
-            this.btnLoadSettings.Location = new System.Drawing.Point(416, 49);
+            this.btnLoadSettings.Location = new System.Drawing.Point(470, 11);
             this.btnLoadSettings.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoadSettings.Name = "btnLoadSettings";
-            this.btnLoadSettings.Size = new System.Drawing.Size(74, 24);
+            this.btnLoadSettings.Size = new System.Drawing.Size(32, 32);
             this.btnLoadSettings.TabIndex = 20;
             this.btnLoadSettings.Text = "Settings";
             this.btnLoadSettings.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             // 
             // btnOpenSQLform
             // 
-            this.btnOpenSQLform.Location = new System.Drawing.Point(349, 267);
+            this.btnOpenSQLform.Location = new System.Drawing.Point(428, 239);
             this.btnOpenSQLform.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenSQLform.Name = "btnOpenSQLform";
             this.btnOpenSQLform.Size = new System.Drawing.Size(74, 24);
@@ -82,9 +82,9 @@
             // 
             // btnImportForms
             // 
-            this.btnImportForms.Location = new System.Drawing.Point(349, 163);
+            this.btnImportForms.Location = new System.Drawing.Point(428, 211);
             this.btnImportForms.Name = "btnImportForms";
-            this.btnImportForms.Size = new System.Drawing.Size(94, 23);
+            this.btnImportForms.Size = new System.Drawing.Size(74, 23);
             this.btnImportForms.TabIndex = 26;
             this.btnImportForms.Text = "Import...";
             this.btnImportForms.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             // 
             // btnNewForm
             // 
-            this.btnNewForm.Location = new System.Drawing.Point(248, 30);
+            this.btnNewForm.Location = new System.Drawing.Point(237, 12);
             this.btnNewForm.Name = "btnNewForm";
             this.btnNewForm.Size = new System.Drawing.Size(60, 23);
             this.btnNewForm.TabIndex = 27;
@@ -101,7 +101,7 @@
             // 
             // btnRemoveForm
             // 
-            this.btnRemoveForm.Location = new System.Drawing.Point(248, 59);
+            this.btnRemoveForm.Location = new System.Drawing.Point(237, 41);
             this.btnRemoveForm.Name = "btnRemoveForm";
             this.btnRemoveForm.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveForm.TabIndex = 28;
