@@ -719,5 +719,14 @@ namespace AnotoWorkshop {
         }
 
         #endregion XDP Exporting
+
+        #region Properties
+
+        public int versionNumber {
+            get { return _formVersion ; }
+        }
+
+        #endregion Properties
+
     }
 }

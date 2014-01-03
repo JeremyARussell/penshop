@@ -31,20 +31,20 @@
             this.components = new System.ComponentModel.Container();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabDesigner = new System.Windows.Forms.TabPage();
+            this.lblVersionNumber = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.designPanel = new System.Windows.Forms.Panel();
-            this.grpOldProtos = new System.Windows.Forms.GroupBox();
-            this.btnCut = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.btnPaste = new System.Windows.Forms.Button();
-            this.btnDeleteField = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtPropFontWeight = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtPropFontSize = new System.Windows.Forms.TextBox();
-            this.txtPropFontType = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAddLine = new System.Windows.Forms.Button();
+            this.btnAddRectangle = new System.Windows.Forms.Button();
+            this.btnAddGroupBox = new System.Windows.Forms.Button();
+            this.btnAddOptionGroup = new System.Windows.Forms.Button();
+            this.btnAddLabel = new System.Windows.Forms.Button();
+            this.btnAddCheckBox = new System.Windows.Forms.Button();
+            this.btnAddTextField = new System.Windows.Forms.Button();
             this.grpProperties = new System.Windows.Forms.GroupBox();
             this.txtPropFontName = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -66,16 +66,20 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtPropX = new System.Windows.Forms.TextBox();
             this.txtPropName = new System.Windows.Forms.TextBox();
-            this.trvFieldList = new System.Windows.Forms.TreeView();
+            this.grpOldProtos = new System.Windows.Forms.GroupBox();
+            this.btnCut = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnPaste = new System.Windows.Forms.Button();
+            this.btnDeleteField = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtPropFontWeight = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtPropFontSize = new System.Windows.Forms.TextBox();
+            this.txtPropFontType = new System.Windows.Forms.TextBox();
             this.btnRefreshFieldTree = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnAddLine = new System.Windows.Forms.Button();
-            this.btnAddRectangle = new System.Windows.Forms.Button();
-            this.btnAddGroupBox = new System.Windows.Forms.Button();
-            this.btnAddOptionGroup = new System.Windows.Forms.Button();
-            this.btnAddLabel = new System.Windows.Forms.Button();
-            this.btnAddCheckBox = new System.Windows.Forms.Button();
-            this.btnAddTextField = new System.Windows.Forms.Button();
+            this.trvFieldList = new System.Windows.Forms.TreeView();
             this.btnSaveForm = new System.Windows.Forms.Button();
             this.btnNewPage = new System.Windows.Forms.Button();
             this.lblTotalpages = new System.Windows.Forms.Label();
@@ -91,18 +95,12 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.grpOldProtos.SuspendLayout();
-            this.grpProperties.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.cntxtFieldControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -111,6 +109,10 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.grpProperties.SuspendLayout();
+            this.grpOldProtos.SuspendLayout();
+            this.cntxtFieldControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabs
@@ -127,6 +129,8 @@
             // 
             // tabDesigner
             // 
+            this.tabDesigner.Controls.Add(this.lblVersionNumber);
+            this.tabDesigner.Controls.Add(this.label2);
             this.tabDesigner.Controls.Add(this.splitContainer1);
             this.tabDesigner.Controls.Add(this.btnSaveForm);
             this.tabDesigner.Controls.Add(this.btnNewPage);
@@ -144,6 +148,29 @@
             this.tabDesigner.TabIndex = 1;
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
+            // 
+            // lblVersionNumber
+            // 
+            this.lblVersionNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVersionNumber.AutoSize = true;
+            this.lblVersionNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersionNumber.Location = new System.Drawing.Point(868, 11);
+            this.lblVersionNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblVersionNumber.Name = "lblVersionNumber";
+            this.lblVersionNumber.Size = new System.Drawing.Size(0, 17);
+            this.lblVersionNumber.TabIndex = 31;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(796, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 17);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Version #";
             // 
             // splitContainer1
             // 
@@ -182,135 +209,130 @@
             this.designPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.designer_MouseMove);
             this.designPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.designer_MouseUp);
             // 
-            // grpOldProtos
+            // splitContainer2
             // 
-            this.grpOldProtos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpOldProtos.Controls.Add(this.btnCut);
-            this.grpOldProtos.Controls.Add(this.btnCopy);
-            this.grpOldProtos.Controls.Add(this.groupBox2);
-            this.grpOldProtos.Controls.Add(this.btnPaste);
-            this.grpOldProtos.Controls.Add(this.btnDeleteField);
-            this.grpOldProtos.Controls.Add(this.label11);
-            this.grpOldProtos.Controls.Add(this.txtPropFontWeight);
-            this.grpOldProtos.Controls.Add(this.label12);
-            this.grpOldProtos.Controls.Add(this.label13);
-            this.grpOldProtos.Controls.Add(this.txtPropFontSize);
-            this.grpOldProtos.Controls.Add(this.txtPropFontType);
-            this.grpOldProtos.Location = new System.Drawing.Point(318, 373);
-            this.grpOldProtos.Name = "grpOldProtos";
-            this.grpOldProtos.Size = new System.Drawing.Size(122, 65);
-            this.grpOldProtos.TabIndex = 26;
-            this.grpOldProtos.TabStop = false;
-            this.grpOldProtos.Text = "Old Prototypes - Hidden";
-            this.grpOldProtos.Visible = false;
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // btnCut
+            // splitContainer2.Panel1
             // 
-            this.btnCut.Location = new System.Drawing.Point(146, 19);
-            this.btnCut.Name = "btnCut";
-            this.btnCut.Size = new System.Drawing.Size(83, 23);
-            this.btnCut.TabIndex = 22;
-            this.btnCut.Text = "Cut";
-            this.btnCut.UseVisualStyleBackColor = true;
-            this.btnCut.Visible = false;
-            this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
             // 
-            // btnCopy
+            // splitContainer2.Panel2
             // 
-            this.btnCopy.Location = new System.Drawing.Point(146, 33);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(83, 23);
-            this.btnCopy.TabIndex = 23;
-            this.btnCopy.Text = "Copy";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Visible = false;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            this.splitContainer2.Panel2.Controls.Add(this.grpOldProtos);
+            this.splitContainer2.Panel2.Controls.Add(this.btnRefreshFieldTree);
+            this.splitContainer2.Panel2.Controls.Add(this.trvFieldList);
+            this.splitContainer2.Size = new System.Drawing.Size(456, 898);
+            this.splitContainer2.SplitterDistance = 431;
+            this.splitContainer2.TabIndex = 30;
             // 
-            // btnPaste
+            // splitContainer3
             // 
-            this.btnPaste.Location = new System.Drawing.Point(135, 48);
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(83, 23);
-            this.btnPaste.TabIndex = 24;
-            this.btnPaste.Text = "Paste";
-            this.btnPaste.UseVisualStyleBackColor = true;
-            this.btnPaste.Visible = false;
-            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // btnDeleteField
+            // splitContainer3.Panel1
             // 
-            this.btnDeleteField.Location = new System.Drawing.Point(135, 48);
-            this.btnDeleteField.Name = "btnDeleteField";
-            this.btnDeleteField.Size = new System.Drawing.Size(83, 23);
-            this.btnDeleteField.TabIndex = 6;
-            this.btnDeleteField.Text = "Delete";
-            this.btnDeleteField.UseVisualStyleBackColor = true;
-            this.btnDeleteField.Visible = false;
-            this.btnDeleteField.Click += new System.EventHandler(this.btnDeleteField_Click);
+            this.splitContainer3.Panel1.Controls.Add(this.groupBox1);
             // 
-            // label11
+            // splitContainer3.Panel2
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(17, 33);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(79, 13);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "Font Typeface:";
+            this.splitContainer3.Panel2.Controls.Add(this.grpProperties);
+            this.splitContainer3.Size = new System.Drawing.Size(454, 429);
+            this.splitContainer3.SplitterDistance = 159;
+            this.splitContainer3.TabIndex = 20;
             // 
-            // txtPropFontWeight
+            // groupBox1
             // 
-            this.txtPropFontWeight.Location = new System.Drawing.Point(93, 79);
-            this.txtPropFontWeight.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPropFontWeight.Name = "txtPropFontWeight";
-            this.txtPropFontWeight.Size = new System.Drawing.Size(46, 20);
-            this.txtPropFontWeight.TabIndex = 18;
+            this.groupBox1.Controls.Add(this.btnAddLine);
+            this.groupBox1.Controls.Add(this.btnAddRectangle);
+            this.groupBox1.Controls.Add(this.btnAddGroupBox);
+            this.groupBox1.Controls.Add(this.btnAddOptionGroup);
+            this.groupBox1.Controls.Add(this.btnAddLabel);
+            this.groupBox1.Controls.Add(this.btnAddCheckBox);
+            this.groupBox1.Controls.Add(this.btnAddTextField);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(159, 429);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Add Menu";
             // 
-            // label12
+            // btnAddLine
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(18, 56);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 13);
-            this.label12.TabIndex = 14;
-            this.label12.Text = "Font Size:";
+            this.btnAddLine.Location = new System.Drawing.Point(5, 134);
+            this.btnAddLine.Name = "btnAddLine";
+            this.btnAddLine.Size = new System.Drawing.Size(65, 23);
+            this.btnAddLine.TabIndex = 8;
+            this.btnAddLine.Text = "Line";
+            this.btnAddLine.UseVisualStyleBackColor = true;
+            this.btnAddLine.Click += new System.EventHandler(this.btnAddLine_Click);
             // 
-            // label13
+            // btnAddRectangle
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(18, 82);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(68, 13);
-            this.label13.TabIndex = 15;
-            this.label13.Text = "Font Weight:";
+            this.btnAddRectangle.Location = new System.Drawing.Point(5, 105);
+            this.btnAddRectangle.Name = "btnAddRectangle";
+            this.btnAddRectangle.Size = new System.Drawing.Size(65, 23);
+            this.btnAddRectangle.TabIndex = 7;
+            this.btnAddRectangle.Text = "Rectangle";
+            this.btnAddRectangle.UseVisualStyleBackColor = true;
+            this.btnAddRectangle.Click += new System.EventHandler(this.btnAddRectangle_Click);
             // 
-            // txtPropFontSize
+            // btnAddGroupBox
             // 
-            this.txtPropFontSize.Location = new System.Drawing.Point(93, 56);
-            this.txtPropFontSize.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPropFontSize.Name = "txtPropFontSize";
-            this.txtPropFontSize.Size = new System.Drawing.Size(34, 20);
-            this.txtPropFontSize.TabIndex = 17;
+            this.btnAddGroupBox.Location = new System.Drawing.Point(98, 147);
+            this.btnAddGroupBox.Name = "btnAddGroupBox";
+            this.btnAddGroupBox.Size = new System.Drawing.Size(20, 23);
+            this.btnAddGroupBox.TabIndex = 6;
+            this.btnAddGroupBox.Text = "Group Box";
+            this.btnAddGroupBox.UseVisualStyleBackColor = true;
             // 
-            // txtPropFontType
+            // btnAddOptionGroup
             // 
-            this.txtPropFontType.Location = new System.Drawing.Point(99, 33);
-            this.txtPropFontType.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPropFontType.Name = "txtPropFontType";
-            this.txtPropFontType.Size = new System.Drawing.Size(62, 20);
-            this.txtPropFontType.TabIndex = 16;
+            this.btnAddOptionGroup.Location = new System.Drawing.Point(98, 18);
+            this.btnAddOptionGroup.Name = "btnAddOptionGroup";
+            this.btnAddOptionGroup.Size = new System.Drawing.Size(20, 23);
+            this.btnAddOptionGroup.TabIndex = 5;
+            this.btnAddOptionGroup.Text = "Option Group";
+            this.btnAddOptionGroup.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // btnAddLabel
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(59, 20);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(68, 26);
-            this.groupBox2.TabIndex = 25;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.btnAddLabel.Location = new System.Drawing.Point(5, 76);
+            this.btnAddLabel.Name = "btnAddLabel";
+            this.btnAddLabel.Size = new System.Drawing.Size(65, 23);
+            this.btnAddLabel.TabIndex = 4;
+            this.btnAddLabel.Text = "Label";
+            this.btnAddLabel.UseVisualStyleBackColor = true;
+            this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
+            // 
+            // btnAddCheckBox
+            // 
+            this.btnAddCheckBox.Location = new System.Drawing.Point(5, 46);
+            this.btnAddCheckBox.Name = "btnAddCheckBox";
+            this.btnAddCheckBox.Size = new System.Drawing.Size(65, 23);
+            this.btnAddCheckBox.TabIndex = 3;
+            this.btnAddCheckBox.Text = "Check Box";
+            this.btnAddCheckBox.UseVisualStyleBackColor = true;
+            this.btnAddCheckBox.Click += new System.EventHandler(this.btnAddCheckBox_Click);
+            // 
+            // btnAddTextField
+            // 
+            this.btnAddTextField.Location = new System.Drawing.Point(5, 17);
+            this.btnAddTextField.Name = "btnAddTextField";
+            this.btnAddTextField.Size = new System.Drawing.Size(65, 23);
+            this.btnAddTextField.TabIndex = 2;
+            this.btnAddTextField.Text = "Text Field";
+            this.btnAddTextField.UseVisualStyleBackColor = true;
+            this.btnAddTextField.Click += new System.EventHandler(this.btn_AddField_Click);
             // 
             // grpProperties
             // 
@@ -529,15 +551,135 @@
             this.txtPropName.Size = new System.Drawing.Size(158, 20);
             this.txtPropName.TabIndex = 0;
             // 
-            // trvFieldList
+            // grpOldProtos
             // 
-            this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.trvFieldList.Location = new System.Drawing.Point(0, 33);
-            this.trvFieldList.Margin = new System.Windows.Forms.Padding(2);
-            this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(454, 428);
-            this.trvFieldList.TabIndex = 20;
-            this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvFieldList_NodeMouseClick);
+            this.grpOldProtos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpOldProtos.Controls.Add(this.btnCut);
+            this.grpOldProtos.Controls.Add(this.btnCopy);
+            this.grpOldProtos.Controls.Add(this.groupBox2);
+            this.grpOldProtos.Controls.Add(this.btnPaste);
+            this.grpOldProtos.Controls.Add(this.btnDeleteField);
+            this.grpOldProtos.Controls.Add(this.label11);
+            this.grpOldProtos.Controls.Add(this.txtPropFontWeight);
+            this.grpOldProtos.Controls.Add(this.label12);
+            this.grpOldProtos.Controls.Add(this.label13);
+            this.grpOldProtos.Controls.Add(this.txtPropFontSize);
+            this.grpOldProtos.Controls.Add(this.txtPropFontType);
+            this.grpOldProtos.Location = new System.Drawing.Point(318, 373);
+            this.grpOldProtos.Name = "grpOldProtos";
+            this.grpOldProtos.Size = new System.Drawing.Size(122, 65);
+            this.grpOldProtos.TabIndex = 26;
+            this.grpOldProtos.TabStop = false;
+            this.grpOldProtos.Text = "Old Prototypes - Hidden";
+            this.grpOldProtos.Visible = false;
+            // 
+            // btnCut
+            // 
+            this.btnCut.Location = new System.Drawing.Point(146, 19);
+            this.btnCut.Name = "btnCut";
+            this.btnCut.Size = new System.Drawing.Size(83, 23);
+            this.btnCut.TabIndex = 22;
+            this.btnCut.Text = "Cut";
+            this.btnCut.UseVisualStyleBackColor = true;
+            this.btnCut.Visible = false;
+            this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(146, 33);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(83, 23);
+            this.btnCopy.TabIndex = 23;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Visible = false;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Location = new System.Drawing.Point(59, 20);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(68, 26);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            // 
+            // btnPaste
+            // 
+            this.btnPaste.Location = new System.Drawing.Point(135, 48);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(83, 23);
+            this.btnPaste.TabIndex = 24;
+            this.btnPaste.Text = "Paste";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Visible = false;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
+            // 
+            // btnDeleteField
+            // 
+            this.btnDeleteField.Location = new System.Drawing.Point(135, 48);
+            this.btnDeleteField.Name = "btnDeleteField";
+            this.btnDeleteField.Size = new System.Drawing.Size(83, 23);
+            this.btnDeleteField.TabIndex = 6;
+            this.btnDeleteField.Text = "Delete";
+            this.btnDeleteField.UseVisualStyleBackColor = true;
+            this.btnDeleteField.Visible = false;
+            this.btnDeleteField.Click += new System.EventHandler(this.btnDeleteField_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(17, 33);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(79, 13);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Font Typeface:";
+            // 
+            // txtPropFontWeight
+            // 
+            this.txtPropFontWeight.Location = new System.Drawing.Point(93, 79);
+            this.txtPropFontWeight.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPropFontWeight.Name = "txtPropFontWeight";
+            this.txtPropFontWeight.Size = new System.Drawing.Size(46, 20);
+            this.txtPropFontWeight.TabIndex = 18;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(18, 56);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(54, 13);
+            this.label12.TabIndex = 14;
+            this.label12.Text = "Font Size:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(18, 82);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(68, 13);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "Font Weight:";
+            // 
+            // txtPropFontSize
+            // 
+            this.txtPropFontSize.Location = new System.Drawing.Point(93, 56);
+            this.txtPropFontSize.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPropFontSize.Name = "txtPropFontSize";
+            this.txtPropFontSize.Size = new System.Drawing.Size(34, 20);
+            this.txtPropFontSize.TabIndex = 17;
+            // 
+            // txtPropFontType
+            // 
+            this.txtPropFontType.Location = new System.Drawing.Point(99, 33);
+            this.txtPropFontType.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPropFontType.Name = "txtPropFontType";
+            this.txtPropFontType.Size = new System.Drawing.Size(62, 20);
+            this.txtPropFontType.TabIndex = 16;
             // 
             // btnRefreshFieldTree
             // 
@@ -550,97 +692,20 @@
             this.btnRefreshFieldTree.UseVisualStyleBackColor = true;
             this.btnRefreshFieldTree.Click += new System.EventHandler(this.btnRefreshFieldTree_Click);
             // 
-            // groupBox1
+            // trvFieldList
             // 
-            this.groupBox1.Controls.Add(this.btnAddLine);
-            this.groupBox1.Controls.Add(this.btnAddRectangle);
-            this.groupBox1.Controls.Add(this.btnAddGroupBox);
-            this.groupBox1.Controls.Add(this.btnAddOptionGroup);
-            this.groupBox1.Controls.Add(this.btnAddLabel);
-            this.groupBox1.Controls.Add(this.btnAddCheckBox);
-            this.groupBox1.Controls.Add(this.btnAddTextField);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(159, 429);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Add Menu";
-            // 
-            // btnAddLine
-            // 
-            this.btnAddLine.Location = new System.Drawing.Point(5, 134);
-            this.btnAddLine.Name = "btnAddLine";
-            this.btnAddLine.Size = new System.Drawing.Size(65, 23);
-            this.btnAddLine.TabIndex = 8;
-            this.btnAddLine.Text = "Line";
-            this.btnAddLine.UseVisualStyleBackColor = true;
-            this.btnAddLine.Click += new System.EventHandler(this.btnAddLine_Click);
-            // 
-            // btnAddRectangle
-            // 
-            this.btnAddRectangle.Location = new System.Drawing.Point(5, 105);
-            this.btnAddRectangle.Name = "btnAddRectangle";
-            this.btnAddRectangle.Size = new System.Drawing.Size(65, 23);
-            this.btnAddRectangle.TabIndex = 7;
-            this.btnAddRectangle.Text = "Rectangle";
-            this.btnAddRectangle.UseVisualStyleBackColor = true;
-            this.btnAddRectangle.Click += new System.EventHandler(this.btnAddRectangle_Click);
-            // 
-            // btnAddGroupBox
-            // 
-            this.btnAddGroupBox.Location = new System.Drawing.Point(98, 147);
-            this.btnAddGroupBox.Name = "btnAddGroupBox";
-            this.btnAddGroupBox.Size = new System.Drawing.Size(20, 23);
-            this.btnAddGroupBox.TabIndex = 6;
-            this.btnAddGroupBox.Text = "Group Box";
-            this.btnAddGroupBox.UseVisualStyleBackColor = true;
-            // 
-            // btnAddOptionGroup
-            // 
-            this.btnAddOptionGroup.Location = new System.Drawing.Point(98, 18);
-            this.btnAddOptionGroup.Name = "btnAddOptionGroup";
-            this.btnAddOptionGroup.Size = new System.Drawing.Size(20, 23);
-            this.btnAddOptionGroup.TabIndex = 5;
-            this.btnAddOptionGroup.Text = "Option Group";
-            this.btnAddOptionGroup.UseVisualStyleBackColor = true;
-            // 
-            // btnAddLabel
-            // 
-            this.btnAddLabel.Location = new System.Drawing.Point(5, 76);
-            this.btnAddLabel.Name = "btnAddLabel";
-            this.btnAddLabel.Size = new System.Drawing.Size(65, 23);
-            this.btnAddLabel.TabIndex = 4;
-            this.btnAddLabel.Text = "Label";
-            this.btnAddLabel.UseVisualStyleBackColor = true;
-            this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
-            // 
-            // btnAddCheckBox
-            // 
-            this.btnAddCheckBox.Location = new System.Drawing.Point(5, 46);
-            this.btnAddCheckBox.Name = "btnAddCheckBox";
-            this.btnAddCheckBox.Size = new System.Drawing.Size(65, 23);
-            this.btnAddCheckBox.TabIndex = 3;
-            this.btnAddCheckBox.Text = "Check Box";
-            this.btnAddCheckBox.UseVisualStyleBackColor = true;
-            this.btnAddCheckBox.Click += new System.EventHandler(this.btnAddCheckBox_Click);
-            // 
-            // btnAddTextField
-            // 
-            this.btnAddTextField.Location = new System.Drawing.Point(5, 17);
-            this.btnAddTextField.Name = "btnAddTextField";
-            this.btnAddTextField.Size = new System.Drawing.Size(65, 23);
-            this.btnAddTextField.TabIndex = 2;
-            this.btnAddTextField.Text = "Text Field";
-            this.btnAddTextField.UseVisualStyleBackColor = true;
-            this.btnAddTextField.Click += new System.EventHandler(this.btn_AddField_Click);
+            this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.trvFieldList.Location = new System.Drawing.Point(0, 33);
+            this.trvFieldList.Margin = new System.Windows.Forms.Padding(2);
+            this.trvFieldList.Name = "trvFieldList";
+            this.trvFieldList.Size = new System.Drawing.Size(454, 428);
+            this.trvFieldList.TabIndex = 20;
+            this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvFieldList_NodeMouseClick);
             // 
             // btnSaveForm
             // 
             this.btnSaveForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveForm.Location = new System.Drawing.Point(725, 8);
+            this.btnSaveForm.Location = new System.Drawing.Point(653, 8);
             this.btnSaveForm.Name = "btnSaveForm";
             this.btnSaveForm.Size = new System.Drawing.Size(66, 23);
             this.btnSaveForm.TabIndex = 28;
@@ -694,7 +759,7 @@
             // btnExportForm
             // 
             this.btnExportForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportForm.Location = new System.Drawing.Point(653, 8);
+            this.btnExportForm.Location = new System.Drawing.Point(725, 8);
             this.btnExportForm.Name = "btnExportForm";
             this.btnExportForm.Size = new System.Drawing.Size(66, 23);
             this.btnExportForm.TabIndex = 7;
@@ -776,44 +841,6 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // splitContainer2
-            // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.grpOldProtos);
-            this.splitContainer2.Panel2.Controls.Add(this.btnRefreshFieldTree);
-            this.splitContainer2.Panel2.Controls.Add(this.trvFieldList);
-            this.splitContainer2.Size = new System.Drawing.Size(456, 898);
-            this.splitContainer2.SplitterDistance = 431;
-            this.splitContainer2.TabIndex = 30;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.grpProperties);
-            this.splitContainer3.Size = new System.Drawing.Size(454, 429);
-            this.splitContainer3.SplitterDistance = 159;
-            this.splitContainer3.TabIndex = 20;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -834,12 +861,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.grpOldProtos.ResumeLayout(false);
-            this.grpOldProtos.PerformLayout();
-            this.grpProperties.ResumeLayout(false);
-            this.grpProperties.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.cntxtFieldControls.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -848,6 +869,12 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.grpProperties.ResumeLayout(false);
+            this.grpProperties.PerformLayout();
+            this.grpOldProtos.ResumeLayout(false);
+            this.grpOldProtos.PerformLayout();
+            this.cntxtFieldControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -918,6 +945,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Label lblVersionNumber;
+        private System.Windows.Forms.Label label2;
     }
 }
 

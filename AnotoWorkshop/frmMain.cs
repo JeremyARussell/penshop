@@ -66,6 +66,8 @@ namespace AnotoWorkshop {
         private void designerLoadStuff() {//Some initilization stuff
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance |
                 BindingFlags.NonPublic, null, designPanel, new object[] { true });
+
+            lblVersionNumber.Text = currentForm.versionNumber.ToString();
         }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
