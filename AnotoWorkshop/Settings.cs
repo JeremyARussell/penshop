@@ -9,9 +9,8 @@ namespace AnotoWorkshop {
 
         #region Variables
 
-        public string formsFolderLocation = @"C:\PenForms\";
+        public string formsFolderLocation = @"C:\PenForms\";//TODO - Hardcoded for now, 
         private string _saveDirectory = System.Windows.Forms.Application.StartupPath;
-        public string testString;
 
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Alias> _globalAliases;
@@ -172,16 +171,5 @@ namespace AnotoWorkshop {
 
         #endregion FormatSets
 
-        #region Testing
-
-        public void setString(string stringy) {
-            testString = stringy;
-        }
-
-        public string getString() {
-            return testString;
-        }
-
-        #endregion Testing
     }
 }

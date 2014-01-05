@@ -438,10 +438,10 @@ namespace AnotoWorkshop {
                 }
 
                 if (e.Button == MouseButtons.Right) {
-                    int testX = e.X + designPanel.PointToScreen(designPanel.Location).X;
-                    int testY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
+                    int conPostX = e.X + designPanel.PointToScreen(designPanel.Location).X;
+                    int conPostY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
 
-                    cntxtFieldControls.Show(testX, testY);
+                    cntxtFieldControls.Show(conPostX, conPostY);
                 }
 
                 _startPoint = new Point();
@@ -698,7 +698,7 @@ namespace AnotoWorkshop {
 
         #endregion New Page
 
-        #region Save News Form - TESTING
+        #region Export Form Button
 
         private void btnExportForm_Click(object sender, EventArgs e) {
             currentForm.exportXDP();
@@ -706,7 +706,7 @@ namespace AnotoWorkshop {
             //TODO - Placeholder for EPS and PNG exporting, using the designPanel's white page area
         }
 
-        #endregion Save News Form - TESTING
+        #endregion Export Form Button
 
         #endregion Form Controls
 

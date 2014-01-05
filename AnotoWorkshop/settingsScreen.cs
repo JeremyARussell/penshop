@@ -26,11 +26,11 @@ namespace AnotoWorkshop {
         #region Testing Stuff
 
         private void btnTest_Click(object sender, EventArgs e) {
-            _settings.setString(txtText.Text);
+
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            txtText.Text = _settings.getString();
+
         }
 
         #endregion Testing Stuff

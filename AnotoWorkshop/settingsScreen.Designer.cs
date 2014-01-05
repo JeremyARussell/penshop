@@ -67,7 +67,7 @@
             // 
             // btnSaveFile
             // 
-            this.btnSaveFile.Location = new System.Drawing.Point(303, 510);
+            this.btnSaveFile.Location = new System.Drawing.Point(303, 244);
             this.btnSaveFile.Name = "btnSaveFile";
             this.btnSaveFile.Size = new System.Drawing.Size(182, 23);
             this.btnSaveFile.TabIndex = 29;

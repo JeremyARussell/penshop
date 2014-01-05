@@ -7,12 +7,11 @@ namespace AnotoWorkshop {
 
         #region Variables
 
-        //Font stuff //Todo - eventually will be in it's own TextType class, font.type for fields(headers, legal, etc.)
         public string fontTypeface { get; set; }//typeface - "Arial"
+        public string fontWeight { get; set; }//weight - bold
+        public string name { get; set; }
 
         private int _fontSize;//size - 14pt, 12pt
-
-        public string fontWeight { get; set; }//weight - bold
 
         //baselineShift - 0pt - Todo - Won't do this one right now
         //node for fill color - Todo - was on colored text, won't worry about right now
@@ -50,8 +49,6 @@ namespace AnotoWorkshop {
             get { return _fontSize.ToString() + "pt"; }
             set { _fontSize = Convert.ToInt32(value.Substring(0, value.IndexOf("pt"))); }
         }
-
-        public string name { get; set; }
 
         //Todo - Adjust for zoomLevel, extrapolate font Style from string. Probably a search against the possible types, bold italic etc.
         public Font font() {
