@@ -10,6 +10,7 @@ namespace AnotoWorkshop {
     public partial class frmMain : Form {
         #region Variables
 
+        public List<Field> selectedFields = null;
         private Settings _settings = Settings.instance;//We'll use it later when we do formatSet stuff
         private int _currentPageNumber;//Used throughout the main forms mouse and paint events to track which page we are interacting with.
 
@@ -30,6 +31,11 @@ namespace AnotoWorkshop {
         private void frmMain_Load(object sender, EventArgs e) {
             designerLoadStuff();//Misc things to initialize for the designer stuff
             //-Franklin - Refresh list of objects on load
+            if (selectedFields == null) {
+                selectedFields = new List<Field>();
+                lblCurrentProp.Text = "1";
+                lblTotalProp.Text = currentForm.page(_currentPageNumber).Fields.Count.ToString();
+            }
             buildFieldTree();
         }
 
@@ -903,22 +909,47 @@ namespace AnotoWorkshop {
 
         #endregion Field Tree Management
 
-        Field latestTreeSelectedField = null;
-        
+        bool multiSelecting = false;
 
-        private void trvFieldList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) {
-            if (e.Node.FullPath == currentForm.page(_currentPageNumber).Fields[e.Node.Index].name) {
-                if (latestTreeSelectedField != (Field)currentForm.page(_currentPageNumber).Fields[e.Node.Index]) {
-                    if (latestTreeSelectedField != null) {
-                        latestTreeSelectedField.selected = false;
-                    }
-                    currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = true;
-                    calculateSfBox();
-                    latestTreeSelectedField = currentForm.page(_currentPageNumber).Fields[e.Node.Index];
-                    _mode = MouseMode.Selected;
-                    refreshProperties(latestTreeSelectedField);
-                    designPanel.Invalidate();
+        private void clearSelectedFields() {
+            int i = selectedFields.Count;
+            for (int w = 0; w < i; w++ ) {
+                selectedFields[w].selected = false;
+                if (w == (i - 1)) {
+                    //making sure we Only clear the selected fields if the for loop runs through to the end. if there is nothing selected the for loop isn't entered.
+                    selectedFields.Clear();
                 }
+            }
+        }
+
+        //Still need to add functionality to GUI for multiSelecting
+        private void trvFieldList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) {
+            if(ModifierKeys.HasFlag(Keys.Control)){
+                if (!multiSelecting){
+                    multiSelecting = true;
+                }
+            } else {
+                clearSelectedFields();
+                multiSelecting = false;
+            }
+            
+            if (e.Node.FullPath == currentForm.page(_currentPageNumber).Fields[e.Node.Index].name) {
+                currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = !currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected;
+                calculateSfBox();
+                if (currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected) {
+                    selectedFields.Add(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
+                    lblCurrentProp.Text = selectedFields.Count.ToString();
+                    refreshProperties(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
+                } else {
+                    selectedFields.Remove(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
+                }
+                lblTotalProp.Text = selectedFields.Count.ToString();
+                if (int.Parse(lblCurrentProp.Text) > int.Parse(lblTotalProp.Text)) {
+                    lblCurrentProp.Text = lblTotalProp.Text;
+                }
+                _mode = MouseMode.Selected;
+
+                designPanel.Invalidate();
             }
         }
 
@@ -930,6 +961,49 @@ namespace AnotoWorkshop {
         private void btnLoadSettingsScreen_Click(object sender, EventArgs e)
         {
             new settingsScreen().ShowDialog();
+        }
+
+        private void btnNextProp_Click(object sender, EventArgs e) {
+            int c = int.Parse(lblCurrentProp.Text);
+            if (isFieldSelected) {
+                int n = selectedFields.Count;
+                c = (c == n)?1:c+1;
+                lblCurrentProp.Text = c.ToString();
+                refreshProperties(selectedFields[c-1]);
+            } else {
+                int n = currentForm.page(_currentPageNumber).Fields.Count;
+                c = (c == n) ? 1 : c + 1;
+                lblCurrentProp.Text = c.ToString();
+                refreshProperties(currentForm.page(_currentPageNumber).Fields[c-1]);
+            }
+        }
+
+        private void btnPrevProp_Click(object sender, EventArgs e) {
+            int c = int.Parse(lblCurrentProp.Text);
+            if (isFieldSelected) {
+                c = (c == 1) ? selectedFields.Count : c - 1;
+                lblCurrentProp.Text = c.ToString();
+                refreshProperties(selectedFields[c - 1]);
+            } else {
+                c = (c == 1) ? currentForm.page(_currentPageNumber).Fields.Count : c - 1;
+                lblCurrentProp.Text = c.ToString();
+                refreshProperties(currentForm.page(_currentPageNumber).Fields[c - 1]);
+            }
+        }
+
+        private void recheckSelectedProps() {
+            if (isFieldSelected) {
+                lblTotalProp.Text = selectedFields.Count.ToString();
+            } else {
+                lblTotalProp.Text = currentForm.page(_currentPageNumber).Fields.Count.ToString();
+            }
+        }
+
+        private bool isFieldSelected {
+            get {
+                return selectedFields.Count > 0;
+
+            }
         }
     }
 }

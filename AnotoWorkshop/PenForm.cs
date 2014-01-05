@@ -39,6 +39,9 @@ namespace AnotoWorkshop {
         }
 
         public PenForm(string file, Dictionary<int, FormatSet> workingFormatSets, string newName) {
+            if (_settings == null) {
+                _settings = Settings.instance;
+            }
             _importFormatSetTicker = workingFormatSets.Count;
             try {
                 _dom.Load(file);
@@ -52,8 +55,9 @@ namespace AnotoWorkshop {
         }
 
         public PenForm(string file) {
-            _settings = Settings.instance;
-
+            if (_settings == null) {
+                _settings = Settings.instance;
+            }
             try {
                 _dom.Load(file);
                 loadForm(_dom.DocumentElement);
