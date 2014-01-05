@@ -96,6 +96,11 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblTotalProp = new System.Windows.Forms.Label();
+            this.lblCurrentProp = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnNextProp = new System.Windows.Forms.Button();
+            this.btnPrevProp = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -349,9 +354,14 @@
             // 
             // grpProperties
             // 
+            this.grpProperties.Controls.Add(this.lblTotalProp);
             this.grpProperties.Controls.Add(this.txtPropFontName);
+            this.grpProperties.Controls.Add(this.lblCurrentProp);
             this.grpProperties.Controls.Add(this.comboBox1);
+            this.grpProperties.Controls.Add(this.label16);
             this.grpProperties.Controls.Add(this.label1);
+            this.grpProperties.Controls.Add(this.btnNextProp);
+            this.grpProperties.Controls.Add(this.btnPrevProp);
             this.grpProperties.Controls.Add(this.label14);
             this.grpProperties.Controls.Add(this.txtPropText);
             this.grpProperties.Controls.Add(this.btnPropSave);
@@ -854,6 +864,59 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // lblTotalProp
+            // 
+            this.lblTotalProp.AutoSize = true;
+            this.lblTotalProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalProp.Location = new System.Drawing.Point(235, 13);
+            this.lblTotalProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTotalProp.Name = "lblTotalProp";
+            this.lblTotalProp.Size = new System.Drawing.Size(16, 17);
+            this.lblTotalProp.TabIndex = 35;
+            this.lblTotalProp.Text = "9";
+            // 
+            // lblCurrentProp
+            // 
+            this.lblCurrentProp.AutoSize = true;
+            this.lblCurrentProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentProp.Location = new System.Drawing.Point(209, 13);
+            this.lblCurrentProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCurrentProp.Name = "lblCurrentProp";
+            this.lblCurrentProp.Size = new System.Drawing.Size(16, 17);
+            this.lblCurrentProp.TabIndex = 36;
+            this.lblCurrentProp.Text = "1";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(223, 13);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(12, 17);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "/";
+            // 
+            // btnNextProp
+            // 
+            this.btnNextProp.Location = new System.Drawing.Point(257, 10);
+            this.btnNextProp.Name = "btnNextProp";
+            this.btnNextProp.Size = new System.Drawing.Size(28, 23);
+            this.btnNextProp.TabIndex = 33;
+            this.btnNextProp.Text = ">>";
+            this.btnNextProp.UseVisualStyleBackColor = true;
+            this.btnNextProp.Click += new System.EventHandler(this.btnNextProp_Click);
+            // 
+            // btnPrevProp
+            // 
+            this.btnPrevProp.Location = new System.Drawing.Point(176, 10);
+            this.btnPrevProp.Name = "btnPrevProp";
+            this.btnPrevProp.Size = new System.Drawing.Size(28, 23);
+            this.btnPrevProp.TabIndex = 34;
+            this.btnPrevProp.Text = "<<";
+            this.btnPrevProp.UseVisualStyleBackColor = true;
+            this.btnPrevProp.Click += new System.EventHandler(this.btnPrevProp_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -961,6 +1024,11 @@
         private System.Windows.Forms.Label lblVersionNumber;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnLoadSettingsScreen;
+        private System.Windows.Forms.Label lblTotalProp;
+        private System.Windows.Forms.Label lblCurrentProp;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnNextProp;
+        private System.Windows.Forms.Button btnPrevProp;
     }
 }
 

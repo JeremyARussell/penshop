@@ -63,22 +63,24 @@ namespace AnotoWorkshop {
             txtFormName.Visible = false;
             btnSaveFormName.Visible = false;
             label5.Visible = false;
+            //Fix issue again for if something wasn't clicked and using sender for list variables
+            if (((ListView)sender).SelectedItems.Count > 0) {
+                _activeFormatSet = ((ListView)sender).SelectedItems[0].Index;
+                lblTestFormat.Text = _formatSets[_activeFormatSet].fontSizeString + " - " +
+                                     _formatSets[_activeFormatSet].fontTypeface + " - " +
+                                     _formatSets[_activeFormatSet].fontWeight;
 
-            _activeFormatSet = lstvFormatSets.SelectedItems[0].Index;
-            lblTestFormat.Text = _formatSets[_activeFormatSet].fontSizeString + " - " +
-                                 _formatSets[_activeFormatSet].fontTypeface + " - " +
-                                 _formatSets[_activeFormatSet].fontWeight;
+                lblTestFormat.Font = _formatSets[_activeFormatSet].font();
 
-            lblTestFormat.Font = _formatSets[_activeFormatSet].font();
+                txtSetName.Text = _formatSets[_activeFormatSet].name;
+                cmbFontSizes.SelectedItem = _formatSets[_activeFormatSet].fontSize.ToString();
+                cmbFontList.SelectedItem = _formatSets[_activeFormatSet].fontTypeface;
+                cmbFontWeight.SelectedItem = _formatSets[_activeFormatSet].fontWeight;
 
-            txtSetName.Text = _formatSets[_activeFormatSet].name;
-            cmbFontSizes.SelectedItem = _formatSets[_activeFormatSet].fontSize.ToString();
-            cmbFontList.SelectedItem = _formatSets[_activeFormatSet].fontTypeface;
-            cmbFontWeight.SelectedItem = _formatSets[_activeFormatSet].fontWeight;
+                txtSetName.Focus();
 
-            txtSetName.Focus();
-
-            AcceptButton = btnSaveSetName;
+                AcceptButton = btnSaveSetName;
+            }
         }
 
         private void btnSaveSetName_Click(object sender, EventArgs e) {
@@ -118,44 +120,48 @@ namespace AnotoWorkshop {
 
         private void lstvForms_Click(object sender, EventArgs e) {
             //Show Form Saving fields.
-            txtFormName.Visible = true;
-            btnSaveFormName.Visible = true;
-            label5.Visible = true;
-            //Hide Format Set related fields.
-            lblTestFormat.Visible = false;
-            label1.Visible = false;
-            label2.Visible = false;
-            label3.Visible = false;
-            label4.Visible = false;
-            txtSetName.Visible = false;
-            cmbFontList.Visible = false;
-            cmbFontSizes.Visible = false;
-            cmbFontWeight.Visible = false;
-            btnSaveSetName.Visible = false;
+            if (((ListView)sender).SelectedItems.Count > 0) {
+                txtFormName.Visible = true;
+                btnSaveFormName.Visible = true;
+                label5.Visible = true;
+                //Hide Format Set related fields.
+                lblTestFormat.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+                txtSetName.Visible = false;
+                cmbFontList.Visible = false;
+                cmbFontSizes.Visible = false;
+                cmbFontWeight.Visible = false;
+                btnSaveSetName.Visible = false;
 
-            txtFormName.Focus();
-            txtFormName.Text = _formsToSave[lstvForms.SelectedItems[0].Index].FormName;
+                txtFormName.Focus();
+                txtFormName.Text = _formsToSave[((ListView)sender).SelectedItems[0].Index].FormName;
 
-            AcceptButton = btnSaveFormName;
+                AcceptButton = btnSaveFormName;
+            }
         }
 
         private void lstvForms_DoubleClick(object sender, EventArgs e) {
-            int tint = lstvForms.SelectedItems[0].Index;
+            if (((ListView)sender).SelectedItems.Count > 0) {
+                int tint = ((ListView)sender).SelectedItems[0].Index;
 
-            PenForm form = new PenForm(_formsToSave[tint].thisFormsPath, _formatSets);
-            //////
-            _formsToSave[tint] = form;//Do this again for all of them before importing.
-            //////
-            //The issue is that when opening the designer form, the form handed off doesn't have te updated formatSet
-            //to work with.
+                PenForm form = new PenForm(_formsToSave[tint].thisFormsPath, _formatSets);
+                //////
+                _formsToSave[tint] = form;//Do this again for all of them before importing.
+                //////
+                //The issue is that when opening the designer form, the form handed off doesn't have te updated formatSet
+                //to work with.
 
-            //Todo - Should heavily consider creating an alternative way to load the designerForm to use for importing.
-            new Thread(() => new frmMain(form).ShowDialog()).Start();
+                //Todo - Should heavily consider creating an alternative way to load the designerForm to use for importing.
+                new Thread(() => new frmMain(form).ShowDialog()).Start();
+            }
         }
 
         private void btnSaveFormName_Click(object sender, EventArgs e) {
             try {
-                _formsToSave[lstvForms.SelectedItems[0].Index].FormName = txtFormName.Text;
+                _formsToSave[((ListView)sender).SelectedItems[0].Index].FormName = txtFormName.Text;
             } catch (Exception ex) {
                 Console.WriteLine(ex);
             }
@@ -185,6 +191,10 @@ namespace AnotoWorkshop {
             }
 
             for (int i = 0; i < _formatSets.Count; i++) {//populating the test formatsets to cleanup list
+                //add format Auto Naming
+                if (_formatSets[i].name == null) {
+                    _formatSets[i].name = _formatSets[i].fontSize.ToString() + _formatSets[i].fontTypeface +"_"+ _formatSets[i].fontWeight[0];
+                }
                 _settings.globalFormatSet.Add(_formatSets[i].name, _formatSets[i]);
             }
 
