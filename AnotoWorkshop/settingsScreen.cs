@@ -19,21 +19,21 @@ namespace AnotoWorkshop {
 
         private void settingsScreen_Load(object sender, EventArgs e) {
             _settings = Settings.instance;
+
+            if (!_settings.visitedSettingsScreen) {
+                if (MessageBox.Show("Hello, welcome to the Settings screen would you like to watch the video describing what the settings are?", "Settings Screen - Tutorial",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        == DialogResult.Yes)
+                {
+                    _settings.visitedSettingsScreen = true;
+                    _settings.saveToFile();
+                    //Watch Video
+                }
+            }
+
         }
 
         #endregion Initializers
-
-        #region Testing Stuff
-
-        private void btnTest_Click(object sender, EventArgs e) {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e) {
-
-        }
-
-        #endregion Testing Stuff
 
         private void btnSaveFile_Click(object sender, EventArgs e) {
             _settings.saveToFile();

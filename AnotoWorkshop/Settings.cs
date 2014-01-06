@@ -101,6 +101,16 @@ namespace AnotoWorkshop {
                 if (node.Name == @"Flags") {
                     bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
                     bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    bool.TryParse(node["visitedSettingsScreen"], out visitedSettingsScreen);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
                 }
 
                 #endregion Load Visited Flags
@@ -142,6 +152,7 @@ namespace AnotoWorkshop {
                 writer.WriteStartElement("Flags");
                 writer.WriteAttributeString("visitedLoadingScreen", visitedLoadingScreen.ToString());
                 writer.WriteAttributeString("visitedImportWizard", visitedImportWizard.ToString());
+                writer.WriteAttributeString("visitedSettingsScreen", visitedSettingsScreen.ToString());
 
                 writer.WriteEndElement();//Flags
 

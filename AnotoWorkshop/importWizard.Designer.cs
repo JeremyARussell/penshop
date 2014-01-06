@@ -90,7 +90,7 @@
             // txtSetName
             // 
             this.txtSetName.Location = new System.Drawing.Point(379, 89);
-            this.txtSetName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSetName.Margin = new System.Windows.Forms.Padding(2);
             this.txtSetName.Name = "txtSetName";
             this.txtSetName.Size = new System.Drawing.Size(122, 20);
             this.txtSetName.TabIndex = 24;
@@ -220,7 +220,7 @@
             // txtFormName
             // 
             this.txtFormName.Location = new System.Drawing.Point(347, 230);
-            this.txtFormName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFormName.Margin = new System.Windows.Forms.Padding(2);
             this.txtFormName.Name = "txtFormName";
             this.txtFormName.Size = new System.Drawing.Size(107, 20);
             this.txtFormName.TabIndex = 33;
@@ -247,9 +247,9 @@
             this.Controls.Add(this.btnFinish);
             this.Controls.Add(this.lstvFormatSets);
             this.Controls.Add(this.lstvForms);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "importWizard";
-            this.Text = "formatSetImportWizard";
+            this.Text = "Import Wizard";
             this.Load += new System.EventHandler(this.importWizard_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

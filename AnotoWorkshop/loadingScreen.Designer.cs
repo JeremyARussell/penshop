@@ -98,6 +98,7 @@
             this.btnNewForm.TabIndex = 27;
             this.btnNewForm.Text = "New";
             this.btnNewForm.UseVisualStyleBackColor = true;
+            this.btnNewForm.Click += new System.EventHandler(this.btnNewForm_Click);
             // 
             // btnRemoveForm
             // 

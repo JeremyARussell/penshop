@@ -23,6 +23,17 @@ namespace AnotoWorkshop {
         private void loadingScreen_Load(object sender, EventArgs e) {
             _settings = Settings.instance;
             checkForForms();
+
+            if (!_settings.visitedLoadingScreen) {
+                if (MessageBox.Show("Hello, welcome to the Pen Studio would you like to watch the video?", "Loading Screen - Tutorial",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        == DialogResult.Yes)
+                {
+                    _settings.visitedLoadingScreen = true;
+                    _settings.saveToFile();
+                    //Watch Video
+                }
+            }
         }
 
         #endregion Initializers - Kind of Started
@@ -89,10 +100,11 @@ namespace AnotoWorkshop {
         private void btnImportForms_Click(object sender, EventArgs e) {
             if(!_settings.visitedImportWizard) {
                 if (MessageBox.Show("Hello, this is the first time you've visited the import wizard, would you like to watch the video?", "Import Wizard - Tutorial",
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                         == DialogResult.Yes)
                 {
                     _settings.visitedImportWizard = true;
+                    _settings.saveToFile();
                     //Watch Video
                 }
             }
@@ -122,5 +134,10 @@ namespace AnotoWorkshop {
         }
 
         #endregion Import Forms
+
+        private void btnNewForm_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Creating a new form isn't finished");
+        }
     }
 }

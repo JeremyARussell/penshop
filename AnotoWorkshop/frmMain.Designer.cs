@@ -84,6 +84,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.txtPropFontSize = new System.Windows.Forms.TextBox();
             this.txtPropFontType = new System.Windows.Forms.TextBox();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.btnRefreshFieldTree = new System.Windows.Forms.Button();
             this.trvFieldList = new System.Windows.Forms.TreeView();
             this.btnSaveForm = new System.Windows.Forms.Button();
@@ -101,7 +102,6 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -119,11 +119,11 @@
             this.groupBox1.SuspendLayout();
             this.grpProperties.SuspendLayout();
             this.grpOldProtos.SuspendLayout();
-            this.cntxtFieldControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            this.cntxtFieldControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabs
@@ -761,6 +761,24 @@
             this.txtPropFontType.Size = new System.Drawing.Size(62, 20);
             this.txtPropFontType.TabIndex = 16;
             // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.btnRefreshFieldTree);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.trvFieldList);
+            this.splitContainer4.Size = new System.Drawing.Size(454, 461);
+            this.splitContainer4.SplitterDistance = 44;
+            this.splitContainer4.TabIndex = 27;
+            // 
             // btnRefreshFieldTree
             // 
             this.btnRefreshFieldTree.Location = new System.Drawing.Point(2, 2);
@@ -922,24 +940,6 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.btnRefreshFieldTree);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.trvFieldList);
-            this.splitContainer4.Size = new System.Drawing.Size(454, 461);
-            this.splitContainer4.SplitterDistance = 44;
-            this.splitContainer4.TabIndex = 27;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -973,11 +973,11 @@
             this.grpProperties.PerformLayout();
             this.grpOldProtos.ResumeLayout(false);
             this.grpOldProtos.PerformLayout();
-            this.cntxtFieldControls.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.cntxtFieldControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
