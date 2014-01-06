@@ -10,19 +10,25 @@ namespace AnotoWorkshop {
         #region Variables
 
         public string formsFolderLocation = @"C:\PenForms\";//TODO - Hardcoded for now, 
-        private string _saveDirectory = System.Windows.Forms.Application.StartupPath;
+        #region Tutorial Flags
+        public bool visitedLoadingScreen;
+        public bool visitedImportWizard;
+        public bool visitedSettingsScreen;
+        //public bool visitedAliasBuilder;
+        //public bool visitedImportWizard;
+        //public bool visitedImportWizard;
+        //public bool visitedImportWizard;
+        //public bool visitedImportWizard;
+        //public bool visitedImportWizard;
+        //public bool visitedImportWizard;
+        #endregion Tutorial Flags
 
+        private string _saveDirectory = System.Windows.Forms.Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Alias> _globalAliases;
 
         private static Settings _instance;
 
-        #region Tutorial Flags
-
-        public bool visitedLoadingScreen;
-        public bool visitedImportWizard;
-
-        #endregion Tutorial Flags
 
         #endregion Variables
 
@@ -43,10 +49,21 @@ namespace AnotoWorkshop {
 
             if (System.IO.File.Exists(_saveDirectory + @"\settings.xml")) {
                 loadFromFile();
+            } else {
+                createNewFile();
+
             }
         }
 
         #endregion Instance Management
+
+        #region Create New File
+
+        private void createNewFile() {
+            
+        }
+
+        #endregion Create New File
 
         #region File Loading
 
@@ -57,9 +74,10 @@ namespace AnotoWorkshop {
 
             XmlReader node = XmlReader.Create(new StringReader(_dom.DocumentElement.OuterXml));
 
-            #region Load FormatSets
-
             while (node.Read()) {
+
+                #region Load FormatSets
+
                 if (node.Name == @"FormatSet") {//Loading the misc FormatSets
                     string tempKey = node["name"].ToString();
                     string tempFont = node["fontType"].ToString();
@@ -76,12 +94,13 @@ namespace AnotoWorkshop {
                     _globalFormatSet.Add(tempKey, tempSet);
                 }
 
-            #endregion Load FormatSets
+                #endregion Load FormatSets
 
                 #region Load Visisted Flags
 
                 if (node.Name == @"Flags") {
                     bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
+                    bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
                 }
 
                 #endregion Load Visited Flags

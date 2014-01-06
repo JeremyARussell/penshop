@@ -30,7 +30,7 @@
         {
             this.lstvForms = new System.Windows.Forms.ListView();
             this.btnLoadSettings = new System.Windows.Forms.Button();
-            this.btlLoadVariableBuilder = new System.Windows.Forms.Button();
+            this.btlLoadAliasBuilder = new System.Windows.Forms.Button();
             this.btnOpenSQLform = new System.Windows.Forms.Button();
             this.btnImportForms = new System.Windows.Forms.Button();
             this.btnNewForm = new System.Windows.Forms.Button();
@@ -58,16 +58,16 @@
             this.btnLoadSettings.UseVisualStyleBackColor = true;
             this.btnLoadSettings.Click += new System.EventHandler(this.btnLoadSettings_Click);
             // 
-            // btlLoadVariableBuilder
+            // btlLoadAliasBuilder
             // 
-            this.btlLoadVariableBuilder.Location = new System.Drawing.Point(428, 267);
-            this.btlLoadVariableBuilder.Margin = new System.Windows.Forms.Padding(2);
-            this.btlLoadVariableBuilder.Name = "btlLoadVariableBuilder";
-            this.btlLoadVariableBuilder.Size = new System.Drawing.Size(74, 24);
-            this.btlLoadVariableBuilder.TabIndex = 21;
-            this.btlLoadVariableBuilder.Text = "Variables";
-            this.btlLoadVariableBuilder.UseVisualStyleBackColor = true;
-            this.btlLoadVariableBuilder.Click += new System.EventHandler(this.btlLoadVariableBuilder_Click);
+            this.btlLoadAliasBuilder.Location = new System.Drawing.Point(428, 267);
+            this.btlLoadAliasBuilder.Margin = new System.Windows.Forms.Padding(2);
+            this.btlLoadAliasBuilder.Name = "btlLoadAliasBuilder";
+            this.btlLoadAliasBuilder.Size = new System.Drawing.Size(74, 24);
+            this.btlLoadAliasBuilder.TabIndex = 21;
+            this.btlLoadAliasBuilder.Text = "Variables";
+            this.btlLoadAliasBuilder.UseVisualStyleBackColor = true;
+            this.btlLoadAliasBuilder.Click += new System.EventHandler(this.btlLoadAliasBuilder_Click);
             // 
             // btnOpenSQLform
             // 
@@ -117,7 +117,7 @@
             this.Controls.Add(this.btnNewForm);
             this.Controls.Add(this.btnImportForms);
             this.Controls.Add(this.btnOpenSQLform);
-            this.Controls.Add(this.btlLoadVariableBuilder);
+            this.Controls.Add(this.btlLoadAliasBuilder);
             this.Controls.Add(this.btnLoadSettings);
             this.Controls.Add(this.lstvForms);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -132,7 +132,7 @@
 
         private System.Windows.Forms.ListView lstvForms;
         private System.Windows.Forms.Button btnLoadSettings;
-        private System.Windows.Forms.Button btlLoadVariableBuilder;
+        private System.Windows.Forms.Button btlLoadAliasBuilder;
         private System.Windows.Forms.Button btnOpenSQLform;
         private System.Windows.Forms.Button btnImportForms;
         private System.Windows.Forms.Button btnNewForm;

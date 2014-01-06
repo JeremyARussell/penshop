@@ -67,8 +67,8 @@ namespace AnotoWorkshop {
 
         #region Variable Builder
 
-        private void btlLoadVariableBuilder_Click(object sender, EventArgs e) {
-            new Thread(() => new variablesBuilder().ShowDialog()).Start();
+        private void btlLoadAliasBuilder_Click(object sender, EventArgs e) {
+            new Thread(() => new aliasBuilder().ShowDialog()).Start();
         }
 
         #endregion Variable Builder
@@ -87,6 +87,16 @@ namespace AnotoWorkshop {
         private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
 
         private void btnImportForms_Click(object sender, EventArgs e) {
+            if(!_settings.visitedImportWizard) {
+                if (MessageBox.Show("Hello, this is the first time you've visited the import wizard, would you like to watch the video?", "Import Wizard - Tutorial",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                        == DialogResult.Yes)
+                {
+                    _settings.visitedImportWizard = true;
+                    //Watch Video
+                }
+            }
+            
             PenForm workingForm = new PenForm();
 
             FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
