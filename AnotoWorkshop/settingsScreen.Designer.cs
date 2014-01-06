@@ -43,6 +43,7 @@
             this.cmbFontList = new System.Windows.Forms.ComboBox();
             this.btnSaveSetName = new System.Windows.Forms.Button();
             this.txtSetName = new System.Windows.Forms.TextBox();
+            this.lblTestFormat = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -74,12 +75,13 @@
             // 
             // lstvFormatSets
             // 
-            this.lstvFormatSets.Location = new System.Drawing.Point(12, 310);
+            this.lstvFormatSets.Location = new System.Drawing.Point(12, 356);
             this.lstvFormatSets.Name = "lstvFormatSets";
-            this.lstvFormatSets.Size = new System.Drawing.Size(336, 177);
+            this.lstvFormatSets.Size = new System.Drawing.Size(238, 177);
             this.lstvFormatSets.TabIndex = 30;
             this.lstvFormatSets.UseCompatibleStateImageBehavior = false;
             this.lstvFormatSets.View = System.Windows.Forms.View.List;
+            this.lstvFormatSets.Click += new System.EventHandler(this.lstvFormatSets_Click);
             // 
             // textBox1
             // 
@@ -100,12 +102,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(189, 272);
+            this.label4.Location = new System.Drawing.Point(264, 443);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 13);
             this.label4.TabIndex = 41;
             this.label4.Text = "Format Set Weight";
-            this.label4.Visible = false;
             // 
             // cmbFontWeight
             // 
@@ -114,41 +115,37 @@
             "normal",
             "bold",
             "italic"});
-            this.cmbFontWeight.Location = new System.Drawing.Point(289, 270);
+            this.cmbFontWeight.Location = new System.Drawing.Point(364, 441);
             this.cmbFontWeight.Name = "cmbFontWeight";
             this.cmbFontWeight.Size = new System.Drawing.Size(121, 21);
             this.cmbFontWeight.TabIndex = 40;
-            this.cmbFontWeight.Visible = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(189, 245);
+            this.label3.Location = new System.Drawing.Point(264, 416);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 39;
             this.label3.Text = "Format Set Font";
-            this.label3.Visible = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(189, 218);
+            this.label2.Location = new System.Drawing.Point(264, 389);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 38;
             this.label2.Text = "Format Set Size";
-            this.label2.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(189, 193);
+            this.label1.Location = new System.Drawing.Point(264, 364);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 13);
             this.label1.TabIndex = 37;
             this.label1.Text = "Format Set Name";
-            this.label1.Visible = false;
             // 
             // cmbFontSizes
             // 
@@ -171,45 +168,52 @@
             "36",
             "48",
             "72"});
-            this.cmbFontSizes.Location = new System.Drawing.Point(289, 216);
+            this.cmbFontSizes.Location = new System.Drawing.Point(364, 387);
             this.cmbFontSizes.Name = "cmbFontSizes";
             this.cmbFontSizes.Size = new System.Drawing.Size(121, 21);
             this.cmbFontSizes.TabIndex = 36;
-            this.cmbFontSizes.Visible = false;
             // 
             // cmbFontList
             // 
             this.cmbFontList.FormattingEnabled = true;
-            this.cmbFontList.Location = new System.Drawing.Point(289, 246);
+            this.cmbFontList.Location = new System.Drawing.Point(364, 417);
             this.cmbFontList.Name = "cmbFontList";
             this.cmbFontList.Size = new System.Drawing.Size(121, 21);
             this.cmbFontList.TabIndex = 35;
-            this.cmbFontList.Visible = false;
             // 
             // btnSaveSetName
             // 
-            this.btnSaveSetName.Location = new System.Drawing.Point(367, 296);
+            this.btnSaveSetName.Location = new System.Drawing.Point(442, 467);
             this.btnSaveSetName.Name = "btnSaveSetName";
             this.btnSaveSetName.Size = new System.Drawing.Size(43, 23);
             this.btnSaveSetName.TabIndex = 34;
             this.btnSaveSetName.Text = "Save";
             this.btnSaveSetName.UseVisualStyleBackColor = true;
-            this.btnSaveSetName.Visible = false;
+            this.btnSaveSetName.Click += new System.EventHandler(this.btnSaveSetName_Click);
             // 
             // txtSetName
             // 
-            this.txtSetName.Location = new System.Drawing.Point(289, 191);
+            this.txtSetName.Location = new System.Drawing.Point(364, 362);
             this.txtSetName.Margin = new System.Windows.Forms.Padding(2);
             this.txtSetName.Name = "txtSetName";
             this.txtSetName.Size = new System.Drawing.Size(122, 20);
             this.txtSetName.TabIndex = 33;
-            this.txtSetName.Visible = false;
+            // 
+            // lblTestFormat
+            // 
+            this.lblTestFormat.AutoSize = true;
+            this.lblTestFormat.Location = new System.Drawing.Point(12, 278);
+            this.lblTestFormat.Name = "lblTestFormat";
+            this.lblTestFormat.Size = new System.Drawing.Size(63, 13);
+            this.lblTestFormat.TabIndex = 42;
+            this.lblTestFormat.Text = "Format Test";
             // 
             // settingsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 545);
+            this.Controls.Add(this.lblTestFormat);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbFontWeight);
             this.Controls.Add(this.label3);
@@ -226,7 +230,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtText);
             this.Name = "settingsScreen";
-            this.Text = "settingsScreen";
+            this.Text = "Settings";
             this.Load += new System.EventHandler(this.settingsScreen_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -250,5 +254,6 @@
         private System.Windows.Forms.ComboBox cmbFontList;
         private System.Windows.Forms.Button btnSaveSetName;
         private System.Windows.Forms.TextBox txtSetName;
+        private System.Windows.Forms.Label lblTestFormat;
     }
 }

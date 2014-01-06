@@ -48,9 +48,8 @@
             this.btnAddTextField = new System.Windows.Forms.Button();
             this.grpProperties = new System.Windows.Forms.GroupBox();
             this.lblTotalProp = new System.Windows.Forms.Label();
-            this.txtPropFontName = new System.Windows.Forms.TextBox();
             this.lblCurrentProp = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbFormatSetNames = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnNextProp = new System.Windows.Forms.Button();
@@ -359,9 +358,8 @@
             // grpProperties
             // 
             this.grpProperties.Controls.Add(this.lblTotalProp);
-            this.grpProperties.Controls.Add(this.txtPropFontName);
             this.grpProperties.Controls.Add(this.lblCurrentProp);
-            this.grpProperties.Controls.Add(this.comboBox1);
+            this.grpProperties.Controls.Add(this.cmbFormatSetNames);
             this.grpProperties.Controls.Add(this.label16);
             this.grpProperties.Controls.Add(this.label1);
             this.grpProperties.Controls.Add(this.btnNextProp);
@@ -404,14 +402,6 @@
             this.lblTotalProp.TabIndex = 35;
             this.lblTotalProp.Text = "9";
             // 
-            // txtPropFontName
-            // 
-            this.txtPropFontName.Location = new System.Drawing.Point(37, 377);
-            this.txtPropFontName.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPropFontName.Name = "txtPropFontName";
-            this.txtPropFontName.Size = new System.Drawing.Size(46, 20);
-            this.txtPropFontName.TabIndex = 24;
-            // 
             // lblCurrentProp
             // 
             this.lblCurrentProp.AutoSize = true;
@@ -423,13 +413,13 @@
             this.lblCurrentProp.TabIndex = 36;
             this.lblCurrentProp.Text = "1";
             // 
-            // comboBox1
+            // cmbFormatSetNames
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(81, 339);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(111, 21);
-            this.comboBox1.TabIndex = 24;
+            this.cmbFormatSetNames.FormattingEnabled = true;
+            this.cmbFormatSetNames.Location = new System.Drawing.Point(81, 248);
+            this.cmbFormatSetNames.Name = "cmbFormatSetNames";
+            this.cmbFormatSetNames.Size = new System.Drawing.Size(111, 21);
+            this.cmbFormatSetNames.TabIndex = 24;
             // 
             // label16
             // 
@@ -445,12 +435,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 339);
+            this.label1.Location = new System.Drawing.Point(13, 248);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 23;
-            this.label1.Text = "Font Name;";
+            this.label1.Text = "Format Set";
             // 
             // btnNextProp
             // 
@@ -1039,9 +1029,8 @@
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtPropFontName;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbFormatSetNames;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox grpOldProtos;
         private System.Windows.Forms.Button btnSaveForm;

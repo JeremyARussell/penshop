@@ -74,6 +74,10 @@ namespace AnotoWorkshop {
                 BindingFlags.NonPublic, null, designPanel, new object[] { true });
 
             lblVersionNumber.Text = currentForm.versionNumber.ToString();
+
+            foreach (var fSet in _settings.globalFormatSet) {
+                cmbFormatSetNames.Items.Add(fSet.Key);
+            }
         }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
@@ -719,9 +723,6 @@ namespace AnotoWorkshop {
         #region Field Properties
 
         private Field _fieldInProperties;
-        //FormatSet _formatSetInProperties; ---- I thought that the issue was a lack of a proper reference point, but the
-        //real issue is there is no inherent linking of FormatSet's when the form is opened. The information comes through
-        //fine as far as names, etc go. This is why I made the preview spot after all, time to go to sleep.
 
         private void refreshProperties(Field fi) {
             txtPropName.Text = fi.name;
@@ -732,11 +733,8 @@ namespace AnotoWorkshop {
             chkPropHidden.Checked = fi.hidden;
             chkPropReadOnly.Checked = fi.readOnly;
             txtPropFieldType.Text = fi.type.ToString();
-            //txtPropFontType.Text = fi.formatSet.fontTypeface;
-            //txtPropFontSize.Text = fi.formatSet.fontSizeString;
-            //txtPropFontWeight.Text = fi.formatSet.fontWeight;
             txtPropText.Text = fi.text;
-            //txtPropFontName.Text = fi.formatSet.name;
+            cmbFormatSetNames.SelectedItem = fi.formatSet.name;
 
             _fieldInProperties = fi;
         }
@@ -751,12 +749,8 @@ namespace AnotoWorkshop {
             _fieldInProperties.height = Convert.ToInt32(txtPropHeight.Text);
             _fieldInProperties.hidden = chkPropHidden.Checked;
             _fieldInProperties.readOnly = chkPropReadOnly.Checked;
-            //txtPropFieldType.Text Stays the same, you don't change field types like this.
-            //_fieldInProperties.formatSet.fontTypeface = txtPropFontType.Text;//TODO - Affect the FormatSet directly via the name,
-            //_fieldInProperties.formatSet.fontSizeString = txtPropFontSize.Text;
-            //_fieldInProperties.formatSet.fontWeight = txtPropFontWeight.Text;
             _fieldInProperties.text = txtPropText.Text;
-            //_fieldInProperties.formatSet.name = txtPropFontName.Text;
+            _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
 
             currentForm.page(_currentPageNumber).addField(_fieldInProperties);
             designPanel.Invalidate();
