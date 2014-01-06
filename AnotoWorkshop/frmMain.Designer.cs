@@ -47,9 +47,14 @@
             this.btnAddCheckBox = new System.Windows.Forms.Button();
             this.btnAddTextField = new System.Windows.Forms.Button();
             this.grpProperties = new System.Windows.Forms.GroupBox();
+            this.lblTotalProp = new System.Windows.Forms.Label();
             this.txtPropFontName = new System.Windows.Forms.TextBox();
+            this.lblCurrentProp = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnNextProp = new System.Windows.Forms.Button();
+            this.btnPrevProp = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.txtPropText = new System.Windows.Forms.TextBox();
             this.btnPropSave = new System.Windows.Forms.Button();
@@ -96,11 +101,7 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblTotalProp = new System.Windows.Forms.Label();
-            this.lblCurrentProp = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.btnNextProp = new System.Windows.Forms.Button();
-            this.btnPrevProp = new System.Windows.Forms.Button();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -119,6 +120,10 @@
             this.grpProperties.SuspendLayout();
             this.grpOldProtos.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabs
@@ -242,8 +247,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grpOldProtos);
-            this.splitContainer2.Panel2.Controls.Add(this.btnRefreshFieldTree);
-            this.splitContainer2.Panel2.Controls.Add(this.trvFieldList);
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer2.Size = new System.Drawing.Size(456, 898);
             this.splitContainer2.SplitterDistance = 431;
             this.splitContainer2.TabIndex = 30;
@@ -389,6 +393,17 @@
             this.grpProperties.TabStop = false;
             this.grpProperties.Text = "Properties";
             // 
+            // lblTotalProp
+            // 
+            this.lblTotalProp.AutoSize = true;
+            this.lblTotalProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalProp.Location = new System.Drawing.Point(235, 13);
+            this.lblTotalProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTotalProp.Name = "lblTotalProp";
+            this.lblTotalProp.Size = new System.Drawing.Size(16, 17);
+            this.lblTotalProp.TabIndex = 35;
+            this.lblTotalProp.Text = "9";
+            // 
             // txtPropFontName
             // 
             this.txtPropFontName.Location = new System.Drawing.Point(37, 377);
@@ -397,6 +412,17 @@
             this.txtPropFontName.Size = new System.Drawing.Size(46, 20);
             this.txtPropFontName.TabIndex = 24;
             // 
+            // lblCurrentProp
+            // 
+            this.lblCurrentProp.AutoSize = true;
+            this.lblCurrentProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentProp.Location = new System.Drawing.Point(209, 13);
+            this.lblCurrentProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCurrentProp.Name = "lblCurrentProp";
+            this.lblCurrentProp.Size = new System.Drawing.Size(16, 17);
+            this.lblCurrentProp.TabIndex = 36;
+            this.lblCurrentProp.Text = "1";
+            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
@@ -404,6 +430,17 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(111, 21);
             this.comboBox1.TabIndex = 24;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(223, 13);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(12, 17);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "/";
             // 
             // label1
             // 
@@ -414,6 +451,26 @@
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 23;
             this.label1.Text = "Font Name;";
+            // 
+            // btnNextProp
+            // 
+            this.btnNextProp.Location = new System.Drawing.Point(257, 10);
+            this.btnNextProp.Name = "btnNextProp";
+            this.btnNextProp.Size = new System.Drawing.Size(28, 23);
+            this.btnNextProp.TabIndex = 33;
+            this.btnNextProp.Text = ">>";
+            this.btnNextProp.UseVisualStyleBackColor = true;
+            this.btnNextProp.Click += new System.EventHandler(this.btnNextProp_Click);
+            // 
+            // btnPrevProp
+            // 
+            this.btnPrevProp.Location = new System.Drawing.Point(176, 10);
+            this.btnPrevProp.Name = "btnPrevProp";
+            this.btnPrevProp.Size = new System.Drawing.Size(28, 23);
+            this.btnPrevProp.TabIndex = 34;
+            this.btnPrevProp.Text = "<<";
+            this.btnPrevProp.UseVisualStyleBackColor = true;
+            this.btnPrevProp.Click += new System.EventHandler(this.btnPrevProp_Click);
             // 
             // label14
             // 
@@ -706,7 +763,7 @@
             // 
             // btnRefreshFieldTree
             // 
-            this.btnRefreshFieldTree.Location = new System.Drawing.Point(16, 7);
+            this.btnRefreshFieldTree.Location = new System.Drawing.Point(2, 2);
             this.btnRefreshFieldTree.Margin = new System.Windows.Forms.Padding(2);
             this.btnRefreshFieldTree.Name = "btnRefreshFieldTree";
             this.btnRefreshFieldTree.Size = new System.Drawing.Size(75, 24);
@@ -717,13 +774,14 @@
             // 
             // trvFieldList
             // 
-            this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.trvFieldList.Location = new System.Drawing.Point(0, 33);
+            this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trvFieldList.Location = new System.Drawing.Point(0, 0);
             this.trvFieldList.Margin = new System.Windows.Forms.Padding(2);
             this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(454, 428);
+            this.trvFieldList.Size = new System.Drawing.Size(454, 413);
             this.trvFieldList.TabIndex = 20;
             this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvFieldList_NodeMouseClick);
+            this.trvFieldList.MouseEnter += new System.EventHandler(this.trvFieldList_MouseEnter);
             // 
             // btnSaveForm
             // 
@@ -864,58 +922,23 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // lblTotalProp
+            // splitContainer4
             // 
-            this.lblTotalProp.AutoSize = true;
-            this.lblTotalProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalProp.Location = new System.Drawing.Point(235, 13);
-            this.lblTotalProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTotalProp.Name = "lblTotalProp";
-            this.lblTotalProp.Size = new System.Drawing.Size(16, 17);
-            this.lblTotalProp.TabIndex = 35;
-            this.lblTotalProp.Text = "9";
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // lblCurrentProp
+            // splitContainer4.Panel1
             // 
-            this.lblCurrentProp.AutoSize = true;
-            this.lblCurrentProp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentProp.Location = new System.Drawing.Point(209, 13);
-            this.lblCurrentProp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblCurrentProp.Name = "lblCurrentProp";
-            this.lblCurrentProp.Size = new System.Drawing.Size(16, 17);
-            this.lblCurrentProp.TabIndex = 36;
-            this.lblCurrentProp.Text = "1";
+            this.splitContainer4.Panel1.Controls.Add(this.btnRefreshFieldTree);
             // 
-            // label16
+            // splitContainer4.Panel2
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(223, 13);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(12, 17);
-            this.label16.TabIndex = 37;
-            this.label16.Text = "/";
-            // 
-            // btnNextProp
-            // 
-            this.btnNextProp.Location = new System.Drawing.Point(257, 10);
-            this.btnNextProp.Name = "btnNextProp";
-            this.btnNextProp.Size = new System.Drawing.Size(28, 23);
-            this.btnNextProp.TabIndex = 33;
-            this.btnNextProp.Text = ">>";
-            this.btnNextProp.UseVisualStyleBackColor = true;
-            this.btnNextProp.Click += new System.EventHandler(this.btnNextProp_Click);
-            // 
-            // btnPrevProp
-            // 
-            this.btnPrevProp.Location = new System.Drawing.Point(176, 10);
-            this.btnPrevProp.Name = "btnPrevProp";
-            this.btnPrevProp.Size = new System.Drawing.Size(28, 23);
-            this.btnPrevProp.TabIndex = 34;
-            this.btnPrevProp.Text = "<<";
-            this.btnPrevProp.UseVisualStyleBackColor = true;
-            this.btnPrevProp.Click += new System.EventHandler(this.btnPrevProp_Click);
+            this.splitContainer4.Panel2.Controls.Add(this.trvFieldList);
+            this.splitContainer4.Size = new System.Drawing.Size(454, 461);
+            this.splitContainer4.SplitterDistance = 44;
+            this.splitContainer4.TabIndex = 27;
             // 
             // frmMain
             // 
@@ -951,6 +974,10 @@
             this.grpOldProtos.ResumeLayout(false);
             this.grpOldProtos.PerformLayout();
             this.cntxtFieldControls.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1029,6 +1056,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button btnNextProp;
         private System.Windows.Forms.Button btnPrevProp;
+        private System.Windows.Forms.SplitContainer splitContainer4;
     }
 }
 

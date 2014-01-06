@@ -884,11 +884,11 @@ namespace AnotoWorkshop {
         #region Designer Focus
 
         private void designPanel_MouseEnter(object sender, EventArgs e) {
-            designPanel.Focus();
+            ((Panel)sender).Focus();
         }
 
         private void designPanel_MouseLeave(object sender, EventArgs e) {
-            //lstvForms.Focus();
+
         }
 
         #endregion Designer Focus
@@ -1004,6 +1004,11 @@ namespace AnotoWorkshop {
                 return selectedFields.Count > 0;
 
             }
+        }
+
+        private void trvFieldList_MouseEnter(object sender, EventArgs e)
+        {
+            ((TreeView)sender).Focus();
         }
     }
 }
