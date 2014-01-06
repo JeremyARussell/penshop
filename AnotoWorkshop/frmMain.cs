@@ -35,6 +35,8 @@ namespace AnotoWorkshop {
                 selectedFields = new List<Field>();
                 lblCurrentProp.Text = "1";
                 lblTotalProp.Text = currentForm.page(_currentPageNumber).Fields.Count.ToString();
+                backC = trvFieldList.BackColor;
+                foreC = trvFieldList.ForeColor;
             }
             buildFieldTree();
         }
@@ -896,19 +898,26 @@ namespace AnotoWorkshop {
         private void buildFieldTree()
         {
             trvFieldList.Nodes.Clear();
+            int c = 0;
             foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                fi.listIndex = c;
                 trvFieldList.Nodes.Add(fi.name);
+                c++;
             }
         }
 
         #endregion Field Tree Management
 
         bool multiSelecting = false;
+        private Color backC;
+        private Color foreC;
 
         private void clearSelectedFields() {
             int i = selectedFields.Count;
             for (int w = 0; w < i; w++ ) {
                 selectedFields[w].selected = false;
+                trvFieldList.Nodes[selectedFields[w].listIndex].BackColor = backC;
+                trvFieldList.Nodes[selectedFields[w].listIndex].ForeColor = foreC;
                 if (w == (i - 1)) {
                     //making sure we Only clear the selected fields if the for loop runs through to the end. if there is nothing selected the for loop isn't entered.
                     selectedFields.Clear();
@@ -933,18 +942,31 @@ namespace AnotoWorkshop {
                 if (currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected) {
                     selectedFields.Add(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
                     lblCurrentProp.Text = selectedFields.Count.ToString();
+                    e.Node.BackColor = SystemColors.Highlight;
+                    e.Node.ForeColor = SystemColors.HighlightText;
                     refreshProperties(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
                 } else {
+                    e.Node.BackColor = backC;
+                    e.Node.ForeColor = foreC;
                     selectedFields.Remove(currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
                 }
+                sortSelectedByIndex();
                 lblTotalProp.Text = selectedFields.Count.ToString();
-                if (int.Parse(lblCurrentProp.Text) > int.Parse(lblTotalProp.Text)) {
-                    lblCurrentProp.Text = lblTotalProp.Text;
-                }
+                lblCurrentProp.Text = (selectedFields.IndexOf(currentForm.page(_currentPageNumber).Fields[e.Node.Index])+1).ToString();
                 _mode = MouseMode.Selected;
 
                 designPanel.Invalidate();
             }
+        }
+
+
+
+        public void sortSelectedByIndex() {
+            selectedFields.Sort(
+                delegate(Field p1, Field p2) {
+                    return p1.listIndex.CompareTo(p2.listIndex);
+                }
+            );
         }
 
         private void btnSaveForm_Click(object sender, EventArgs e)
