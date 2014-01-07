@@ -32,8 +32,7 @@
             this.txtFormsFolder = new System.Windows.Forms.TextBox();
             this.btnSaveFile = new System.Windows.Forms.Button();
             this.lstvFormatSets = new System.Windows.Forms.ListView();
-            this.txt = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtExportFolder = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbFontWeight = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -46,6 +45,7 @@
             this.lblTestFormat = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnSaveFormsFolders = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -56,6 +56,7 @@
             this.btnCancel.TabIndex = 28;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // txtFormsFolder
             // 
@@ -85,21 +86,13 @@
             this.lstvFormatSets.View = System.Windows.Forms.View.List;
             this.lstvFormatSets.Click += new System.EventHandler(this.lstvFormatSets_Click);
             // 
-            // txt
+            // txtExportFolder
             // 
-            this.txt.Location = new System.Drawing.Point(132, 142);
-            this.txt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt.Name = "txt";
-            this.txt.Size = new System.Drawing.Size(158, 20);
-            this.txt.TabIndex = 31;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(132, 166);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(158, 20);
-            this.textBox2.TabIndex = 32;
+            this.txtExportFolder.Location = new System.Drawing.Point(85, 39);
+            this.txtExportFolder.Margin = new System.Windows.Forms.Padding(2);
+            this.txtExportFolder.Name = "txtExportFolder";
+            this.txtExportFolder.Size = new System.Drawing.Size(158, 20);
+            this.txtExportFolder.TabIndex = 31;
             // 
             // label4
             // 
@@ -221,18 +214,29 @@
             // 
             // btnSaveFormsFolders
             // 
-            this.btnSaveFormsFolders.Location = new System.Drawing.Point(248, 15);
+            this.btnSaveFormsFolders.Location = new System.Drawing.Point(248, 39);
             this.btnSaveFormsFolders.Name = "btnSaveFormsFolders";
             this.btnSaveFormsFolders.Size = new System.Drawing.Size(42, 20);
             this.btnSaveFormsFolders.TabIndex = 44;
             this.btnSaveFormsFolders.Text = "Save";
             this.btnSaveFormsFolders.UseVisualStyleBackColor = true;
+            this.btnSaveFormsFolders.Click += new System.EventHandler(this.btnSaveFormsFolders_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 42);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(69, 13);
+            this.label6.TabIndex = 45;
+            this.label6.Text = "Export Folder";
             // 
             // settingsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 545);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSaveFormsFolders);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblTestFormat);
@@ -245,14 +249,18 @@
             this.Controls.Add(this.cmbFontList);
             this.Controls.Add(this.btnSaveSetName);
             this.Controls.Add(this.txtSetName);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.txt);
+            this.Controls.Add(this.txtExportFolder);
             this.Controls.Add(this.lstvFormatSets);
             this.Controls.Add(this.btnSaveFile);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtFormsFolder);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "settingsScreen";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.settingsScreen_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -265,8 +273,7 @@
         private System.Windows.Forms.TextBox txtFormsFolder;
         private System.Windows.Forms.Button btnSaveFile;
         private System.Windows.Forms.ListView lstvFormatSets;
-        private System.Windows.Forms.TextBox txt;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtExportFolder;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cmbFontWeight;
         private System.Windows.Forms.Label label3;
@@ -279,5 +286,6 @@
         private System.Windows.Forms.Label lblTestFormat;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSaveFormsFolders;
+        private System.Windows.Forms.Label label6;
     }
 }

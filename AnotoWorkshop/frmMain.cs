@@ -711,7 +711,25 @@ namespace AnotoWorkshop {
         #region Export Form Button
 
         private void btnExportForm_Click(object sender, EventArgs e) {
+            
+            if (_settings.exportFolder == @"") {
+                FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK) {
+                    _settings.exportFolder = openFileDialog1.SelectedPath;
+                }
+                if (result == DialogResult.Cancel) {
+                    MessageBox.Show("Without a folder to export to, I'll just cancel this process.", "No Export Path",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            }
+
+            currentForm.versionNumber++;
             currentForm.exportXDP();
+            currentForm.saveForm();
+
+            lblVersionNumber.Text = currentForm.versionNumber.ToString();
 
             //TODO - Placeholder for EPS and PNG exporting, using the designPanel's white page area
         }
@@ -947,8 +965,21 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void btnSaveForm_Click(object sender, EventArgs e)
-        {
+        private void btnSaveForm_Click(object sender, EventArgs e) {
+
+            if (_settings.formsFolderLocation == @"") {
+                FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK) {
+                    _settings.formsFolderLocation = openFileDialog1.SelectedPath;
+                }
+                if (result == DialogResult.Cancel) {
+                    MessageBox.Show("Without a folder to save to, I'll just cancel this process.", "No Save Path",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            }
+
             currentForm.saveForm();
         }
 

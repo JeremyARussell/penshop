@@ -9,8 +9,9 @@ namespace AnotoWorkshop {
     internal class Settings {
 
         #region Variables
-
         public string formsFolderLocation = @"";
+        public string exportFolder = @"";
+
         #region Tutorial Flags
         public bool visitedLoadingScreen;
         public bool visitedImportWizard;
@@ -77,6 +78,7 @@ namespace AnotoWorkshop {
                     #region Load General Settings
                     if (node.Name == @"General") {//Loading the misc FormatSets
                         formsFolderLocation = node["formsFolderLocation"].ToString();
+                        exportFolder = node["exportFolder"].ToString();
                     }
                     #endregion Load General Settings
 
@@ -142,6 +144,7 @@ namespace AnotoWorkshop {
                 #region Save General Settings
                 writer.WriteStartElement("General");
                 writer.WriteAttributeString("formsFolderLocation", formsFolderLocation);
+                writer.WriteAttributeString("exportFolder", exportFolder);
 
                 writer.WriteEndElement();//General
                 #endregion Save General Settings

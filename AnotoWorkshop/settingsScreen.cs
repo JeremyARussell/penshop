@@ -38,6 +38,7 @@ namespace AnotoWorkshop {
             }
 
             txtFormsFolder.Text = _settings.formsFolderLocation;
+            txtExportFolder.Text = _settings.exportFolder;
 
             refreshList();
 
@@ -119,6 +120,15 @@ namespace AnotoWorkshop {
         }
 
         #endregion Format Sets
+
+        private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
+            _settings.formsFolderLocation = txtFormsFolder.Text;
+            _settings.exportFolder = txtExportFolder.Text;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e) {
+            Close();
+        }
 
 
 

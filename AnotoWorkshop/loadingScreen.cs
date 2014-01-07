@@ -45,7 +45,7 @@ namespace AnotoWorkshop {
                 if (_settings.formsFolderLocation != null) {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
                     foreach (string file in fileList) {
-                        string formName = file.Remove(0, _settings.formsFolderLocation.Length + 1);
+                        string formName = file.Remove(0, _settings.formsFolderLocation.Length + 2);
 
                         ListViewItem workingListViewItem = new ListViewItem(formName);
                         workingListViewItem.Tag = file;
@@ -57,15 +57,26 @@ namespace AnotoWorkshop {
             }
         }
 
+        PenForm _form;
+
         private void lstvForms_DoubleClick(object sender, EventArgs e) {
             //-Franklin - Added check to make sure items are really selected.
             if (lstvForms.SelectedItems.Count > 0) {
                 string filePath = lstvForms.SelectedItems[0].Tag.ToString();
-                PenForm form = new PenForm(filePath);//TODO - Culprit
-                new Thread(() => new frmMain(form).ShowDialog()).Start();
+                _form = new PenForm(filePath);//TODO - Culprit
+
+                //Revamped this to allow for OLE interaction with the designer form.
+                //Specifically the is blank handling for the save and export folders.
+                Thread designerThread = new Thread((openForm));
+                designerThread.SetApartmentState(ApartmentState.STA);
+                designerThread.Start();     
             }
         }
 
+        void openForm() {
+            frmMain dlg = new frmMain(_form);
+            dlg.ShowDialog();
+        }
         #endregion Form Loading
 
         #region SQL Loader

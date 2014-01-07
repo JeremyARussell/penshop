@@ -83,7 +83,8 @@ namespace AnotoWorkshop {
 
         public void saveForm() {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
-            using (XmlWriter writer = XmlWriter.Create(_settings.formsFolderLocation + FormName + ".penform", settings)) {
+            Directory.CreateDirectory(_settings.formsFolderLocation);
+            using (XmlWriter writer = XmlWriter.Create(_settings.formsFolderLocation + @"\" + FormName + ".penform", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PenForm");
                 writer.WriteAttributeString("name", FormName);
@@ -427,22 +428,19 @@ namespace AnotoWorkshop {
         }
 
         public void exportXDP() {//.xdp export
-            _formVersion++;
-
-            saveForm();
-
             string versionString = _formVersion.ToString("D7");
 
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
 
-            using (XmlWriter writer = XmlWriter.Create(FormName + "." + versionString + ".xdp", settings)) {
+            Directory.CreateDirectory(_settings.exportFolder);
+            using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xdp", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("xdp");
 
                 writer.WriteStartElement("template");
 
                 writer.WriteStartElement("subform");
-                writer.WriteAttributeString("name", "TESTING");//TODO - Use formname
+                writer.WriteAttributeString("name", FormName);
 
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("subform");
@@ -728,6 +726,7 @@ namespace AnotoWorkshop {
 
         public int versionNumber {
             get { return _formVersion ; }
+            set { _formVersion = value ; }
         }
 
         #endregion Properties
