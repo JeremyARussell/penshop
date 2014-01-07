@@ -37,6 +37,8 @@ namespace AnotoWorkshop {
                 cmbFontList.Items.Add(font.Name);
             }
 
+            txtFormsFolder.Text = _settings.formsFolderLocation;
+
             refreshList();
 
         }

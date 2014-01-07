@@ -45,6 +45,7 @@
             this.txtSetName = new System.Windows.Forms.TextBox();
             this.lblTestFormat = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnSaveFormsFolders = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -58,7 +59,7 @@
             // 
             // txtFormsFolder
             // 
-            this.txtFormsFolder.Location = new System.Drawing.Point(106, 52);
+            this.txtFormsFolder.Location = new System.Drawing.Point(85, 15);
             this.txtFormsFolder.Margin = new System.Windows.Forms.Padding(2);
             this.txtFormsFolder.Name = "txtFormsFolder";
             this.txtFormsFolder.Size = new System.Drawing.Size(158, 20);
@@ -212,17 +213,27 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(34, 55);
+            this.label5.Location = new System.Drawing.Point(13, 18);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 13);
             this.label5.TabIndex = 43;
             this.label5.Text = "Forms Folder";
+            // 
+            // btnSaveFormsFolders
+            // 
+            this.btnSaveFormsFolders.Location = new System.Drawing.Point(248, 15);
+            this.btnSaveFormsFolders.Name = "btnSaveFormsFolders";
+            this.btnSaveFormsFolders.Size = new System.Drawing.Size(42, 20);
+            this.btnSaveFormsFolders.TabIndex = 44;
+            this.btnSaveFormsFolders.Text = "Save";
+            this.btnSaveFormsFolders.UseVisualStyleBackColor = true;
             // 
             // settingsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 545);
+            this.Controls.Add(this.btnSaveFormsFolders);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblTestFormat);
             this.Controls.Add(this.label4);
@@ -267,5 +278,6 @@
         private System.Windows.Forms.TextBox txtSetName;
         private System.Windows.Forms.Label lblTestFormat;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnSaveFormsFolders;
     }
 }

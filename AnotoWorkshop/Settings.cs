@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace AnotoWorkshop {
 
@@ -9,7 +10,7 @@ namespace AnotoWorkshop {
 
         #region Variables
 
-        public string formsFolderLocation = @"C:\PenForms\";//TODO - Hardcoded for now, 
+        public string formsFolderLocation = @"";
         #region Tutorial Flags
         public bool visitedLoadingScreen;
         public bool visitedImportWizard;
@@ -47,12 +48,8 @@ namespace AnotoWorkshop {
             _globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Alias>();
 
-            if (System.IO.File.Exists(_saveDirectory + @"\settings.xml")) {
-                loadFromFile();
-            } else {
-                createNewFile();
+            loadFromFile();
 
-            }
         }
 
         #endregion Instance Management
@@ -60,76 +57,96 @@ namespace AnotoWorkshop {
         #region Create New File
 
         private void createNewFile() {
-            
+            formsFolderLocation = @"C:\PenForms\";//TODO - Turn into a message box like the adding textfield
+            saveToFile();
         }
 
         #endregion Create New File
 
         #region File Loading
-
         private readonly XmlDocument _dom = new XmlDocument();
 
         public void loadFromFile() {
-            _dom.Load(_saveDirectory + @"\settings.xml");
+            try {
+                _dom.Load(_saveDirectory + @"\settings.xml");
 
-            XmlReader node = XmlReader.Create(new StringReader(_dom.DocumentElement.OuterXml));
+                XmlReader node = XmlReader.Create(new StringReader(_dom.DocumentElement.OuterXml));
 
-            while (node.Read()) {
+                while (node.Read()) {
 
-                #region Load FormatSets
+                    #region Load General Settings
+                    if (node.Name == @"General") {//Loading the misc FormatSets
+                        formsFolderLocation = node["formsFolderLocation"].ToString();
+                    }
+                    #endregion Load General Settings
 
-                if (node.Name == @"FormatSet") {//Loading the misc FormatSets
-                    string tempKey = node["name"].ToString();
-                    string tempFont = node["fontType"].ToString();
-                    int tempFontSize = Convert.ToInt32(node["fontSize"].ToString());
-                    string tempFontWeight = node["fontWeight"].ToString();
+                    #region Load FormatSets
+                    if (node.Name == @"FormatSet") {//Loading the misc FormatSets
+                        string tempKey = node["name"].ToString();
+                        string tempFont = node["fontType"].ToString();
+                        int tempFontSize = Convert.ToInt32(node["fontSize"].ToString());
+                        string tempFontWeight = node["fontWeight"].ToString();
 
-                    FormatSet tempSet = new FormatSet();
+                        FormatSet tempSet = new FormatSet();
 
-                    tempSet.fontTypeface = tempFont;
-                    tempSet.fontSize = tempFontSize;
-                    tempSet.fontWeight = tempFontWeight;
-                    tempSet.name = tempKey;
+                        tempSet.fontTypeface = tempFont;
+                        tempSet.fontSize = tempFontSize;
+                        tempSet.fontWeight = tempFontWeight;
+                        tempSet.name = tempKey;
 
-                    _globalFormatSet.Add(tempKey, tempSet);
+                        _globalFormatSet.Add(tempKey, tempSet);
+                    }
+                    #endregion Load FormatSets
+
+                    #region Load Visisted Flags
+
+                    if (node.Name == @"Flags") {
+                        bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
+                        bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        bool.TryParse(node["visitedSettingsScreen"], out visitedSettingsScreen);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
+                    }
+
+                    #endregion Load Visited Flags
+
                 }
+            }
 
-                #endregion Load FormatSets
-
-                #region Load Visisted Flags
-
-                if (node.Name == @"Flags") {
-                    bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
-                    bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    bool.TryParse(node["visitedSettingsScreen"], out visitedSettingsScreen);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                    //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                }
-
-                #endregion Load Visited Flags
-
+            catch (Exception) {
+                MessageBox.Show("Something weird happened loading the settings file, either it wasn't "
+                + "there or it didn't contain the correct information. -- TODO: Create backup and rewrite file."
+                    , "Settings File Load Error", MessageBoxButtons.OK);
+                createNewFile();
+                //TODO - Handle backup, upgrades, etc.
+                //throw; - This was preventing the settings from instantiating and the loading screen 
+                //from loading all the way
             }
         }
-
         #endregion File Loading
 
         #region File Saving
-
         public void saveToFile() {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
             using (XmlWriter writer = XmlWriter.Create(_saveDirectory + @"\settings.xml", settings)) {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Settings");
-                
-                #region Saving Format Sets
 
+                #region Save General Settings
+                writer.WriteStartElement("General");
+                writer.WriteAttributeString("formsFolderLocation", formsFolderLocation);
+
+                writer.WriteEndElement();//General
+                #endregion Save General Settings
+
+                #region Saving Format Sets
                 writer.WriteStartElement("FormatSets");
 
                 foreach (var set in _globalFormatSet) {
@@ -144,7 +161,6 @@ namespace AnotoWorkshop {
                 }
 
                 writer.WriteEndElement();//FormatSet
-
                 #endregion Saving Format Sets
 
                 #region First Time Flags
@@ -162,7 +178,6 @@ namespace AnotoWorkshop {
                 writer.WriteEndDocument();
             }
         }
-
         #endregion File Saving
 
         #region Upgrading
