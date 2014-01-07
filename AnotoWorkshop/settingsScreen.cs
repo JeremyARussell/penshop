@@ -61,26 +61,25 @@ namespace AnotoWorkshop {
             }
 
         }
+        
+        FormatSet workingFormatSet = new FormatSet();
 
         private void lstvFormatSets_Click(object sender, EventArgs e) {
             if (((ListView)sender).SelectedItems.Count > 0) {
+                workingFormatSet = new FormatSet();
+
                 _activeFormatSet = ((ListView)sender).SelectedItems[0].Text;
                 
                 //TODO - Need to make a temp FormatSet to work with, then save that one over the old one 
                 //once the button is clicked instead of having to save and click to load the new changes 
                 //or try something out without saving the format set.
-                
-                
-                lblTestFormat.Text = _settings.globalFormatSet[_activeFormatSet].fontSizeString + " - " +
-                                     _settings.globalFormatSet[_activeFormatSet].fontTypeface + " - " +
-                                     _settings.globalFormatSet[_activeFormatSet].fontWeight;
 
-                lblTestFormat.Font = _settings.globalFormatSet[_activeFormatSet].font();
+                workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
+                workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
+                workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
+                workingFormatSet.fontWeight = _settings.globalFormatSet[_activeFormatSet].fontWeight;
 
-                txtSetName.Text = _settings.globalFormatSet[_activeFormatSet].name;
-                cmbFontSizes.SelectedItem = _settings.globalFormatSet[_activeFormatSet].fontSize.ToString();
-                cmbFontList.SelectedItem = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
-                cmbFontWeight.SelectedItem = _settings.globalFormatSet[_activeFormatSet].fontWeight;
+                refreshFontExample();
 
                 //txtSetName.Focus();
 
@@ -88,7 +87,21 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void btnSaveSetName_Click(object sender, EventArgs e) {
+        private void refreshFontExample() {
+                lblTestFormat.Text = workingFormatSet.fontSizeString + " - " +
+                                     workingFormatSet.fontTypeface + " - " +
+                                     workingFormatSet.fontWeight;
+
+                lblTestFormat.Font = workingFormatSet.font();
+
+                txtSetName.Text = workingFormatSet.name;
+                cmbFontSizes.SelectedItem = workingFormatSet.fontSize.ToString();
+                cmbFontList.SelectedItem = workingFormatSet.fontTypeface;
+                cmbFontWeight.SelectedItem = workingFormatSet.fontWeight;
+
+        }
+
+        private void createNewFormatSet() {//Preparing for later
             /*
             //Not handling Format Set renaming except for during import and creation of a new one.
              * Commenting out for now.
@@ -112,13 +125,31 @@ namespace AnotoWorkshop {
            
             _formatSets[_activeFormatSet].name = txtSetName.Text;
              */
+        }
+
+        private void btnSaveSetName_Click(object sender, EventArgs e) {
             _settings.globalFormatSet[_activeFormatSet].fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
             _settings.globalFormatSet[_activeFormatSet].fontTypeface = cmbFontList.SelectedItem.ToString();
             _settings.globalFormatSet[_activeFormatSet].fontWeight = cmbFontWeight.SelectedItem.ToString();
 
             refreshList();
+
         }
 
+        private void cmbFontSizes_SelectedValueChanged(object sender, EventArgs e) {
+            workingFormatSet.fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
+            refreshFontExample();
+        }
+
+        private void cmbFontList_SelectedValueChanged(object sender, EventArgs e) {
+            workingFormatSet.fontTypeface = cmbFontList.SelectedItem.ToString();
+            refreshFontExample();
+        }
+
+        private void cmbFontWeight_SelectedValueChanged(object sender, EventArgs e) {
+            workingFormatSet.fontWeight = cmbFontWeight.SelectedItem.ToString();
+            refreshFontExample();
+        }
         #endregion Format Sets
 
         private void btnSaveFormsFolders_Click(object sender, EventArgs e) {

@@ -114,6 +114,7 @@
             this.cmbFontWeight.Name = "cmbFontWeight";
             this.cmbFontWeight.Size = new System.Drawing.Size(121, 21);
             this.cmbFontWeight.TabIndex = 40;
+            this.cmbFontWeight.SelectedValueChanged += new System.EventHandler(this.cmbFontWeight_SelectedValueChanged);
             // 
             // label3
             // 
@@ -167,6 +168,7 @@
             this.cmbFontSizes.Name = "cmbFontSizes";
             this.cmbFontSizes.Size = new System.Drawing.Size(121, 21);
             this.cmbFontSizes.TabIndex = 36;
+            this.cmbFontSizes.SelectedValueChanged += new System.EventHandler(this.cmbFontSizes_SelectedValueChanged);
             // 
             // cmbFontList
             // 
@@ -175,6 +177,7 @@
             this.cmbFontList.Name = "cmbFontList";
             this.cmbFontList.Size = new System.Drawing.Size(121, 21);
             this.cmbFontList.TabIndex = 35;
+            this.cmbFontList.SelectedValueChanged += new System.EventHandler(this.cmbFontList_SelectedValueChanged);
             // 
             // btnSaveSetName
             // 
