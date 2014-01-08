@@ -38,6 +38,7 @@ namespace AnotoWorkshop {
         public int group;
         public bool hidden;
         public bool readOnly;
+        public int listIndex;
 
         public Point moveStart;
 
