@@ -977,7 +977,6 @@ namespace AnotoWorkshop {
             }
         }
 
-<<<<<<< HEAD
         private void btnSaveForm_Click(object sender, EventArgs e) {
 
             if (_settings.formsFolderLocation == @"") {
@@ -993,7 +992,9 @@ namespace AnotoWorkshop {
                 }
             }
 
-=======
+            currentForm.saveForm();
+        }
+
 
 
         public void sortSelectedByIndex() {
@@ -1002,12 +1003,6 @@ namespace AnotoWorkshop {
                     return p1.listIndex.CompareTo(p2.listIndex);
                 }
             );
-        }
-
-        private void btnSaveForm_Click(object sender, EventArgs e)
-        {
->>>>>>> 8b1006af8eccdca1138fde10afca6ea6acc1648d
-            currentForm.saveForm();
         }
 
         private void btnLoadSettingsScreen_Click(object sender, EventArgs e)
