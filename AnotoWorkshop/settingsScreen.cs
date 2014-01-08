@@ -10,6 +10,7 @@ namespace AnotoWorkshop {
         #region Variables - Not Started
 
         private Settings _settings;
+        private bool needToSaveSettings = false;
 
         #endregion Variables - Not Started
 
@@ -21,6 +22,7 @@ namespace AnotoWorkshop {
 
         private void settingsScreen_Load(object sender, EventArgs e) {
             _settings = Settings.instance;
+            _settings.loadFromFile();
 
             if (!_settings.visitedSettingsScreen) {
                 if (MessageBox.Show("Hello, welcome to the Settings screen would you like to watch the video describing what the settings are?", "Settings Screen - Tutorial",
@@ -47,6 +49,8 @@ namespace AnotoWorkshop {
         #endregion Initializers
 
         private void btnSaveFile_Click(object sender, EventArgs e) {
+            needToSaveSettings = false;
+            
             _settings.saveToFile();
         }
 
@@ -70,10 +74,6 @@ namespace AnotoWorkshop {
 
                 _activeFormatSet = ((ListView)sender).SelectedItems[0].Text;
                 
-                //TODO - Need to make a temp FormatSet to work with, then save that one over the old one 
-                //once the button is clicked instead of having to save and click to load the new changes 
-                //or try something out without saving the format set.
-
                 workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
                 workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
                 workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
@@ -81,9 +81,6 @@ namespace AnotoWorkshop {
 
                 refreshFontExample();
 
-                //txtSetName.Focus();
-
-                //AcceptButton = btnSaveSetName;
             }
         }
 
@@ -101,33 +98,54 @@ namespace AnotoWorkshop {
 
         }
 
-        private void createNewFormatSet() {//Preparing for later
-            /*
-            //Not handling Format Set renaming except for during import and creation of a new one.
-             * Commenting out for now.
-            bool needToBreak = false;
+        private bool savingNewSet;
 
-            foreach (var fSet in _settings.globalFormatSet) {
+        private void createNewFormatSet() {
+            workingFormatSet = new FormatSet();
+            
+            workingFormatSet.name = "New...";
+            workingFormatSet.fontSize = 12;
+            workingFormatSet.fontTypeface = "Arial";
+            workingFormatSet.fontWeight = "normal";
 
-            }
+            lblTestFormat.Text = "";
 
-            for (int i = 0; i < _formatSets.Count; i++) {
-                if (needToBreak) break;
-                if (txtSetName.Text == _formatSets[i].name) {
-                    if (i == _activeFormatSet) break;
-                    MessageBox.Show("The Format Set name " + txtSetName.Text + " is already taken. Please choose another."
-                        , "Same name error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    needToBreak = true;
-                }
-            }
+            refreshFontExample();
 
-            if (needToBreak) return;
-           
-            _formatSets[_activeFormatSet].name = txtSetName.Text;
-             */
+            savingNewSet = true;
         }
 
         private void btnSaveSetName_Click(object sender, EventArgs e) {
+            if(savingNewSet) {
+
+                workingFormatSet.name = txtSetName.Text;
+
+                bool needToBreak = false;
+
+                foreach (var fSet in _settings.globalFormatSet) {
+                    if (needToBreak) break;
+
+                    if (txtSetName.Text == fSet.Key) {
+                        //if (workingFormatSet.name == _activeFormatSet) break;
+                        MessageBox.Show("The Format Set name " + txtSetName.Text + " is already taken. Please choose another."
+                            , "Same name error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        needToBreak = true;
+                    }
+
+                }
+
+                if (needToBreak) return;
+
+                needToSaveSettings = true;
+                _settings.globalFormatSet.Add(workingFormatSet.name, workingFormatSet);
+                savingNewSet = false;
+
+                refreshList();
+                return;
+            }
+
+            needToSaveSettings = true;
+
             _settings.globalFormatSet[_activeFormatSet].fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
             _settings.globalFormatSet[_activeFormatSet].fontTypeface = cmbFontList.SelectedItem.ToString();
             _settings.globalFormatSet[_activeFormatSet].fontWeight = cmbFontWeight.SelectedItem.ToString();
@@ -155,10 +173,41 @@ namespace AnotoWorkshop {
         private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
             _settings.formsFolderLocation = txtFormsFolder.Text;
             _settings.exportFolder = txtExportFolder.Text;
+
+            needToSaveSettings = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
+            if(needToSaveSettings) {
+                
+                DialogResult dRes = MessageBox.Show("You've made changes to your settings, would you like to save before you close?", "Do you want to save?",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);  
+
+
+                    if (dRes == DialogResult.Yes) {
+                        _settings.saveToFile();
+                        Close();
+                    }
+                    if (dRes == DialogResult.No) {
+                        Close();
+                    }
+                    if (dRes == DialogResult.Cancel) {
+                        return;
+                    }
+                
+              }
+
             Close();
+        }
+
+        private void btnNewFormatSet_Click(object sender, EventArgs e) {
+            createNewFormatSet();
+        }
+
+        private void txtSetName_TextChanged(object sender, EventArgs e) {
+            if(savingNewSet) {
+                workingFormatSet.name = txtSetName.Text;
+            }
         }
 
 

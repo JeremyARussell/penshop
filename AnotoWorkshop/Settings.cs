@@ -46,9 +46,6 @@ namespace AnotoWorkshop {
         }
 
         private Settings() {
-            _globalFormatSet = new Dictionary<string, FormatSet>();
-            _globalAliases = new Dictionary<string, Alias>();
-
             loadFromFile();
 
         }
@@ -68,6 +65,9 @@ namespace AnotoWorkshop {
         private readonly XmlDocument _dom = new XmlDocument();
 
         public void loadFromFile() {
+            _globalFormatSet = new Dictionary<string, FormatSet>();
+            _globalAliases = new Dictionary<string, Alias>();
+            
             try {
                 _dom.Load(_saveDirectory + @"\settings.xml");
 

@@ -46,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnSaveFormsFolders = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnNewFormatSet = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -196,6 +197,7 @@
             this.txtSetName.Name = "txtSetName";
             this.txtSetName.Size = new System.Drawing.Size(122, 20);
             this.txtSetName.TabIndex = 33;
+            this.txtSetName.TextChanged += new System.EventHandler(this.txtSetName_TextChanged);
             // 
             // lblTestFormat
             // 
@@ -234,11 +236,22 @@
             this.label6.TabIndex = 45;
             this.label6.Text = "Export Folder";
             // 
+            // btnNewFormatSet
+            // 
+            this.btnNewFormatSet.Location = new System.Drawing.Point(256, 510);
+            this.btnNewFormatSet.Name = "btnNewFormatSet";
+            this.btnNewFormatSet.Size = new System.Drawing.Size(46, 23);
+            this.btnNewFormatSet.TabIndex = 46;
+            this.btnNewFormatSet.Text = "New...";
+            this.btnNewFormatSet.UseVisualStyleBackColor = true;
+            this.btnNewFormatSet.Click += new System.EventHandler(this.btnNewFormatSet_Click);
+            // 
             // settingsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 545);
+            this.Controls.Add(this.btnNewFormatSet);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSaveFormsFolders);
             this.Controls.Add(this.label5);
@@ -263,7 +276,6 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.settingsScreen_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -290,5 +302,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSaveFormsFolders;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnNewFormatSet;
     }
 }
