@@ -101,6 +101,7 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTest = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -139,6 +140,7 @@
             // 
             // tabDesigner
             // 
+            this.tabDesigner.Controls.Add(this.btnTest);
             this.tabDesigner.Controls.Add(this.btnLoadSettingsScreen);
             this.tabDesigner.Controls.Add(this.lblVersionNumber);
             this.tabDesigner.Controls.Add(this.label2);
@@ -930,6 +932,17 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // btnTest
+            // 
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTest.Location = new System.Drawing.Point(527, 8);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(42, 23);
+            this.btnTest.TabIndex = 33;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1046,6 +1059,7 @@
         private System.Windows.Forms.Button btnNextProp;
         private System.Windows.Forms.Button btnPrevProp;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button btnTest;
     }
 }
 

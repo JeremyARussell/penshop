@@ -718,6 +718,39 @@ namespace AnotoWorkshop {
                 writer.WriteEndElement();//template
                 writer.WriteEndDocument();
             }
+
+        }
+
+        public void updateFusionForms() {
+            try
+            {
+                XmlDocument fusionFormDom = new XmlDocument();
+                fusionFormDom.Load(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
+
+                XmlNode fusionFormNode = fusionFormDom.CreateNode(XmlNodeType.Element, "Forms", null);
+
+                XmlNode nodeTitle = fusionFormDom.CreateElement("Form");
+                XmlAttribute attr = fusionFormDom.CreateAttribute("name");
+                attr.Value = FormName;
+
+                XmlAttribute attr2 = fusionFormDom.CreateAttribute("xdpfilename");
+                attr2.Value = FormName + versionNumber.ToString();
+
+                nodeTitle.Attributes.Append(attr);
+                nodeTitle.Attributes.Append(attr2);
+
+                fusionFormNode.AppendChild(nodeTitle);
+
+                fusionFormDom.DocumentElement.AppendChild(fusionFormNode);
+
+                fusionFormDom.Save(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
         }
 
         #endregion XDP Exporting
