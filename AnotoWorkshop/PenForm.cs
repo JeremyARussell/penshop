@@ -720,6 +720,7 @@ namespace AnotoWorkshop {
             }
 
             updateFusionForms();
+            updateFormsPad();
 
         }
 
@@ -736,35 +737,41 @@ namespace AnotoWorkshop {
             }
           
             try {
-                foreach( XmlNode xNode in fusionFormDom.SelectNodes("FusionPrintForms/Forms")) {
-                    if (xNode.SelectSingleNode("Form").Attributes["xdpfilename"].Value ==
-                        FormName + "." + lastVersionString + ".xdp") {
+                //This loop goes through and removes the last added management node from the
+                //FusionPrintForms.xml file. This file controls the list of forms you can 
+                //print inside the fusion print program.
+                XmlNodeList fusionNodeList = fusionFormDom.SelectNodes("FusionPrintForms/Forms");
+                if (fusionNodeList != null)
+                    foreach( XmlNode xNode in fusionNodeList) {
+                        if (xNode.SelectSingleNode("Form").Attributes["xdpfilename"].Value ==
+                            FormName + "." + lastVersionString + ".xdp") {
                             xNode.ParentNode.RemoveChild(xNode);
-                    }
+                        }
 
-                }
+                    }
             }
             catch(Exception) {
                 throw;
             }
           
             try {
+                //Main node that will hold the sub node and be added to the root
+                XmlNode formsNode = fusionFormDom.CreateNode(XmlNodeType.Element, "Forms", null);
 
-                XmlNode fusionFormNode = fusionFormDom.CreateNode(XmlNodeType.Element, "Forms", null);
+                XmlNode formNode = fusionFormDom.CreateElement("Form");
+                //Name of the form attribute
+                XmlAttribute nameAttr = fusionFormDom.CreateAttribute("name");
+                nameAttr.Value = FormName;
+                //Filepath to the updated version attribute
+                XmlAttribute filepathAttr = fusionFormDom.CreateAttribute("xdpfilename");
+                filepathAttr.Value = FormName + "." + versionString + ".xdp";
+                //Add up the attributes
+                formNode.Attributes.Append(nameAttr);
+                formNode.Attributes.Append(filepathAttr);
 
-                XmlNode nodeTitle = fusionFormDom.CreateElement("Form");
-                XmlAttribute attr = fusionFormDom.CreateAttribute("name");
-                attr.Value = FormName;
+                formsNode.AppendChild(formNode);
 
-                XmlAttribute attr2 = fusionFormDom.CreateAttribute("xdpfilename");
-                attr2.Value = FormName + "." + versionString + ".xdp";
-
-                nodeTitle.Attributes.Append(attr);
-                nodeTitle.Attributes.Append(attr2);
-
-                fusionFormNode.AppendChild(nodeTitle);
-
-                fusionFormDom.DocumentElement.AppendChild(fusionFormNode);
+                fusionFormDom.DocumentElement.AppendChild(formsNode);
 
                 fusionFormDom.Save(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
             }
@@ -776,13 +783,13 @@ namespace AnotoWorkshop {
 
         }
 
-        public void updateFormsPad() { 
+        private void updateFormsPad() { 
             string versionString = _formVersion.ToString("D7");
-            string lastVersionString = (_formVersion - 1).ToString("D7");
             XmlDocument formsPadDom = new XmlDocument();
 
             try {
                 formsPadDom.Load(_settings.formsFolderLocation + @"\" + @"forms.pad");
+
             }
             catch(Exception) {
                 throw;
@@ -790,21 +797,56 @@ namespace AnotoWorkshop {
           
             try {
 
-                XmlNode fusionFormNode = formsPadDom.CreateNode(XmlNodeType.Element, "Forms", null);
+                XmlNode podInfoNode = formsPadDom.CreateNode(XmlNodeType.Element, "PODInfo", null);
+                //name = filename w/ version padding
+                XmlAttribute nameAttr = formsPadDom.CreateAttribute("name");
+                nameAttr.Value = FormName + "." + versionString + ".xdp";
+                //multipage = page count
+                XmlAttribute pageCountAttr = formsPadDom.CreateAttribute("multipage");
+                pageCountAttr.Value = totalPages().ToString();
+                podInfoNode.Attributes.Append(nameAttr);
+                podInfoNode.Attributes.Append(pageCountAttr);
 
-                XmlNode nodeTitle = formsPadDom.CreateElement("Form");
-                XmlAttribute attr = formsPadDom.CreateAttribute("name");
-                attr.Value = FormName;
 
-                XmlAttribute attr2 = formsPadDom.CreateAttribute("xdpfilename");
-                attr2.Value = FormName + "." + versionString + ".xdp";
+                XmlNode podNode = formsPadDom.CreateElement("application_info");
+                //file = filepath like earlier(not sure why they do it twice.)
+                XmlAttribute filePathAttr = formsPadDom.CreateAttribute("file");
+                filePathAttr.Value = FormName + "." + versionString + ".xdp";
+                //x_offset = 0 - default coords
+                XmlAttribute x_offsetAttr = formsPadDom.CreateAttribute("x_offset");
+                x_offsetAttr.Value = "0";
+                //y_offset = -4 - default coords
+                XmlAttribute y_offsetAttr = formsPadDom.CreateAttribute("y_offset");
+                y_offsetAttr.Value = "-4" ;
+                //title = FormName by itself
+                XmlAttribute titleAttr = formsPadDom.CreateAttribute("title");
+                titleAttr.Value = FormName;
+                //instanceID = %%last_name%% - Used internally by the anoto pen, default
+                XmlAttribute instanceIDAttr = formsPadDom.CreateAttribute("instanceID");
+                instanceIDAttr.Value = @"%%last_name%%";
+                //target = xml - forms stlye? Not sure exactly, it's default as well
+                XmlAttribute targetAttr = formsPadDom.CreateAttribute("target");
+                targetAttr.Value = "xml";
+                //AnotoCoordinateVal = 300 - Internally used default
+                XmlAttribute anotoXAttr = formsPadDom.CreateAttribute("AnotoCoordinateVal");
+                anotoXAttr.Value = "300";
+                //AnotoCoordinateVal_Y = 300 - Internally used default
+                XmlAttribute anotoYAttr = formsPadDom.CreateAttribute("AnotoCoordinateVal_Y");
+                anotoYAttr.Value = "300";
 
-                nodeTitle.Attributes.Append(attr);
-                nodeTitle.Attributes.Append(attr2);
-
-                fusionFormNode.AppendChild(nodeTitle);
-
-                formsPadDom.DocumentElement.AppendChild(fusionFormNode);
+                //String together the attributes and add them to our working node
+                podNode.Attributes.Append(filePathAttr);
+                podNode.Attributes.Append(x_offsetAttr);
+                podNode.Attributes.Append(y_offsetAttr);
+                podNode.Attributes.Append(titleAttr);
+                podNode.Attributes.Append(instanceIDAttr);
+                podNode.Attributes.Append(targetAttr);
+                podNode.Attributes.Append(anotoXAttr);
+                podNode.Attributes.Append(anotoYAttr);
+                //Add the working podNode to the main node we're adding.
+                podInfoNode.AppendChild(podNode);
+                //Appending our main node to a specific
+                formsPadDom.SelectSingleNode("pad/POD").AppendChild(podInfoNode);
 
                 formsPadDom.Save(_settings.formsFolderLocation + @"\" + @"forms.pad");
             }

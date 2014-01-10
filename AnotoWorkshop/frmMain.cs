@@ -1057,10 +1057,5 @@ namespace AnotoWorkshop {
         {
             ((TreeView)sender).Focus();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            currentForm.updateFormsPad();
-        }
     }
 }
