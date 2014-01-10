@@ -101,7 +101,7 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnTest = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -140,7 +140,7 @@
             // 
             // tabDesigner
             // 
-            this.tabDesigner.Controls.Add(this.btnTest);
+            this.tabDesigner.Controls.Add(this.button1);
             this.tabDesigner.Controls.Add(this.btnLoadSettingsScreen);
             this.tabDesigner.Controls.Add(this.lblVersionNumber);
             this.tabDesigner.Controls.Add(this.label2);
@@ -932,16 +932,16 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // btnTest
+            // button1
             // 
-            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTest.Location = new System.Drawing.Point(527, 8);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(42, 23);
-            this.btnTest.TabIndex = 33;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(483, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 23);
+            this.button1.TabIndex = 33;
+            this.button1.Text = "test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmMain
             // 
@@ -1059,7 +1059,7 @@
         private System.Windows.Forms.Button btnNextProp;
         private System.Windows.Forms.Button btnPrevProp;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button button1;
     }
 }
 

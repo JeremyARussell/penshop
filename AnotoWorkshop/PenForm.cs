@@ -719,13 +719,36 @@ namespace AnotoWorkshop {
                 writer.WriteEndDocument();
             }
 
+            updateFusionForms();
+
         }
 
-        public void updateFusionForms() {
-            try
-            {
-                XmlDocument fusionFormDom = new XmlDocument();
+        private void updateFusionForms() {
+            string versionString = _formVersion.ToString("D7");
+            string lastVersionString = (_formVersion - 1).ToString("D7");
+            XmlDocument fusionFormDom = new XmlDocument();
+
+            try {
                 fusionFormDom.Load(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
+            }
+            catch(Exception) {
+                throw;
+            }
+          
+            try {
+                foreach( XmlNode xNode in fusionFormDom.SelectNodes("FusionPrintForms/Forms")) {
+                    if (xNode.SelectSingleNode("Form").Attributes["xdpfilename"].Value ==
+                        FormName + "." + lastVersionString + ".xdp") {
+                            xNode.ParentNode.RemoveChild(xNode);
+                    }
+
+                }
+            }
+            catch(Exception) {
+                throw;
+            }
+          
+            try {
 
                 XmlNode fusionFormNode = fusionFormDom.CreateNode(XmlNodeType.Element, "Forms", null);
 
@@ -734,7 +757,7 @@ namespace AnotoWorkshop {
                 attr.Value = FormName;
 
                 XmlAttribute attr2 = fusionFormDom.CreateAttribute("xdpfilename");
-                attr2.Value = FormName + versionNumber.ToString();
+                attr2.Value = FormName + "." + versionString + ".xdp";
 
                 nodeTitle.Attributes.Append(attr);
                 nodeTitle.Attributes.Append(attr2);
@@ -751,6 +774,45 @@ namespace AnotoWorkshop {
                 throw;
             }
 
+        }
+
+        public void updateFormsPad() { 
+            string versionString = _formVersion.ToString("D7");
+            string lastVersionString = (_formVersion - 1).ToString("D7");
+            XmlDocument formsPadDom = new XmlDocument();
+
+            try {
+                formsPadDom.Load(_settings.formsFolderLocation + @"\" + @"forms.pad");
+            }
+            catch(Exception) {
+                throw;
+            }
+          
+            try {
+
+                XmlNode fusionFormNode = formsPadDom.CreateNode(XmlNodeType.Element, "Forms", null);
+
+                XmlNode nodeTitle = formsPadDom.CreateElement("Form");
+                XmlAttribute attr = formsPadDom.CreateAttribute("name");
+                attr.Value = FormName;
+
+                XmlAttribute attr2 = formsPadDom.CreateAttribute("xdpfilename");
+                attr2.Value = FormName + "." + versionString + ".xdp";
+
+                nodeTitle.Attributes.Append(attr);
+                nodeTitle.Attributes.Append(attr2);
+
+                fusionFormNode.AppendChild(nodeTitle);
+
+                formsPadDom.DocumentElement.AppendChild(fusionFormNode);
+
+                formsPadDom.Save(_settings.formsFolderLocation + @"\" + @"forms.pad");
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         #endregion XDP Exporting
