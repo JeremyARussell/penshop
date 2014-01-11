@@ -286,17 +286,17 @@ namespace AnotoWorkshop {
                         if (workingField.width == 0) workingField.width = 2;
                     }
 
-                    if (reader.Name == "font") {//pulling font information into field - TODO - imp this sucka
+                    if (reader.Name == "font") {
                         if (reader.IsStartElement()) {
                             if (reader["size"] != null) {
-                                workingField.formatSet.fontSizeString = reader["size"];//TODO - imp
+                                workingField.formatSet.fontSizeString = reader["size"];
                             }
                             if (workingField.formatSet.fontSize == 10) break;
-                            workingField.formatSet.fontTypeface = reader["typeface"];//TODO - Build a texttype for importing
+                            workingField.formatSet.fontTypeface = reader["typeface"];
                             if (reader["weight"] != null && reader["weight"] != "") {
-                                workingField.formatSet.fontWeight = reader["weight"];//TODO - imp
+                                workingField.formatSet.fontWeight = reader["weight"];
                             } else {
-                                workingField.formatSet.fontWeight = "normal";//TODO - imp
+                                workingField.formatSet.fontWeight = "normal";
                             }
                         }
                     }
@@ -430,21 +430,61 @@ namespace AnotoWorkshop {
         public void exportXDP() {//.xdp export
             string versionString = _formVersion.ToString("D7");
 
-            XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
+            const string adobeXdpNs = "http://ns.adobe.com/xdp/";
+            const string adobeXdpPrefix = "xdp";
+            const string adobeXfaNs = "http://www.xfa.org/schema/xfa-template/2.6/";
+            const string adobeXfaPrefix = "xfa";
 
+            XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "   " };//&#32; - Whitespace?
+
+            //Create the export directory if it doesn't exist already. 
             Directory.CreateDirectory(_settings.exportFolder);
+            //Write out the xml document and save it.
             using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xdp", settings)) {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("xdp");
 
-                writer.WriteStartElement("template");
+                writer.WriteProcessingInstruction("xfa", "generator=\"AdobeLiveCycleDesignerES_V9.0.0.2.20120627.2.874785\" APIVersion=\"3.1.20001.0\"");
+
+                writer.WriteStartElement(adobeXdpPrefix, "xdp", adobeXdpNs);
+
+
+                writer.WriteStartElement("template", adobeXfaNs);
+                writer.WriteProcessingInstruction("formServer", "defaultPDFRenderFormat acrobat8.1static");
+                writer.WriteProcessingInstruction("formServer", "allowRenderCaching 0");
+                writer.WriteProcessingInstruction("formServer", "formModel both");
+
 
                 writer.WriteStartElement("subform");
                 writer.WriteAttributeString("name", FormName);
+                writer.WriteAttributeString("layout", "tb");
+                writer.WriteAttributeString("locale", "en_US");
+                writer.WriteAttributeString("restoreState", "auto");
+
+                writer.WriteStartElement("pageSet");
+                    writer.WriteStartElement("pageArea");
+                    writer.WriteAttributeString("name", "Page1");
+                    writer.WriteAttributeString("id", "Page1");
+                        writer.WriteStartElement("contentArea");
+                        writer.WriteAttributeString("w", "612pt");
+                        writer.WriteAttributeString("h", "792pt");
+                        writer.WriteAttributeString("id", "contentArea_ID");
+                        writer.WriteEndElement();//contentArea
+
+                        writer.WriteStartElement("medium");
+                        writer.WriteAttributeString("stock", "default");
+                        writer.WriteAttributeString("short", "612pt");
+                        writer.WriteAttributeString("long", "792pt");
+                        writer.WriteEndElement();//medium
+                    
+                    writer.WriteProcessingInstruction("templateDesigner", "expand 0");
+                    writer.WriteEndElement();//pageArea
+                writer.WriteProcessingInstruction("templateDesigner", "expand 1");
+                writer.WriteEndElement();//pageSet
 
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("subform");
-
+                    writer.WriteAttributeString("w", "612pt");
+                    writer.WriteAttributeString("h", "792pt");
                     foreach (Field fi in page.Fields) {
                         switch (fi.type) {
 
@@ -856,6 +896,8 @@ namespace AnotoWorkshop {
                 throw;
             }
         }
+
+        //Getting ready for the eps and png.
 
         #endregion XDP Exporting
 
