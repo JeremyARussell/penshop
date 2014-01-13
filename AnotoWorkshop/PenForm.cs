@@ -104,9 +104,9 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString("type", fi.type.ToString());
                         writer.WriteAttributeString("text", fi.text);
                         writer.WriteAttributeString("formatSetName", fi.formatSet.name);
-                        //writer.WriteAttributeString("hidden", fi.hidden);
+                        writer.WriteAttributeString("hidden", fi.hidden.ToString());
+                        writer.WriteAttributeString("readOnly", fi.readOnly.ToString());
                         //writer.WriteAttributeString("name", fi.group);
-                        //writer.WriteAttributeString("name", fi.readOnly);
                         //writer.WriteAttributeString("name", fi.textTypes);
                         //writer.WriteAttributeString("name", fi.texts);//For Fancy Labels
 
@@ -174,6 +174,11 @@ namespace AnotoWorkshop {
                                 _settings.getFormatSetByName(workingField.formatSetName);
                         } catch (Exception) {
                         }
+
+                        bool.TryParse(reader["hidden"], out workingField.hidden);
+                        bool.TryParse(reader["readOnly"], out workingField.readOnly);
+
+
                     }
                 }//End loop
 

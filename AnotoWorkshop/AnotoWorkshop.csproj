@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Magick.NET-x86">
+      <HintPath>libraries\MagicNet\Magick.NET-x86.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -74,6 +77,12 @@
     </Compile>
     <Compile Include="LogWriter.cs" />
     <Compile Include="PenForm.cs" />
+    <Compile Include="pngExporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pngExporter.Designer.cs">
+      <DependentUpon>pngExporter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -104,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="loadingScreen.resx">
       <DependentUpon>loadingScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pngExporter.resx">
+      <DependentUpon>pngExporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

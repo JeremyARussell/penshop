@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using System.Threading;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1057,5 +1058,30 @@ namespace AnotoWorkshop {
         {
             ((TreeView)sender).Focus();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Eps Playground --
+
+            //Bitmap bitTest = new Bitmap(612, 792);
+
+            //designPanel.DrawToBitmap(bitTest, new Rectangle(0, 0, 612, 792));
+
+            //bitTest.Save(_settings.exportFolder + @"\test.bmp");
+            //Eps Playground --
+
+        Thread designerThread = new Thread((openForm));
+        designerThread.SetApartmentState(ApartmentState.STA);
+        designerThread.Start();     
+            
+        
+
+
+        }
+        void openForm() {
+            pngExporter exporter = new pngExporter(currentForm.page(_currentPageNumber));
+            exporter.ShowDialog();
+        }
+
     }
 }
