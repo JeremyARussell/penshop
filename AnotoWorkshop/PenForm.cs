@@ -178,7 +178,6 @@ namespace AnotoWorkshop {
                         bool.TryParse(reader["hidden"], out workingField.hidden);
                         bool.TryParse(reader["readOnly"], out workingField.readOnly);
 
-
                     }
                 }//End loop
 
@@ -435,17 +434,32 @@ namespace AnotoWorkshop {
         public void exportXDP() {//.xdp export
             string versionString = _formVersion.ToString("D7");
 
-            const string adobeXdpNs = "http://ns.adobe.com/xdp/";
-            const string adobeXdpPrefix = "xdp";
-            const string adobeXfaNs = "http://www.xfa.org/schema/xfa-template/2.6/";
-            const string adobeXfaPrefix = "xfa";
+            const string adobeXdpNs = @"http://ns.adobe.com/xdp/";//Xdp
+            const string adobeXdpPrefix = @"xdp";
+            const string adobeXfaNs = @"http://www.xfa.org/schema/xfa-template/2.6/";//Xfa
+            const string adobeXfaPrefix = @"Xfa";
+            const string adobeXfalNs = @"http://www.xfa.org/schema/xfa-locale-set/2.6/";
+            //prefix xfal nogo
+            const string adobeXNs = @"adobe:ns:meta/";
+            const string adobeXPrefix = @"x"; 
+            const string adobeRdfNs = @"http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+            const string adobeRdfPrefix = @"rdf";
+            const string adobeXmpNs = "http://ns.adobe.com/xap/1.0/";
+            const string adobeXmpPrefix = @"xmp";
+            const string adobePdfPrefix = @"pdf";
+            const string adobexmpMMPrefix = "xmpMM";
+            const string adobeDcPrefix = "dc";
+            const string adobeDescPrefix = "desc";
+            //const string adobeParsePrefix = "xfa";
+            //const string adobeXNs = "adobe:ns:meta/";
+            //const string adobeXPrefix = "x";
 
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "   " };//&#32; - Whitespace?
 
             //Create the export directory if it doesn't exist already. 
             Directory.CreateDirectory(_settings.exportFolder);
             //Write out the xml document and save it.
-            using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xdp", settings)) {
+            using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xml", settings)) {
                 writer.WriteStartDocument();
 
                 writer.WriteProcessingInstruction("xfa", "generator=\"AdobeLiveCycleDesignerES_V9.0.0.2.20120627.2.874785\" APIVersion=\"3.1.20001.0\"");
@@ -761,6 +775,452 @@ namespace AnotoWorkshop {
 
                 writer.WriteEndElement();//subform
                 writer.WriteEndElement();//template
+
+                writer.WriteStartElement("config", adobeXfaNs);    
+                    writer.WriteStartElement("agent");
+                        writer.WriteAttributeString("name", "designer");
+                            writer.WriteStartElement("destination");
+                            writer.WriteString("pdf");
+                            writer.WriteEndElement();//destination
+                            writer.WriteStartElement("pdf");
+                                writer.WriteStartElement("fontInfo");
+                                writer.WriteEndElement();//fontInfo
+                        writer.WriteEndElement();//pdf
+                    writer.WriteEndElement();//agent
+
+                    writer.WriteStartElement("present");
+                        writer.WriteStartElement("destination");
+                        writer.WriteString("pdf");
+                        writer.WriteEndElement();//destination
+                        writer.WriteStartElement("pdf");
+                            writer.WriteStartElement("fontInfo");
+                                    writer.WriteStartElement("embed");
+                                    writer.WriteString("0");
+                                    writer.WriteEndElement();//embed
+                            writer.WriteEndElement();//fontInfo
+                            writer.WriteStartElement("tagged");
+                            writer.WriteString("0");
+                            writer.WriteEndElement();//tagged
+                            writer.WriteStartElement("version");
+                            writer.WriteString("1.7");
+                            writer.WriteEndElement();//version
+                            writer.WriteStartElement("adobeExtensionLevel");
+                            writer.WriteString("1");
+                            writer.WriteEndElement();//adobeExtensionLevel
+                        writer.WriteEndElement();//pdf
+                        writer.WriteStartElement("cache");
+                            writer.WriteStartElement("macroCache");
+                            writer.WriteEndElement();//macroCache
+                        writer.WriteEndElement();//cache
+                        writer.WriteStartElement("xdp");
+                            writer.WriteStartElement("packets");
+                            writer.WriteString("*");
+                            writer.WriteEndElement();//packets
+                        writer.WriteEndElement();//xdp
+                    writer.WriteEndElement();//present
+
+                    writer.WriteStartElement("psMap");
+                        writer.WriteStartElement("font");
+                        writer.WriteAttributeString("typeface", "Calibri"); 
+                        writer.WriteAttributeString("psName","Calibri");
+                        writer.WriteAttributeString("weight","normal");
+                        writer.WriteAttributeString("posture","normal");
+                        writer.WriteEndElement();//font
+                        writer.WriteStartElement("font");
+                        writer.WriteAttributeString("typeface","MS Reference Sans Serif");
+                        writer.WriteAttributeString("psName","MSReferenceSansSerif");
+                        writer.WriteAttributeString("weight","normal");
+                        writer.WriteAttributeString("posture","normal");
+                        writer.WriteEndElement();//font
+                    writer.WriteEndElement();//psMap
+                    
+                writer.WriteEndElement();//config
+
+
+                
+                writer.WriteStartElement("localeSet", adobeXfalNs );    
+                    writer.WriteStartElement("locale");
+                    writer.WriteAttributeString("name","en_US");
+                    writer.WriteAttributeString("desc","English (United States)");
+                        writer.WriteStartElement("calendarSymbols");
+                    writer.WriteAttributeString("name","gregorian");
+                        writer.WriteStartElement("monthNames");
+                        writer.WriteStartElement("month");
+                            writer.WriteString("January");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("February");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("March");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("April");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("May");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("June");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("July");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("August");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("September");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("October");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("November");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("December");
+                        writer.WriteEndElement();//month
+                    writer.WriteEndElement();//monthNames
+
+                    writer.WriteStartElement("MonthNames");
+                    writer.WriteAttributeString("abbr","1");
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Jan");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Feb");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Mar");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Apr");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("May");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Jun");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Jul");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Aug");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Sep");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Oct");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Nov");
+                        writer.WriteEndElement();//month
+                        writer.WriteStartElement("month");
+                            writer.WriteString("Dec");
+                        writer.WriteEndElement();//month
+                    writer.WriteEndElement();//monthNames
+                
+                    writer.WriteStartElement("dayNames");
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Sunday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Monday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Tuesday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Wednesday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Thursday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Friday");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Saturday");
+                        writer.WriteEndElement();//day
+                    writer.WriteEndElement();//dayNames
+                    
+                    writer.WriteStartElement("dayNames");
+                        writer.WriteAttributeString("abbr","1");
+                        writer.WriteStartElement("day"); 
+                            writer.WriteString("Sun");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Mon");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Tue");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Wed");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Thur");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Fri");
+                        writer.WriteEndElement();//day
+                        writer.WriteStartElement("day");
+                            writer.WriteString("Sat");
+                        writer.WriteEndElement();//day
+                    writer.WriteEndElement();//dayNames
+
+                    writer.WriteStartElement("meridiemNames");
+                        writer.WriteStartElement("meridiem");
+                            writer.WriteString("AM");
+                        writer.WriteEndElement();//meridiem
+                    writer.WriteStartElement("meridiem");
+                            writer.WriteString("PM");
+                        writer.WriteEndElement();//meridiem
+                    writer.WriteEndElement();//meridiemNames
+
+                    writer.WriteStartElement("eraNames");
+                        writer.WriteStartElement("era");
+                            writer.WriteString("BC");
+                        writer.WriteEndElement();//era
+                    writer.WriteStartElement("era");
+                            writer.WriteString("AD");
+                        writer.WriteEndElement();//era
+                    writer.WriteEndElement();//eraNames
+                        writer.WriteEndElement();//calendarSymbols
+                    
+                    writer.WriteStartElement("datePatterns");
+                        writer.WriteStartElement("datePattern");
+                        writer.WriteAttributeString("name","full");
+                        writer.WriteString("EEEE, MMMM D, YYYY");
+                        writer.WriteEndElement();//datePattern
+                        writer.WriteStartElement("datePattern");
+                        writer.WriteAttributeString("name","long");
+                        writer.WriteString("MMMM D, YYYY");
+                        writer.WriteEndElement();//datePattern
+                        writer.WriteStartElement("datePattern");
+                        writer.WriteAttributeString("name","medium");
+                        writer.WriteString("MMM D, YYYY");
+                        writer.WriteEndElement();//datePattern
+                        writer.WriteStartElement("datePattern");
+                        writer.WriteAttributeString("name","short");
+                        writer.WriteString("M/D/YY");
+                        writer.WriteEndElement();//datePattern
+                    writer.WriteEndElement();//dataPatterns
+
+                    writer.WriteStartElement("timePatterns");
+                        writer.WriteStartElement("timePattern");
+                        writer.WriteAttributeString("name","full");
+                        writer.WriteString("h:MM:SS A Z");
+                        writer.WriteEndElement();//timePattern
+                        writer.WriteStartElement("timePattern");
+                        writer.WriteAttributeString("name","long");
+                        writer.WriteString("h:MM:SS A Z");
+                        writer.WriteEndElement();//timePattern
+                        writer.WriteStartElement("timePattern");
+                        writer.WriteAttributeString("name","medium");
+                        writer.WriteString("h:MM:SS A");
+                        writer.WriteEndElement();//timePattern
+                        writer.WriteStartElement("timePattern");
+                        writer.WriteAttributeString("name","short");
+                        writer.WriteString("h:MM A");
+                        writer.WriteEndElement();//timepattern
+                    writer.WriteEndElement();//timePatterns
+
+                    writer.WriteStartElement("dateTimeSymbols");
+                        writer.WriteString("GyMdkHmsSEDFwWahKzZ");
+                    writer.WriteEndElement();//dateTimeSymbols
+
+                    writer.WriteStartElement("numberPatterns");
+                        writer.WriteStartElement("numberPattern");
+                        writer.WriteAttributeString("name","numeric");
+                        writer.WriteString("z,zz9.zzz");
+                        writer.WriteEndElement();//numberPattern
+                        writer.WriteStartElement("numberPattern");
+                        writer.WriteAttributeString("name","currency");
+                        writer.WriteString("$z,zz9.99|($z,zz9.99)");
+                        writer.WriteEndElement();//numberPattern
+                        writer.WriteStartElement("numberPattern");
+                        writer.WriteAttributeString("name","percent");
+                        writer.WriteString("z,zz9%");
+                        writer.WriteEndElement();//numberPattern
+                    writer.WriteEndElement();//numberPatterns
+                    
+                    writer.WriteStartElement("numberSymbols");
+                        writer.WriteStartElement("numberSymbol");
+                        writer.WriteAttributeString("name","decimal");
+                        writer.WriteString(".");
+                        writer.WriteEndElement();//numberSymbol
+                        writer.WriteStartElement("numberSymbol");
+                        writer.WriteAttributeString("name","grouping");
+                        writer.WriteString(",");
+                        writer.WriteEndElement();//numberSymbol
+                        writer.WriteStartElement("numberSymbol");
+                        writer.WriteAttributeString("name","percent");
+                        writer.WriteString("%");
+                        writer.WriteEndElement();//numberSymbol
+                        writer.WriteStartElement("numberSymbol");
+                        writer.WriteAttributeString("name","minus");
+                        writer.WriteString("-");
+                        writer.WriteEndElement();//numberSymbol
+                        writer.WriteStartElement("numberSymbol");
+                        writer.WriteAttributeString("name","zero");
+                        writer.WriteString("0");
+                        writer.WriteEndElement();//numberSymbol
+                    writer.WriteEndElement();//numberSymbols
+
+                    writer.WriteStartElement("currencySymbols");
+                        writer.WriteStartElement("currencySymbol");
+                        writer.WriteAttributeString("name","symbol");
+                        writer.WriteString("$");
+                        writer.WriteEndElement();//currencySymbol
+                        writer.WriteStartElement("currencySymbol");
+                        writer.WriteAttributeString("name","isoname");
+                        writer.WriteString("USD");
+                        writer.WriteEndElement();//currencySymbol
+                        writer.WriteStartElement("currencySymbol");
+                        writer.WriteAttributeString("name","decimal");
+                        writer.WriteString(".");
+                        writer.WriteEndElement();//currencySymbol
+                    writer.WriteEndElement();//currencySymbols
+
+
+
+                    writer.WriteStartElement("typefaces");
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Myraid Pro");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Minion Pro");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Courier Std");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Pi Std");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Hebrew");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Arabic");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Thai");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Kozuka Gothic Pro-VI M");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Kozuka Mincho Pro-VI R");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Ming Std L");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Song Std L");
+                        writer.WriteEndElement();//typeface
+                        writer.WriteStartElement("typeface");
+                            writer.WriteAttributeString("name","Adobe Myungjo Std M");
+                        writer.WriteEndElement();//typeface
+                    writer.WriteEndElement();//typefaces
+                
+                writer.WriteEndElement();//locale
+                writer.WriteEndElement();//localeSet
+                
+
+
+
+                writer.WriteStartElement(adobeXPrefix, "xmpmeta", adobeXNs);
+                writer.WriteAttributeString("xmlns", "x", null, adobeXNs);
+                writer.WriteAttributeString(adobeXPrefix, "xmptk", null, "Adobe XMP Core 4.2.1-c041 52.337767, 2008/04/13-15:41:00        ");
+
+                    writer.WriteStartElement( adobeRdfPrefix, "RDF" , adobeRdfNs);
+
+                        writer.WriteStartElement( adobeRdfPrefix, "Description", null);
+                        writer.WriteAttributeString("xmlns", adobeXmpPrefix, null, adobeXmpNs);
+                        writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
+
+                            writer.WriteStartElement( adobeXmpPrefix, "MetadataDate", null);
+                            writer.WriteString("2013-07-24T19:12:33Z");//TODO - FIX THIS -> (System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());
+                            writer.WriteEndElement();//MetadataDate
+                            
+                            writer.WriteStartElement(adobeXmpPrefix,"CreatorTool",null);
+                            writer.WriteString("Adobe LiveCycle Designer ES 9.0");
+                            writer.WriteEndElement();//CreatorTool
+                        writer.WriteEndElement();//Description
+
+                        writer.WriteStartElement( adobeRdfPrefix, "Description", null);
+                        writer.WriteAttributeString("xmlns", adobePdfPrefix, null, "http://ns.adobe.com/pdf/1.3/");
+                        writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
+
+                            writer.WriteStartElement( adobePdfPrefix, "Producer", null );
+                            writer.WriteString("Adobe LiveCycle Designer ES 9.0");
+                            writer.WriteEndElement();//Producer
+                        writer.WriteEndElement();//Description
+
+                        writer.WriteStartElement( adobeRdfPrefix, "Description", null);
+                        writer.WriteAttributeString("xmlns", adobexmpMMPrefix, null, "http://ns.adobe.com/xap/1.0/mm/");
+                        writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
+
+                            writer.WriteStartElement( adobexmpMMPrefix, "DocumentID", null );
+                            writer.WriteString("uuid:6f5407a5-74a5-403e-8859-47473cec5c21");
+                            writer.WriteEndElement();//Producer
+                        writer.WriteEndElement();//Description
+
+
+                        writer.WriteStartElement( adobeRdfPrefix, "Description", null);
+                        writer.WriteAttributeString("xmlns", adobeDcPrefix, null, "http://purl.org/dc/elements/1.1/");
+                        writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
+                        //TODO - FIX THIS ->   <rdf:li xml:lang="x-default">Test Form</rdf:li>
+
+                            writer.WriteStartElement( adobeDcPrefix, "title", null );
+                                writer.WriteStartElement(adobeRdfPrefix, "Alt", null);
+                                    writer.WriteStartElement(adobeRdfPrefix, "li", null);
+                            
+                                    writer.WriteEndElement();//title        
+                                writer.WriteEndElement();//Alt    
+                            writer.WriteEndElement();//li
+                        writer.WriteEndElement();//Description
+
+
+                        writer.WriteStartElement( adobeRdfPrefix, "Description", null);
+                        writer.WriteAttributeString("xmlns", adobeDescPrefix, null, "http://ns.adobe.com/xfa/promoted-desc/");
+                        writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
+
+                            writer.WriteStartElement( adobeDescPrefix, "version", null );
+                            writer.WriteAttributeString(adobeRdfPrefix, "parseType", null, "Resource");
+               
+                                writer.WriteStartElement(adobeRdfPrefix, "value", null);
+                                writer.WriteString("8.2.1.4029.1.523496.503679");
+                                writer.WriteEndElement();//value
+
+                                writer.WriteStartElement(adobeDescPrefix,"ref", null);
+                                writer.WriteString("/template/subform[1]");
+                                writer.WriteEndElement();//ref
+
+                        writer.WriteEndElement();//value
+
+                            
+                        
+                        
+                        writer.WriteEndElement();//Description
+
+
+                writer.WriteEndElement();//xmpmeta
+
+
+                  /*  writer.WriteStartElement(adobeRdfPrefix,"RDF",adobeRdfNs);
+                        writer.WriteStartElement(adobeRdfPrefix, "Description", adobeXmpNs);
+
+                        writer.WriteAttributeString(adobeXmpPrefix , "about", adobeXmpNs, @"");
+
+                  */
+
+
+
                 writer.WriteEndDocument();
             }
 
