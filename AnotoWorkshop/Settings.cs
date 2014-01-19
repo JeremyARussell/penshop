@@ -9,61 +9,50 @@ namespace AnotoWorkshop {
     internal class Settings {
 
         #region Variables
+        #region File Paths
         public string formsFolderLocation = @"";
         public string exportFolder = @"";
-
+        #endregion File Paths
+        #region Network Settings
+        private string _dbConnectionString;
+        #endregion Network Settings
         #region Tutorial Flags
         public bool visitedLoadingScreen;
         public bool visitedImportWizard;
         public bool visitedSettingsScreen;
-        //public bool visitedAliasBuilder;
-        //public bool visitedImportWizard;
-        //public bool visitedImportWizard;
-        //public bool visitedImportWizard;
-        //public bool visitedImportWizard;
-        //public bool visitedImportWizard;
-        //public bool visitedImportWizard;
         #endregion Tutorial Flags
-
-        private string _saveDirectory = System.Windows.Forms.Application.StartupPath;
+        #region Private Variables
+        private string _saveDirectory = Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Alias> _globalAliases;
 
         private static Settings _instance;
-
-
+        #endregion Private Variables
         #endregion Variables
 
         #region Instance Management
-
         public static Settings instance {
-            get {
-                if (_instance == null) {
-                    _instance = new Settings();
-                }
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new Settings()); }
         }
 
         private Settings() {
             loadFromFile();
-
         }
-
         #endregion Instance Management
 
         #region Create New File
-
         private void createNewFile() {
-            formsFolderLocation = @"C:\PenForms\";//TODO - Turn into a message box like the adding textfield
+            formsFolderLocation = @"C:\PenForms\";//TODO - See if I need to either turn this into a mbox or if it is and I just need to make this blank
             saveToFile();
         }
-
         #endregion Create New File
 
         #region File Loading
         private readonly XmlDocument _dom = new XmlDocument();
 
+        /// <summary>
+        /// Load the global settings with the information from a settings.xml file.
+        /// </summary>
         public void loadFromFile() {
             _globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Alias>();
@@ -76,14 +65,16 @@ namespace AnotoWorkshop {
                 while (node.Read()) {
 
                     #region Load General Settings
-                    if (node.Name == @"General") {//Loading the misc FormatSets
+                    //Loading the filepaths, etc.
+                    if (node.Name == @"General") {
                         formsFolderLocation = node["formsFolderLocation"].ToString();
                         exportFolder = node["exportFolder"].ToString();
                     }
                     #endregion Load General Settings
 
                     #region Load FormatSets
-                    if (node.Name == @"FormatSet") {//Loading the misc FormatSets
+                    //Loading the misc FormatSets
+                    if (node.Name == @"FormatSet") {
                         string tempKey = node["name"].ToString();
                         string tempFont = node["fontType"].ToString();
                         int tempFontSize = Convert.ToInt32(node["fontSize"].ToString());
@@ -101,24 +92,12 @@ namespace AnotoWorkshop {
                     #endregion Load FormatSets
 
                     #region Load Visisted Flags
-
                     if (node.Name == @"Flags") {
                         bool.TryParse(node["visitedLoadingScreen"], out visitedLoadingScreen);
                         bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
                         bool.TryParse(node["visitedSettingsScreen"], out visitedSettingsScreen);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
-                        //bool.TryParse(node["visitedImportWizard"], out visitedImportWizard);
                     }
-
                     #endregion Load Visited Flags
-
                 }
             }
 
@@ -163,18 +142,16 @@ namespace AnotoWorkshop {
                     writer.WriteEndElement();//FormatSet
                 }
 
-                writer.WriteEndElement();//FormatSet
+                writer.WriteEndElement();//FormatSets
                 #endregion Saving Format Sets
 
                 #region First Time Flags
-
                 writer.WriteStartElement("Flags");
                 writer.WriteAttributeString("visitedLoadingScreen", visitedLoadingScreen.ToString());
                 writer.WriteAttributeString("visitedImportWizard", visitedImportWizard.ToString());
                 writer.WriteAttributeString("visitedSettingsScreen", visitedSettingsScreen.ToString());
 
                 writer.WriteEndElement();//Flags
-
                 #endregion First Time Flags
 
                 writer.WriteEndElement();//Settings
@@ -184,25 +161,20 @@ namespace AnotoWorkshop {
         #endregion File Saving
 
         #region Upgrading
-
         private void upgradeSettingsFile() {//Just in case an upgrade requires careful handling of the settings file itself
             //Load current settings -> Create new version of settings file -> rename old settings file for roll-back purposes->
             //Save new settings file -> confirm settings are fine and reopen program.
         }
-
         #endregion Upgrading
 
         #region Aliases
-
         public Dictionary<string, Alias> globalAliases {
             get { return _globalAliases; }
             set { _globalAliases = value; }
         }
-
         #endregion Aliases
 
         #region FormatSets
-
         public Dictionary<string, FormatSet> globalFormatSet {
             get { return _globalFormatSet; }
             set { _globalFormatSet = value; }
@@ -216,8 +188,28 @@ namespace AnotoWorkshop {
         public FormatSet getFormatSetByName(string name) {
             return _globalFormatSet[name];
         }
-
         #endregion FormatSets
+
+        #region Database Connection String
+        public string dbConnectionString {
+            get { return _dbConnectionString; }
+            set { _dbConnectionString = value; }
+        }
+
+        public void buildDbConnectionString(string user, string pass, string server,
+                                          string trusted, string dbName, int timeout) {
+
+            string workingString = "user id=" + user + ";" +
+                                   "password=" + pass + ";" + 
+                                   "server=server\\" + server + ";" + 
+                                   "Trusted_Connection=" + trusted + ";" +
+                                   "database=" + dbName + "; " + 
+                                   "connection timeout=" + timeout.ToString() +"";
+
+            _dbConnectionString = workingString;
+        }
+
+        #endregion Database Connection String
 
     }
 }

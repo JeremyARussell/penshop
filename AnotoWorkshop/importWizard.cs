@@ -87,7 +87,7 @@ namespace AnotoWorkshop {
             bool needToBreak = false;
 
             for (int i = 0; i < _formatSets.Count; i++) {
-                if (needToBreak) break;
+                if (needToBreak) break;//run through all the format sets to make sure there are no duplicate names, displays a message if there is.
                 if (txtSetName.Text == _formatSets[i].name) {
                     if (i == _activeFormatSet) break;
                     MessageBox.Show("The Format Set name " + txtSetName.Text + " is already taken. Please choose another."

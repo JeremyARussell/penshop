@@ -616,7 +616,22 @@ namespace AnotoWorkshop {
             deselectAll();
 
             _mode = MouseMode.Adding;
-            _fieldToAdd = new Field(Interaction.InputBox("Name of TextField?"), Type.TextField);
+
+            //Testing Grounds///
+            string fieldName = "";
+
+            using (var form = new fieldSelection()) {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    string val = form.name;
+
+                    fieldName = val;
+                }
+            }
+
+            //Testing Grounds End///
+
+            _fieldToAdd = new Field(fieldName, Type.TextField);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 

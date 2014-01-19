@@ -10,9 +10,9 @@ namespace AnotoWorkshop {
         #region Variables
         //Public Variables
         public string FormName;
-        public string thisFormsPath; //Todo - Internal Filepath for forms
+        public string thisFormsPath; //Todo - Internal Filepath for forms, needed during import really
 
-        private List<FormPage> _formPages = new List<FormPage>();//TODO - Undid my privitizing of FormPages - it made it to where I couldn't access the functions in the class. Need to create public interface to this section when I get home.
+        private List<FormPage> _formPages = new List<FormPage>();
         private int _formVersion;
         private int _totalPages;
 
