@@ -82,7 +82,7 @@ namespace AnotoWorkshop {
         #region SQL Loader
 
         private void btnOpenSQLform_Click(object sender, EventArgs e) {
-            new Thread(() => new fieldSelection().ShowDialog()).Start();
+            //new Thread(() => new fieldSelection().ShowDialog()).Start();
         }
 
         #endregion SQL Loader

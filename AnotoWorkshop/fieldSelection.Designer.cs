@@ -39,7 +39,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(148, 89);
+            this.label1.Location = new System.Drawing.Point(12, 112);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 1;
@@ -74,15 +74,15 @@
             // lstNames
             // 
             this.lstNames.FormattingEnabled = true;
-            this.lstNames.Location = new System.Drawing.Point(151, 110);
+            this.lstNames.Location = new System.Drawing.Point(116, 112);
             this.lstNames.Name = "lstNames";
-            this.lstNames.Size = new System.Drawing.Size(223, 147);
+            this.lstNames.Size = new System.Drawing.Size(315, 329);
             this.lstNames.TabIndex = 7;
             // 
             // btnSelectName
             // 
             this.btnSelectName.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSelectName.Location = new System.Drawing.Point(420, 224);
+            this.btnSelectName.Location = new System.Drawing.Point(459, 418);
             this.btnSelectName.Name = "btnSelectName";
             this.btnSelectName.Size = new System.Drawing.Size(76, 23);
             this.btnSelectName.TabIndex = 8;
@@ -94,7 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 282);
+            this.ClientSize = new System.Drawing.Size(547, 453);
             this.Controls.Add(this.btnSelectName);
             this.Controls.Add(this.lstNames);
             this.Controls.Add(this.textBox1);

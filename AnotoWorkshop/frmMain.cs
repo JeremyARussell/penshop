@@ -620,7 +620,7 @@ namespace AnotoWorkshop {
             //Testing Grounds///
             string fieldName = "";
 
-            using (var form = new fieldSelection()) {
+            using (var form = new fieldSelection(_temps)) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
@@ -748,8 +748,6 @@ namespace AnotoWorkshop {
             currentForm.saveForm();
 
             lblVersionNumber.Text = currentForm.versionNumber.ToString();
-
-            //TODO - Placeholder for EPS and PNG exporting, using the designPanel's white page area
         }
 
         #endregion Export Form Button
@@ -1096,6 +1094,20 @@ namespace AnotoWorkshop {
         void openForm() {
             pngExporter exporter = new pngExporter(currentForm.page(_currentPageNumber));
             exporter.ShowDialog();
+        }
+
+        List<string> _temps = new List<string>();
+
+        private void btnTemplatesList_Click(object sender, EventArgs e) {
+
+            using (var form = new templateSelection(_temps)) {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    List<string> val = form.templates;
+
+                    _temps = val;
+                }
+            }
         }
 
     }

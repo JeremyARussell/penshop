@@ -99,6 +99,12 @@
     <Compile Include="aliasBuilder.Designer.cs">
       <DependentUpon>aliasBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="templateSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="templateSelection.Designer.cs">
+      <DependentUpon>templateSelection.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="fieldSelection.resx">
       <DependentUpon>fieldSelection.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="aliasBuilder.resx">
       <DependentUpon>aliasBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templateSelection.resx">
+      <DependentUpon>templateSelection.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">

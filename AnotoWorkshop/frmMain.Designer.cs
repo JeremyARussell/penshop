@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabDesigner = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.lblVersionNumber = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -100,8 +102,7 @@
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
+            this.btnTemplatesList = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -140,6 +141,7 @@
             // 
             // tabDesigner
             // 
+            this.tabDesigner.Controls.Add(this.btnTemplatesList);
             this.tabDesigner.Controls.Add(this.button1);
             this.tabDesigner.Controls.Add(this.btnLoadSettingsScreen);
             this.tabDesigner.Controls.Add(this.lblVersionNumber);
@@ -161,6 +163,28 @@
             this.tabDesigner.TabIndex = 1;
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(508, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 23);
+            this.button1.TabIndex = 33;
+            this.button1.Text = "Export Form";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnLoadSettingsScreen
+            // 
+            this.btnLoadSettingsScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(1274, 3);
+            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
+            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(32, 32);
+            this.btnLoadSettingsScreen.TabIndex = 32;
+            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // lblVersionNumber
             // 
@@ -921,27 +945,15 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // button1
+            // btnTemplatesList
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(508, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(31, 23);
-            this.button1.TabIndex = 33;
-            this.button1.Text = "Export Form";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnLoadSettingsScreen
-            // 
-            this.btnLoadSettingsScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
-            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(1274, 3);
-            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
-            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(32, 32);
-            this.btnLoadSettingsScreen.TabIndex = 32;
-            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
-            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
+            this.btnTemplatesList.Location = new System.Drawing.Point(944, 8);
+            this.btnTemplatesList.Name = "btnTemplatesList";
+            this.btnTemplatesList.Size = new System.Drawing.Size(75, 23);
+            this.btnTemplatesList.TabIndex = 34;
+            this.btnTemplatesList.Text = "Templates";
+            this.btnTemplatesList.UseVisualStyleBackColor = true;
+            this.btnTemplatesList.Click += new System.EventHandler(this.btnTemplatesList_Click);
             // 
             // frmMain
             // 
@@ -1060,6 +1072,7 @@
         private System.Windows.Forms.Button btnPrevProp;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnTemplatesList;
     }
 }
 
