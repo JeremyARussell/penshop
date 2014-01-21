@@ -20,14 +20,25 @@ namespace AnotoWorkshop {
             InitializeComponent();
         }
 
-        private void btnLoadTemplates_Click(object sender, EventArgs e) {
+        private void btnOkay_Click(object sender, EventArgs e) {
+            _workingTemplates.Clear();
+
+            foreach(var test in chklstTemplates.CheckedItems) {
+                _workingTemplates.Add(test.ToString());
+
+            }
+
+            templates = _workingTemplates;
+
+            Close();
+        }
+
+        private void templateSelection_Load(object sender, EventArgs e) {
             try {
                 SqlConnection myConnection = new SqlConnection("user id=sa;" +
                                             "password=password17;server=server\\pentesting;" + "Trusted_Connection=no;" +
                                             "database=pentestingdata; " + "connection timeout=10");
                 myConnection.Open();
-
-                //TESTING GROUNDS///
 
                 try {
                     SqlCommand createTable = new SqlCommand("SELECT DISTINCT table_name FROM template_fields",
@@ -50,8 +61,6 @@ namespace AnotoWorkshop {
                     Console.WriteLine(s.ToString());
                 }
 
-                //TESTING GROUNDS END///
-
                 myConnection.Close();
 
             } catch (SqlException ex) {
@@ -59,20 +68,5 @@ namespace AnotoWorkshop {
                 throw;
             }
         }
-
-        private void btnOkay_Click(object sender, EventArgs e) {
-            _workingTemplates.Clear();
-
-            foreach(var test in chklstTemplates.CheckedItems) {
-                _workingTemplates.Add(test.ToString());
-
-            }
-
-            templates = _workingTemplates;
-
-            Close();
-        }
-
-        
     }
 }

@@ -28,20 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLoadTemplates = new System.Windows.Forms.Button();
             this.btnOkay = new System.Windows.Forms.Button();
             this.chklstTemplates = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
-            // 
-            // btnLoadTemplates
-            // 
-            this.btnLoadTemplates.Location = new System.Drawing.Point(13, 13);
-            this.btnLoadTemplates.Name = "btnLoadTemplates";
-            this.btnLoadTemplates.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadTemplates.TabIndex = 0;
-            this.btnLoadTemplates.Text = "TestLoad";
-            this.btnLoadTemplates.UseVisualStyleBackColor = true;
-            this.btnLoadTemplates.Click += new System.EventHandler(this.btnLoadTemplates_Click);
             // 
             // btnOkay
             // 
@@ -57,9 +46,9 @@
             // chklstTemplates
             // 
             this.chklstTemplates.FormattingEnabled = true;
-            this.chklstTemplates.Location = new System.Drawing.Point(13, 42);
+            this.chklstTemplates.Location = new System.Drawing.Point(12, 12);
             this.chklstTemplates.Name = "chklstTemplates";
-            this.chklstTemplates.Size = new System.Drawing.Size(242, 289);
+            this.chklstTemplates.Size = new System.Drawing.Size(243, 319);
             this.chklstTemplates.TabIndex = 3;
             // 
             // templateSelection
@@ -69,16 +58,15 @@
             this.ClientSize = new System.Drawing.Size(267, 374);
             this.Controls.Add(this.chklstTemplates);
             this.Controls.Add(this.btnOkay);
-            this.Controls.Add(this.btnLoadTemplates);
             this.Name = "templateSelection";
             this.Text = "Select Templates";
+            this.Load += new System.EventHandler(this.templateSelection_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnLoadTemplates;
         private System.Windows.Forms.Button btnOkay;
         private System.Windows.Forms.CheckedListBox chklstTemplates;
     }
