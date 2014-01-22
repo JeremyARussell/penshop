@@ -459,7 +459,7 @@ namespace AnotoWorkshop {
             //Create the export directory if it doesn't exist already. 
             Directory.CreateDirectory(_settings.exportFolder);
             //Write out the xml document and save it.
-            using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xml", settings)) {
+            using (XmlWriter writer = XmlWriter.Create(_settings.exportFolder + @"\" + FormName + "." + versionString + ".xdp", settings)) {
                 writer.WriteStartDocument();
 
                 writer.WriteProcessingInstruction("xfa", "generator=\"AdobeLiveCycleDesignerES_V9.0.0.2.20120627.2.874785\" APIVersion=\"3.1.20001.0\"");

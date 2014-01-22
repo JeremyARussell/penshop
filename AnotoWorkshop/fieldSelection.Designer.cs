@@ -83,13 +83,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 453);
+            this.ClientSize = new System.Drawing.Size(340, 453);
             this.Controls.Add(this.btnSelectName);
             this.Controls.Add(this.lstNames);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "fieldSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "fieldSelection";
             this.Load += new System.EventHandler(this.fieldSelection_Load);
             this.ResumeLayout(false);

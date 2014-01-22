@@ -59,6 +59,7 @@
             this.Controls.Add(this.chklstTemplates);
             this.Controls.Add(this.btnOkay);
             this.Name = "templateSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Templates";
             this.Load += new System.EventHandler(this.templateSelection_Load);
             this.ResumeLayout(false);

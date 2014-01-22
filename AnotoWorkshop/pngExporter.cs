@@ -90,10 +90,10 @@ namespace AnotoWorkshop
                     }
                 }
             }
-        
+
         }
 
-        private void designPanel_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Bitmap bitTest = new Bitmap(612, 792);
 
@@ -104,7 +104,7 @@ namespace AnotoWorkshop
             using (MagickImage image = new MagickImage(bitTest))
             {
                 //image.
-                image.Write(_settings.exportFolder + @"\test.eps");
+                image.Write(_settings.exportFolder + @"\test.eps");//TODO32 - Name of eps file
             }
         }
     }

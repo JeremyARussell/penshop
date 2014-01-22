@@ -30,8 +30,10 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.designPanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +47,10 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.designPanel);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Size = new System.Drawing.Size(719, 740);
             this.splitContainer1.SplitterDistance = 686;
             this.splitContainer1.TabIndex = 0;
@@ -59,8 +65,17 @@
             this.designPanel.Name = "designPanel";
             this.designPanel.Size = new System.Drawing.Size(719, 686);
             this.designPanel.TabIndex = 2;
-            this.designPanel.Click += new System.EventHandler(this.designPanel_Click);
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designPanel_Paint);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(552, 15);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pngExporter
             // 
@@ -72,6 +87,7 @@
             this.Text = "pngExporter";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -82,5 +98,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         public System.Windows.Forms.Panel designPanel;
+        private System.Windows.Forms.Button button1;
     }
 }
