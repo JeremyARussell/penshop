@@ -38,9 +38,16 @@ namespace AnotoWorkshop {
             foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
                 cmbFontList.Items.Add(font.Name);
             }
-
+            //Populate folder paths
             txtFormsFolder.Text = _settings.formsFolderLocation;
             txtExportFolder.Text = _settings.exportFolder;
+            //Populate dv connection settings
+            txtDbUser.Text = _settings.dbcUser;
+            txtDbPass.Text = _settings.dbcPassword;
+            txtDbServer.Text = _settings.dbcServerName;
+            cmbDbTrusted.Text = _settings.dbcTrusted;
+            txtDbName.Text = _settings.dbcDatabaseName;
+            nmrTimeout.Value = _settings.dbcTimeout;
 
             refreshList();
 
@@ -53,6 +60,24 @@ namespace AnotoWorkshop {
             
             _settings.saveToFile();
         }
+
+        #region Folder Paths
+
+        #endregion
+
+        #region Db Connection Settings
+        private void btnSaveDb_Click(object sender, EventArgs e)
+        {
+            _settings.dbcUser = txtDbUser.Text;
+            _settings.dbcPassword = txtDbPass.Text;
+            _settings.dbcServerName = txtDbServer.Text;
+            _settings.dbcTrusted = cmbDbTrusted.Text;
+            _settings.dbcDatabaseName = txtDbName.Text;
+            _settings.dbcTimeout = (int)nmrTimeout.Value;
+
+            needToSaveSettings = true;
+        }
+        #endregion Db Connection Settings
 
         #region Format Sets
 
@@ -209,6 +234,7 @@ namespace AnotoWorkshop {
                 workingFormatSet.name = txtSetName.Text;
             }
         }
+
 
 
 

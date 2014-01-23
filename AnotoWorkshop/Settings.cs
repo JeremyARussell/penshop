@@ -103,6 +103,19 @@ namespace AnotoWorkshop {
                         bool.TryParse(node["visitedSettingsScreen"], out visitedSettingsScreen);
                     }
                     #endregion Load Visited Flags
+
+                    #region Database Connection Information
+                    //Loading the database connection information
+                    if (node.Name == @"Connection") {
+                        _user = node["user"].ToString();
+                        _password = node["password"].ToString();
+                        _serverName = node["serverName"].ToString();
+                        _trusted = node["trusted"].ToString();
+                        _databaseName = node["databaseName"].ToString();
+                        _timeout = Convert.ToInt32(node["timeout"].ToString());
+                    }
+                     #endregion Database Connection Information
+
                 }
             }
 

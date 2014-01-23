@@ -48,22 +48,22 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnNewFormatSet = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtDbUser = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtDbPass = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtDbServer = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtDbName = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
-            this.cmbSetTrusted = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.nmrTimeout = new System.Windows.Forms.NumericUpDown();
+            this.btnSaveDb = new System.Windows.Forms.Button();
+            this.cmbDbTrusted = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -275,14 +275,6 @@
             this.shapeContainer1.TabIndex = 47;
             this.shapeContainer1.TabStop = false;
             // 
-            // lineShape1
-            // 
-            this.lineShape1.Name = "lineShape1";
-            this.lineShape1.X1 = 33;
-            this.lineShape1.X2 = 462;
-            this.lineShape1.Y1 = 75;
-            this.lineShape1.Y2 = 75;
-            // 
             // lineShape2
             // 
             this.lineShape2.Name = "lineShape2";
@@ -290,6 +282,14 @@
             this.lineShape2.X2 = 462;
             this.lineShape2.Y1 = 258;
             this.lineShape2.Y2 = 258;
+            // 
+            // lineShape1
+            // 
+            this.lineShape1.Name = "lineShape1";
+            this.lineShape1.X1 = 33;
+            this.lineShape1.X2 = 462;
+            this.lineShape1.Y1 = 75;
+            this.lineShape1.Y2 = 75;
             // 
             // label7
             // 
@@ -300,13 +300,13 @@
             this.label7.TabIndex = 49;
             this.label7.Text = "User";
             // 
-            // textBox1
+            // txtDbUser
             // 
-            this.textBox1.Location = new System.Drawing.Point(92, 95);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(158, 20);
-            this.textBox1.TabIndex = 48;
+            this.txtDbUser.Location = new System.Drawing.Point(92, 95);
+            this.txtDbUser.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDbUser.Name = "txtDbUser";
+            this.txtDbUser.Size = new System.Drawing.Size(158, 20);
+            this.txtDbUser.TabIndex = 48;
             // 
             // label8
             // 
@@ -317,13 +317,13 @@
             this.label8.TabIndex = 51;
             this.label8.Text = "Password";
             // 
-            // textBox2
+            // txtDbPass
             // 
-            this.textBox2.Location = new System.Drawing.Point(92, 119);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(158, 20);
-            this.textBox2.TabIndex = 50;
+            this.txtDbPass.Location = new System.Drawing.Point(92, 119);
+            this.txtDbPass.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDbPass.Name = "txtDbPass";
+            this.txtDbPass.Size = new System.Drawing.Size(158, 20);
+            this.txtDbPass.TabIndex = 50;
             // 
             // label9
             // 
@@ -334,94 +334,96 @@
             this.label9.TabIndex = 53;
             this.label9.Text = "Server";
             // 
-            // textBox3
+            // txtDbServer
             // 
-            this.textBox3.Location = new System.Drawing.Point(92, 143);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(158, 20);
-            this.textBox3.TabIndex = 52;
+            this.txtDbServer.Location = new System.Drawing.Point(92, 143);
+            this.txtDbServer.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDbServer.Name = "txtDbServer";
+            this.txtDbServer.Size = new System.Drawing.Size(158, 20);
+            this.txtDbServer.TabIndex = 52;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(20, 170);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.Size = new System.Drawing.Size(49, 13);
             this.label10.TabIndex = 55;
-            this.label10.Text = "Truested?";
+            this.label10.Text = "Trusted?";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(20, 194);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(67, 13);
+            this.label11.Size = new System.Drawing.Size(53, 13);
             this.label11.TabIndex = 57;
-            this.label11.Text = "Forms Folder";
+            this.label11.Tag = "";
+            this.label11.Text = "DB Name";
             // 
-            // textBox5
+            // txtDbName
             // 
-            this.textBox5.Location = new System.Drawing.Point(92, 191);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(158, 20);
-            this.textBox5.TabIndex = 56;
+            this.txtDbName.Location = new System.Drawing.Point(92, 191);
+            this.txtDbName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDbName.Name = "txtDbName";
+            this.txtDbName.Size = new System.Drawing.Size(158, 20);
+            this.txtDbName.TabIndex = 56;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(20, 218);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(67, 13);
+            this.label12.Size = new System.Drawing.Size(45, 13);
             this.label12.TabIndex = 59;
-            this.label12.Text = "Forms Folder";
+            this.label12.Text = "Timeout";
             // 
-            // numericUpDown1
+            // nmrTimeout
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(94, 217);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(156, 20);
-            this.numericUpDown1.TabIndex = 60;
+            this.nmrTimeout.Location = new System.Drawing.Point(94, 217);
+            this.nmrTimeout.Name = "nmrTimeout";
+            this.nmrTimeout.Size = new System.Drawing.Size(156, 20);
+            this.nmrTimeout.TabIndex = 60;
             // 
-            // button1
+            // btnSaveDb
             // 
-            this.button1.Location = new System.Drawing.Point(267, 218);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(43, 23);
-            this.button1.TabIndex = 61;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSaveDb.Location = new System.Drawing.Point(267, 218);
+            this.btnSaveDb.Name = "btnSaveDb";
+            this.btnSaveDb.Size = new System.Drawing.Size(43, 23);
+            this.btnSaveDb.TabIndex = 61;
+            this.btnSaveDb.Text = "Save";
+            this.btnSaveDb.UseVisualStyleBackColor = true;
+            this.btnSaveDb.Click += new System.EventHandler(this.btnSaveDb_Click);
             // 
-            // cmbSetTrusted
+            // cmbDbTrusted
             // 
-            this.cmbSetTrusted.FormattingEnabled = true;
-            this.cmbSetTrusted.Items.AddRange(new object[] {
+            this.cmbDbTrusted.FormattingEnabled = true;
+            this.cmbDbTrusted.Items.AddRange(new object[] {
             "yes",
             "no"});
-            this.cmbSetTrusted.Location = new System.Drawing.Point(94, 165);
-            this.cmbSetTrusted.Name = "cmbSetTrusted";
-            this.cmbSetTrusted.Size = new System.Drawing.Size(156, 21);
-            this.cmbSetTrusted.TabIndex = 62;
+            this.cmbDbTrusted.Location = new System.Drawing.Point(94, 165);
+            this.cmbDbTrusted.Name = "cmbDbTrusted";
+            this.cmbDbTrusted.Size = new System.Drawing.Size(156, 21);
+            this.cmbDbTrusted.TabIndex = 62;
             // 
             // settingsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 538);
-            this.Controls.Add(this.cmbSetTrusted);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.cmbDbTrusted);
+            this.Controls.Add(this.btnSaveDb);
+            this.Controls.Add(this.nmrTimeout);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.txtDbName);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtDbServer);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtDbPass);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDbUser);
             this.Controls.Add(this.btnNewFormatSet);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSaveFormsFolders);
@@ -449,7 +451,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.settingsScreen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrTimeout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -480,17 +482,17 @@
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDbUser;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtDbPass;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtDbServer;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtDbName;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox cmbSetTrusted;
+        private System.Windows.Forms.NumericUpDown nmrTimeout;
+        private System.Windows.Forms.Button btnSaveDb;
+        private System.Windows.Forms.ComboBox cmbDbTrusted;
     }
 }
