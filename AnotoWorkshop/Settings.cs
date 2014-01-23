@@ -14,7 +14,12 @@ namespace AnotoWorkshop {
         public string exportFolder = @"";
         #endregion File Paths
         #region Network Settings
-        private string _dbConnectionString;
+        private string _user;              //The user name used to access the database connection.
+        private string _password;          //The users password TODO - Encrypt this sucka.
+        private string _serverName;        //The name of the server on the network this connection is for.
+        private string _trusted;           //Whether or not we're using the windows truested method, or SQL.
+        private string _databaseName;      //The name of the database we'll be connecting to.
+        private int _timeout;              //How long we'll set the timeout for this connection.
         #endregion Network Settings
         #region Tutorial Flags
         public bool visitedLoadingScreen;
@@ -154,6 +159,19 @@ namespace AnotoWorkshop {
                 writer.WriteEndElement();//Flags
                 #endregion First Time Flags
 
+                #region Database Connection Information
+                writer.WriteStartElement("Connection");
+                writer.WriteAttributeString("user", _user);
+                writer.WriteAttributeString("password", _password);
+                writer.WriteAttributeString("serverName", _serverName);
+                writer.WriteAttributeString("trusted", _trusted);
+                writer.WriteAttributeString("databaseName", _databaseName);
+                writer.WriteAttributeString("timeout", _timeout.ToString());
+
+                writer.WriteEndElement();//Connection
+                #endregion Database Connection Information
+
+
                 writer.WriteEndElement();//Settings
                 writer.WriteEndDocument();
             }
@@ -192,23 +210,45 @@ namespace AnotoWorkshop {
 
         #region Database Connection String
         public string dbConnectionString {
-            get { return _dbConnectionString; }
-            set { _dbConnectionString = value; }
+            get { 
+      
+                string workingString = "user id=" + _user + ";" +
+                                   "password=" + _password + ";" + 
+                                   "server=server\\" + _serverName + ";" + 
+                                   "Trusted_Connection=" + _trusted + ";" +
+                                   "database=" + _databaseName + "; " + 
+                                   "connection timeout=" + _timeout.ToString() +"";
+
+                
+                return workingString; }
+
+            //set { There is no setter for this property }
         }
 
-        public void buildDbConnectionString(string user, string pass, string server,
-                                          string trusted, string dbName, int timeout) {
-
-            string workingString = "user id=" + user + ";" +
-                                   "password=" + pass + ";" + 
-                                   "server=server\\" + server + ";" + 
-                                   "Trusted_Connection=" + trusted + ";" +
-                                   "database=" + dbName + "; " + 
-                                   "connection timeout=" + timeout.ToString() +"";
-
-            _dbConnectionString = workingString;
+        public string dbcUser {
+            get { return _user; }
+            set { _user = value; }
         }
-
+        public string dbcPassword {
+            get { return _password; }
+            set { _password = value; }
+        }
+        public string dbcServerName {
+            get { return _serverName; }
+            set { _serverName = value; }
+        }
+        public string dbcTrusted {
+            get { return _trusted; }
+            set { _trusted = value; }
+        }
+        public string dbcDatabaseName {
+            get { return _databaseName; }
+            set { _databaseName = value; }
+        }
+        public int dbcTimeout {
+            get { return _timeout; }
+            set { _timeout = value; }
+        }
         #endregion Database Connection String
 
     }

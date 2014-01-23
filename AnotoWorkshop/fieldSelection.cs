@@ -8,7 +8,7 @@ namespace AnotoWorkshop {
     public partial class fieldSelection : Form {
         public string name {get;set;} 
         //public Liststring> names {get;set;} - TODO - FUTURE - Later on for multi name returns
-
+        Settings _settings = Settings.instance;
         StringBuilder templateString = new StringBuilder();
 
         public fieldSelection(List<string> templates ) {
