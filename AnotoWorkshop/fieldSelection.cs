@@ -39,9 +39,7 @@ namespace AnotoWorkshop {
 
         private void fieldSelection_Load(object sender, EventArgs e) {
             try {
-                SqlConnection myConnection = new SqlConnection("user id=sa;" +
-                                            "password=password17;server=server\\pentesting;" + "Trusted_Connection=no;" +
-                                            "database=pentestingdata; " + "connection timeout=10");//TODO - Put in the Settings.cs class
+                SqlConnection myConnection = new SqlConnection(_settings.dbConnectionString);
 
                 myConnection.Open();
 

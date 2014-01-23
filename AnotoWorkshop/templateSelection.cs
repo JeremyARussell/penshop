@@ -12,6 +12,7 @@ using System.Windows.Forms;
 namespace AnotoWorkshop {
     public partial class templateSelection : Form {
         public List<string> templates {get;set;}
+        Settings _settings = Settings.instance;
 
         List<string> _workingTemplates = new List<string>();
 
@@ -35,9 +36,7 @@ namespace AnotoWorkshop {
 
         private void templateSelection_Load(object sender, EventArgs e) {
             try {
-                SqlConnection myConnection = new SqlConnection("user id=sa;" +
-                                            "password=password17;server=server\\pentesting;" + "Trusted_Connection=no;" +
-                                            "database=pentestingdata; " + "connection timeout=10");
+                SqlConnection myConnection = new SqlConnection(_settings.dbConnectionString);
                 myConnection.Open();
 
                 try {
@@ -58,7 +57,7 @@ namespace AnotoWorkshop {
                 }
 
                 catch (Exception s) {
-                    Console.WriteLine(s.ToString());
+                    Console.WriteLine(s.Source.ToString());
                 }
 
                 myConnection.Close();

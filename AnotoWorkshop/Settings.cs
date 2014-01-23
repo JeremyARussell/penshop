@@ -227,7 +227,7 @@ namespace AnotoWorkshop {
       
                 string workingString = "user id=" + _user + ";" +
                                    "password=" + _password + ";" + 
-                                   "server=server\\" + _serverName + ";" + 
+                                   "server=" + _serverName + ";" + 
                                    "Trusted_Connection=" + _trusted + ";" +
                                    "database=" + _databaseName + "; " + 
                                    "connection timeout=" + _timeout.ToString() +"";
