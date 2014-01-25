@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace AnotoWorkshop {
 
@@ -41,6 +42,8 @@ namespace AnotoWorkshop {
         #region Form Loading
 
         public void checkForForms() {
+            lstvForms.Clear();
+
             try {
                 if (_settings.formsFolderLocation != null) {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
@@ -148,7 +151,12 @@ namespace AnotoWorkshop {
 
         private void btnNewForm_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Creating a new form isn't finished");
+            //MessageBox.Show("Creating a new form isn't finished");
+            PenForm newPenform = new PenForm();
+            newPenform.FormName = Interaction.InputBox("Name of form?");
+            newPenform.saveForm();
+
+            checkForForms();
         }
     }
 }

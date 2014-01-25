@@ -71,7 +71,10 @@ namespace AnotoWorkshop {
         }
 
         public PenForm() {
-            //For making new blank form later.
+            _settings = Settings.instance;
+
+            addNewBlankPage();
+
         }
 
         public List<FormPage> formPages {
