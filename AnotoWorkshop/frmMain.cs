@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using ImageMagick;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -745,6 +746,9 @@ namespace AnotoWorkshop {
 
             currentForm.versionNumber++;
             currentForm.exportXDP();
+            currentForm.exportEPS();
+            //currentForm.exportPNG();
+
             currentForm.saveForm();
 
             lblVersionNumber.Text = currentForm.versionNumber.ToString();
@@ -1067,33 +1071,8 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void trvFieldList_MouseEnter(object sender, EventArgs e)
-        {
+        private void trvFieldList_MouseEnter(object sender, EventArgs e) {
             ((TreeView)sender).Focus();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Eps Playground --
-
-            //Bitmap bitTest = new Bitmap(612, 792);
-
-            //designPanel.DrawToBitmap(bitTest, new Rectangle(0, 0, 612, 792));
-
-            //bitTest.Save(_settings.exportFolder + @"\test.bmp");
-            //Eps Playground --
-
-        Thread designerThread = new Thread((openForm));
-        designerThread.SetApartmentState(ApartmentState.STA);
-        designerThread.Start();     
-            
-        
-
-
-        }
-        void openForm() {
-            pngExporter exporter = new pngExporter(currentForm.page(_currentPageNumber));
-            exporter.ShowDialog();
         }
 
         List<string> _temps = new List<string>();
