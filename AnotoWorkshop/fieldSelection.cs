@@ -10,8 +10,11 @@ namespace AnotoWorkshop {
         //public Liststring> names {get;set;} - TODO - FUTURE - Later on for multi name returns
         Settings _settings = Settings.instance;
         StringBuilder templateString = new StringBuilder();
+        string typeString;
 
-        public fieldSelection(List<string> templates ) {
+        public fieldSelection(List<string> templates, string type ) {
+
+            typeString = type;
 
             templateString.Append("(table_name = '");
 
@@ -46,7 +49,7 @@ namespace AnotoWorkshop {
                 try {
                     SqlCommand createTable = new SqlCommand("SELECT * FROM template_fields " +
                                                             "WHERE " + templateString + " " +
-                                                            "AND field_type = 'Text' ",//TODO - Field Type
+                                                            "AND field_type = " + typeString + " ",//TODO - Field Type
                                                              myConnection);
                     SqlDataReader myReader = createTable.ExecuteReader();
 					

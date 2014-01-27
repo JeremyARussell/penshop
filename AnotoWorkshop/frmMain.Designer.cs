@@ -462,7 +462,6 @@
             this.btnNextProp.TabIndex = 33;
             this.btnNextProp.Text = ">>";
             this.btnNextProp.UseVisualStyleBackColor = true;
-            this.btnNextProp.Click += new System.EventHandler(this.btnNextProp_Click);
             // 
             // btnPrevProp
             // 
@@ -472,7 +471,6 @@
             this.btnPrevProp.TabIndex = 34;
             this.btnPrevProp.Text = "<<";
             this.btnPrevProp.UseVisualStyleBackColor = true;
-            this.btnPrevProp.Click += new System.EventHandler(this.btnPrevProp_Click);
             // 
             // label14
             // 
@@ -800,7 +798,8 @@
             this.trvFieldList.Name = "trvFieldList";
             this.trvFieldList.Size = new System.Drawing.Size(454, 413);
             this.trvFieldList.TabIndex = 20;
-            this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvFieldList_NodeMouseClick);
+            this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
+            this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.heirarchyViewClick);
             this.trvFieldList.MouseEnter += new System.EventHandler(this.trvFieldList_MouseEnter);
             // 
             // btnSaveForm

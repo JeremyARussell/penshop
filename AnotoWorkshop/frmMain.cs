@@ -33,13 +33,13 @@ namespace AnotoWorkshop {
         private void frmMain_Load(object sender, EventArgs e) {
             designerLoadStuff();//Misc things to initialize for the designer stuff
             //-Franklin - Refresh list of objects on load
-            if (selectedFields == null) {
+            /*if (selectedFields == null) {
                 selectedFields = new List<Field>();
                 lblCurrentProp.Text = "1";
                 lblTotalProp.Text = currentForm.page(_currentPageNumber).Fields.Count.ToString();
                 backC = trvFieldList.BackColor;
                 foreC = trvFieldList.ForeColor;
-            }
+            }*/
             buildFieldTree();
         }
 
@@ -56,6 +56,8 @@ namespace AnotoWorkshop {
         private Rectangle _selectionRect;
         private Field _fieldToAdd;
         private Rectangle _sfBoxRect;
+        private Rectangle _resRect;
+
         private Point _sfBoxMoveStart;
         private double _zoomLevel = 1.00;//Franklin
 
@@ -68,6 +70,7 @@ namespace AnotoWorkshop {
             None,
             Selecting,
             Selected,
+            Resizing,
             Adding
         }
 
@@ -106,10 +109,11 @@ namespace AnotoWorkshop {
                     case MouseMode.Selecting:
                         e.Graphics.DrawRectangle(_selectionPen, _selectionRect);
                         break;
-
                     case MouseMode.Selected://The selection box and editing widgets
+                    case MouseMode.Resizing:
                         if (_sfBoxRect.Height > 0) {
                             e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_sfBoxRect.X + _xOffset, _sfBoxRect.Y + _yOffset)), _sfBoxRect.Size));
+                            e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)), _resRect.Size));
                         }
                         break;
 
@@ -188,6 +192,8 @@ namespace AnotoWorkshop {
 
         #region Left Click
 
+
+
         #endregion Left Click
 
         #region Middle Click
@@ -208,6 +214,9 @@ namespace AnotoWorkshop {
 
         #endregion Mouse Related Variables
 
+
+        private float _resChange;
+
         private void designer_MouseDown(object sender, MouseEventArgs e) {//Controls the events that occur when the mouse is down. (not a click though, which is an down and up)
             if (currentForm.totalPages() > 0) {
                 _startPoint.X = e.X;
@@ -216,12 +225,27 @@ namespace AnotoWorkshop {
                 #region Left Click Down - Kind Done
 
                 if (e.Button == MouseButtons.Left) {
-                    if (!_sfBoxRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding) {//Neither Adding or clicking within the group selection box
+                    if (_resRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding) {
+                        _mode = MouseMode.Resizing;
+
+                    }
+                    
+                    if (!_sfBoxRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding && _mode != MouseMode.Resizing) {//Neither Adding or clicking within the group selection box
                         int notSelectedCount = 0;
                         foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {
+                                if(ModifierKeys.HasFlag(Keys.Control)) {
+                                    fi.selected = !fi.selected;
+                                } else {
+                                    fi.selected = true;
+                                }
                                 _mode = MouseMode.Selected;
                             } else {
+                                if(ModifierKeys.HasFlag(Keys.Control)) {
+                                    fi.selected = fi.selected;
+                                } else {
+                                    fi.selected = false;
+                                }
                                 ++notSelectedCount;
                                 if (notSelectedCount == currentForm.page(_currentPageNumber).Fields.Count) _mode = MouseMode.Selecting;
                                 _sfBoxRect = new Rectangle();
@@ -244,7 +268,15 @@ namespace AnotoWorkshop {
                                 _sfBoxMoveStart = new Point(_sfBoxRect.X, _sfBoxRect.Y);
                             }
                             break;
-
+                        case MouseMode.Resizing:
+                            
+                            if (e.Button == MouseButtons.Left) {//Preparing for moving fields/groups around.
+                                foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                                    fi.resizeStart = new Size(fi.zwidth, fi.zheight);
+                                }
+                                _resChange = 0.0f;
+                            }
+                            break;
                         case MouseMode.Adding:
                             //_fieldToAdd.zx = _startPoint.X;
                             // _fieldToAdd.zy = _startPoint.Y;
@@ -321,10 +353,20 @@ namespace AnotoWorkshop {
                                     fi.zy = fi.moveStart.Y - (_startPoint.Y - e.Y);
                                 }
                             }
-                            _sfBoxRect.X = _sfBoxMoveStart.X - (_startPoint.X - e.X);//Moving the blue selected items
-                            _sfBoxRect.Y = _sfBoxMoveStart.Y - (_startPoint.Y - e.Y);
+                            //_sfBoxRect.X = _sfBoxMoveStart.X - (_startPoint.X - e.X);//Moving the blue selected items
+                            //_sfBoxRect.Y = _sfBoxMoveStart.Y - (_startPoint.Y - e.Y);
+                            calculateSfBox();
                             break;
+                        case MouseMode.Resizing:
+                            _resChange = _startPoint.X - e.X;//Isn't used yet.
+                            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                                if (fi.selected) {
+                                    fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
 
+                                }
+                            }
+                            calculateSfBox();
+                            break;
                         case MouseMode.Adding:
                             if (e.X > _startPoint.X) {
                                 _selectionRect.X = _startPoint.X;
@@ -407,7 +449,11 @@ namespace AnotoWorkshop {
                         }
 
                         break;
+                    case MouseMode.Resizing:
+                        calculateSfBox();
 
+                        _mode = MouseMode.Selected;
+                        break;
                     case MouseMode.Adding:
                         if (_selectionRect.Width > 0 && _selectionRect.Height > 0) {
                             switch (_fieldToAdd.type) {
@@ -462,6 +508,7 @@ namespace AnotoWorkshop {
                 _endPoint = new Point();
                 _selectionRect = new Rectangle();
 
+                highlightHeirarchy();
                 designPanel.Invalidate();
             }
         }
@@ -492,6 +539,7 @@ namespace AnotoWorkshop {
             }
 
             _sfBoxRect = new Rectangle(sfBoxPosition, sfBoxSize);
+            _resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height));
         }
 
         #endregion The Designer
@@ -621,7 +669,7 @@ namespace AnotoWorkshop {
             //Testing Grounds///
             string fieldName = "";
 
-            using (var form = new fieldSelection(_temps)) {
+            using (var form = new fieldSelection(_temps, "Text")) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
@@ -640,7 +688,19 @@ namespace AnotoWorkshop {
             deselectAll();
 
             _mode = MouseMode.Adding;
-            _fieldToAdd = new Field(Interaction.InputBox("Name of TextField?"), Type.Checkbox);
+
+            string fieldName = "";
+
+            using (var form = new fieldSelection(_temps, "Text")) {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    string val = form.name;
+
+                    fieldName = val;
+                }
+            }
+
+            _fieldToAdd = new Field(fieldName, Type.Checkbox);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
@@ -727,6 +787,26 @@ namespace AnotoWorkshop {
 
         #endregion New Page
 
+        #region Save Form Button
+        private void btnSaveForm_Click(object sender, EventArgs e) {
+
+            if (_settings.formsFolderLocation == @"") {
+                FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK) {
+                    _settings.formsFolderLocation = openFileDialog1.SelectedPath;
+                }
+                if (result == DialogResult.Cancel) {
+                    MessageBox.Show("Without a folder to save to, I'll just cancel this process.", "No Save Path",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            }
+
+            currentForm.saveForm();
+        }
+        #endregion Save Form Button
+
         #region Export Form Button
 
         private void btnExportForm_Click(object sender, EventArgs e) {
@@ -755,6 +835,12 @@ namespace AnotoWorkshop {
         }
 
         #endregion Export Form Button
+
+        #region Settings Screen Button
+        private void btnLoadSettingsScreen_Click(object sender, EventArgs e) {
+            new settingsScreen().ShowDialog();
+        }
+        #endregion Settings Screen Button
 
         #endregion Form Controls
 
@@ -937,13 +1023,62 @@ namespace AnotoWorkshop {
             int c = 0;
             foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 fi.listIndex = c;
-                trvFieldList.Nodes.Add(fi.name);
+
+                TreeNode workingNode = new TreeNode(fi.name);
+                if(fi.selected) {
+                    workingNode.BackColor = SystemColors.Highlight;
+                    workingNode.ForeColor = SystemColors.HighlightText;
+                }
+                workingNode.Tag = c;
+                trvFieldList.Nodes.Add(workingNode);
                 c++;
             }
         }
 
+        private void heirarchyViewClick(object sender, TreeNodeMouseClickEventArgs e) {
+
+            if (ModifierKeys.HasFlag(Keys.Control)) {
+                currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = !currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected;
+            } else {
+                deselectAll();
+                currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = true;
+            }
+
+            highlightHeirarchy();
+
+            _mode = MouseMode.Selected;
+            calculateSfBox();
+            designPanel.Invalidate();
+
+
+        }
+
+        private void highlightHeirarchy() {
+            
+            foreach(Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if(fi.selected) {
+                    foreach (TreeNode tr in trvFieldList.Nodes) {
+                        if((int)tr.Tag == fi.listIndex) {
+                            tr.BackColor = SystemColors.Highlight;
+                            tr.ForeColor = SystemColors.HighlightText;
+                        }
+                    }
+                } else {
+                    foreach (TreeNode tr in trvFieldList.Nodes) {
+                        if((int)tr.Tag == fi.listIndex) {
+                            tr.BackColor = new TreeNode().BackColor;
+                            tr.ForeColor = new TreeNode().ForeColor;
+                        }
+                    }
+                }
+            }
+
+        }
+
         #endregion Field Tree Management
 
+        #region Franklin's Field Tree Management
+        /*
         bool multiSelecting = false;
         private Color backC;
         private Color foreC;
@@ -995,37 +1130,12 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void btnSaveForm_Click(object sender, EventArgs e) {
-
-            if (_settings.formsFolderLocation == @"") {
-                FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
-                DialogResult result = openFileDialog1.ShowDialog();
-                if (result == DialogResult.OK) {
-                    _settings.formsFolderLocation = openFileDialog1.SelectedPath;
-                }
-                if (result == DialogResult.Cancel) {
-                    MessageBox.Show("Without a folder to save to, I'll just cancel this process.", "No Save Path",
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-            }
-
-            currentForm.saveForm();
-        }
-
-
-
         public void sortSelectedByIndex() {
             selectedFields.Sort(
                 delegate(Field p1, Field p2) {
                     return p1.listIndex.CompareTo(p2.listIndex);
                 }
             );
-        }
-
-        private void btnLoadSettingsScreen_Click(object sender, EventArgs e)
-        {
-            new settingsScreen().ShowDialog();
         }
 
         private void btnNextProp_Click(object sender, EventArgs e) {
@@ -1070,6 +1180,11 @@ namespace AnotoWorkshop {
 
             }
         }
+        */
+        #endregion Franklin's Field Tree Management
+
+
+
 
         private void trvFieldList_MouseEnter(object sender, EventArgs e) {
             ((TreeView)sender).Focus();
@@ -1087,6 +1202,11 @@ namespace AnotoWorkshop {
                     _temps = val;
                 }
             }
+        }
+
+        private void trvFieldList_AfterSelect(object sender, TreeViewEventArgs e) {
+            trvFieldList.SelectedNode = null;
+            trvFieldList.Invalidate();
         }
 
     }

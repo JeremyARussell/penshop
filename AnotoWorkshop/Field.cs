@@ -41,6 +41,7 @@ namespace AnotoWorkshop {
         public int listIndex;
 
         public Point moveStart;
+        public Size resizeStart;
 
         public bool selected;
 
@@ -130,10 +131,10 @@ namespace AnotoWorkshop {
             if (locx > (int)(_x * _zoomLevel) && locy > (int)(_y * _zoomLevel) &&
                 locx < (int)(_x * _zoomLevel) + (int)(_width * _zoomLevel) &&
                 locy < (int)(_y * _zoomLevel) + (int)(_height * _zoomLevel)) {
-                selected = true;
+                //selected = true;
                 return true;
             }
-            selected = false;
+            //selected = false;
             return false;
         }
 
