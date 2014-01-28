@@ -758,6 +758,7 @@ namespace AnotoWorkshop {
             if (currentForm.page(_currentPageNumber).Fields[0] != null) _zoomLevel = currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
+            buildFieldTree();
             designPanel.Invalidate();
         }
 
@@ -774,6 +775,7 @@ namespace AnotoWorkshop {
             if (currentForm.page(_currentPageNumber).Fields.Capacity != 0) _zoomLevel = currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
+            buildFieldTree();
             designPanel.Invalidate();
         }
 
