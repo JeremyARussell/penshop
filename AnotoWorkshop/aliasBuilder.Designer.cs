@@ -136,6 +136,7 @@
             this.lstv_Variables.TabIndex = 15;
             this.lstv_Variables.UseCompatibleStateImageBehavior = false;
             this.lstv_Variables.View = System.Windows.Forms.View.Details;
+            this.lstv_Variables.DoubleClick += new System.EventHandler(this.lstv_Variables_DoubleClick);
             // 
             // Aliases
             // 
@@ -169,7 +170,7 @@
             this.Controls.Add(this.btnVarSave);
             this.Controls.Add(this.lstv_Variables);
             this.Controls.Add(this.txt_varQuery);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "aliasBuilder";
             this.Text = "Alias Builder";
             this.Load += new System.EventHandler(this.variablesBuilder_Load);

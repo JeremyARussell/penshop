@@ -34,7 +34,7 @@ namespace AnotoWorkshop {
             TheAliases = new List<Alias>();//Initializing
 
             int posAlongQuery = 7;
-            foreach (Match m in Regex.Matches(TheQuery, @"\sAS\s([^\s]+)")) {//Matches AS statements
+            foreach (Match m in Regex.Matches(TheQuery, @"\sAS\s([^\s]+)", RegexOptions.IgnoreCase)) {//Matches AS statements
                 if (!isInCast(m.Index)) { //If the index of this " AS " is NOT in a CAST/CONVERT*
                     //Grabbing the name
                     int nameLength = m.Value.Length - 4;
@@ -60,7 +60,7 @@ namespace AnotoWorkshop {
         }
 
         private bool isInCast(int i) {//Pretty straight forward, this take an index and checks if the words matched is within a CAST or CONVERT statement, returns true or false so appropriate actions can be taken.
-            foreach (Match m in Regex.Matches(TheQuery, @"CAST\(([^\)]+)\)|convert\(([^\)]+)\)|CONVERT\(([^\)]+)\)")) {//loop through search material for regex patterns that match convert and CAST statements
+            foreach (Match m in Regex.Matches(TheQuery, @"CAST\(([^\)]+)\)|convert\(([^\)]+)\)|CONVERT\(([^\)]+)\)", RegexOptions.IgnoreCase)) {//loop through search material for regex patterns that match convert and CAST statements
                 if (i > m.Index && i < m.Index + m.Length) {//If an AS is inside one of those statements the function returns true
                     return true;
                 }

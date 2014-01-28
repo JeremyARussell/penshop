@@ -135,7 +135,7 @@
             this.tabs.Margin = new System.Windows.Forms.Padding(0);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(1317, 968);
+            this.tabs.Size = new System.Drawing.Size(1317, 740);
             this.tabs.TabIndex = 1;
             // 
             // tabDesigner
@@ -157,7 +157,7 @@
             this.tabDesigner.Location = new System.Drawing.Point(4, 22);
             this.tabDesigner.Name = "tabDesigner";
             this.tabDesigner.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDesigner.Size = new System.Drawing.Size(1309, 942);
+            this.tabDesigner.Size = new System.Drawing.Size(1309, 714);
             this.tabDesigner.TabIndex = 1;
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
@@ -222,7 +222,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1295, 898);
+            this.splitContainer1.Size = new System.Drawing.Size(1295, 670);
             this.splitContainer1.SplitterDistance = 835;
             this.splitContainer1.TabIndex = 29;
             // 
@@ -234,7 +234,7 @@
             this.designPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.designPanel.Location = new System.Drawing.Point(0, 0);
             this.designPanel.Name = "designPanel";
-            this.designPanel.Size = new System.Drawing.Size(833, 896);
+            this.designPanel.Size = new System.Drawing.Size(833, 668);
             this.designPanel.TabIndex = 1;
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designer_Paint);
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
@@ -259,8 +259,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grpOldProtos);
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(456, 898);
-            this.splitContainer2.SplitterDistance = 431;
+            this.splitContainer2.Size = new System.Drawing.Size(456, 670);
+            this.splitContainer2.SplitterDistance = 321;
             this.splitContainer2.TabIndex = 30;
             // 
             // splitContainer3
@@ -276,7 +276,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.grpProperties);
-            this.splitContainer3.Size = new System.Drawing.Size(454, 429);
+            this.splitContainer3.Size = new System.Drawing.Size(454, 319);
             this.splitContainer3.SplitterDistance = 159;
             this.splitContainer3.TabIndex = 20;
             // 
@@ -294,7 +294,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(159, 429);
+            this.groupBox1.Size = new System.Drawing.Size(159, 319);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add Menu";
@@ -398,7 +398,7 @@
             this.grpProperties.Margin = new System.Windows.Forms.Padding(2);
             this.grpProperties.Name = "grpProperties";
             this.grpProperties.Padding = new System.Windows.Forms.Padding(2);
-            this.grpProperties.Size = new System.Drawing.Size(291, 429);
+            this.grpProperties.Size = new System.Drawing.Size(291, 319);
             this.grpProperties.TabIndex = 19;
             this.grpProperties.TabStop = false;
             this.grpProperties.Text = "Properties";
@@ -493,7 +493,7 @@
             // btnPropSave
             // 
             this.btnPropSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPropSave.Location = new System.Drawing.Point(194, 401);
+            this.btnPropSave.Location = new System.Drawing.Point(194, 291);
             this.btnPropSave.Name = "btnPropSave";
             this.btnPropSave.Size = new System.Drawing.Size(94, 23);
             this.btnPropSave.TabIndex = 20;
@@ -775,8 +775,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.trvFieldList);
-            this.splitContainer4.Size = new System.Drawing.Size(454, 461);
-            this.splitContainer4.SplitterDistance = 44;
+            this.splitContainer4.Size = new System.Drawing.Size(454, 343);
+            this.splitContainer4.SplitterDistance = 32;
             this.splitContainer4.TabIndex = 27;
             // 
             // btnRefreshFieldTree
@@ -796,7 +796,7 @@
             this.trvFieldList.Location = new System.Drawing.Point(0, 0);
             this.trvFieldList.Margin = new System.Windows.Forms.Padding(2);
             this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(454, 413);
+            this.trvFieldList.Size = new System.Drawing.Size(454, 307);
             this.trvFieldList.TabIndex = 20;
             this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
             this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.heirarchyViewClick);
@@ -945,7 +945,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 968);
+            this.ClientSize = new System.Drawing.Size(1317, 740);
             this.Controls.Add(this.tabs);
             this.KeyPreview = true;
             this.Name = "frmMain";
