@@ -40,6 +40,7 @@
             this.lstv_Variables = new System.Windows.Forms.ListView();
             this.Aliases = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txt_varQuery = new System.Windows.Forms.TextBox();
+            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label3
@@ -146,19 +147,30 @@
             // txt_varQuery
             // 
             this.txt_varQuery.AcceptsReturn = true;
-            this.txt_varQuery.Location = new System.Drawing.Point(10, 11);
+            this.txt_varQuery.Location = new System.Drawing.Point(10, 53);
             this.txt_varQuery.Multiline = true;
             this.txt_varQuery.Name = "txt_varQuery";
             this.txt_varQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_varQuery.Size = new System.Drawing.Size(385, 631);
+            this.txt_varQuery.Size = new System.Drawing.Size(423, 589);
             this.txt_varQuery.TabIndex = 14;
             this.txt_varQuery.WordWrap = false;
+            // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(164, 12);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(61, 23);
+            this.btnTest.TabIndex = 25;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // aliasBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1231, 694);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txt_QueryFrom);
             this.Controls.Add(this.txt_QueryWhere);
@@ -193,5 +205,6 @@
         private System.Windows.Forms.ListView lstv_Variables;
         private System.Windows.Forms.ColumnHeader Aliases;
         private System.Windows.Forms.TextBox txt_varQuery;
+        private System.Windows.Forms.Button btnTest;
     }
 }
