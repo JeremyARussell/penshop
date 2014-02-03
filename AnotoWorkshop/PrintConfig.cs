@@ -120,7 +120,7 @@ namespace AnotoWorkshop {
         }
 
         private bool isInParens(int i) {
-            foreach (Match m in Regex.Matches(_scheduleQuery, @"\(([^\)]+)\)")) {
+            foreach (Match m in Regex.Matches(_scheduleQuery, @"\([^()]*((?<paren>\()[^()]*|(?<close-paren>\))[^()]*)*(?(paren)(?!))\)")) {
                 if (i > m.Index && i < m.Index + m.Length) {
                     return true;
                 }
