@@ -13,8 +13,8 @@ namespace AnotoWorkshop {
         private string _configFilePath;
         private string _scheduleQuery;
 
-        private string _placeStringWhere;
-        private string _placeStringFrom;
+        //private string _placeStringWhere;
+        //private string _placeStringFrom;
 
         
 
@@ -49,12 +49,12 @@ namespace AnotoWorkshop {
 
             Match selMatch = Regex.Match(_scheduleQuery, @"select ", RegexOptions.IgnoreCase);
 
-            string testingstuff = _scheduleQuery.Substring(0, selMatch.Length);
-            sectionList.Add(sectionIndex, new Section(testingstuff));
+            string selectContents = _scheduleQuery.Substring(0, selMatch.Length);
+            sectionList.Add(sectionIndex, new Section(selectContents));
             sectionIndex++;
             posAlongQuery = selMatch.Length;
 
-            foreach(Match m in Regex.Matches(_scheduleQuery, @",\s|from|((left(\s+outer)?|inner)\s+)?join\b")) {
+            foreach(Match m in Regex.Matches(_scheduleQuery, @",\s")) {//Capturing the comma seperated columns and aliases
                 if(!isInQuote(m.Index) && !isInParens(m.Index) && !afterWhere(m.Index)) {
                     int tempStartPos = 0 + posAlongQuery;
                     int queryLength = m.Index + m.Value.Length;
@@ -67,7 +67,35 @@ namespace AnotoWorkshop {
                     sectionIndex++;
                 }
             }
+
+            //From spot
+            foreach(Match m in Regex.Matches(_scheduleQuery, @"from|((left(\s+outer)?|inner)\s+)?join\b")) {
+                if(!isInQuote(m.Index) && !isInParens(m.Index) && !afterWhere(m.Index)) {
+                    int tempStartPos = 0 + posAlongQuery;
+                    int queryLength = m.Index;// +m.Value.Length; - Seriously, programming is craycray sometimes.
+
+                    string workingQueryPart = _scheduleQuery.Substring(tempStartPos, queryLength - tempStartPos);
+
+                    sectionList.Add(sectionIndex, new Section(workingQueryPart));
+
+                    posAlongQuery = queryLength;
+                    sectionIndex++;
+                }
+            }
+
+            
+            
+            
+            
+            //Where spot
+            //Match whereMatch = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
+
                        
+
+
+
+
+
             //txt_varQuery.Text = _scheduleQuery/*TheQuery*/;//Don't need this as a placeholder for the text anymore, but it's usefull right now and I'll probably use it to for the time being to edit the query itself.
             // _aliasList - TheAliases = new List<Alias>();//Initializing
             /*
