@@ -47,13 +47,15 @@ namespace AnotoWorkshop {
             int posAlongQuery = 0;
             int sectionIndex = 1;
 
-            //Add the select part as 
+            Match selMatch = Regex.Match(_scheduleQuery, @"select ", RegexOptions.IgnoreCase);
 
+            string testingstuff = _scheduleQuery.Substring(0, selMatch.Length);
+            sectionList.Add(sectionIndex, new Section(testingstuff));
+            sectionIndex++;
+            posAlongQuery = selMatch.Length;
 
-
-
-            foreach(Match m in Regex.Matches(_scheduleQuery, @"select |,\s|from|((left(\s+outer)?|inner)\s+)?join\b|where")) {
-                if(!isInQuote(m.Index) && !isInParens(m.Index)) {
+            foreach(Match m in Regex.Matches(_scheduleQuery, @",\s|from|((left(\s+outer)?|inner)\s+)?join\b")) {
+                if(!isInQuote(m.Index) && !isInParens(m.Index) && !afterWhere(m.Index)) {
                     int tempStartPos = 0 + posAlongQuery;
                     int queryLength = m.Index + m.Value.Length;
                     //Grabbing the query based off the start and length
@@ -65,9 +67,7 @@ namespace AnotoWorkshop {
                     sectionIndex++;
                 }
             }
-            
-            
-            
+                       
             //txt_varQuery.Text = _scheduleQuery/*TheQuery*/;//Don't need this as a placeholder for the text anymore, but it's usefull right now and I'll probably use it to for the time being to edit the query itself.
             // _aliasList - TheAliases = new List<Alias>();//Initializing
             /*
@@ -96,9 +96,18 @@ namespace AnotoWorkshop {
             //form. 
             
             //Match test = Regex.Match(_scheduleQuery, @"WHERE", RegexOptions.IgnoreCase);
-            //_placeStringFrom = _scheduleQuery/*TheQuery*/.Substring(TheAliases[TheAliases.Count - 1].endPos, test.Index - TheAliases[TheAliases.Count - 1].endPos);//Snags the FROM section.
+            //_placeStringFrom = _scheduleQuery.Substring(TheAliases[TheAliases.Count - 1].endPos, test.Index - TheAliases[TheAliases.Count - 1].endPos);//Snags the FROM section.
 
-            //_placeStringWhere = _scheduleQueryTheQuery.Substring(TheAliases[TheAliases.Count - 1].endPos + test.Index - TheAliases[TheAliases.Count - 1].endPos);//And the WHERE section. With the conditions. TODO - create where grabber for the conditions.
+            //_placeStringWhere = _scheduleQuery.Substring(TheAliases[TheAliases.Count - 1].endPos + test.Index - TheAliases[TheAliases.Count - 1].endPos);//And the WHERE section. With the conditions. TODO - create where grabber for the conditions.
+        }
+
+        private bool afterWhere(int i) {
+            Match m = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
+            if (i > m.Index) {
+                return true;
+                
+                }
+            return false;
         }
 
         private bool isInCast(int i) {
@@ -134,7 +143,7 @@ namespace AnotoWorkshop {
         Select,
         Column,
         Alias,
-        PrimaryFrom,
+        From,
         Join,
         Where
 
