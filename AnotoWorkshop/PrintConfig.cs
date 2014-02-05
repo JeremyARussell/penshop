@@ -55,7 +55,10 @@ namespace AnotoWorkshop {
             posAlongQuery = selMatch.Length;
 
             foreach(Match m in Regex.Matches(_scheduleQuery, @",\s")) {//Capturing the comma seperated columns and aliases
-                if(!isInQuote(m.Index) && !isInParens(m.Index) && !afterWhere(m.Index)) {
+                if (!isInQuote(m.Index, _scheduleQuery) &&
+                    !isInParens(m.Index, _scheduleQuery) &&
+                    !afterWhere(m.Index, _scheduleQuery)) 
+                {
                     int tempStartPos = 0 + posAlongQuery;
                     int queryLength = m.Index + m.Value.Length;
                     //Grabbing the query based off the start and length
@@ -70,7 +73,7 @@ namespace AnotoWorkshop {
 
             //From spot
             foreach(Match m in Regex.Matches(_scheduleQuery, @"from|((left(\s+outer)?|inner)\s+)?join\b")) {
-                if(!isInQuote(m.Index) && !isInParens(m.Index) && !afterWhere(m.Index)) {
+                //if(!isInQuote(m.Index, _scheduleQuery) && !isInParens(m.Index, _scheduleQuery) && !afterWhere(m.Index, _scheduleQuery)) {
                     int tempStartPos = 0 + posAlongQuery;
                     int queryLength = m.Index;// +m.Value.Length; - Seriously, programming is craycray sometimes.
 
@@ -80,66 +83,26 @@ namespace AnotoWorkshop {
 
                     posAlongQuery = queryLength;
                     sectionIndex++;
-                }
+               // }
             }
 
-            
-            
-            
-            
             //Where spot
-            //Match whereMatch = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
+            Match whereMatch = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
 
-                       
-
-
-
-
-
-            //txt_varQuery.Text = _scheduleQuery/*TheQuery*/;//Don't need this as a placeholder for the text anymore, but it's usefull right now and I'll probably use it to for the time being to edit the query itself.
-            // _aliasList - TheAliases = new List<Alias>();//Initializing
-            /*
-            int posAlongQuery = 7;
-            foreach (Match m in Regex.Matches(_scheduleQuery, @"\sAS\s([^\s]+)", RegexOptions.IgnoreCase)) {//Matches AS statements
-                if (!isInCast(m.Index)) { //If the index of this " AS " is NOT in a CAST/CONVERT*
-                    //Grabbing the name
-                    int nameLength = m.Value.Length - 4;
-                    string tempName = m.Value.Substring(4, nameLength);
-                    //Grabbing the local start and end(length)
-                    int tempStartPos = 0 + posAlongQuery;
-                    int queryLength = m.Index + nameLength + 4;
-                    //Grabbing the query based off the start and length
-                    string workingQueryPart = _scheduleQuery.Substring(tempStartPos, queryLength - tempStartPos);
-                    //Alias tempAlias = new Alias(tempName,                                  //Name            --turning to dictionary key
-                    //                            tempStartPos,                              //Start Int       --Incorporate into this 
-                    //                            queryLength - tempStartPos + tempStartPos, //End Int         --function.
-                    //                            workingQueryPart);                         //Complete Query for alias. -- still the query
-                    /*_aliasList - TheAliases.Add(tempAlias);*
-                    // Switch to happen in the form itself - lstv_Variables.Items.Add(tempAlias.name);
-                    posAlongQuery = queryLength + 1;//Incrementing to keep it going.
-                }
-            }
-            */
-            //This below needs to be in a sort of parrelel managed string that represents the WHERE and FROM statements in the nextpen's
-            //form. 
-            
-            //Match test = Regex.Match(_scheduleQuery, @"WHERE", RegexOptions.IgnoreCase);
-            //_placeStringFrom = _scheduleQuery.Substring(TheAliases[TheAliases.Count - 1].endPos, test.Index - TheAliases[TheAliases.Count - 1].endPos);//Snags the FROM section.
-
-            //_placeStringWhere = _scheduleQuery.Substring(TheAliases[TheAliases.Count - 1].endPos + test.Index - TheAliases[TheAliases.Count - 1].endPos);//And the WHERE section. With the conditions. TODO - create where grabber for the conditions.
+            string whereContents = _scheduleQuery.Substring(whereMatch.Index);
+            sectionList.Add(sectionIndex, new Section(whereContents));
         }
 
-        private bool afterWhere(int i) {
-            Match m = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
+        private bool afterWhere(int i, string checkAgainst) {
+            Match m = Regex.Match(checkAgainst, @"where", RegexOptions.IgnoreCase);
             if (i > m.Index) {
                 return true;
-                
-                }
+            }
             return false;
         }
 
-        private bool isInCast(int i) {
-            foreach (Match m in Regex.Matches(_scheduleQuery, @"CAST\(([^\)]+)\)|CONVERT\(([^\)]+)\)", RegexOptions.IgnoreCase)) {
+        private bool isInCast(int i, string checkAgainst) {
+            foreach (Match m in Regex.Matches(checkAgainst, @"CAST\(([^\)]+)\)|CONVERT\(([^\)]+)\)", RegexOptions.IgnoreCase)) {
                 if (i > m.Index && i < m.Index + m.Length) {
                     return true;
                 }
@@ -147,8 +110,8 @@ namespace AnotoWorkshop {
             return false;
         }
 
-        private bool isInQuote(int i) {
-            foreach (Match m in Regex.Matches(_scheduleQuery, @"', '", RegexOptions.IgnoreCase)) {
+        private bool isInQuote(int i, string checkAgainst) {
+            foreach (Match m in Regex.Matches(checkAgainst, @"', '", RegexOptions.IgnoreCase)) {
                 if (i > m.Index && i < m.Index + m.Length) {
                     return true;
                 }
@@ -156,8 +119,8 @@ namespace AnotoWorkshop {
             return false;
         }
 
-        private bool isInParens(int i) {
-            foreach (Match m in Regex.Matches(_scheduleQuery, @"\([^()]*((?<paren>\()[^()]*|(?<close-paren>\))[^()]*)*(?(paren)(?!))\)")) {
+        private bool isInParens(int i, string checkAgainst) {
+            foreach (Match m in Regex.Matches(checkAgainst, @"\([^()]*((?<paren>\()[^()]*|(?<close-paren>\))[^()]*)*(?(paren)(?!))\)")) {
                 if (i > m.Index && i < m.Index + m.Length) {
                     return true;
                 }
@@ -185,11 +148,25 @@ namespace AnotoWorkshop {
         public Section(string contents) {
             _contents = contents;
 
-
+            processSection();
             //Do some analysis on the contents to figure out 
 
             //Name is sometimes empty, sometimes, maybe never though.
 
+        }
+
+        private void processSection() {
+            Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+            Match Match = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+
+            if (whereMatch.Success) {
+                _type = SectionType.Where;
+            }
+
+            
         }
 
         public string contents {
