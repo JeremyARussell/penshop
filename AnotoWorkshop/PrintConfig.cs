@@ -156,17 +156,36 @@ namespace AnotoWorkshop {
         }
 
         private void processSection() {
+            Match selectMatch = Regex.Match(_contents, @"select ", RegexOptions.IgnoreCase);
+            Match columnMatch = Regex.Match(_contents, @"[aA-zZ]+\.[aA-zZ]+", RegexOptions.IgnoreCase);
+            Match aliasMatch = Regex.Match(_contents, @"\sas\s", RegexOptions.IgnoreCase);
+            Match fromMatch = Regex.Match(_contents, @"from", RegexOptions.IgnoreCase);
+            Match joinMatch = Regex.Match(_contents, @"((left(\s+outer)?|inner)\s+)?join\b", RegexOptions.IgnoreCase);
             Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
-            Match Match = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
-            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
-            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
-            //Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
+
+            if (selectMatch.Success) {
+                _type = SectionType.Select;
+            }
+
+            if (columnMatch.Success) {
+                _type = SectionType.Column;
+            }
+
+            if (aliasMatch.Success) {
+                _type = SectionType.Alias;
+            }
+
+            if (fromMatch.Success) {
+                _type = SectionType.From;
+            }
+
+            if (joinMatch.Success) {
+                _type = SectionType.Join;
+            }
 
             if (whereMatch.Success) {
                 _type = SectionType.Where;
             }
-
-            
         }
 
         public string contents {
