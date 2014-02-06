@@ -188,8 +188,15 @@ namespace AnotoWorkshop {
             }
         }
 
+        public string type() {
+
+            return _type.ToString();
+            
+        }
+
         public string contents {
             get { return _contents; }
+            set { _contents = value; }
         }
     }
 }

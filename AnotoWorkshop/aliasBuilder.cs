@@ -21,11 +21,12 @@ namespace AnotoWorkshop {
 
         //public List<Alias> TheAliases;
 
+        int activeIndexTest;
 
         private void lstv_Variables_DoubleClick(object sender, EventArgs e) {//Loads the double clicked item's query string into a textfield
-            int index;
-            index = lstv_Variables.SelectedItems[0].Index + 1;
-            txt_QueryVars.Text = test.sectionList[index].contents;
+
+            activeIndexTest = lstv_Variables.SelectedItems[0].Index + 1;
+            txt_QueryVars.Text = test.sectionList[activeIndexTest].contents;
         }
 
         #endregion Loading FusionPrintConfig
@@ -37,13 +38,27 @@ namespace AnotoWorkshop {
 
         PrintConfig test;
 
-        private void btnTest_Click(object sender, EventArgs e)
-        {
+        private void btnTest_Click(object sender, EventArgs e) {
             test = new PrintConfig(Application.StartupPath + @"\FusionPrintConfig.xml");
 
             foreach (var testvar in test.sectionList) {
-                lstv_Variables.Items.Add(testvar.Key.ToString());
+                lstv_Variables.Items.Add(testvar.Key.ToString() + " - " + testvar.Value.type());
             }
+        }
+
+        private void btnVarSave_Click(object sender, EventArgs e)
+        {
+            test.sectionList[activeIndexTest].contents = txt_QueryVars.Text;
+        }
+
+        private void btnSaveFile_Click(object sender, EventArgs e) {
+            //Open FusionPrintConfig.xml file
+
+            //Build Sections into a new scheduleQuery string
+
+            //Find the index of the scheduleQuery, and replace it with the new scheduleQuery
+
+            //Save file
         }
     }
 }
