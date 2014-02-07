@@ -47,7 +47,7 @@ namespace AnotoWorkshop {
             int posAlongQuery = 0;
             int sectionIndex = 1;
 
-            Match selMatch = Regex.Match(_scheduleQuery, @"select ", RegexOptions.IgnoreCase);
+            Match selMatch = Regex.Match(_scheduleQuery, @"select", RegexOptions.IgnoreCase);
 
             string selectContents = _scheduleQuery.Substring(0, selMatch.Length);
             sectionList.Add(sectionIndex, new Section(selectContents));
@@ -72,8 +72,12 @@ namespace AnotoWorkshop {
             }
 
             //From spot
+
+
+            MatchCollection myRegex = Regex.Matches(_scheduleQuery, @"from|((left(\s+outer)?|inner)\s+)?join\b");
+
             foreach(Match m in Regex.Matches(_scheduleQuery, @"from|((left(\s+outer)?|inner)\s+)?join\b")) {
-                //if(!isInQuote(m.Index, _scheduleQuery) && !isInParens(m.Index, _scheduleQuery) && !afterWhere(m.Index, _scheduleQuery)) {
+                if(!isInQuote(m.Index, _scheduleQuery) && !isInParens(m.Index, _scheduleQuery) && !afterWhere(m.Index, _scheduleQuery)) {
                     int tempStartPos = 0 + posAlongQuery;
                     int queryLength = m.Index;// +m.Value.Length; - Seriously, programming is craycray sometimes.
 
@@ -83,11 +87,26 @@ namespace AnotoWorkshop {
 
                     posAlongQuery = queryLength;
                     sectionIndex++;
-               // }
+                }
             }
 
-            //Where spot
             Match whereMatch = Regex.Match(_scheduleQuery, @"where", RegexOptions.IgnoreCase);
+
+            {
+                
+                    int tempStartPos = 0 + posAlongQuery;
+                    int queryLength = whereMatch.Index;// +m.Value.Length; - Seriously, programming is craycray sometimes.
+
+                    string workingQueryPart = _scheduleQuery.Substring(tempStartPos, queryLength - tempStartPos);
+
+                    sectionList.Add(sectionIndex, new Section(workingQueryPart));
+
+                    posAlongQuery = queryLength;
+                    sectionIndex++;
+            }
+
+
+            //Where spot
 
             string whereContents = _scheduleQuery.Substring(whereMatch.Index);
             sectionList.Add(sectionIndex, new Section(whereContents));
@@ -127,6 +146,35 @@ namespace AnotoWorkshop {
             }
             return false;
         }
+
+        //Saving
+
+
+        public void saveFile() {
+            //Open FusionPrintConfig.xml file
+            string fileToSave = File.ReadAllText(_configFilePath);
+            int startPos = fileToSave.IndexOf("ScheduleQuery");//Find the start of the ScheduleQuery string that contains the variables we need when a nextPen/Anoto form is printed.
+            int queryStart = fileToSave.IndexOf("\"", startPos);//The starting position of the ScheduleQuery, which is a " mark
+            int queryEnd = fileToSave.IndexOf("\"", queryStart + 1);//The ending position of the ScheduleQuery, also a " mark, the + 1 is an offset to get the right spot. Kinda forgot exactly what for. TODO - Will test later
+
+            //Build Sections into a new scheduleQuery string
+            StringBuilder actualStringToSave = new StringBuilder();
+
+            for(int i = 1; i < sectionList.Count + 1; i++) {
+                actualStringToSave.Append(sectionList[i].contents);
+            }
+
+            //Find the index of the scheduleQuery, and replace it with the new scheduleQuery
+            fileToSave = fileToSave.Replace(_scheduleQuery, actualStringToSave.ToString());
+
+            //Save file
+            File.WriteAllText(_configFilePath + ".test.xml", fileToSave);
+        }
+
+
+
+
+
 
     }
 

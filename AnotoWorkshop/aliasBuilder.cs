@@ -52,13 +52,7 @@ namespace AnotoWorkshop {
         }
 
         private void btnSaveFile_Click(object sender, EventArgs e) {
-            //Open FusionPrintConfig.xml file
-
-            //Build Sections into a new scheduleQuery string
-
-            //Find the index of the scheduleQuery, and replace it with the new scheduleQuery
-
-            //Save file
+            test.saveFile();
         }
     }
 }
