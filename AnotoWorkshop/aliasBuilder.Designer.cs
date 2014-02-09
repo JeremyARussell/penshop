@@ -28,50 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label3 = new System.Windows.Forms.Label();
-            this.txt_QueryFrom = new System.Windows.Forms.TextBox();
-            this.txt_QueryWhere = new System.Windows.Forms.TextBox();
             this.txt_QueryVars = new System.Windows.Forms.TextBox();
             this.btn_VarEdit = new System.Windows.Forms.Button();
             this.btn_VarAdd = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.btn_VarRemove = new System.Windows.Forms.Button();
             this.btnVarSave = new System.Windows.Forms.Button();
             this.lstv_Variables = new System.Windows.Forms.ListView();
             this.Aliases = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.txt_varQuery = new System.Windows.Forms.TextBox();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnSaveFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(743, 551);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 13);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "Where";
-            // 
-            // txt_QueryFrom
-            // 
-            this.txt_QueryFrom.Location = new System.Drawing.Point(746, 445);
-            this.txt_QueryFrom.Multiline = true;
-            this.txt_QueryFrom.Name = "txt_QueryFrom";
-            this.txt_QueryFrom.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_QueryFrom.Size = new System.Drawing.Size(305, 102);
-            this.txt_QueryFrom.TabIndex = 23;
-            this.txt_QueryFrom.WordWrap = false;
-            // 
-            // txt_QueryWhere
-            // 
-            this.txt_QueryWhere.Location = new System.Drawing.Point(746, 567);
-            this.txt_QueryWhere.Multiline = true;
-            this.txt_QueryWhere.Name = "txt_QueryWhere";
-            this.txt_QueryWhere.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_QueryWhere.Size = new System.Drawing.Size(290, 99);
-            this.txt_QueryWhere.TabIndex = 19;
-            this.txt_QueryWhere.WordWrap = false;
             // 
             // txt_QueryVars
             // 
@@ -101,15 +67,6 @@
             this.btn_VarAdd.Text = "Add";
             this.btn_VarAdd.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(743, 429);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "From";
-            // 
             // btn_VarRemove
             // 
             this.btn_VarRemove.Location = new System.Drawing.Point(201, 309);
@@ -121,7 +78,7 @@
             // 
             // btnVarSave
             // 
-            this.btnVarSave.Location = new System.Drawing.Point(479, 218);
+            this.btnVarSave.Location = new System.Drawing.Point(832, 218);
             this.btnVarSave.Name = "btnVarSave";
             this.btnVarSave.Size = new System.Drawing.Size(105, 23);
             this.btnVarSave.TabIndex = 18;
@@ -146,17 +103,6 @@
             this.Aliases.Text = "Aliases";
             this.Aliases.Width = 979;
             // 
-            // txt_varQuery
-            // 
-            this.txt_varQuery.AcceptsReturn = true;
-            this.txt_varQuery.Location = new System.Drawing.Point(746, 329);
-            this.txt_varQuery.Multiline = true;
-            this.txt_varQuery.Name = "txt_varQuery";
-            this.txt_varQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_varQuery.Size = new System.Drawing.Size(228, 96);
-            this.txt_varQuery.TabIndex = 14;
-            this.txt_varQuery.WordWrap = false;
-            // 
             // btnTest
             // 
             this.btnTest.Location = new System.Drawing.Point(25, 12);
@@ -169,7 +115,7 @@
             // 
             // btnSaveFile
             // 
-            this.btnSaveFile.Location = new System.Drawing.Point(479, 268);
+            this.btnSaveFile.Location = new System.Drawing.Point(832, 247);
             this.btnSaveFile.Name = "btnSaveFile";
             this.btnSaveFile.Size = new System.Drawing.Size(105, 23);
             this.btnSaveFile.TabIndex = 26;
@@ -181,20 +127,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1231, 694);
+            this.ClientSize = new System.Drawing.Size(954, 496);
             this.Controls.Add(this.btnSaveFile);
             this.Controls.Add(this.btnTest);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txt_QueryFrom);
-            this.Controls.Add(this.txt_QueryWhere);
             this.Controls.Add(this.txt_QueryVars);
             this.Controls.Add(this.btn_VarEdit);
             this.Controls.Add(this.btn_VarAdd);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_VarRemove);
             this.Controls.Add(this.btnVarSave);
             this.Controls.Add(this.lstv_Variables);
-            this.Controls.Add(this.txt_varQuery);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "aliasBuilder";
             this.Text = "Alias Builder";
@@ -206,18 +147,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txt_QueryFrom;
-        private System.Windows.Forms.TextBox txt_QueryWhere;
         private System.Windows.Forms.TextBox txt_QueryVars;
         private System.Windows.Forms.Button btn_VarEdit;
         private System.Windows.Forms.Button btn_VarAdd;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_VarRemove;
         private System.Windows.Forms.Button btnVarSave;
         private System.Windows.Forms.ListView lstv_Variables;
         private System.Windows.Forms.ColumnHeader Aliases;
-        private System.Windows.Forms.TextBox txt_varQuery;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnSaveFile;
     }
