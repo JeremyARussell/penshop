@@ -891,7 +891,7 @@
             // 
             this.tabHistory.Location = new System.Drawing.Point(4, 22);
             this.tabHistory.Name = "tabHistory";
-            this.tabHistory.Size = new System.Drawing.Size(1309, 942);
+            this.tabHistory.Size = new System.Drawing.Size(1309, 714);
             this.tabHistory.TabIndex = 3;
             this.tabHistory.Text = "History";
             this.tabHistory.UseVisualStyleBackColor = true;
@@ -950,6 +950,7 @@
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.Text = "Pen Workshop";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.frmMain_KeyPress);

@@ -450,6 +450,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.settingsScreen_FormClosing);
             this.Load += new System.EventHandler(this.settingsScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nmrTimeout)).EndInit();
             this.ResumeLayout(false);

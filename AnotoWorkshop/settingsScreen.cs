@@ -56,6 +56,7 @@ namespace AnotoWorkshop {
         #endregion Initializers
 
         private void btnSaveFile_Click(object sender, EventArgs e) {
+            this.Text = "Settings";        
             needToSaveSettings = false;
             
             _settings.saveToFile();
@@ -74,7 +75,7 @@ namespace AnotoWorkshop {
             _settings.dbcTrusted = cmbDbTrusted.Text;
             _settings.dbcDatabaseName = txtDbName.Text;
             _settings.dbcTimeout = (int)nmrTimeout.Value;
-
+            this.Text = "Settings*";
             needToSaveSettings = true;
         }
         #endregion Db Connection Settings
@@ -160,7 +161,7 @@ namespace AnotoWorkshop {
                 }
 
                 if (needToBreak) return;
-
+                this.Text = "Settings*";
                 needToSaveSettings = true;
                 _settings.globalFormatSet.Add(workingFormatSet.name, workingFormatSet);
                 savingNewSet = false;
@@ -168,7 +169,7 @@ namespace AnotoWorkshop {
                 refreshList();
                 return;
             }
-
+            this.Text = "Settings*";
             needToSaveSettings = true;
 
             _settings.globalFormatSet[_activeFormatSet].fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
@@ -198,31 +199,12 @@ namespace AnotoWorkshop {
         private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
             _settings.formsFolderLocation = txtFormsFolder.Text;
             _settings.exportFolder = txtExportFolder.Text;
-
+            this.Text = "Settings*";
             needToSaveSettings = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
-            if(needToSaveSettings) {
-                
-                DialogResult dRes = MessageBox.Show("You've made changes to your settings, would you like to save before you close?", "Do you want to save?",
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);  
 
-
-                    if (dRes == DialogResult.Yes) {
-                        _settings.saveToFile();
-                        Close();
-                    }
-                    if (dRes == DialogResult.No) {
-                        Close();
-                    }
-                    if (dRes == DialogResult.Cancel) {
-                        return;
-                    }
-                
-              }
-
-            Close();
         }
 
         private void btnNewFormatSet_Click(object sender, EventArgs e) {
@@ -233,6 +215,27 @@ namespace AnotoWorkshop {
             if(savingNewSet) {
                 workingFormatSet.name = txtSetName.Text;
             }
+        }
+
+        private void settingsScreen_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(needToSaveSettings) {
+                
+                DialogResult dRes = MessageBox.Show("You've made changes to your settings, would you like to save before you close?", "Do you want to save?",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);  
+
+
+                    if (dRes == DialogResult.Yes) {
+                        _settings.saveToFile();
+                    }
+                    if (dRes == DialogResult.No) {
+                        
+                    }
+                    if (dRes == DialogResult.Cancel) {
+
+                        e.Cancel = true;
+                    }               
+              }    
         }
 
 
