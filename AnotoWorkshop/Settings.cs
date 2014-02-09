@@ -29,7 +29,7 @@ namespace AnotoWorkshop {
         #region Private Variables
         private string _saveDirectory = Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
-        private Dictionary<string, Alias> _globalAliases;
+        private Dictionary<string, Section> _globalAliases;
 
         private static Settings _instance;
         #endregion Private Variables
@@ -60,7 +60,7 @@ namespace AnotoWorkshop {
         /// </summary>
         public void loadFromFile() {
             _globalFormatSet = new Dictionary<string, FormatSet>();
-            _globalAliases = new Dictionary<string, Alias>();
+            _globalAliases = new Dictionary<string, Section>();
             
             try {
                 _dom.Load(_saveDirectory + @"\settings.xml");
@@ -199,7 +199,7 @@ namespace AnotoWorkshop {
         #endregion Upgrading
 
         #region Aliases
-        public Dictionary<string, Alias> globalAliases {
+        public Dictionary<string, Section> globalAliases {
             get { return _globalAliases; }
             set { _globalAliases = value; }
         }
