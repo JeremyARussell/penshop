@@ -30,6 +30,7 @@ namespace AnotoWorkshop {
         private string _saveDirectory = Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Section> _globalAliases;
+        private List<int> _whiteList; 
 
         private static Settings _instance;
         #endregion Private Variables
@@ -262,7 +263,22 @@ namespace AnotoWorkshop {
             get { return _timeout; }
             set { _timeout = value; }
         }
+
         #endregion Database Connection String
+
+        #region White List
+
+        public void addToWhiteList(int intToAdd) {
+            _whiteList.Add(intToAdd);
+        }
+
+        public void removeFromWhiteList(int intToRemove) {
+            _whiteList.Remove(intToRemove);
+        }
+
+
+        #endregion White List
+
 
     }
 }
