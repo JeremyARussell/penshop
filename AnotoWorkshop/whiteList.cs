@@ -84,7 +84,7 @@ namespace AnotoWorkshop {
 
 
         private void addToWhiteList() {
-            
+            lstWhiteList.Items.Add(dgBlackList.SelectedRows[0].Cells[1].Value.ToString());
         }
 
         private void removeFromWhiteList() {
@@ -97,6 +97,16 @@ namespace AnotoWorkshop {
 
         private void show() {
             
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            addToWhiteList();
+        }
+
+        private void btnSaveList_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -164,7 +164,8 @@
             // 
             // btnTemplatesList
             // 
-            this.btnTemplatesList.Location = new System.Drawing.Point(944, 8);
+            this.btnTemplatesList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTemplatesList.Location = new System.Drawing.Point(1193, 7);
             this.btnTemplatesList.Name = "btnTemplatesList";
             this.btnTemplatesList.Size = new System.Drawing.Size(75, 23);
             this.btnTemplatesList.TabIndex = 34;

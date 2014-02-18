@@ -44,6 +44,7 @@
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "<<<";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnRemove
             // 
@@ -54,7 +55,7 @@
             this.btnRemove.Text = ">>>";
             this.btnRemove.UseVisualStyleBackColor = true;
             // 
-            // agentGrid
+            // dgBlackList
             // 
             this.dgBlackList.AllowUserToAddRows = false;
             this.dgBlackList.AllowUserToDeleteRows = false;
@@ -62,6 +63,7 @@
             this.dgBlackList.Location = new System.Drawing.Point(284, 12);
             this.dgBlackList.Name = "dgBlackList";
             this.dgBlackList.ReadOnly = true;
+            this.dgBlackList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgBlackList.Size = new System.Drawing.Size(400, 376);
             this.dgBlackList.TabIndex = 2;
             // 
@@ -72,6 +74,7 @@
             this.lstWhiteList.Size = new System.Drawing.Size(202, 375);
             this.lstWhiteList.TabIndex = 3;
             this.lstWhiteList.UseCompatibleStateImageBehavior = false;
+            this.lstWhiteList.View = System.Windows.Forms.View.List;
             // 
             // btnSaveList
             // 
@@ -81,6 +84,7 @@
             this.btnSaveList.TabIndex = 4;
             this.btnSaveList.Text = "Save";
             this.btnSaveList.UseVisualStyleBackColor = true;
+            this.btnSaveList.Click += new System.EventHandler(this.btnSaveList_Click);
             // 
             // whiteList
             // 

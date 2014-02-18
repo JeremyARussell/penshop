@@ -704,7 +704,7 @@ namespace AnotoWorkshop {
             //Testing Grounds///
             string fieldName = "";
 
-            using (var form = new fieldSelection(_temps, "Text")) {
+            using (var form = new fieldSelection(currentForm.formTemplates, "Text")) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
@@ -726,7 +726,7 @@ namespace AnotoWorkshop {
 
             string fieldName = "";
 
-            using (var form = new fieldSelection(_temps, "Text")) {
+            using (var form = new fieldSelection(currentForm.formTemplates, "Text")) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
@@ -1245,16 +1245,14 @@ namespace AnotoWorkshop {
             ((TreeView)sender).Focus();
         }
 
-        List<string> _temps = new List<string>();
-
         private void btnTemplatesList_Click(object sender, EventArgs e) {
 
-            using (var form = new templateSelection(_temps)) {
+            using (var form = new templateSelection(currentForm.formTemplates)) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     List<string> val = form.templates;
 
-                    _temps = val;
+                    currentForm.formTemplates = val;
                 }
             }
         }

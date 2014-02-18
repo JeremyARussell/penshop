@@ -13,6 +13,7 @@ namespace AnotoWorkshop {
         //Public Variables
         public string FormName;
         public string thisFormsPath; //Todo - Internal Filepath for forms, needed during import really
+        public List<string> formTemplates = new List<string>();
 
         private List<FormPage> _formPages = new List<FormPage>();
         private int _formVersion;
@@ -22,7 +23,7 @@ namespace AnotoWorkshop {
         private int _counter;
         private int _importFormatSetTicker;
 
-        private Settings _settings;
+        private Settings _settings = Settings.instance;
 
         #endregion Variables
 
@@ -41,9 +42,6 @@ namespace AnotoWorkshop {
         }
 
         public PenForm(string file, Dictionary<int, FormatSet> workingFormatSets, string newName) {
-            if (_settings == null) {
-                _settings = Settings.instance;
-            }
             _importFormatSetTicker = workingFormatSets.Count;
             try {
                 _dom.Load(file);
@@ -57,9 +55,6 @@ namespace AnotoWorkshop {
         }
 
         public PenForm(string file) {
-            if (_settings == null) {
-                _settings = Settings.instance;
-            }
             try {
                 _dom.Load(file);
                 loadForm(_dom.DocumentElement);
@@ -71,10 +66,7 @@ namespace AnotoWorkshop {
         }
 
         public PenForm() {
-            _settings = Settings.instance;
-
             addNewBlankPage();
-
         }
 
         public List<FormPage> formPages {
@@ -94,6 +86,14 @@ namespace AnotoWorkshop {
                 writer.WriteStartElement("PenForm");
                 writer.WriteAttributeString("name", FormName);
                 writer.WriteAttributeString("version", _formVersion.ToString());
+
+                writer.WriteStartElement("Templates");//Saving the template association list
+                foreach(string template in formTemplates) {
+                    writer.WriteStartElement("Template");
+                    writer.WriteString(template.ToString());
+                    writer.WriteEndElement();//Template                   
+                }
+                writer.WriteEndElement();//Templates
 
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("Page");
@@ -136,8 +136,11 @@ namespace AnotoWorkshop {
                 FormName = form.Attributes["name"].Value;
                 _formVersion = Convert.ToInt32(form.Attributes["version"].Value);
             }
-            foreach (XmlNode xn1 in form) {//Extract pages
-                if (xn1.Name == @"Page") {
+            foreach (XmlNode xn1 in form) {//Extract templates and pages
+                if (xn1.Name == @"Templates") {//For the templates
+                    processTemplatesList(xn1);
+                }
+                if (xn1.Name == @"Page") {//For the pages
                     pages[_counter] = xn1;
                     _counter++;
                 }
@@ -150,6 +153,14 @@ namespace AnotoWorkshop {
                     workingPage.addField(loadNode(fieldNode));
                 }
                 addPage(workingPage);
+            }
+        }
+
+        private void processTemplatesList(XmlNode node) {
+            foreach(XmlNode nd in node) {
+                if(nd.Name == "Template") {
+                    formTemplates.Add(nd.InnerText);
+                }
             }
         }
 

@@ -30,7 +30,7 @@ namespace AnotoWorkshop {
         private string _saveDirectory = Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Section> _globalAliases;
-        private List<int> _whiteList; 
+        private List<string> _whiteList; 
 
         private static Settings _instance;
         #endregion Private Variables
@@ -62,6 +62,7 @@ namespace AnotoWorkshop {
         public void loadFromFile() {
             _globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Section>();
+            _whiteList = new List<string>();
             
             try {
                 _dom.Load(_saveDirectory + @"\settings.xml");
@@ -116,6 +117,11 @@ namespace AnotoWorkshop {
                         _timeout = Convert.ToInt32(node["timeout"].ToString());
                     }
                      #endregion Database Connection Information
+
+                    #region White List
+                    //Loading the White List of allowed templates.
+
+                    #endregion White List
 
                 }
             }
@@ -185,6 +191,16 @@ namespace AnotoWorkshop {
                 writer.WriteEndElement();//Connection
                 #endregion Database Connection Information
 
+                #region White List
+                //Saving the White List.
+                writer.WriteStartElement("WhiteList");//Saving the template association list
+                foreach(string template in _whiteList) {
+                    writer.WriteStartElement("Item");
+                    writer.WriteString(template.ToString());
+                    writer.WriteEndElement();//Item                   
+                }
+                writer.WriteEndElement();//WhiteList
+                #endregion White List
 
                 writer.WriteEndElement();//Settings
                 writer.WriteEndDocument();
@@ -268,12 +284,12 @@ namespace AnotoWorkshop {
 
         #region White List
 
-        public void addToWhiteList(int intToAdd) {
-            _whiteList.Add(intToAdd);
+        public void addToWhiteList(string ToAdd) {
+            if(!_whiteList.Contains(ToAdd)) _whiteList.Add(ToAdd);
         }
 
-        public void removeFromWhiteList(int intToRemove) {
-            _whiteList.Remove(intToRemove);
+        public void removeFromWhiteList(string ToRemove) {
+            if(_whiteList.Contains(ToRemove)) _whiteList.Remove(ToRemove);
         }
 
 
