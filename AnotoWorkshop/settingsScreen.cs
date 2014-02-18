@@ -10,7 +10,7 @@ namespace AnotoWorkshop {
         #region Variables - Not Started
 
         private Settings _settings;
-        private bool needToSaveSettings = false;
+        private bool _needToSaveSettings = false;
 
         #endregion Variables - Not Started
 
@@ -56,8 +56,8 @@ namespace AnotoWorkshop {
         #endregion Initializers
 
         private void btnSaveFile_Click(object sender, EventArgs e) {
-            this.Text = "Settings";        
-            needToSaveSettings = false;
+            Text = "Settings";        
+            _needToSaveSettings = false;
             
             _settings.saveToFile();
         }
@@ -75,8 +75,8 @@ namespace AnotoWorkshop {
             _settings.dbcTrusted = cmbDbTrusted.Text;
             _settings.dbcDatabaseName = txtDbName.Text;
             _settings.dbcTimeout = (int)nmrTimeout.Value;
-            this.Text = "Settings*";
-            needToSaveSettings = true;
+            Text = "Settings*";
+            _needToSaveSettings = true;
         }
         #endregion Db Connection Settings
 
@@ -92,18 +92,18 @@ namespace AnotoWorkshop {
 
         }
         
-        FormatSet workingFormatSet = new FormatSet();
+        FormatSet _workingFormatSet = new FormatSet();
 
         private void lstvFormatSets_Click(object sender, EventArgs e) {
             if (((ListView)sender).SelectedItems.Count > 0) {
-                workingFormatSet = new FormatSet();
+                _workingFormatSet = new FormatSet();
 
                 _activeFormatSet = ((ListView)sender).SelectedItems[0].Text;
                 
-                workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
-                workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
-                workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
-                workingFormatSet.fontWeight = _settings.globalFormatSet[_activeFormatSet].fontWeight;
+                _workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
+                _workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
+                _workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
+                _workingFormatSet.fontWeight = _settings.globalFormatSet[_activeFormatSet].fontWeight;
 
                 refreshFontExample();
 
@@ -111,40 +111,36 @@ namespace AnotoWorkshop {
         }
 
         private void refreshFontExample() {
-                lblTestFormat.Text = workingFormatSet.fontSizeString + " - " +
-                                     workingFormatSet.fontTypeface + " - " +
-                                     workingFormatSet.fontWeight;
+                lblTestFormat.Text = _workingFormatSet.fontSizeString + " - " +
+                                     _workingFormatSet.fontTypeface + " - " +
+                                     _workingFormatSet.fontWeight;
 
-                lblTestFormat.Font = workingFormatSet.font();
+                lblTestFormat.Font = _workingFormatSet.font();
 
-                txtSetName.Text = workingFormatSet.name;
-                cmbFontSizes.SelectedItem = workingFormatSet.fontSize.ToString();
-                cmbFontList.SelectedItem = workingFormatSet.fontTypeface;
-                cmbFontWeight.SelectedItem = workingFormatSet.fontWeight;
+                txtSetName.Text = _workingFormatSet.name;
+                cmbFontSizes.SelectedItem = _workingFormatSet.fontSize.ToString();
+                cmbFontList.SelectedItem = _workingFormatSet.fontTypeface;
+                cmbFontWeight.SelectedItem = _workingFormatSet.fontWeight;
 
         }
 
-        private bool savingNewSet;
+        private bool _savingNewSet;
 
         private void createNewFormatSet() {
-            workingFormatSet = new FormatSet();
-            
-            workingFormatSet.name = "New...";
-            workingFormatSet.fontSize = 12;
-            workingFormatSet.fontTypeface = "Arial";
-            workingFormatSet.fontWeight = "normal";
+            _workingFormatSet = new FormatSet
+                                {name = "New...", fontSize = 12, fontTypeface = "Arial", fontWeight = "normal"};
 
             lblTestFormat.Text = "";
 
             refreshFontExample();
 
-            savingNewSet = true;
+            _savingNewSet = true;
         }
 
         private void btnSaveSetName_Click(object sender, EventArgs e) {
-            if(savingNewSet) {
+            if(_savingNewSet) {
 
-                workingFormatSet.name = txtSetName.Text;
+                _workingFormatSet.name = txtSetName.Text;
 
                 bool needToBreak = false;
 
@@ -161,16 +157,16 @@ namespace AnotoWorkshop {
                 }
 
                 if (needToBreak) return;
-                this.Text = "Settings*";
-                needToSaveSettings = true;
-                _settings.globalFormatSet.Add(workingFormatSet.name, workingFormatSet);
-                savingNewSet = false;
+                Text = "Settings*";
+                _needToSaveSettings = true;
+                _settings.globalFormatSet.Add(_workingFormatSet.name, _workingFormatSet);
+                _savingNewSet = false;
 
                 refreshList();
                 return;
             }
-            this.Text = "Settings*";
-            needToSaveSettings = true;
+            Text = "Settings*";
+            _needToSaveSettings = true;
 
             _settings.globalFormatSet[_activeFormatSet].fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
             _settings.globalFormatSet[_activeFormatSet].fontTypeface = cmbFontList.SelectedItem.ToString();
@@ -181,17 +177,17 @@ namespace AnotoWorkshop {
         }
 
         private void cmbFontSizes_SelectedValueChanged(object sender, EventArgs e) {
-            workingFormatSet.fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
+            _workingFormatSet.fontSize = Convert.ToInt32(cmbFontSizes.SelectedItem.ToString());
             refreshFontExample();
         }
 
         private void cmbFontList_SelectedValueChanged(object sender, EventArgs e) {
-            workingFormatSet.fontTypeface = cmbFontList.SelectedItem.ToString();
+            _workingFormatSet.fontTypeface = cmbFontList.SelectedItem.ToString();
             refreshFontExample();
         }
 
         private void cmbFontWeight_SelectedValueChanged(object sender, EventArgs e) {
-            workingFormatSet.fontWeight = cmbFontWeight.SelectedItem.ToString();
+            _workingFormatSet.fontWeight = cmbFontWeight.SelectedItem.ToString();
             refreshFontExample();
         }
         #endregion Format Sets
@@ -199,12 +195,8 @@ namespace AnotoWorkshop {
         private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
             _settings.formsFolderLocation = txtFormsFolder.Text;
             _settings.exportFolder = txtExportFolder.Text;
-            this.Text = "Settings*";
-            needToSaveSettings = true;
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e) {
-
+            Text = "Settings*";
+            _needToSaveSettings = true;
         }
 
         private void btnNewFormatSet_Click(object sender, EventArgs e) {
@@ -212,14 +204,14 @@ namespace AnotoWorkshop {
         }
 
         private void txtSetName_TextChanged(object sender, EventArgs e) {
-            if(savingNewSet) {
-                workingFormatSet.name = txtSetName.Text;
+            if(_savingNewSet) {
+                _workingFormatSet.name = txtSetName.Text;
             }
         }
 
         private void settingsScreen_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(needToSaveSettings) {
+            if(_needToSaveSettings) {
                 
                 DialogResult dRes = MessageBox.Show("You've made changes to your settings, would you like to save before you close?", "Do you want to save?",
                         MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);  

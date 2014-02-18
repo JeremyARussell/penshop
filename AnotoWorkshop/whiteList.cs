@@ -22,7 +22,7 @@ namespace AnotoWorkshop {
 
         private void whiteList_Load(object sender, EventArgs e) {
             BuildDataTable();
-            LoadGrid(_table);
+            //LoadGrid(_table);
 
             try {
                 SqlConnection myConnection = new SqlConnection(_settings.dbConnectionString);
@@ -71,15 +71,15 @@ namespace AnotoWorkshop {
             _table.Columns["id"].Unique = true;
             _table.PrimaryKey = new DataColumn[] { _table.Columns["id"] };
 
-            LoadGrid(_dataSet.Tables[_table.TableName]);
+            LoadGrid();
 
             dgBlackList.Columns[0].Width = 100;
             dgBlackList.Columns[1].Width = 65;
             dgBlackList.Columns[2].Width = 40;
         }
 
-        public void LoadGrid(DataTable table) {
-            dgBlackList.DataSource = table;
+        public void LoadGrid() {
+            dgBlackList.DataSource = _table;
         }
 
 

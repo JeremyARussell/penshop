@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCancel = new System.Windows.Forms.Button();
             this.txtFormsFolder = new System.Windows.Forms.TextBox();
             this.btnSaveFile = new System.Windows.Forms.Button();
             this.lstvFormatSets = new System.Windows.Forms.ListView();
@@ -66,16 +65,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nmrTimeout)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(429, 12);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(56, 23);
-            this.btnCancel.TabIndex = 28;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
             // txtFormsFolder
             // 
             this.txtFormsFolder.Location = new System.Drawing.Point(85, 15);
@@ -86,7 +75,7 @@
             // 
             // btnSaveFile
             // 
-            this.btnSaveFile.Location = new System.Drawing.Point(339, 12);
+            this.btnSaveFile.Location = new System.Drawing.Point(410, 3);
             this.btnSaveFile.Name = "btnSaveFile";
             this.btnSaveFile.Size = new System.Drawing.Size(84, 23);
             this.btnSaveFile.TabIndex = 29;
@@ -441,7 +430,6 @@
             this.Controls.Add(this.txtExportFolder);
             this.Controls.Add(this.lstvFormatSets);
             this.Controls.Add(this.btnSaveFile);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtFormsFolder);
             this.Controls.Add(this.shapeContainer1);
             this.MaximizeBox = false;
@@ -460,7 +448,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtFormsFolder;
         private System.Windows.Forms.Button btnSaveFile;
         private System.Windows.Forms.ListView lstvFormatSets;
