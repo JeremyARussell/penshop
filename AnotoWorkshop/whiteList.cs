@@ -21,7 +21,7 @@ namespace AnotoWorkshop {
         private DataTable _table;
 
         private void whiteList_Load(object sender, EventArgs e) {
-            BuildDataTable();
+            buildWhitelistDataTable();
             //LoadGrid(_table);
 
             try {
@@ -60,7 +60,7 @@ namespace AnotoWorkshop {
             }
         }
 
-        public void BuildDataTable() {
+        public void buildWhitelistDataTable() {
             _dataSet = new DataSet("Set");
             _table = _dataSet.Tables.Add("Table");
 

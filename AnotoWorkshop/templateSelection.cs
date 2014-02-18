@@ -26,7 +26,7 @@ namespace AnotoWorkshop {
         }
 
         private void templateSelection_Load(object sender, EventArgs e) {
-            BuildDataTable();
+            buildTemplateDataTable();
 
             try {
                 SqlConnection myConnection = new SqlConnection(_settings.dbConnectionString);
@@ -44,15 +44,11 @@ namespace AnotoWorkshop {
                         int intToAdd = int.Parse(myReader["template_id"].ToString());
 
                         if (displayNameToAdd != "") {//OR isn't in the white list, for later. - FT1A
-                            //if (!chklstTemplates.Items.Contains(nameToAdd)) {//FT1B
-                                if (_workingTemplates.Contains(intToAdd)) {
-                                    chklstTemplates.Items.Add(nameToAdd, true);//FT1B
-                                    _table.Rows.Add(true, displayNameToAdd, nameToAdd, intToAdd);//For the Grid
-                                } else {
-                                    chklstTemplates.Items.Add(nameToAdd, false);//FT1B
-                                    _table.Rows.Add(false, displayNameToAdd, nameToAdd, intToAdd);
-                                }
-                            //} 
+                            if (_workingTemplates.Contains(intToAdd)) {
+                                _table.Rows.Add(true, displayNameToAdd, nameToAdd, intToAdd);//For the Grid
+                            } else {
+                                _table.Rows.Add(false, displayNameToAdd, nameToAdd, intToAdd);
+                            }
                         }
                     }
                 }
@@ -69,7 +65,7 @@ namespace AnotoWorkshop {
             }
         }
         
-        public void BuildDataTable() {
+        public void buildTemplateDataTable() {
             _dataSet = new DataSet("Set");
             _table = _dataSet.Tables.Add("Table");
 
@@ -96,20 +92,14 @@ namespace AnotoWorkshop {
         private void btnOkay_Click(object sender, EventArgs e) {
             _workingTemplates.Clear();
 
-            //foreach(var test in chklstTemplates.CheckedItems) {//WORKING
-            //    _workingTemplates.Add(test.ToString());
-            //}
-
-            foreach(DataRow test in _table.Rows) {//WORKING - FT1B
-                if (test.Field<bool>(0)) {
-                    _workingTemplates.Add(test.Field<int>(3)); //FT1B
+            foreach(DataRow templateRow in _table.Rows) {
+                if (templateRow.Field<bool>(0)) {
+                    _workingTemplates.Add(templateRow.Field<int>(3));
                 }
             }            
             
             templates = _workingTemplates;
-
             Close();
         }
-
     }
 }

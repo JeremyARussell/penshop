@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnOkay = new System.Windows.Forms.Button();
-            this.chklstTemplates = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgTemplates = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgTemplates)).BeginInit();
@@ -38,7 +37,7 @@
             // btnOkay
             // 
             this.btnOkay.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOkay.Location = new System.Drawing.Point(12, 382);
+            this.btnOkay.Location = new System.Drawing.Point(634, 4);
             this.btnOkay.Name = "btnOkay";
             this.btnOkay.Size = new System.Drawing.Size(75, 23);
             this.btnOkay.TabIndex = 1;
@@ -46,18 +45,10 @@
             this.btnOkay.UseVisualStyleBackColor = true;
             this.btnOkay.Click += new System.EventHandler(this.btnOkay_Click);
             // 
-            // chklstTemplates
-            // 
-            this.chklstTemplates.FormattingEnabled = true;
-            this.chklstTemplates.Location = new System.Drawing.Point(12, 12);
-            this.chklstTemplates.Name = "chklstTemplates";
-            this.chklstTemplates.Size = new System.Drawing.Size(142, 364);
-            this.chklstTemplates.TabIndex = 3;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(160, 9);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 4;
@@ -68,9 +59,9 @@
             this.dgTemplates.AllowUserToAddRows = false;
             this.dgTemplates.AllowUserToDeleteRows = false;
             this.dgTemplates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgTemplates.Location = new System.Drawing.Point(226, 9);
+            this.dgTemplates.Location = new System.Drawing.Point(12, 97);
             this.dgTemplates.Name = "dgTemplates";
-            this.dgTemplates.Size = new System.Drawing.Size(464, 367);
+            this.dgTemplates.Size = new System.Drawing.Size(697, 309);
             this.dgTemplates.TabIndex = 5;
             // 
             // templateSelection
@@ -80,7 +71,6 @@
             this.ClientSize = new System.Drawing.Size(721, 418);
             this.Controls.Add(this.dgTemplates);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.chklstTemplates);
             this.Controls.Add(this.btnOkay);
             this.Name = "templateSelection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -95,7 +85,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnOkay;
-        private System.Windows.Forms.CheckedListBox chklstTemplates;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgTemplates;
     }
