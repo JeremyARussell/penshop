@@ -11,32 +11,18 @@ using System.Windows.Forms;
 
 namespace AnotoWorkshop {
     public partial class templateSelection : Form {
-        public List<string> templates {get;set;}
+        public List<int> templates {get;set;}
         Settings _settings = Settings.instance;
 
-        List<string> _workingTemplates = new List<string>();
+        List<int> _workingTemplates = new List<int>();
 
         private DataSet _dataSet;
         private DataTable _table;
 
 
-        public templateSelection(List<string> workingTemplates) {
+        public templateSelection(List<int> workingTemplates) {
             _workingTemplates = workingTemplates;
             InitializeComponent();
-        }
-
-        private void btnOkay_Click(object sender, EventArgs e) {
-            _workingTemplates.Clear();
-
-            //foreach(var test in chklstTemplates.CheckedItems) {//WORKING
-            //    _workingTemplates.Add(test.ToString());
-            //}
-
-            foreach(var test in _table.Rows) {//WORKING
-                _workingTemplates.Add(test.ToString());
-            }            templates = _workingTemplates;
-
-            Close();
         }
 
         private void templateSelection_Load(object sender, EventArgs e) {
@@ -57,14 +43,16 @@ namespace AnotoWorkshop {
                         string displayNameToAdd = myReader["template_display_name"].ToString();
                         int intToAdd = int.Parse(myReader["template_id"].ToString());
 
-                        if(!chklstTemplates.Items.Contains(nameToAdd)) {
-                            if(_workingTemplates.Contains(nameToAdd)) {
-                                chklstTemplates.Items.Add(nameToAdd, true);
-                                _table.Rows.Add(true, displayNameToAdd, nameToAdd, intToAdd);//For the Grid
-                            } else {
-                                chklstTemplates.Items.Add(nameToAdd, false);
-                                _table.Rows.Add(false, displayNameToAdd, nameToAdd, intToAdd);
-                            }
+                        if (displayNameToAdd != "") {//OR isn't in the white list, for later. - FT1A
+                            //if (!chklstTemplates.Items.Contains(nameToAdd)) {//FT1B
+                                if (_workingTemplates.Contains(intToAdd)) {
+                                    chklstTemplates.Items.Add(nameToAdd, true);//FT1B
+                                    _table.Rows.Add(true, displayNameToAdd, nameToAdd, intToAdd);//For the Grid
+                                } else {
+                                    chklstTemplates.Items.Add(nameToAdd, false);//FT1B
+                                    _table.Rows.Add(false, displayNameToAdd, nameToAdd, intToAdd);
+                                }
+                            //} 
                         }
                     }
                 }
@@ -80,10 +68,8 @@ namespace AnotoWorkshop {
                 throw;
             }
         }
-
         
         public void BuildDataTable() {
-
             _dataSet = new DataSet("Set");
             _table = _dataSet.Tables.Add("Table");
 
@@ -103,11 +89,27 @@ namespace AnotoWorkshop {
 
             dgTemplates.Columns[0].Width = 25;
             dgTemplates.Columns[1].Width = 100;
-            dgTemplates.Columns[2].Width = 65;
-            dgTemplates.Columns[3].Width = 40;
+            dgTemplates.Columns[2].Width = 100;
+            dgTemplates.Columns[3].Width = 50;
         }
 
+        private void btnOkay_Click(object sender, EventArgs e) {
+            _workingTemplates.Clear();
+
+            //foreach(var test in chklstTemplates.CheckedItems) {//WORKING
+            //    _workingTemplates.Add(test.ToString());
+            //}
+
+            foreach(DataRow test in _table.Rows) {//WORKING - FT1B
+                if (test.Field<bool>(0)) {
+                    _workingTemplates.Add(test.Field<int>(3)); //FT1B
+                }
+            }            
             
+            templates = _workingTemplates;
+
+            Close();
+        }
 
     }
 }

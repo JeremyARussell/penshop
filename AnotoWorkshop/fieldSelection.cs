@@ -12,7 +12,7 @@ namespace AnotoWorkshop {
         StringBuilder templateString = new StringBuilder();
         string typeString;
 
-        public fieldSelection(List<string> templates, string type ) {
+        public fieldSelection(List<int> templates, string type ) {//FT1C
 
             typeString = type;
 

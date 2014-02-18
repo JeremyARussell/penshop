@@ -704,7 +704,7 @@ namespace AnotoWorkshop {
             //Testing Grounds///
             string fieldName = "";
 
-            using (var form = new fieldSelection(currentForm.formTemplates, "Text")) {
+            using (var form = new fieldSelection(currentForm.formTemplates, "Text")) {//FT1C
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
@@ -1250,7 +1250,7 @@ namespace AnotoWorkshop {
             using (var form = new templateSelection(currentForm.formTemplates)) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
-                    List<string> val = form.templates;
+                    List<int> val = form.templates;
 
                     currentForm.formTemplates = val;
                 }
