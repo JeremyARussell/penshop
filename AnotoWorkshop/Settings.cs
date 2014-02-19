@@ -30,7 +30,7 @@ namespace AnotoWorkshop {
         private string _saveDirectory = Application.StartupPath;
         private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Section> _globalAliases;
-        private List<string> _whiteList; 
+        private List<int> _whiteList; 
 
         private static Settings _instance;
         #endregion Private Variables
@@ -62,7 +62,7 @@ namespace AnotoWorkshop {
         public void loadFromFile() {
             _globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Section>();
-            _whiteList = new List<string>();
+            _whiteList = new List<int>();
             
             try {
                 _dom.Load(_saveDirectory + @"\settings.xml");
@@ -119,7 +119,16 @@ namespace AnotoWorkshop {
                      #endregion Database Connection Information
 
                     #region White List
-                    //Loading the White List of allowed templates.
+                    //Loading the White List of allowed templates. - FT2D
+
+                    if(node.Name == "WhiteList") {
+                        XmlDocument doc = new XmlDocument();
+                        doc.LoadXml(node.ReadOuterXml());
+                        XmlNode newnode = doc.DocumentElement;
+
+
+                        processTemplatesList(newnode);
+                    }
 
                     #endregion White List
 
@@ -136,6 +145,15 @@ namespace AnotoWorkshop {
                 //from loading all the way
             }
         }
+        
+        private void processTemplatesList(XmlNode node) {
+            foreach(XmlNode nd in node) {
+                if(nd.Name == "Item") {
+                    _whiteList.Add(Convert.ToInt32(nd.InnerText));
+                }
+            }
+        }
+
         #endregion File Loading
 
         #region File Saving
@@ -194,7 +212,7 @@ namespace AnotoWorkshop {
                 #region White List
                 //Saving the White List.
                 writer.WriteStartElement("WhiteList");//Saving the template association list
-                foreach(string template in _whiteList) {
+                foreach(int template in whiteList) {
                     writer.WriteStartElement("Item");
                     writer.WriteString(template.ToString());
                     writer.WriteEndElement();//Item                   
@@ -284,12 +302,17 @@ namespace AnotoWorkshop {
 
         #region White List
 
-        public void addToWhiteList(string ToAdd) {
-            if(!_whiteList.Contains(ToAdd)) _whiteList.Add(ToAdd);
+
+        public List<int> whiteList {
+            get { return _whiteList; }
         }
 
-        public void removeFromWhiteList(string ToRemove) {
-            if(_whiteList.Contains(ToRemove)) _whiteList.Remove(ToRemove);
+        public void addToWhiteList(int toAdd) {
+            if(!whiteList.Contains(toAdd)) whiteList.Add(toAdd);
+        }
+
+        public void removeFromWhiteList(int toRemove) {
+            if(whiteList.Contains(toRemove)) whiteList.Remove(toRemove);
         }
 
 

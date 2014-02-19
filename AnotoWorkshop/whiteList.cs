@@ -35,15 +35,21 @@ namespace AnotoWorkshop {
                     SqlDataReader myReader = createTable.ExecuteReader();
 					
                     while (myReader.Read()) {
-                        //string nameToAdd = myReader["table_name"].ToString();
-                        //lstWhiteList.Items.Add(nameToAdd);
                         string nameToAdd = myReader["template_name"].ToString();
                         string displayNameToAdd = myReader["template_display_name"].ToString();
                         int intToAdd = int.Parse(myReader["template_id"].ToString());
 
-                        if (displayNameToAdd != "") {
+                        if(_settings.whiteList.Contains(intToAdd)) {
+                            ListViewItem item = new ListViewItem();
+                            item.Text = displayNameToAdd;
+                            item.Tag = intToAdd;
+                            lstWhiteList.Items.Add(item);
+                        }
+
+                        if (displayNameToAdd != "" && !_settings.whiteList.Contains(intToAdd)) {
                             _table.Rows.Add(displayNameToAdd, nameToAdd, intToAdd);
                         }
+                        
 
                     }
                 }
@@ -84,7 +90,15 @@ namespace AnotoWorkshop {
 
 
         private void addToWhiteList() {
-            lstWhiteList.Items.Add(dgBlackList.SelectedRows[0].Cells[1].Value.ToString());
+
+            foreach (DataGridViewRow row in dgBlackList.SelectedRows) {
+                ListViewItem item = new ListViewItem();
+                item.Text = row.Cells[0].Value.ToString();
+                item.Tag = row.Cells[2].Value;
+                lstWhiteList.Items.Add(item);
+            }
+
+            
         }
 
         private void removeFromWhiteList() {
@@ -104,9 +118,11 @@ namespace AnotoWorkshop {
             addToWhiteList();
         }
 
-        private void btnSaveList_Click(object sender, EventArgs e)
-        {
-
+        private void btnSaveList_Click(object sender, EventArgs e) {
+            foreach (ListViewItem item in lstWhiteList.Items) {
+                _settings.addToWhiteList((int)item.Tag);
+            }
+            _settings.saveToFile();
         }
     }
 }
