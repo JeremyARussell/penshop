@@ -7,20 +7,21 @@ using System.Windows.Forms;
 namespace AnotoWorkshop {
     public partial class fieldSelection : Form {
         public string name {get;set;} 
-        //public Liststring> names {get;set;} - TODO - FUTURE - Later on for multi name returns
+        //public List<string> names {get;set;} - TODO - FUTURE - Later on for multi name returns
         Settings _settings = Settings.instance;
         StringBuilder templateString = new StringBuilder();
         string typeString;
 
         public fieldSelection(List<int> templates, string type ) {//FT1C
 
-            typeString = type;
 
-            templateString.Append("(table_name = '");
+            typeString = "'" + type + "'";
+
+            templateString.Append("(template_id = '");
 
             for (int i = 0; i < templates.Count; i++) {
                 if(i < templates.Count - 1) {
-                    templateString.Append(templates[i] + "' OR table_name = '");
+                    templateString.Append(templates[i] + "' OR template_id = '");
                 } else {
                     templateString.Append(templates[i] + "')");
                 }

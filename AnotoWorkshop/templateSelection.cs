@@ -101,5 +101,10 @@ namespace AnotoWorkshop {
             templates = _workingTemplates;
             Close();
         }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            _table.DefaultView.RowFilter = string.Format("Display LIKE '%{0}%'", txtFilter.Text);
+        }
     }
 }

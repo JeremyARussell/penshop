@@ -31,6 +31,7 @@
             this.btnOkay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dgTemplates = new System.Windows.Forms.DataGridView();
+            this.txtFilter = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgTemplates)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,11 +65,20 @@
             this.dgTemplates.Size = new System.Drawing.Size(697, 309);
             this.dgTemplates.TabIndex = 5;
             // 
+            // txtFilter
+            // 
+            this.txtFilter.Location = new System.Drawing.Point(181, 50);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(202, 20);
+            this.txtFilter.TabIndex = 6;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
+            // 
             // templateSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(721, 418);
+            this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.dgTemplates);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOkay);
@@ -87,5 +97,6 @@
         private System.Windows.Forms.Button btnOkay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgTemplates;
+        private System.Windows.Forms.TextBox txtFilter;
     }
 }
