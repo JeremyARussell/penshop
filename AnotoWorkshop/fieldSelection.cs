@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace AnotoWorkshop {
         Settings _settings = Settings.instance;
         StringBuilder templateString = new StringBuilder();
         string typeString;
+
 
         public fieldSelection(List<int> templates, string type ) {//FT1C
 
@@ -35,13 +37,29 @@ namespace AnotoWorkshop {
 
 
         private void btnSelectName_Click(object sender, EventArgs e) {
-            name = lstNames.SelectedItem.ToString();
+            name = dgFields.SelectedRows[0].Cells[0].Value.ToString();
             name = name.Replace(" -:- " ,".");
 
             Close();
         }
 
+        private DataSet _dataSet = new DataSet("Set");
+        private DataTable _table;
+
+
+
         private void fieldSelection_Load(object sender, EventArgs e) {
+
+            _table = _dataSet.Tables.Add("Table");
+            _table.Columns.Add("Name", typeof(string));
+            _table.PrimaryKey = new DataColumn[] { _table.Columns["Name"] };
+            dgFields.DataSource = _table;
+            dgFields.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgFields.Columns[0].FillWeight = 100;
+            
+
+
+
             try {
                 SqlConnection myConnection = new SqlConnection(_settings.dbConnectionString);
 
@@ -57,8 +75,8 @@ namespace AnotoWorkshop {
                     while (myReader.Read()) {
                         string nameToAdd = myReader["table_name"].ToString() +
                             " -:- " + myReader["field_name"].ToString();
-                        if(!lstNames.Items.Contains(nameToAdd)) {
-                            lstNames.Items.Add(nameToAdd);
+                        if(!_table.Rows.Contains(nameToAdd)) {
+                            _table.Rows.Add(nameToAdd);
                         }
                     }
                 }
@@ -73,6 +91,11 @@ namespace AnotoWorkshop {
                 Console.WriteLine(ex.ToString());
                 throw;
             }
+        }
+
+        private void txtQuickSearch_TextChanged(object sender, EventArgs e)
+        {
+            _table.DefaultView.RowFilter = string.Format("Name LIKE '%{0}%'", txtQuickSearch.Text);
         }
     }
 }
