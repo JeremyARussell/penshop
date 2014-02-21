@@ -745,7 +745,22 @@ namespace AnotoWorkshop {
             _mode = MouseMode.Adding;
             _fieldToAdd = new Field("Label", Type.Label);
             _fieldToAdd.zoomLevel = _zoomLevel;
-            _fieldToAdd.text = Interaction.InputBox("Text of Label");
+
+            using (var form = new labelCreator()) {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    string val = form.text;
+                    string val2 = form.type;
+
+                    _fieldToAdd.text = val;
+                    _fieldToAdd.formatSet = _settings.getFormatSetByName(val2);
+
+                }
+            }
+
+
+
+            //_fieldToAdd.text = Interaction.InputBox("Text of Label");
         }
 
         private void btnAddRectangle_Click(object sender, EventArgs e) {

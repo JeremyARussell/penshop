@@ -67,9 +67,9 @@
             // 
             // txtFilter
             // 
-            this.txtFilter.Location = new System.Drawing.Point(181, 50);
+            this.txtFilter.Location = new System.Drawing.Point(73, 50);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(202, 20);
+            this.txtFilter.Size = new System.Drawing.Size(310, 20);
             this.txtFilter.TabIndex = 6;
             this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 

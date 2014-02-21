@@ -43,7 +43,7 @@ namespace AnotoWorkshop {
                         string displayNameToAdd = myReader["template_display_name"].ToString();
                         int intToAdd = int.Parse(myReader["template_id"].ToString());
 
-                        if (displayNameToAdd != "" && _settings.whiteList.Contains(intToAdd)) {
+                        if (_settings.whiteList.Contains(intToAdd)) {
                             if (_workingTemplates.Contains(intToAdd)) {
                                 _table.Rows.Add(true, displayNameToAdd, nameToAdd, intToAdd);//For the Grid
                             } else {

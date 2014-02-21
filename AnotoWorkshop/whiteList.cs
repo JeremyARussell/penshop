@@ -21,6 +21,11 @@ namespace AnotoWorkshop {
         private DataTable _table;
 
         private void whiteList_Load(object sender, EventArgs e) {
+            splitContainer1.FixedPanel = FixedPanel.Panel1;
+            splitContainer2.FixedPanel = FixedPanel.Panel1;
+            splitContainer3.FixedPanel = FixedPanel.Panel1;
+
+
             buildWhitelistDataTable();
             //LoadGrid(_table);
 
@@ -41,12 +46,16 @@ namespace AnotoWorkshop {
 
                         if(_settings.whiteList.Contains(intToAdd)) {
                             ListViewItem item = new ListViewItem();
-                            item.Text = displayNameToAdd;
+                            if (displayNameToAdd != "") {
+                                item.Text = displayNameToAdd;
+                            } else {
+                                item.Text = nameToAdd;
+                            }
                             item.Tag = intToAdd;
                             lstWhiteList.Items.Add(item);
                         }
 
-                        if (displayNameToAdd != "" && !_settings.whiteList.Contains(intToAdd)) {
+                        if (!_settings.whiteList.Contains(intToAdd)) {
                             _table.Rows.Add(displayNameToAdd, nameToAdd, intToAdd);
                         }
                         
@@ -77,32 +86,43 @@ namespace AnotoWorkshop {
             _table.Columns["id"].Unique = true;
             _table.PrimaryKey = new DataColumn[] { _table.Columns["id"] };
 
-            LoadGrid();
-
-            dgBlackList.Columns[0].Width = 100;
-            dgBlackList.Columns[1].Width = 65;
-            dgBlackList.Columns[2].Width = 40;
-        }
-
-        public void LoadGrid() {
             dgBlackList.DataSource = _table;
-        }
+            dgBlackList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            dgBlackList.Columns[0].FillWeight = 40;
+            dgBlackList.Columns[1].FillWeight = 45;
+            dgBlackList.Columns[2].FillWeight = 15;
+        }
 
         private void addToWhiteList() {
 
             foreach (DataGridViewRow row in dgBlackList.SelectedRows) {
                 ListViewItem item = new ListViewItem();
-                item.Text = row.Cells[0].Value.ToString();
+                if (row.Cells[0].Value.ToString() != "") {
+                    item.Text = row.Cells[0].Value.ToString();
+                } else {
+                    item.Text = row.Cells[1].Value.ToString();
+                }
                 item.Tag = row.Cells[2].Value;
                 lstWhiteList.Items.Add(item);
             }
 
+            _needToSave = true;
             
         }
 
         private void removeFromWhiteList() {
-            
+
+            foreach (ListViewItem row in lstWhiteList.SelectedItems) {
+                //ListViewItem item = new ListViewItem();
+                //item.Text = row.Cells[0].Value.ToString();
+                //item.Tag = row.Cells[2].Value;
+                _settings.removeFromWhiteList((int)row.Tag);
+                lstWhiteList.Items.Remove(row);
+            }
+
+            _needToSave = true;
+
         }
 
         private void hide() {
@@ -113,16 +133,39 @@ namespace AnotoWorkshop {
             
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnAdd_Click(object sender, EventArgs e) {
+            addToWhiteList();
+        }
+
+        bool _needToSave;
+
+        private void whiteList_FormClosing(object sender, FormClosingEventArgs e) {
+            foreach (ListViewItem item in lstWhiteList.Items) {
+                _settings.addToWhiteList((int)item.Tag);
+            }
+            if (_needToSave) {
+                _settings.saveToFile(); 
+            }
+        }
+
+        private void dgBlackList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             addToWhiteList();
         }
 
-        private void btnSaveList_Click(object sender, EventArgs e) {
-            foreach (ListViewItem item in lstWhiteList.Items) {
-                _settings.addToWhiteList((int)item.Tag);
-            }
-            _settings.saveToFile();
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            removeFromWhiteList();
+        }
+
+        private void lstWhiteList_DoubleClick(object sender, EventArgs e)
+        {
+            removeFromWhiteList();
+        }
+
+        private void txtQuickSearch_TextChanged(object sender, EventArgs e)
+        {
+            _table.DefaultView.RowFilter = string.Format("Name LIKE '%{0}%'", txtQuickSearch.Text);
         }
     }
 }
