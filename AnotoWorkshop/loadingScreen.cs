@@ -48,8 +48,11 @@ namespace AnotoWorkshop {
                 if (_settings.formsFolderLocation != null) {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
                     foreach (string file in fileList) {
-                        string formName = file.Remove(0, _settings.formsFolderLocation.Length);
-                        formName = formName.Remove(formName.Length - 8, 8); 
+                        PenForm tempForm = _form = new PenForm(file);
+                        string formName = tempForm.FormName;
+                            
+                            //file.Remove(0, _settings.formsFolderLocation.Length);
+                        //formName = formName.Remove(formName.Length - 8, 8); 
 
                         ListViewItem workingListViewItem = new ListViewItem(formName);
                         workingListViewItem.Tag = file;
@@ -67,7 +70,7 @@ namespace AnotoWorkshop {
             //-Franklin - Added check to make sure items are really selected.
             if (lstvForms.SelectedItems.Count > 0) {
                 string filePath = lstvForms.SelectedItems[0].Tag.ToString();
-                _form = new PenForm(filePath);//TODO - Culprit
+                _form = new PenForm(filePath);
 
                 //Revamped this to allow for OLE interaction with the designer form.
                 //Specifically the is blank handling for the save and export folders.
