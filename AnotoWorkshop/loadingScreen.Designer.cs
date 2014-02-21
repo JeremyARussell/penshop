@@ -31,7 +31,6 @@
             this.lstvForms = new System.Windows.Forms.ListView();
             this.btnLoadSettings = new System.Windows.Forms.Button();
             this.btlLoadAliasBuilder = new System.Windows.Forms.Button();
-            this.btnOpenSQLform = new System.Windows.Forms.Button();
             this.btnImportForms = new System.Windows.Forms.Button();
             this.btnNewForm = new System.Windows.Forms.Button();
             this.btnRemoveForm = new System.Windows.Forms.Button();
@@ -61,7 +60,7 @@
             // 
             // btlLoadAliasBuilder
             // 
-            this.btlLoadAliasBuilder.Location = new System.Drawing.Point(428, 267);
+            this.btlLoadAliasBuilder.Location = new System.Drawing.Point(428, 75);
             this.btlLoadAliasBuilder.Margin = new System.Windows.Forms.Padding(2);
             this.btlLoadAliasBuilder.Name = "btlLoadAliasBuilder";
             this.btlLoadAliasBuilder.Size = new System.Drawing.Size(74, 24);
@@ -70,20 +69,9 @@
             this.btlLoadAliasBuilder.UseVisualStyleBackColor = true;
             this.btlLoadAliasBuilder.Click += new System.EventHandler(this.btlLoadAliasBuilder_Click);
             // 
-            // btnOpenSQLform
-            // 
-            this.btnOpenSQLform.Location = new System.Drawing.Point(428, 239);
-            this.btnOpenSQLform.Margin = new System.Windows.Forms.Padding(2);
-            this.btnOpenSQLform.Name = "btnOpenSQLform";
-            this.btnOpenSQLform.Size = new System.Drawing.Size(74, 24);
-            this.btnOpenSQLform.TabIndex = 22;
-            this.btnOpenSQLform.Text = "SQL Query";
-            this.btnOpenSQLform.UseVisualStyleBackColor = true;
-            this.btnOpenSQLform.Click += new System.EventHandler(this.btnOpenSQLform_Click);
-            // 
             // btnImportForms
             // 
-            this.btnImportForms.Location = new System.Drawing.Point(428, 211);
+            this.btnImportForms.Location = new System.Drawing.Point(428, 266);
             this.btnImportForms.Name = "btnImportForms";
             this.btnImportForms.Size = new System.Drawing.Size(74, 23);
             this.btnImportForms.TabIndex = 26;
@@ -130,7 +118,6 @@
             this.Controls.Add(this.btnRemoveForm);
             this.Controls.Add(this.btnNewForm);
             this.Controls.Add(this.btnImportForms);
-            this.Controls.Add(this.btnOpenSQLform);
             this.Controls.Add(this.btlLoadAliasBuilder);
             this.Controls.Add(this.btnLoadSettings);
             this.Controls.Add(this.lstvForms);
@@ -147,7 +134,6 @@
         private System.Windows.Forms.ListView lstvForms;
         private System.Windows.Forms.Button btnLoadSettings;
         private System.Windows.Forms.Button btlLoadAliasBuilder;
-        private System.Windows.Forms.Button btnOpenSQLform;
         private System.Windows.Forms.Button btnImportForms;
         private System.Windows.Forms.Button btnNewForm;
         private System.Windows.Forms.Button btnRemoveForm;

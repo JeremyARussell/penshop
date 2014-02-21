@@ -311,8 +311,10 @@
             this.txtDbPass.Location = new System.Drawing.Point(92, 119);
             this.txtDbPass.Margin = new System.Windows.Forms.Padding(2);
             this.txtDbPass.Name = "txtDbPass";
+            this.txtDbPass.PasswordChar = '*';
             this.txtDbPass.Size = new System.Drawing.Size(158, 20);
             this.txtDbPass.TabIndex = 50;
+            this.txtDbPass.UseSystemPasswordChar = true;
             // 
             // label9
             // 

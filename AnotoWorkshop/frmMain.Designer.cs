@@ -894,7 +894,7 @@
             this.tabHistory.Name = "tabHistory";
             this.tabHistory.Size = new System.Drawing.Size(1309, 714);
             this.tabHistory.TabIndex = 3;
-            this.tabHistory.Text = "History";
+            this.tabHistory.Text = "...";
             this.tabHistory.UseVisualStyleBackColor = true;
             // 
             // cntxtFieldControls
@@ -950,6 +950,7 @@
             this.Controls.Add(this.tabs);
             this.KeyPreview = true;
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pen Workshop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);

@@ -49,6 +49,7 @@ namespace AnotoWorkshop {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
                     foreach (string file in fileList) {
                         string formName = file.Remove(0, _settings.formsFolderLocation.Length);
+                        formName = formName.Remove(formName.Length - 8, 8); 
 
                         ListViewItem workingListViewItem = new ListViewItem(formName);
                         workingListViewItem.Tag = file;
@@ -81,14 +82,6 @@ namespace AnotoWorkshop {
             dlg.ShowDialog();
         }
         #endregion Form Loading
-
-        #region SQL Loader
-
-        private void btnOpenSQLform_Click(object sender, EventArgs e) {
-            //new Thread(() => new fieldSelection().ShowDialog()).Start();
-        }
-
-        #endregion SQL Loader
 
         #region Variable Builder
 
