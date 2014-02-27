@@ -1295,5 +1295,59 @@ namespace AnotoWorkshop {
                     }               
               }    
         }
+
+        private void alignHorizontallyToolStripMenuItem_Click(object sender, EventArgs e) {
+            List<int> yPositions = new List<int>();
+
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    yPositions.Add(fi.y);
+                }
+            }
+
+            int newY = 0;
+
+            foreach(int i in yPositions) {
+                newY = newY + i;
+            }
+
+            newY = newY / yPositions.Count;
+
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    fi.y = newY;
+                }
+            }
+
+
+            designPanel.Invalidate();
+        }
+
+        private void alignVerticallyToolStripMenuItem_Click(object sender, EventArgs e) {
+            List<int> xPositions = new List<int>();
+
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    xPositions.Add(fi.x);
+                }
+            }
+
+            int newX = 0;
+
+            foreach(int i in xPositions) {
+                newX = newX + i;
+            }
+
+            newX = newX / xPositions.Count;
+
+            foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    fi.x = newX;
+                }
+            }
+
+
+            designPanel.Invalidate();
+         }
     }
 }
