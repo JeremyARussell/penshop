@@ -42,7 +42,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnAddLine = new System.Windows.Forms.Button();
             this.btnAddRectangle = new System.Windows.Forms.Button();
-            this.btnAddGroupBox = new System.Windows.Forms.Button();
             this.btnAddOptionGroup = new System.Windows.Forms.Button();
             this.btnAddLabel = new System.Windows.Forms.Button();
             this.btnAddCheckBox = new System.Windows.Forms.Button();
@@ -288,7 +287,6 @@
             // 
             this.groupBox1.Controls.Add(this.btnAddLine);
             this.groupBox1.Controls.Add(this.btnAddRectangle);
-            this.groupBox1.Controls.Add(this.btnAddGroupBox);
             this.groupBox1.Controls.Add(this.btnAddOptionGroup);
             this.groupBox1.Controls.Add(this.btnAddLabel);
             this.groupBox1.Controls.Add(this.btnAddCheckBox);
@@ -305,7 +303,7 @@
             // 
             // btnAddLine
             // 
-            this.btnAddLine.Location = new System.Drawing.Point(5, 134);
+            this.btnAddLine.Location = new System.Drawing.Point(5, 149);
             this.btnAddLine.Name = "btnAddLine";
             this.btnAddLine.Size = new System.Drawing.Size(65, 23);
             this.btnAddLine.TabIndex = 8;
@@ -315,7 +313,7 @@
             // 
             // btnAddRectangle
             // 
-            this.btnAddRectangle.Location = new System.Drawing.Point(5, 105);
+            this.btnAddRectangle.Location = new System.Drawing.Point(5, 122);
             this.btnAddRectangle.Name = "btnAddRectangle";
             this.btnAddRectangle.Size = new System.Drawing.Size(65, 23);
             this.btnAddRectangle.TabIndex = 7;
@@ -323,20 +321,11 @@
             this.btnAddRectangle.UseVisualStyleBackColor = true;
             this.btnAddRectangle.Click += new System.EventHandler(this.btnAddRectangle_Click);
             // 
-            // btnAddGroupBox
-            // 
-            this.btnAddGroupBox.Location = new System.Drawing.Point(98, 147);
-            this.btnAddGroupBox.Name = "btnAddGroupBox";
-            this.btnAddGroupBox.Size = new System.Drawing.Size(20, 23);
-            this.btnAddGroupBox.TabIndex = 6;
-            this.btnAddGroupBox.Text = "Group Box";
-            this.btnAddGroupBox.UseVisualStyleBackColor = true;
-            // 
             // btnAddOptionGroup
             // 
-            this.btnAddOptionGroup.Location = new System.Drawing.Point(98, 18);
+            this.btnAddOptionGroup.Location = new System.Drawing.Point(5, 207);
             this.btnAddOptionGroup.Name = "btnAddOptionGroup";
-            this.btnAddOptionGroup.Size = new System.Drawing.Size(20, 23);
+            this.btnAddOptionGroup.Size = new System.Drawing.Size(82, 23);
             this.btnAddOptionGroup.TabIndex = 5;
             this.btnAddOptionGroup.Text = "Option Group";
             this.btnAddOptionGroup.UseVisualStyleBackColor = true;
@@ -912,7 +901,7 @@
             this.alignHorizontallyToolStripMenuItem,
             this.alignVerticallyToolStripMenuItem});
             this.cntxtFieldControls.Name = "cntxtFieldControls";
-            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 202);
+            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 180);
             // 
             // cutToolStripMenuItem
             // 
@@ -1027,7 +1016,6 @@
         private System.Windows.Forms.Button btnAddOptionGroup;
         private System.Windows.Forms.Button btnDeleteField;
         private System.Windows.Forms.Button btnExportForm;
-        private System.Windows.Forms.Button btnAddGroupBox;
         private System.Windows.Forms.Label lblTotalpages;
         private System.Windows.Forms.Label lblCurrentPage;
         private System.Windows.Forms.Label label9;

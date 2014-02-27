@@ -50,9 +50,6 @@ namespace AnotoWorkshop {
                     foreach (string file in fileList) {
                         PenForm tempForm = _form = new PenForm(file);
                         string formName = tempForm.FormName;
-                            
-                            //file.Remove(0, _settings.formsFolderLocation.Length);
-                        //formName = formName.Remove(formName.Length - 8, 8); 
 
                         ListViewItem workingListViewItem = new ListViewItem(formName);
                         workingListViewItem.Tag = file;

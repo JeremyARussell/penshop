@@ -1311,7 +1311,9 @@ namespace AnotoWorkshop {
                 newY = newY + i;
             }
 
-            newY = newY / yPositions.Count;
+            if (yPositions.Count != 0) {
+                newY = newY/yPositions.Count;
+            }
 
             foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 if (fi.selected) {
@@ -1338,7 +1340,9 @@ namespace AnotoWorkshop {
                 newX = newX + i;
             }
 
-            newX = newX / xPositions.Count;
+            if (xPositions.Count != 0) {
+                newX = newX / xPositions.Count;
+            }
 
             foreach (Field fi in currentForm.page(_currentPageNumber).Fields) {
                 if (fi.selected) {
