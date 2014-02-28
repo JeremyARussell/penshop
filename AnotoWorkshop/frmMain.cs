@@ -491,6 +491,8 @@ namespace AnotoWorkshop {
                                 case Type.Label:
                                     _fieldToAdd.zx = _selectionRect.X - _xOffset;
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font).Width;
+                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font).Height;
                                     break;
 
                                 case Type.RectangleDraw:
@@ -503,8 +505,10 @@ namespace AnotoWorkshop {
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
                                     break;
                             }
-                            _fieldToAdd.zwidth = _selectionRect.Width;
-                            _fieldToAdd.zheight = _selectionRect.Height;
+                            if (_fieldToAdd.type != Type.Label || _fieldToAdd.type != Type.FancyLabel) {
+                                _fieldToAdd.zwidth = _selectionRect.Width;
+                                _fieldToAdd.zheight = _selectionRect.Height; 
+                            }
 
                             if (!needToSaveForm) {
                                 this.Text = currentForm.FormName + "*";
