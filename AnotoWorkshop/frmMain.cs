@@ -86,6 +86,9 @@ namespace AnotoWorkshop {
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance |
                 BindingFlags.NonPublic, null, designPanel, new object[] { true });
 
+            bitTest.SetResolution(72.0f, 72.0f);
+            e = Graphics.FromImage(bitTest);
+
             lblVersionNumber.Text = currentForm.versionNumber.ToString();
 
             foreach (var fSet in _settings.globalFormatSet) {
@@ -93,39 +96,47 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
+        Bitmap bitTest = new Bitmap(612, 792);
+        Graphics e;
+
+        
+
+        private void designer_Paint(object sender, PaintEventArgs ep) {//The paint event handler for when the designer area gets redrawn.
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1);
             lblTotalpages.Text = currentForm.totalPages().ToString();
+
+            
+
 
             if (currentForm.totalPages() > 0) {
                 _selectionPen.DashStyle = DashStyle.Dash;
 
                 Rectangle pageRectangle = new Rectangle();
-                pageRectangle.X = _xOffset;
-                pageRectangle.Y = _yOffset;
+                //pageRectangle.X = _xOffset;
+                //pageRectangle.Y = _yOffset;
                 pageRectangle.Height = (int)(792 * _zoomLevel);
                 pageRectangle.Width = (int)(612 * _zoomLevel);
 
-                e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);
+                e.FillRectangle(new SolidBrush(Color.White), pageRectangle);
 
                 switch (_mode) {
                     case MouseMode.None://No reason to paint anything when there is no selection mode.
                         break;
 
                     case MouseMode.Selecting:
-                        e.Graphics.DrawRectangle(_selectionPen, _selectionRect);
+                        e.DrawRectangle(_selectionPen, _selectionRect);
                         break;
                     case MouseMode.Selected://The selection box and editing widgets
                     case MouseMode.Resizing:
                         if (_sfBoxRect.Height > 0) {
-                            e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_sfBoxRect.X + _xOffset, _sfBoxRect.Y + _yOffset)), _sfBoxRect.Size));
-                            e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)), _resRect.Size));
+                            e.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_sfBoxRect.X + _xOffset, _sfBoxRect.Y + _yOffset)), _sfBoxRect.Size));
+                            e.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)), _resRect.Size));
                         }
                         break;
 
                     case MouseMode.Adding:
                         Pen pt = new Pen(Color.Pink, 2);//TODO - This color can change for each item.
-                        e.Graphics.DrawRectangle(pt, _selectionRect);
+                        e.DrawRectangle(pt, _selectionRect);
                         break;
                 }
 
@@ -134,50 +145,50 @@ namespace AnotoWorkshop {
                         switch (fi.type) {
                             case Type.TextField:
                                 Pen p1 = new Pen(Color.DarkGray);
-                                e.Graphics.DrawRectangle(p1, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(p1, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 p1.Color = Color.LightGray;
-                                e.Graphics.DrawLine(p1, fi.zx + _xOffset + 1, fi.zy + _yOffset - 1 + fi.zheight, //Creates the shadow line for the text box.
+                                e.DrawLine(p1, fi.zx + _xOffset + 1, fi.zy + _yOffset - 1 + fi.zheight, //Creates the shadow line for the text box.
                                                         fi.zx + _xOffset - 1 + fi.zwidth, fi.zy + _yOffset - 1 + fi.zheight);
                                 break;
 
                             case Type.Label:
                                 Pen p2 = new Pen(Color.LightBlue);
-                                e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(p2, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
 
                                 p2.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
+                                e.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
                                 break;
 
                             case Type.FancyLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
-                                e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
 
                                 //e.Graphics.DrawString(
 
                                 flPen.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, Font, flPen.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
+                                e.DrawString(fi.text, Font, flPen.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
                                 break;
 
                             case Type.RectangleDraw:
                                 Pen recPen = new Pen(Color.LightGreen);
-                                e.Graphics.DrawRectangle(recPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(recPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 break;
 
                             case Type.LineDraw:
                                 Pen linePen = new Pen(Color.LightGreen);
-                                e.Graphics.DrawRectangle(linePen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(linePen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 break;
 
                             case Type.Checkbox:
                                 Pen p3 = new Pen(Color.Green);
-                                e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(p3, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 p3.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, Font, p3.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset + 3));
+                                e.DrawString(fi.text, Font, p3.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset + 3));
                                 break;
 
                             case Type.OptionsGroup:
                                 Pen p4 = new Pen(Color.Red);
-                                e.Graphics.DrawRectangle(p4, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.DrawRectangle(p4, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 break;
                         }
                     }
@@ -187,10 +198,13 @@ namespace AnotoWorkshop {
                         selectedRect.Y = fi.zy - 1 + _yOffset;
                         selectedRect.Width = fi.zwidth + 2;
                         selectedRect.Height = fi.zheight + 2;
-                        e.Graphics.DrawRectangle(_selectionPen, selectedRect);
+                        e.DrawRectangle(_selectionPen, selectedRect);
                         //e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(selectedRect.X, selectedRect.Y)), selectedRect.Size));
                     }
                 }
+
+                ep.Graphics.DrawImage(bitTest, new Point(_xOffset, _yOffset));
+
             }
         }
 
@@ -204,11 +218,11 @@ namespace AnotoWorkshop {
 
         #region Middle Click
 
-        private int _xOffset;
-        private int _yOffset;
+        private int _xOffset = 35;
+        private int _yOffset = 35;
 
-        private int _oldXOffset;
-        private int _oldYOffset;
+        private int _oldXOffset = 35;
+        private int _oldYOffset = 35;
 
         private Point _offsetMoveStart;
 
