@@ -76,6 +76,31 @@ namespace AnotoWorkshop {
             return retFont;
         }
 
+        public Font font(double zoom) {
+            FontStyle theFontStyle;
+            switch (fontWeight) {
+                case "bold":
+                    theFontStyle = FontStyle.Bold;
+                    break;
+
+                case "italic":
+                    theFontStyle = FontStyle.Italic;
+                    break;
+
+                case "normal":
+                    theFontStyle = FontStyle.Regular;
+                    break;
+
+                default:
+                    goto case "normal";
+            }
+
+            FontFamily theFontFamily = new FontFamily(fontTypeface);
+
+            Font retFont = new Font(theFontFamily, (int)(_fontSize * (zoom - 0.25)), theFontStyle);
+            return retFont;
+        }
+
         #endregion Properties
     }
 }

@@ -145,7 +145,7 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
 
                                 p2.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
                                 break;
 
                             case Type.FancyLabel:
@@ -491,8 +491,8 @@ namespace AnotoWorkshop {
                                 case Type.Label:
                                     _fieldToAdd.zx = _selectionRect.X - _xOffset;
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
-                                    _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Width;
-                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Height;
+                                    _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;
+                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;
                                     break;
 
                                 case Type.RectangleDraw:
