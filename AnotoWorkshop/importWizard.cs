@@ -155,7 +155,7 @@ namespace AnotoWorkshop {
                 //to work with.
 
                 //Todo - Should heavily consider creating an alternative way to load the designerForm to use for importing.
-                new Thread(() => new frmMain(form).ShowDialog()).Start();
+                new Thread(() => new FrmMain(form).ShowDialog()).Start();
             }
         }
 

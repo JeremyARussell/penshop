@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using ImageMagick;
-using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,13 +6,13 @@ using System.Reflection;
 using System.Windows.Forms;
 
 namespace AnotoWorkshop {
-    public partial class frmMain : Form {
+    public partial class FrmMain : Form {
         #region Variables
-        private bool needToSaveForm = false;//Used to track if we need to show the save or don't save prompt on form close.
+        private PenForm _currentForm;
+
+        private bool _needToSaveForm = false;//Used to track if we need to show the save or don't save prompt on form close.
         private Settings _settings = Settings.instance;//The Settings Singleton I use in the code for everything meant to be globalally accessible.
         private int _currentPageNumber;//Used to track the current page number.
-
-        private PenForm _currentForm;
 
         private Point _startPoint;
         private Point _endPoint;
@@ -40,8 +37,6 @@ namespace AnotoWorkshop {
             Adding
         }
 
-
-
         #endregion Variables
 
         #region Initializers
@@ -49,7 +44,7 @@ namespace AnotoWorkshop {
         /// Initialize new instance of the frmMain Form. The only argument it takes is an existing form.
         /// </summary>
         /// <param name="form"></param>
-        public frmMain(PenForm form) {
+        public FrmMain(PenForm form) {
             _currentForm = form;
 
             InitializeComponent();
@@ -59,34 +54,22 @@ namespace AnotoWorkshop {
 
         private void frmMain_Load(object sender, EventArgs e) {
             designerLoadStuff();//Misc things to initialize for the designer stuff
-            //-Franklin - Refresh list of objects on load
-            /*if (selectedFields == null) {
-                selectedFields = new List<Field>();
-                lblCurrentProp.Text = "1";
-                lblTotalProp.Text = currentForm.page(_currentPageNumber).Fields.Count.ToString();
-                backC = trvFieldList.BackColor;
-                foreC = trvFieldList.ForeColor;
-            }*/
-            buildFieldTree();
+            buildFieldTree();//Function for building the Field Heirarchy 
 
-            this.Text = _currentForm.FormName;
-            
+            Text = _currentForm.FormName;//Put the forms name as the screens title
         }
         #endregion Initializers
 
         #region The Designer
 
-        #region Variables
-        #endregion Variables
-
         private void designerLoadStuff() {//Some initilization stuff
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance |
-                BindingFlags.NonPublic, null, designPanel, new object[] { true });
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty |//Needed to get the designer panel to not have artifacts, etc.
+                BindingFlags.Instance | BindingFlags.NonPublic, null, designPanel, new object[] { true });
 
-            lblVersionNumber.Text = _currentForm.versionNumber.ToString();
+            lblVersionNumber.Text = _currentForm.versionNumber.ToString();//Setting the version number label
 
-            foreach (var fSet in _settings.globalFormatSet) {
-                cmbFormatSetNames.Items.Add(fSet.Key);
+            foreach (var fSet in _settings.globalFormatSet) {//Iterate through the globalFormatSets...
+                cmbFormatSetNames.Items.Add(fSet.Key);//... to add each one to the formatSet combobox
             }
         }
 
@@ -361,9 +344,9 @@ namespace AnotoWorkshop {
                             //_sfBoxRect.X = _sfBoxMoveStart.X - (_startPoint.X - e.X);//Moving the blue selected items
                             //_sfBoxRect.Y = _sfBoxMoveStart.Y - (_startPoint.Y - e.Y);
 
-                            if (!needToSaveForm) {
+                            if (!_needToSaveForm) {
                                 this.Text = _currentForm.FormName + "*";
-                                needToSaveForm = true;
+                                _needToSaveForm = true;
                             } 
                             calculateSfBox();
                             break;
@@ -375,9 +358,9 @@ namespace AnotoWorkshop {
 
                                 }
                             }
-                            if (!needToSaveForm) {
+                            if (!_needToSaveForm) {
                                 this.Text = _currentForm.FormName + "*";
-                                needToSaveForm = true;
+                                _needToSaveForm = true;
                             }
                             calculateSfBox();
                             break;
@@ -507,9 +490,9 @@ namespace AnotoWorkshop {
                                 _fieldToAdd.zheight = _selectionRect.Height; 
                             }
 
-                            if (!needToSaveForm) {
+                            if (!_needToSaveForm) {
                                 this.Text = _currentForm.FormName + "*";
-                                needToSaveForm = true;
+                                _needToSaveForm = true;
                             }
                             _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);
                             refreshProperties(_fieldToAdd);
@@ -605,9 +588,9 @@ namespace AnotoWorkshop {
             foreach (Field fi2 in _fieldsToCopy) {
                 _currentForm.page(_currentPageNumber).Fields.Remove(fi2);
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
         }
@@ -630,9 +613,9 @@ namespace AnotoWorkshop {
 
                 _currentForm.page(_currentPageNumber).addField(returnCopy(fi));
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
         }
@@ -654,9 +637,9 @@ namespace AnotoWorkshop {
             tempField.formatSet.fontSizeString = fi.formatSet.fontSizeString;
             tempField.formatSet.fontWeight = fi.formatSet.fontWeight;
             tempField.text = fi.text;
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             return tempField;
             
@@ -684,9 +667,9 @@ namespace AnotoWorkshop {
             foreach (Field fi in fieldsToDelete) {
                 _currentForm.page(_currentPageNumber).Fields.Remove(fi);
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             deselectAll();
 
@@ -856,7 +839,7 @@ namespace AnotoWorkshop {
                 }
             }
             this.Text = _currentForm.FormName;
-            needToSaveForm = false;         
+            _needToSaveForm = false;         
             _currentForm.saveForm();
         }
         #endregion Save Form Button
@@ -878,7 +861,7 @@ namespace AnotoWorkshop {
                 }
             }
             this.Text = _currentForm.FormName;
-            needToSaveForm = false;
+            _needToSaveForm = false;
             _currentForm.versionNumber++;
             _currentForm.exportXDP();
             _currentForm.exportEPS();
@@ -983,9 +966,9 @@ namespace AnotoWorkshop {
                     fi.y--;
                 }
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
             calculateSfBox();
@@ -997,9 +980,9 @@ namespace AnotoWorkshop {
                     fi.y++;
                 }
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
             calculateSfBox();
@@ -1011,9 +994,9 @@ namespace AnotoWorkshop {
                     fi.x--;
                 }
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
             calculateSfBox();
@@ -1025,9 +1008,9 @@ namespace AnotoWorkshop {
                     fi.x++;
                 }
             }
-            if (!needToSaveForm) {
+            if (!_needToSaveForm) {
                 this.Text = _currentForm.FormName + "*";
-                needToSaveForm = true;
+                _needToSaveForm = true;
             }
             designPanel.Invalidate();
             calculateSfBox();
@@ -1170,7 +1153,7 @@ namespace AnotoWorkshop {
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-            if(needToSaveForm) {//Used to intercept the form closing, in order to see if the user wants to save or not.
+            if(_needToSaveForm) {//Used to intercept the form closing, in order to see if the user wants to save or not.
                 DialogResult dRes = MessageBox.Show("You've made changes to your form, would you like to save before you close?", "Do you want to save?",
                         MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);  
                 if (dRes == DialogResult.Yes) {

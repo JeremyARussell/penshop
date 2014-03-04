@@ -1,6 +1,6 @@
 ﻿namespace AnotoWorkshop
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -964,7 +964,7 @@
             this.ClientSize = new System.Drawing.Size(1317, 740);
             this.Controls.Add(this.tabs);
             this.KeyPreview = true;
-            this.Name = "frmMain";
+            this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pen Workshop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);

@@ -78,7 +78,7 @@ namespace AnotoWorkshop {
         }
 
         void openForm() {
-            frmMain dlg = new frmMain(_form);
+            FrmMain dlg = new FrmMain(_form);
             dlg.ShowDialog();
         }
         #endregion Form Loading
