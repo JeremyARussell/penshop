@@ -96,8 +96,10 @@ namespace AnotoWorkshop {
             }
 
             FontFamily theFontFamily = new FontFamily(fontTypeface);
+            int zoomedFontSize = (int)(_fontSize * (zoom - 0.25));
+            if (zoomedFontSize == 0) zoomedFontSize = 1;
 
-            Font retFont = new Font(theFontFamily, (int)(_fontSize * (zoom - 0.25)), theFontStyle);
+            Font retFont = new Font(theFontFamily, zoomedFontSize, theFontStyle);
             return retFont;
         }
 
