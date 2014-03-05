@@ -12,7 +12,7 @@ namespace AnotoWorkshop {
         private static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new loadingScreen());
+            Application.Run(new LoadingScreen());
         }
     }
 }

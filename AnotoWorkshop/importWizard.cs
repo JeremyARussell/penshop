@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace AnotoWorkshop {
 
-    public partial class importWizard : Form {
+    public partial class ImportWizard : Form {
 
         #region Variables
 
         private Settings _settings;
         private List<PenForm> _formsToSave = new List<PenForm>();
         private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
-        private readonly loadingScreen _loadingScreen;
+        private readonly LoadingScreen _loadingScreen;
 
         //TODO - Add add the network path for the forms as a prefix. Save in settings file.
         private int _activeFormatSet;
@@ -23,7 +23,7 @@ namespace AnotoWorkshop {
 
         #region Initailizer
 
-        public importWizard(List<PenForm> formsToSave, Dictionary<int, FormatSet> formatSetsToCleanup, loadingScreen loadingScreen) {
+        public ImportWizard(List<PenForm> formsToSave, Dictionary<int, FormatSet> formatSetsToCleanup, LoadingScreen loadingScreen) {
             _settings = Settings.instance;
             _formsToSave = formsToSave;
             _formatSets = formatSetsToCleanup;
@@ -155,7 +155,7 @@ namespace AnotoWorkshop {
                 //to work with.
 
                 //Todo - Should heavily consider creating an alternative way to load the designerForm to use for importing.
-                new Thread(() => new FrmMain(form).ShowDialog()).Start();
+                new Thread(() => new Designer(form).ShowDialog()).Start();
             }
         }
 

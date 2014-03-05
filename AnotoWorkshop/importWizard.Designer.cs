@@ -1,6 +1,6 @@
 ﻿namespace AnotoWorkshop
 {
-    partial class importWizard
+    partial class ImportWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -248,7 +248,7 @@
             this.Controls.Add(this.lstvFormatSets);
             this.Controls.Add(this.lstvForms);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "importWizard";
+            this.Name = "ImportWizard";
             this.Text = "Import Wizard";
             this.Load += new System.EventHandler(this.importWizard_Load);
             this.ResumeLayout(false);

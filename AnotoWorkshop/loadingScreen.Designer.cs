@@ -1,6 +1,6 @@
 ﻿namespace AnotoWorkshop
 {
-    partial class loadingScreen
+    partial class LoadingScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -122,7 +122,7 @@
             this.Controls.Add(this.btnLoadSettings);
             this.Controls.Add(this.lstvForms);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "loadingScreen";
+            this.Name = "LoadingScreen";
             this.Text = "Loading Screen";
             this.Load += new System.EventHandler(this.loadingScreen_Load);
             this.ResumeLayout(false);

@@ -7,7 +7,7 @@ using Microsoft.VisualBasic;
 
 namespace AnotoWorkshop {
 
-    public partial class loadingScreen : Form {
+    public partial class LoadingScreen : Form {
 
         #region Variables
 
@@ -17,7 +17,7 @@ namespace AnotoWorkshop {
 
         #region Initializers - Kind of Started
 
-        public loadingScreen() {
+        public LoadingScreen() {
             InitializeComponent();
         }
 
@@ -78,7 +78,7 @@ namespace AnotoWorkshop {
         }
 
         void openForm() {
-            FrmMain dlg = new FrmMain(_form);
+            Designer dlg = new Designer(_form);
             dlg.ShowDialog();
         }
         #endregion Form Loading
@@ -136,7 +136,7 @@ namespace AnotoWorkshop {
                     throw ex;
                 }
 
-                new importWizard(_formsToSave, _formatSets, this).ShowDialog();
+                new ImportWizard(_formsToSave, _formatSets, this).ShowDialog();
             }
         }
 
