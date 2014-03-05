@@ -10,95 +10,104 @@ namespace AnotoWorkshop {
         #region Variables
         private PenForm _currentForm;
 
-        private bool _needToSaveForm = false;//Used to track if we need to show the save or don't save prompt on form close.
-        private Settings _settings = Settings.instance;//The Settings Singleton I use in the code for everything meant to be globalally accessible.
-        private int _currentPageNumber;//Used to track the current page number.
+        private bool _needToSaveForm = false;           //Used to track if we need to show the save or don't save prompt on form close.
+        private Settings _settings = Settings.instance; //The Settings Singleton I use in the code for everything meant to be globalally accessible.
+        private int _currentPageNumber;                 //Used to track the current page number.
+        private Field _fieldToAdd;                      //This field is used when adding fields,
 
-        private Point _startPoint;
-        private Point _endPoint;
-        private Rectangle _selectionRect;
-        private Field _fieldToAdd;
-        private Rectangle _sfBoxRect;
-        private Rectangle _resRect;
+        private Point _startPoint;             //This Point tracks when the mouse is clicked down.
+        private Point _endPoint;               //And this Point tracks when the click is released back up.
+        private Rectangle _selectionRect;      //This is the Rectangle used to actively track where the user is "selecting"
+        private Rectangle _groupSelectionRect; //This Rectangle is the group selection rectangle used to encompass a group of things that have been selected.
+        private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
 
-        private Point _sfBoxMoveStart;
-        private double _zoomLevel = 1.00;//Franklin
+        private Point _sfBoxMoveStart;         //For when you move a collection of Fields,
+        private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
 
-        private readonly Pen _selectionPen = new Pen(Color.Gray);
-        private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f);
+        private readonly Pen _selectionPen = new Pen(Color.Gray);            //The pen used for the _selectionRect
+        private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f); //The pen used for the _groupSelectionRect
 
-        private MouseMode _mode = MouseMode.None;
+        private MouseMode _mode = MouseMode.None; //The MouseMode is used to keep track of what we should be doing with the mouse during the misc mouse events
 
-        public enum MouseMode {
-            None,
-            Selecting,
-            Selected,
-            Resizing,
-            Adding
+        public enum MouseMode {                   //The MouseMode enum, pretty basic here but I'll run through each mode.
+            None,                                 //This is a placeholder for switching the mode to when we want the mouse to act as it would normally act.
+            Selecting,                            //This mode is used to let the paint event know to draw the selection rectangle, etc, as well as highlight fields and such.
+            Selected,                             //When you are done selecting, if you have selected something this is the mode you'll be in, so that things like moving stuff can happen.
+            Resizing,                             //This mode is activated when resizing, so that the movement of the mouse can be used for that instead of anything else.
+            Adding                                //Mode used when adding new fields, lets the adding box get painted and the mouse events get tailored for adding the new field.
         }
 
         #endregion Variables
+
+
 
         #region Initializers
         /// <summary>
         /// Initialize new instance of the frmMain Form. The only argument it takes is an existing form.
         /// </summary>
-        /// <param name="form"></param>
-        public FrmMain(PenForm form) {
-            _currentForm = form;
+        /// <param name="form">The form that will be used when designing.</param>
+        public FrmMain(PenForm form) {//Only constructor for loading up the designer.
+            _currentForm = form;      
 
-            InitializeComponent();
+            InitializeComponent();    
 
-            MouseWheel += mouseWheel;
+            MouseWheel += mouseWheel; //To override the built in MouseWheel event with my own.
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            designerLoadStuff();//Misc things to initialize for the designer stuff
-            buildFieldTree();//Function for building the Field Heirarchy 
+            designerLoadStuff();            //Misc things to initialize for the designer stuff
+            buildFieldTree();               //Function for building the Field Heirarchy 
 
-            Text = _currentForm.FormName;//Put the forms name as the screens title
         }
+
+        /// <summary>
+        /// Just a void function for doing some on load prep work.
+        /// </summary>
+        private void designerLoadStuff() {
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty |     //Needed to get the designer panel to not have artifacts, etc.
+                BindingFlags.Instance | BindingFlags.NonPublic, null, designPanel, new object[] { true });
+
+            _selectionPen.DashStyle = DashStyle.Dash;  //The selection box will be drawn with dashes lines.
+
+            lblVersionNumber.Text = _currentForm.versionNumber.ToString();              //Setting the version number label
+
+            foreach (var fSet in _settings.globalFormatSet) {   //Iterate through the globalFormatSets...
+                cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
+            }
+
+            Text = _currentForm.FormName;       //Put the forms name as the screens title
+        }
+
         #endregion Initializers
+
+
 
         #region The Designer
 
-        private void designerLoadStuff() {//Some initilization stuff
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty |//Needed to get the designer panel to not have artifacts, etc.
-                BindingFlags.Instance | BindingFlags.NonPublic, null, designPanel, new object[] { true });
-
-            lblVersionNumber.Text = _currentForm.versionNumber.ToString();//Setting the version number label
-
-            foreach (var fSet in _settings.globalFormatSet) {//Iterate through the globalFormatSets...
-                cmbFormatSetNames.Items.Add(fSet.Key);//... to add each one to the formatSet combobox
-            }
-        }
-
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
-            lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1);
-            lblTotalpages.Text = _currentForm.totalPages().ToString();
+            lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
+            lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
 
-            if (_currentForm.totalPages() > 0) {
-                _selectionPen.DashStyle = DashStyle.Dash;
-
-                Rectangle pageRectangle = new Rectangle();
-                pageRectangle.X = _xOffset;
-                pageRectangle.Y = _yOffset;
-                pageRectangle.Height = (int)(792 * _zoomLevel);
-                pageRectangle.Width = (int)(612 * _zoomLevel);
-
-                e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);
+            if (_currentForm.totalPages() > 0) { //Being safe about what we paint, without this we get exceptions when have empty pages.
+                Rectangle pageRectangle = new Rectangle();                              //This rectangle is for drawing the white "page" that all the fields are on
+                pageRectangle.X = _xOffset;                                             //Offsetting the page by the X and Y...
+                pageRectangle.Y = _yOffset;                                             //...offsets to facilitate "moving" the page.
+                pageRectangle.Height = (int)(792 * _zoomLevel);                         //Height and Width get their dimensions multiplied by the...
+                pageRectangle.Width = (int)(612 * _zoomLevel);                          //...value of _zoomLevel to allow for enlarging and shrinking.
+                e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);   //Finally, we actually draw the page to the panel.
 
                 switch (_mode) {
-                    case MouseMode.None://No reason to paint anything when there is no selection mode.
+                    case MouseMode.None://No reason to paint anything special when there is no selection mode.
                         break;
 
                     case MouseMode.Selecting:
-                        e.Graphics.DrawRectangle(_selectionPen, _selectionRect);
+                        e.Graphics.DrawRectangle(_selectionPen, _selectionRect);//This is that selection box being painted on screen.
                         break;
+
                     case MouseMode.Selected://The selection box and editing widgets
                     case MouseMode.Resizing:
-                        if (_sfBoxRect.Height > 0) {
-                            e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_sfBoxRect.X + _xOffset, _sfBoxRect.Y + _yOffset)), _sfBoxRect.Size));
+                        if (_groupSelectionRect.Height > 0) {
+                            e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_groupSelectionRect.X + _xOffset, _groupSelectionRect.Y + _yOffset)), _groupSelectionRect.Size));
                             e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)), _resRect.Size));
                         }
                         break;
@@ -174,49 +183,36 @@ namespace AnotoWorkshop {
             }
         }
 
-        #region Mouse Related Variables
+        //Mouse Variables
+        //Left Click
+        //Nothing yet
 
-        #region Left Click
-
-
-
-        #endregion Left Click
-
-        #region Middle Click
-
-        private int _xOffset;
-        private int _yOffset;
+        //Middle Click
+        private Point _offsetMoveStart;
 
         private int _oldXOffset;
         private int _oldYOffset;
 
-        private Point _offsetMoveStart;
+        private int _xOffset;
+        private int _yOffset;
 
-        #endregion Middle Click
-
-        #region Right Click
-
-        #endregion Right Click
-
-        #endregion Mouse Related Variables
-
+        //Right Click
+        //Nothing yet
 
         private float _resChange;
 
         private void designer_MouseDown(object sender, MouseEventArgs e) {//Controls the events that occur when the mouse is down. (not a click though, which is an down and up)
-            if (_currentForm.totalPages() > 0) {
+            if (_currentForm.totalPages() > 0) {//Empty page protection.
                 _startPoint.X = e.X;
                 _startPoint.Y = e.Y;
 
-                #region Left Click Down - Kind Done
-
+                #region Left Click Down
                 if (e.Button == MouseButtons.Left) {
                     if (_resRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding) {
                         _mode = MouseMode.Resizing;
-
                     }
                     
-                    if (!_sfBoxRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding && _mode != MouseMode.Resizing) {//Neither Adding or clicking within the group selection box
+                    if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding && _mode != MouseMode.Resizing) {//Neither Adding or clicking within the group selection box
                         int notSelectedCount = 0;
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {
@@ -234,7 +230,7 @@ namespace AnotoWorkshop {
                                 }
                                 ++notSelectedCount;
                                 if (notSelectedCount == _currentForm.page(_currentPageNumber).Fields.Count) _mode = MouseMode.Selecting;
-                                _sfBoxRect = new Rectangle();
+                                _groupSelectionRect = new Rectangle();
                             }
                         }
                     }
@@ -251,7 +247,7 @@ namespace AnotoWorkshop {
                                 foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                                     fi.moveStart = new Point(fi.zx, fi.zy);
                                 }
-                                _sfBoxMoveStart = new Point(_sfBoxRect.X, _sfBoxRect.Y);
+                                _sfBoxMoveStart = new Point(_groupSelectionRect.X, _groupSelectionRect.Y);
                             }
                             break;
                         case MouseMode.Resizing:
@@ -270,7 +266,7 @@ namespace AnotoWorkshop {
                     }
                 }
 
-                #endregion Left Click Down - Kind Done
+                #endregion Left Click Down
 
                 #region Middle Click Down - Kinda Started
 
@@ -543,13 +539,59 @@ namespace AnotoWorkshop {
                 }
             }
 
-            _sfBoxRect = new Rectangle(sfBoxPosition, sfBoxSize);
+            _groupSelectionRect = new Rectangle(sfBoxPosition, sfBoxSize);
             _resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height));
         }
 
+        public void mouseWheel(object sender, MouseEventArgs e) {
+            if (e.Delta > 0)
+                zoomIn();
+            else
+                zoomOut();
+        }
+
+        private void zoomIn() {
+            _zoomLevel += 0.25;
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                fi.zoomLevel = _zoomLevel;
+            }
+
+            calculateSfBox();
+            designPanel.Invalidate();
+        }
+
+        private void zoomOut() {
+            if (_zoomLevel > 0.26) {
+                _zoomLevel -= 0.25;
+            }
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                fi.zoomLevel = _zoomLevel;
+            }
+
+            calculateSfBox();
+            designPanel.Invalidate();
+        }
+
+
+        #region Designer Focus
+
+        private void designPanel_MouseEnter(object sender, EventArgs e) {
+            ((Panel)sender).Focus();
+        }
+
+        private void designPanel_MouseLeave(object sender, EventArgs e) {
+
+        }
+
+        #endregion Designer Focus
+
+
         #endregion The Designer
 
+
+
         #region Form Controls
+
 
         #region Cut, Copy, and Paste.
 
@@ -638,7 +680,7 @@ namespace AnotoWorkshop {
             tempField.formatSet.fontWeight = fi.formatSet.fontWeight;
             tempField.text = fi.text;
             if (!_needToSaveForm) {
-                this.Text = _currentForm.FormName + "*";
+                Text = _currentForm.FormName + "*";
                 _needToSaveForm = true;
             }
             return tempField;
@@ -646,6 +688,7 @@ namespace AnotoWorkshop {
         }
 
         #endregion Cut, Copy, and Paste.
+
 
         #region Field Deletion
 
@@ -677,6 +720,7 @@ namespace AnotoWorkshop {
         }
 
         #endregion Field Deletion
+
 
         #region Field Addition
 
@@ -765,6 +809,7 @@ namespace AnotoWorkshop {
 
         #endregion Field Addition
 
+
         #region Global Control Functions
 
         private void deselectAll() {
@@ -772,10 +817,11 @@ namespace AnotoWorkshop {
                 fi.selected = false;
             }
 
-            _sfBoxRect = new Rectangle();
+            _groupSelectionRect = new Rectangle();
         }
 
         #endregion Global Control Functions
+
 
         #region Page Navigation/Switching
 
@@ -815,6 +861,7 @@ namespace AnotoWorkshop {
 
         #endregion Page Navigation/Switching
 
+
         #region New Page
 
         private void btnNewPage_Click(object sender, EventArgs e) {
@@ -822,6 +869,7 @@ namespace AnotoWorkshop {
         }
 
         #endregion New Page
+
 
         #region Save Form Button
         private void btnSaveForm_Click(object sender, EventArgs e) {
@@ -843,6 +891,7 @@ namespace AnotoWorkshop {
             _currentForm.saveForm();
         }
         #endregion Save Form Button
+
 
         #region Export Form Button
 
@@ -874,13 +923,74 @@ namespace AnotoWorkshop {
 
         #endregion Export Form Button
 
+
         #region Settings Screen Button
         private void btnLoadSettingsScreen_Click(object sender, EventArgs e) {
             new settingsScreen().ShowDialog();
         }
         #endregion Settings Screen Button
 
+
+        #region Allignment
+        private void alignHorizontallyToolStripMenuItem_Click(object sender, EventArgs e) {
+            List<int> yPositions = new List<int>();
+
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    yPositions.Add(fi.y);
+                }
+            }
+
+            int newY = 0;
+            foreach(int i in yPositions) {
+                newY = newY + i;
+            }
+
+            if (yPositions.Count != 0) {
+                newY = newY / yPositions.Count;
+            }
+
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    fi.y = newY;
+                }
+            }
+
+            designPanel.Invalidate();
+        }
+
+        private void alignVerticallyToolStripMenuItem_Click(object sender, EventArgs e) {
+            List<int> xPositions = new List<int>();
+
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    xPositions.Add(fi.x);
+                }
+            }
+
+            int newX = 0;
+            foreach(int i in xPositions) {
+                newX = newX + i;
+            }
+
+            if (xPositions.Count != 0) {
+                newX = newX / xPositions.Count;
+            }
+
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                if (fi.selected) {
+                    fi.x = newX;
+                }
+            }
+
+            designPanel.Invalidate();
+         }
+        #endregion Allignment
+
+
         #endregion Form Controls
+
+
 
         #region Field Properties
 
@@ -919,6 +1029,8 @@ namespace AnotoWorkshop {
         }
 
         #endregion Field Properties
+
+
 
         #region Keyboard Bindings
 
@@ -1020,50 +1132,8 @@ namespace AnotoWorkshop {
 
         #endregion Keyboard Bindings
 
-        #region Camera Controls
 
-        public void mouseWheel(object sender, MouseEventArgs e) {
-            if (e.Delta > 0)
-                zoomIn();
-            else
-                zoomOut();
-        }
 
-        private void zoomIn() {
-            _zoomLevel += 0.25;
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                fi.zoomLevel = _zoomLevel;
-            }
-
-            calculateSfBox();
-            designPanel.Invalidate();
-        }
-
-        private void zoomOut() {
-            if (_zoomLevel > 0.26) {
-                _zoomLevel -= 0.25;
-            }
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                fi.zoomLevel = _zoomLevel;
-            }
-
-            calculateSfBox();
-            designPanel.Invalidate();
-        }
-
-        #endregion Camera Controls
-
-        #region Designer Focus
-
-        private void designPanel_MouseEnter(object sender, EventArgs e) {
-            ((Panel)sender).Focus();
-        }
-
-        private void designPanel_MouseLeave(object sender, EventArgs e) {
-
-        }
-
-        #endregion Designer Focus
 
         #region Field Tree Management
 
@@ -1166,63 +1236,5 @@ namespace AnotoWorkshop {
                 }               
             }    
         }
-
-        private void alignHorizontallyToolStripMenuItem_Click(object sender, EventArgs e) {
-            List<int> yPositions = new List<int>();
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    yPositions.Add(fi.y);
-                }
-            }
-
-            int newY = 0;
-
-            foreach(int i in yPositions) {
-                newY = newY + i;
-            }
-
-            if (yPositions.Count != 0) {
-                newY = newY/yPositions.Count;
-            }
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    fi.y = newY;
-                }
-            }
-
-
-            designPanel.Invalidate();
-        }
-
-        private void alignVerticallyToolStripMenuItem_Click(object sender, EventArgs e) {
-            List<int> xPositions = new List<int>();
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    xPositions.Add(fi.x);
-                }
-            }
-
-            int newX = 0;
-
-            foreach(int i in xPositions) {
-                newX = newX + i;
-            }
-
-            if (xPositions.Count != 0) {
-                newX = newX / xPositions.Count;
-            }
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    fi.x = newX;
-                }
-            }
-
-
-            designPanel.Invalidate();
-         }
     }
 }

@@ -142,9 +142,7 @@ namespace AnotoWorkshop {
 
         #endregion Import Forms
 
-        private void btnNewForm_Click(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Creating a new form isn't finished");
+        private void btnNewForm_Click(object sender, EventArgs e) {
             PenForm newPenform = new PenForm();
             newPenform.FormName = Interaction.InputBox("Name of form?");
             newPenform.saveForm();
