@@ -87,6 +87,10 @@ namespace AnotoWorkshop {
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
 
+            //For Debugging//
+            lblDebugMMode.Text = _mode.ToString();
+            //For Debugging//
+
             if (_currentForm.totalPages() > 0) { //Being safe about what we paint, without this we get exceptions when have empty pages.
                 Rectangle pageRectangle = new Rectangle {       //This rectangle is for drawing the white "page" that all the fields are on
                                 X = _xOffset,                   //Offsetting the page by the X and Y...
@@ -209,7 +213,7 @@ namespace AnotoWorkshop {
                     if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
                     && _mode != MouseMode.Resizing                                              //or if just just went into resizing mode
                     && _mode != MouseMode.Adding) {                                             //or we just clicked one of the adding buttons.
-                        bool somethingIsSelected = false;                                       
+                        int notSelectedCount = 0;                                                   //this is used to track how many fields are selected
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterating through all the fields on the page.
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {                  //If where we are clicking is inside the field.
                                 if(ModifierKeys.HasFlag(Keys.Control)) {                        //AND CTRL is being held down.
@@ -218,15 +222,18 @@ namespace AnotoWorkshop {
                                     fi.selected = true;                                         //field is selected
                                 }
                                 _mode = MouseMode.Selected;                                     //mode become selected
-                                somethingIsSelected = true;
                             } else {                                                            //if we aren't clicking inside a field
-                                if(!ModifierKeys.HasFlag(Keys.Control)) {                        //And we are holding down CTRL
+                                if(!ModifierKeys.HasFlag(Keys.Control)) {                       //And we are holding down CTRL
                                     fi.selected = false;                                        //field is unselected
-                                    somethingIsSelected = false;
+                                    ++notSelectedCount;                                             //Increment the notSelectedCount integer by one
+                                    if (notSelectedCount ==                                         //Here we check if the notSelectedCount integer is...
+                                        _currentForm.page(_currentPageNumber).Fields.Count)         //...equal to the total amount of fields on this page
+                                        _mode = MouseMode.Selecting;
+                                   _groupSelectionRect = new Rectangle();
                                 }                               
                             }
                         }
-                        if (!somethingIsSelected) _mode = MouseMode.Selecting;
+                        
                     } else {                                                                    //For when we are CTRL clicking within the selected box.
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {  
@@ -282,7 +289,7 @@ namespace AnotoWorkshop {
                     _yOffset = e.Y - _startPoint.Y + _oldYOffset;
                 }
 
-                if (e.Button == MouseButtons.Left) {
+                if (e.Button == MouseButtons.Left && !ModifierKeys.HasFlag(Keys.Control)) {
                     switch (_mode) {
                         case MouseMode.None:
                             break;

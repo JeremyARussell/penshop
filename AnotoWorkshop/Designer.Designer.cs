@@ -104,6 +104,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblDebugMMode = new System.Windows.Forms.Label();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -142,6 +143,7 @@
             // 
             // tabDesigner
             // 
+            this.tabDesigner.Controls.Add(this.lblDebugMMode);
             this.tabDesigner.Controls.Add(this.btnTemplatesList);
             this.tabDesigner.Controls.Add(this.btnLoadSettingsScreen);
             this.tabDesigner.Controls.Add(this.lblVersionNumber);
@@ -957,7 +959,16 @@
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
             this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
             // 
-            // frmMain
+            // lblDebugMMode
+            // 
+            this.lblDebugMMode.AutoSize = true;
+            this.lblDebugMMode.Location = new System.Drawing.Point(310, 8);
+            this.lblDebugMMode.Name = "lblDebugMMode";
+            this.lblDebugMMode.Size = new System.Drawing.Size(42, 13);
+            this.lblDebugMMode.TabIndex = 35;
+            this.lblDebugMMode.Text = "Debug:";
+            // 
+            // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1078,6 +1089,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem alignHorizontallyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem alignVerticallyToolStripMenuItem;
+        private System.Windows.Forms.Label lblDebugMMode;
     }
 }
 
