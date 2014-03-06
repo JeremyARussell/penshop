@@ -726,14 +726,14 @@ namespace AnotoWorkshop {
             //Testing Grounds///
             string fieldName = "";
 
-            using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {//FT1C
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK) {
-                    string val = form.name;
-
-                    fieldName = val;
-                }
-            }
+            //using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {//FT1C
+            //    var result = form.ShowDialog();
+            //    if (result == DialogResult.OK) {
+            //        string val = form.name;
+            //
+             //       fieldName = val;
+            //    }
+            //}
 
             //Testing Grounds End///
 
