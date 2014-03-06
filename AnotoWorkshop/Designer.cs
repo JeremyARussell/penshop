@@ -170,11 +170,11 @@ namespace AnotoWorkshop {
                                 break;
                         }
                     }
-                    if (fi.selected) {//Turn into a create selection box given a Rectangle
-                        Rectangle selectedRect = fi.rect();//Initialize new rectangle based of field's position and size.
-                        selectedRect.X = fi.zx - 1 + _xOffset;//Added "padding" for the individual selection rectangle
-                        selectedRect.Y = fi.zy - 1 + _yOffset;
-                        selectedRect.Width = fi.zwidth + 2;
+                    if (fi.selected) {                          //drawing the dashed outline to indicate something is selected
+                        Rectangle selectedRect = fi.rect();     //Initialize new rectangle based of field's position and size.
+                        selectedRect.X = fi.zx - 1 + _xOffset;  //Added "padding" for the individual selected rectangle...
+                        selectedRect.Y = fi.zy - 1 + _yOffset;  //...(otherwise you wouldn't see it due to overlap)
+                        selectedRect.Width = fi.zwidth + 2;     
                         selectedRect.Height = fi.zheight + 2;
                         e.Graphics.DrawRectangle(_selectionPen, selectedRect);
                     }
@@ -206,23 +206,25 @@ namespace AnotoWorkshop {
                         _mode = MouseMode.Resizing;
                     }
                     
-                    if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset) && _mode != MouseMode.Adding && _mode != MouseMode.Resizing) {//Neither Adding or clicking within the group selection box
-                        int notSelectedCount = 0;
-                        foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {
-                                if(ModifierKeys.HasFlag(Keys.Control)) {
-                                    fi.selected = !fi.selected;
-                                } else {
-                                    fi.selected = true;
+                    if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
+                    && _mode != MouseMode.Resizing
+                    && _mode != MouseMode.Adding) {                                           //or if just just went into resizing mode
+                        int notSelectedCount = 0;                                               //this is used to track how many fields are selected
+                        foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterating through all the fields on the page.
+                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {                  //If where we are clicking is inside the field.
+                                if(ModifierKeys.HasFlag(Keys.Control)) {                        //AND CTRL is being held down.
+                                    fi.selected = !fi.selected;                                 //the clicked field is toggled as selected or not
+                                } else {                                                        //if...but no CTRL
+                                    fi.selected = true;                                         //field is selected
                                 }
-                                _mode = MouseMode.Selected;
-                            } else {
-                                if(ModifierKeys.HasFlag(Keys.Control)) {
-                                    fi.selected = fi.selected;
-                                } else {
-                                    fi.selected = false;
+                                _mode = MouseMode.Selected;                                     //mode become selected
+                            } else {                                                            //if we aren't clicking inside a field
+                                if(ModifierKeys.HasFlag(Keys.Control)) {                        //And we are holding down CTRL
+                                    //fi.selected = fi.selected;                                // eveidently this did absolutely nothing. Not sure why it was here 
+                                } else {                                                        //Not holding CTRL down
+                                    fi.selected = false;                                        //field is unselected
                                 }
-                                ++notSelectedCount;
+                                ++notSelectedCount;                                             
                                 if (notSelectedCount == _currentForm.page(_currentPageNumber).Fields.Count) _mode = MouseMode.Selecting;
                                 _groupSelectionRect = new Rectangle();
                             }
@@ -237,37 +239,33 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Selected:
-                            if (e.Button == MouseButtons.Left) {//Preparing for moving fields/groups around.
-                                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                                    fi.moveStart = new Point(fi.zx, fi.zy);
-                                }
+                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                                fi.moveStart = new Point(fi.zx, fi.zy);
                             }
                             break;
+
                         case MouseMode.Resizing:
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                                 fi.resizeStart = new Size(fi.zwidth, fi.zheight);
                             }
                             break;
+
                         case MouseMode.Adding:
-                            
+                            //TODO - some stuff for the labels and junk, whatever fields react to just the click and not any sizing or what not.
                             break;
                     }
                 }
-
                 #endregion Left Click Down
 
-                #region Middle Click Down - Kinda Started
-
+                #region Middle Click Down
                 if (e.Button == MouseButtons.Middle) {
                     _xOffset = _oldXOffset;
                     _yOffset = _oldYOffset;
                 }
+                #endregion Middle Click Down
 
-                #endregion Middle Click Down - Kinda Started
-
-                #region Right Click Down - Not Started Yet
-
-                #endregion Right Click Down - Not Started Yet
+                #region Right Click Down
+                #endregion Right Click Down
             }
         }
 
