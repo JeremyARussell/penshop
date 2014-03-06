@@ -207,9 +207,9 @@ namespace AnotoWorkshop {
                     }
                     
                     if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
-                    && _mode != MouseMode.Resizing
-                    && _mode != MouseMode.Adding) {                                           //or if just just went into resizing mode
-                        int notSelectedCount = 0;                                               //this is used to track how many fields are selected
+                    && _mode != MouseMode.Resizing                                              //or if just just went into resizing mode
+                    && _mode != MouseMode.Adding) {                                             //or we just clicked one of the adding buttons.
+                        bool somethingIsSelected = false;                                       
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterating through all the fields on the page.
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {                  //If where we are clicking is inside the field.
                                 if(ModifierKeys.HasFlag(Keys.Control)) {                        //AND CTRL is being held down.
@@ -218,15 +218,21 @@ namespace AnotoWorkshop {
                                     fi.selected = true;                                         //field is selected
                                 }
                                 _mode = MouseMode.Selected;                                     //mode become selected
+                                somethingIsSelected = true;
                             } else {                                                            //if we aren't clicking inside a field
-                                if(ModifierKeys.HasFlag(Keys.Control)) {                        //And we are holding down CTRL
-                                    //fi.selected = fi.selected;                                // eveidently this did absolutely nothing. Not sure why it was here 
-                                } else {                                                        //Not holding CTRL down
+                                if(!ModifierKeys.HasFlag(Keys.Control)) {                        //And we are holding down CTRL
                                     fi.selected = false;                                        //field is unselected
+                                    somethingIsSelected = false;
+                                }                               
+                            }
+                        }
+                        if (!somethingIsSelected) _mode = MouseMode.Selecting;
+                    } else {                                                                    //For when we are CTRL clicking within the selected box.
+                        foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    
+                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {  
+                                if(ModifierKeys.HasFlag(Keys.Control)) { 
+                                    fi.selected = !fi.selected;
                                 }
-                                ++notSelectedCount;                                             
-                                if (notSelectedCount == _currentForm.page(_currentPageNumber).Fields.Count) _mode = MouseMode.Selecting;
-                                _groupSelectionRect = new Rectangle();
                             }
                         }
                     }
