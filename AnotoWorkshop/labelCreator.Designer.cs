@@ -68,6 +68,7 @@
             this.Controls.Add(this.cmbFormatSetNames);
             this.Controls.Add(this.txtText);
             this.Name = "labelCreator";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Label";
             this.Load += new System.EventHandler(this.labelCreator_Load);
             this.ResumeLayout(false);

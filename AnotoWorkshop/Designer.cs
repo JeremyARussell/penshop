@@ -17,6 +17,10 @@ namespace AnotoWorkshop {
 
         private Point _startPoint;             //This Point tracks when the mouse is clicked down.
         private Point _endPoint;               //And this Point tracks when the click is released back up.
+        private Point _topCrossPoint;       //The four points of the cross-hairs that show to help you place fields.
+        private Point _bottomCrossPoint;    //...
+        private Point _leftCrossPoint;      //...
+        private Point _rightCrossPoint;     //...
         private Rectangle _selectionRect;      //This is the Rectangle used to actively track where the user is "selecting"
         private Rectangle _groupSelectionRect; //This Rectangle is the group selection rectangle used to encompass a group of things that have been selected.
         private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
@@ -121,6 +125,11 @@ namespace AnotoWorkshop {
                     case MouseMode.Adding:
                         Pen pt = new Pen(Color.Pink, 2);                //When adding the rectangle is pink (for now) to...
                         e.Graphics.DrawRectangle(pt, _selectionRect);   //help the user know they aren't selecting things...
+                        e.Graphics.DrawLine(pt, _topCrossPoint,
+                                                _bottomCrossPoint);
+                        e.Graphics.DrawLine(pt, _leftCrossPoint,
+                                                _rightCrossPoint);
+
                         break;
                 }
 
@@ -190,11 +199,11 @@ namespace AnotoWorkshop {
         //+Left Click
 
         //+Middle Click
-        private int _oldXOffset;        //The old X and Y offset values are needed due to the fact that during the move event the offsets are changing constantly as the...
-        private int _oldYOffset;        //...mouse moves, you get some weird exponential math problems that made the page jump off the screen soon after the mouse is moved.
+        private int _oldXOffset = 35;        //The old X and Y offset values are needed due to the fact that during the move event the offsets are changing constantly as the...
+        private int _oldYOffset = 35;        //...mouse moves, you get some weird exponential math problems that made the page jump off the screen soon after the mouse is moved.
 
-        private int _xOffset;           //The variables used to ultimately track how...
-        private int _yOffset;           //...much the user has moved the page around.
+        private int _xOffset = 35;           //The variables used to ultimately track how...
+        private int _yOffset = 35;           //...much the user has moved the page around.
 
         //+Right Click
         //Nothing yet
@@ -264,6 +273,10 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Adding:
+                            //switch (_fieldToAdd.type) {
+                            //    case Type.Label:
+                            //        break;
+                            //}
                             //TODO - some stuff for the labels and junk, whatever fields react to just the click and not any sizing or what not.
                             break;
                     }
@@ -287,6 +300,14 @@ namespace AnotoWorkshop {
                 if (e.Button == MouseButtons.Middle) {
                     _xOffset = e.X - _startPoint.X + _oldXOffset;
                     _yOffset = e.Y - _startPoint.Y + _oldYOffset;
+                }
+
+                if (_mode == MouseMode.Adding)
+                {
+                    _topCrossPoint = new Point(e.X, 0);
+                    _bottomCrossPoint = new Point(e.X, 1000);
+                    _leftCrossPoint = new Point(0, e.Y);
+                    _rightCrossPoint = new Point(1000, e.Y); 
                 }
 
                 if (e.Button == MouseButtons.Left && !ModifierKeys.HasFlag(Keys.Control)) {
@@ -370,6 +391,7 @@ namespace AnotoWorkshop {
                                 _selectionRect.Y = e.Y;
                                 _selectionRect.Height = _startPoint.Y - e.Y;
                             }
+
                             switch (_fieldToAdd.type) {
                                 case Type.TextField:
                                     _selectionRect.Height = (int)(16 * _zoomLevel);
@@ -621,32 +643,32 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        private void copy() {
-            _fieldsToCopy = new List<Field>();
+        private void copy() {                                                       //As the name suggests this is the copying function.
+            _fieldsToCopy = new List<Field>();                                      //Create new blank _fieldsToCopy list of Fields
 
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    _fieldsToCopy.Add(returnCopy(fi));
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
+                if (fi.selected) {                                                  //...and if they are selected...
+                    _fieldsToCopy.Add(returnCopy(fi));                              //...add a copy of them (this is done due to the nature of C# references acting sort of like pointers) to the _fieldsToCopy list
                 }
             }
 
-            deselectAll();
+            deselectAll();//TODO - Something smoother then this later would be nice.//So that when we paste later and caclulate the group box using calculateSfBox() it won't lump the copied fields in with the pasted fields.
             designPanel.Invalidate();
         }
 
-        private void paste() {
-            foreach (Field fi in _fieldsToCopy) {
+        private void paste() {                                                      //The paste function
+            foreach (Field fi in _fieldsToCopy) {                                   //
                 //fi.x = fi.x + 15;
-                fi.y = fi.y + 18;
-                fi.selected = true;
-                fi.zoomLevel = _zoomLevel;
-                _currentForm.page(_currentPageNumber).addField(returnCopy(fi));
+                fi.y = fi.y + 18;                                                   //
+                fi.selected = true;                                                 //
+                fi.zoomLevel = _zoomLevel;                                          //
+                _currentForm.page(_currentPageNumber).addField(returnCopy(fi));     //
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
+            if (!_needToSaveForm) {                                                 //
+                Text = _currentForm.FormName + "*";                                 //
+                _needToSaveForm = true;                                             //
             }
-            calculateSfBox();
+            calculateSfBox();                                                       //
             designPanel.Invalidate();
         }
 
@@ -664,7 +686,9 @@ namespace AnotoWorkshop {
             tempField.readOnly = fi.readOnly;
             tempField.type = fi.type;
             tempField.formatSetName = fi.formatSet.name;                                    //formatSet copying is done in two stages, first is the setting of the tempField's formatSet's name as...
-            tempField.formatSet = _settings.getFormatSetByName(tempField.formatSetName);    //...the field to copies formatSet's name. Then back again through the settings singleton. //TODO - There's probably a better way to do this.
+            if (tempField.formatSetName != null) {          //make sure formatSetName for the tempField isn't null, to prevent a null access bug with the _settings call within this if statement.
+                tempField.formatSet = _settings.getFormatSetByName(tempField.formatSetName);//...the field to copies formatSet's name. Then back again through the settings singleton. //TODO - There's probably a better way to do this.
+            }    
             tempField.text = fi.text;
             tempField.selected = fi.selected;
             tempField.zoomLevel = fi.zoomLevel;
@@ -730,6 +754,7 @@ namespace AnotoWorkshop {
 
             //Testing Grounds End///
 
+            
             _fieldToAdd = new Field(fieldName, Type.TextField);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
@@ -741,16 +766,18 @@ namespace AnotoWorkshop {
 
             string fieldName = "";
 
-            using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {
+            /*using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
 
                     fieldName = val;
                 }
-            }
+            }*/
 
             _fieldToAdd = new Field(fieldName, Type.Checkbox);
+            _fieldToAdd.x = 10;
+            _fieldToAdd.y = 10;
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
@@ -800,6 +827,10 @@ namespace AnotoWorkshop {
                 fi.selected = false;
             }
 
+            _topCrossPoint = new Point();
+            _bottomCrossPoint = new Point();
+            _leftCrossPoint = new Point();
+            _rightCrossPoint = new Point();
             _resRect = new Rectangle();
             _groupSelectionRect = new Rectangle();
             designPanel.Invalidate();
