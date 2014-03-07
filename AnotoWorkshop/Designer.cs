@@ -1027,14 +1027,34 @@ namespace AnotoWorkshop {
 
         #region Universal Methods
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {//Steals the KeyEvents away from everything, for better control over what happens during key presses.
             //Delete
             if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
             //Mouse Arrow Moving
-            if (keyData == Keys.Up) OnKeyPress(new KeyPressEventArgs((Char)Keys.Up));
-            if (keyData == Keys.Down) OnKeyPress(new KeyPressEventArgs((Char)Keys.Down));
-            if (keyData == Keys.Left) OnKeyPress(new KeyPressEventArgs((Char)Keys.Left));
-            if (keyData == Keys.Right) OnKeyPress(new KeyPressEventArgs((Char)Keys.Right));
+            if (keyData == Keys.Up) {
+                if (designPanel.Focused == true) {
+                    OnKeyPress(new KeyPressEventArgs((Char)Keys.Up));
+                    return true;                                        //return true if we don't want the key combo to be sent for processing by the other controls.
+                }
+            }
+            if (keyData == Keys.Down) {
+                if (designPanel.Focused == true) {
+                    OnKeyPress(new KeyPressEventArgs((Char)Keys.Down));
+                    return true;
+                }
+            }
+            if (keyData == Keys.Left) {
+                if (designPanel.Focused == true) {
+                    OnKeyPress(new KeyPressEventArgs((Char)Keys.Left));
+                    return true;
+                }
+            }
+            if (keyData == Keys.Right) {
+                if (designPanel.Focused == true) {
+                    OnKeyPress(new KeyPressEventArgs((Char)Keys.Right));
+                    return true;
+                }
+            }
             //Form Control Keybindings
             if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
             if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
