@@ -174,7 +174,7 @@ namespace AnotoWorkshop {
                                 break;
                         }
                     }
-                    if (fi.selected) {                          //drawing the dashed outline to indicate something is selected
+                    if (fi.selected) {                          //drawing the dashed outline to indicate something is selected //TODO - Redesign this to be more of a selection glow or something.
                         Rectangle selectedRect = fi.rect();     //Initialize new rectangle based of field's position and size.
                         selectedRect.X = fi.zx - 1 + _xOffset;  //Added "padding" for the individual selected rectangle...
                         selectedRect.Y = fi.zy - 1 + _yOffset;  //...(otherwise you wouldn't see it due to overlap)
@@ -227,8 +227,8 @@ namespace AnotoWorkshop {
                                     fi.selected = false;                                        //field is unselected
                                     ++notSelectedCount;                                             //Increment the notSelectedCount integer by one
                                     if (notSelectedCount ==                                         //Here we check if the notSelectedCount integer is...
-                                        _currentForm.page(_currentPageNumber).Fields.Count)         //...equal to the total amount of fields on this page
-                                        _mode = MouseMode.Selecting;
+                                        _currentForm.page(_currentPageNumber).Fields.Count)         //...equal to the total amount of fields on this page...
+                                        _mode = MouseMode.Selecting;                                //...
                                    _groupSelectionRect = new Rectangle();
                                 }                               
                             }
@@ -589,18 +589,6 @@ namespace AnotoWorkshop {
 
         #region Cut, Copy, and Paste.
 
-        private void btnCut_Click(object sender, EventArgs e) {
-            cut();
-        }
-
-        private void btnCopy_Click(object sender, EventArgs e) {
-            copy();
-        }
-
-        private void btnPaste_Click(object sender, EventArgs e) {
-            paste();
-        }
-
         private void cutToolStripMenuItem_Click(object sender, EventArgs e) {
             cut();
         }
@@ -628,6 +616,8 @@ namespace AnotoWorkshop {
                 Text = _currentForm.FormName + "*";
                 _needToSaveForm = true;
             }
+
+            deselectAll();
             designPanel.Invalidate();
         }
 
@@ -639,20 +629,24 @@ namespace AnotoWorkshop {
                     _fieldsToCopy.Add(returnCopy(fi));
                 }
             }
+
+            deselectAll();
             designPanel.Invalidate();
         }
 
         private void paste() {
             foreach (Field fi in _fieldsToCopy) {
-                fi.x = fi.x + 15;
-                fi.y = fi.y + 15;
-
+                //fi.x = fi.x + 15;
+                fi.y = fi.y + 18;
+                fi.selected = true;
+                fi.zoomLevel = _zoomLevel;
                 _currentForm.page(_currentPageNumber).addField(returnCopy(fi));
             }
             if (!_needToSaveForm) {
                 Text = _currentForm.FormName + "*";
                 _needToSaveForm = true;
             }
+            calculateSfBox();
             designPanel.Invalidate();
         }
 
@@ -669,10 +663,11 @@ namespace AnotoWorkshop {
             tempField.hidden = fi.hidden;
             tempField.readOnly = fi.readOnly;
             tempField.type = fi.type;
-            tempField.formatSet.fontTypeface = fi.formatSet.fontTypeface;//TODO - just needs to associate this fields textType with an instance.
-            tempField.formatSet.fontSizeString = fi.formatSet.fontSizeString;
-            tempField.formatSet.fontWeight = fi.formatSet.fontWeight;
+            tempField.formatSetName = fi.formatSet.name;                                    //formatSet copying is done in two stages, first is the setting of the tempField's formatSet's name as...
+            tempField.formatSet = _settings.getFormatSetByName(tempField.formatSetName);    //...the field to copies formatSet's name. Then back again through the settings singleton. //TODO - There's probably a better way to do this.
             tempField.text = fi.text;
+            tempField.selected = fi.selected;
+            tempField.zoomLevel = fi.zoomLevel;
             if (!_needToSaveForm) {
                 Text = _currentForm.FormName + "*";
                 _needToSaveForm = true;
@@ -709,8 +704,6 @@ namespace AnotoWorkshop {
                 _needToSaveForm = true;
             }
             deselectAll();
-
-            designPanel.Invalidate();
         }
 
         #endregion Field Deletion
@@ -807,6 +800,7 @@ namespace AnotoWorkshop {
                 fi.selected = false;
             }
 
+            _resRect = new Rectangle();
             _groupSelectionRect = new Rectangle();
             designPanel.Invalidate();
         }
@@ -973,7 +967,6 @@ namespace AnotoWorkshop {
                     fi.x = newX;
                 }
             }
-
             designPanel.Invalidate();
          }
         #endregion Allignment
@@ -1029,37 +1022,37 @@ namespace AnotoWorkshop {
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {//Steals the KeyEvents away from everything, for better control over what happens during key presses.
             //Delete
-            if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
+            //if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
             //Mouse Arrow Moving
             if (keyData == Keys.Up) {
-                if (designPanel.Focused == true) {
+                if (designPanel.Focused) {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Up));
                     return true;                                        //return true if we don't want the key combo to be sent for processing by the other controls.
                 }
             }
             if (keyData == Keys.Down) {
-                if (designPanel.Focused == true) {
+                if (designPanel.Focused) {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Down));
                     return true;
                 }
             }
             if (keyData == Keys.Left) {
-                if (designPanel.Focused == true) {
+                if (designPanel.Focused) {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Left));
                     return true;
                 }
             }
             if (keyData == Keys.Right) {
-                if (designPanel.Focused == true) {
+                if (designPanel.Focused) {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Right));
                     return true;
                 }
             }
             //Form Control Keybindings
-            if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
-            if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
-            if (keyData == Keys.X) OnKeyPress(new KeyPressEventArgs((Char)Keys.X));
-            if (keyData == Keys.V) OnKeyPress(new KeyPressEventArgs((Char)Keys.V));
+            //if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
+            //if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
+            //if (keyData == Keys.X) OnKeyPress(new KeyPressEventArgs((Char)Keys.X));
+            //if (keyData == Keys.V) OnKeyPress(new KeyPressEventArgs((Char)Keys.V));
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

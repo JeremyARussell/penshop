@@ -252,7 +252,7 @@ namespace AnotoWorkshop {
         }
 
         public FormatSet getFormatSetByName(string name) {
-            return _globalFormatSet[name];
+            return _globalFormatSet[name];//TODO - BUG - 11AG
         }
         #endregion FormatSets
 
