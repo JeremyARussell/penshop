@@ -47,7 +47,7 @@ namespace AnotoWorkshop {
         /// <param name="form">The form that will be used when designing.</param>
         public Designer(PenForm form) {//Only constructor for loading up the designer.
             _currentForm = form;      
-
+            KeyPreview = true;
             InitializeComponent();    
 
             MouseWheel += mouseWheel; //To override the built in MouseWheel event with my own.
@@ -710,6 +710,7 @@ namespace AnotoWorkshop {
             }
             deselectAll();
 
+            calculateSfBox();
             designPanel.Invalidate();
         }
 
@@ -748,14 +749,14 @@ namespace AnotoWorkshop {
 
             string fieldName = "";
 
-            using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {
+            /*using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     string val = form.name;
 
                     fieldName = val;
                 }
-            }
+            }*/
 
             _fieldToAdd = new Field(fieldName, Type.Checkbox);
             _fieldToAdd.zoomLevel = _zoomLevel;
@@ -1031,29 +1032,41 @@ namespace AnotoWorkshop {
             //Delete
             if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
             //Mouse Arrow Moving
-            if (keyData == Keys.Up) OnKeyPress(new KeyPressEventArgs((Char)Keys.Up));
+            //if (keyData == Keys.Up) OnKeyPress(new KeyPressEventArgs((Char)Keys.Up));
+            if (keyData == Keys.Up) {
+                OnKeyDown(new KeyEventArgs(Keys.Up));
+            }
             if (keyData == Keys.Down) OnKeyPress(new KeyPressEventArgs((Char)Keys.Down));
             if (keyData == Keys.Left) OnKeyPress(new KeyPressEventArgs((Char)Keys.Left));
             if (keyData == Keys.Right) OnKeyPress(new KeyPressEventArgs((Char)Keys.Right));
             //Form Control Keybindings
             if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
-            if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
-            if (keyData == Keys.X) OnKeyPress(new KeyPressEventArgs((Char)Keys.X));
-            if (keyData == Keys.V) OnKeyPress(new KeyPressEventArgs((Char)Keys.V));
+            //if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
+            //if (keyData == Keys.X) OnKeyPress(new KeyPressEventArgs((Char)Keys.X));
+            //if (keyData == Keys.V) OnKeyPress(new KeyPressEventArgs((Char)Keys.V));
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void frmMain_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == (Char)Keys.Up) moveFieldsUp();
-            if (e.KeyChar == (Char)Keys.Down) moveFieldsDown();
-            if (e.KeyChar == (Char)Keys.Left) moveFieldsLeft();
-            if (e.KeyChar == (Char)Keys.Right) moveFieldsRight();
+            if (e.KeyChar == (Char)Keys.Down) {
+                moveFieldsDown();
+            }
+            if (e.KeyChar == (Char)Keys.Left) {
+                moveFieldsLeft();
+            }
+            if (e.KeyChar == (Char)Keys.Right) {
+                moveFieldsRight();
+            }
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Delete) deleteFields();
-
+            if (e.KeyCode == Keys.Up) {
+                moveFieldsUp();
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
             if (e.Control && e.KeyCode == Keys.X) cut();
             if (e.Control && e.KeyCode == Keys.C) copy();
             if (e.Control && e.KeyCode == Keys.V) paste();
