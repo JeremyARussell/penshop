@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabDesigner = new System.Windows.Forms.TabPage();
-            this.lblDebugMMode = new System.Windows.Forms.Label();
             this.btnTemplatesList = new System.Windows.Forms.Button();
             this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.lblVersionNumber = new System.Windows.Forms.Label();
@@ -105,6 +104,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblDebugMMode = new System.Windows.Forms.Label();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -166,15 +166,6 @@
             this.tabDesigner.Text = "Designer";
             this.tabDesigner.UseVisualStyleBackColor = true;
             // 
-            // lblDebugMMode
-            // 
-            this.lblDebugMMode.AutoSize = true;
-            this.lblDebugMMode.Location = new System.Drawing.Point(310, 8);
-            this.lblDebugMMode.Name = "lblDebugMMode";
-            this.lblDebugMMode.Size = new System.Drawing.Size(42, 13);
-            this.lblDebugMMode.TabIndex = 35;
-            this.lblDebugMMode.Text = "Debug:";
-            // 
             // btnTemplatesList
             // 
             this.btnTemplatesList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -226,7 +217,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.splitContainer1.Location = new System.Drawing.Point(6, 36);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -238,7 +228,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1295, 670);
-            this.splitContainer1.SplitterDistance = 836;
+            this.splitContainer1.SplitterDistance = 835;
             this.splitContainer1.TabIndex = 29;
             // 
             // designPanel
@@ -249,7 +239,7 @@
             this.designPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.designPanel.Location = new System.Drawing.Point(0, 0);
             this.designPanel.Name = "designPanel";
-            this.designPanel.Size = new System.Drawing.Size(834, 668);
+            this.designPanel.Size = new System.Drawing.Size(833, 668);
             this.designPanel.TabIndex = 1;
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designer_Paint);
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
@@ -274,7 +264,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grpOldProtos);
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(455, 670);
+            this.splitContainer2.Size = new System.Drawing.Size(456, 670);
             this.splitContainer2.SplitterDistance = 321;
             this.splitContainer2.TabIndex = 30;
             // 
@@ -291,8 +281,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.grpProperties);
-            this.splitContainer3.Size = new System.Drawing.Size(453, 319);
-            this.splitContainer3.SplitterDistance = 158;
+            this.splitContainer3.Size = new System.Drawing.Size(454, 319);
+            this.splitContainer3.SplitterDistance = 159;
             this.splitContainer3.TabIndex = 20;
             // 
             // groupBox1
@@ -308,7 +298,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(158, 319);
+            this.groupBox1.Size = new System.Drawing.Size(159, 319);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add Menu";
@@ -498,7 +488,7 @@
             // btnPropSave
             // 
             this.btnPropSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPropSave.Location = new System.Drawing.Point(192, 291);
+            this.btnPropSave.Location = new System.Drawing.Point(194, 291);
             this.btnPropSave.Name = "btnPropSave";
             this.btnPropSave.Size = new System.Drawing.Size(94, 23);
             this.btnPropSave.TabIndex = 20;
@@ -650,7 +640,7 @@
             this.grpOldProtos.Controls.Add(this.label13);
             this.grpOldProtos.Controls.Add(this.txtPropFontSize);
             this.grpOldProtos.Controls.Add(this.txtPropFontType);
-            this.grpOldProtos.Location = new System.Drawing.Point(314, 373);
+            this.grpOldProtos.Location = new System.Drawing.Point(318, 373);
             this.grpOldProtos.Name = "grpOldProtos";
             this.grpOldProtos.Size = new System.Drawing.Size(122, 65);
             this.grpOldProtos.TabIndex = 26;
@@ -780,7 +770,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.trvFieldList);
-            this.splitContainer4.Size = new System.Drawing.Size(453, 343);
+            this.splitContainer4.Size = new System.Drawing.Size(454, 343);
             this.splitContainer4.SplitterDistance = 32;
             this.splitContainer4.TabIndex = 27;
             // 
@@ -801,7 +791,7 @@
             this.trvFieldList.Location = new System.Drawing.Point(0, 0);
             this.trvFieldList.Margin = new System.Windows.Forms.Padding(2);
             this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(453, 307);
+            this.trvFieldList.Size = new System.Drawing.Size(454, 307);
             this.trvFieldList.TabIndex = 20;
             this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
             this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.heirarchyViewClick);
@@ -968,6 +958,15 @@
             this.alignVerticallyToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
             this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
+            // 
+            // lblDebugMMode
+            // 
+            this.lblDebugMMode.AutoSize = true;
+            this.lblDebugMMode.Location = new System.Drawing.Point(310, 8);
+            this.lblDebugMMode.Name = "lblDebugMMode";
+            this.lblDebugMMode.Size = new System.Drawing.Size(42, 13);
+            this.lblDebugMMode.TabIndex = 35;
+            this.lblDebugMMode.Text = "Debug:";
             // 
             // Designer
             // 
