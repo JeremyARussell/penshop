@@ -150,7 +150,7 @@ namespace AnotoWorkshop {
                 XmlNodeList selectedPage = pages[i].ChildNodes;
                 FormPage workingPage = new FormPage(i);
                 foreach (XmlNode fieldNode in selectedPage) {
-                    workingPage.addField(loadNode(fieldNode));
+                    workingPage.Fields.Add(loadNode(fieldNode));
                 }
                 addPage(workingPage);
             }
@@ -235,7 +235,7 @@ namespace AnotoWorkshop {
                 XmlNodeList selectedPage = pages[i].ChildNodes;
                 FormPage workingPage = new FormPage(i);
                 foreach (XmlNode fieldNode in selectedPage) {
-                    workingPage.addField(processNode(fieldNode, workingFormatSets));
+                    workingPage.Fields.Add(processNode(fieldNode, workingFormatSets));
                 }
 
                 addPage(workingPage);

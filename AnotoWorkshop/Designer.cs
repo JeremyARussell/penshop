@@ -354,10 +354,7 @@ namespace AnotoWorkshop {
                                 }
                             }
 
-                            if (!_needToSaveForm) {
-                                Text = _currentForm.FormName + "*";
-                                _needToSaveForm = true;
-                            } 
+                            needToSave(); 
                             calculateSfBox();
                             break;
 
@@ -368,10 +365,7 @@ namespace AnotoWorkshop {
 
                                 }
                             }
-                            if (!_needToSaveForm) {
-                                Text = _currentForm.FormName + "*";
-                                _needToSaveForm = true;
-                            }
+                            needToSave();
                             calculateSfBox();
                             break;
 
@@ -502,11 +496,10 @@ namespace AnotoWorkshop {
                                 _fieldToAdd.zheight = _selectionRect.Height; 
                             }
 
-                            if (!_needToSaveForm) {
-                                Text = _currentForm.FormName + "*";
-                                _needToSaveForm = true;
-                            }
+                            needToSave();
+
                             _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);
+                            buildFieldTree();
                             refreshProperties(_fieldToAdd);
                             _fieldToAdd = null;
                         }
@@ -634,12 +627,10 @@ namespace AnotoWorkshop {
             foreach (Field fi2 in _fieldsToCopy) {
                 _currentForm.page(_currentPageNumber).Fields.Remove(fi2);
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
 
             deselectAll();
+            buildFieldTree();
             designPanel.Invalidate();
         }
 
@@ -662,12 +653,11 @@ namespace AnotoWorkshop {
                 fi.y = fi.y + 18;                                                   //
                 fi.selected = true;                                                 //
                 fi.zoomLevel = _zoomLevel;                                          //
-                _currentForm.page(_currentPageNumber).addField(returnCopy(fi));     //
+                _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));     //
             }
-            if (!_needToSaveForm) {                                                 //
-                Text = _currentForm.FormName + "*";                                 //
-                _needToSaveForm = true;                                             //
-            }
+            needToSave();
+
+            buildFieldTree();
             calculateSfBox();                                                       //
             designPanel.Invalidate();
         }
@@ -692,10 +682,7 @@ namespace AnotoWorkshop {
             tempField.text = fi.text;
             tempField.selected = fi.selected;
             tempField.zoomLevel = fi.zoomLevel;
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             return tempField;
             
         }
@@ -723,11 +710,9 @@ namespace AnotoWorkshop {
             foreach (Field fi in fieldsToDelete) {
                 _currentForm.page(_currentPageNumber).Fields.Remove(fi);
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             deselectAll();
+            buildFieldTree();
         }
 
         #endregion Field Deletion
@@ -821,6 +806,13 @@ namespace AnotoWorkshop {
 
 
         #region Global Control Functions
+
+        private void needToSave() {
+            if (!_needToSaveForm) {
+                Text = _currentForm.FormName + "*";
+                _needToSaveForm = true;
+            }
+        }
 
         private void deselectAll() {
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
@@ -1027,7 +1019,7 @@ namespace AnotoWorkshop {
         }
 
         private void btnPropSave_Click(object sender, EventArgs e) {
-            _currentForm.page(_currentPageNumber).removeField(_fieldInProperties);
+            _currentForm.page(_currentPageNumber).Fields.Remove(_fieldInProperties);
 
             _fieldInProperties.name = txtPropName.Text;
             _fieldInProperties.x = Convert.ToInt32(txtPropX.Text);
@@ -1037,9 +1029,11 @@ namespace AnotoWorkshop {
             _fieldInProperties.hidden = chkPropHidden.Checked;
             _fieldInProperties.readOnly = chkPropReadOnly.Checked;
             _fieldInProperties.text = txtPropText.Text;
-            _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
+            if (_fieldInProperties.formatSetName != null) {
+                _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
+            }
 
-            _currentForm.page(_currentPageNumber).addField(_fieldInProperties);
+            _currentForm.page(_currentPageNumber).Fields.Add(_fieldInProperties);
             designPanel.Invalidate();
         }
 
@@ -1113,10 +1107,7 @@ namespace AnotoWorkshop {
                     fi.y--;
                 }
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             designPanel.Invalidate();
             calculateSfBox();
         }
@@ -1127,10 +1118,7 @@ namespace AnotoWorkshop {
                     fi.y++;
                 }
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             designPanel.Invalidate();
             calculateSfBox();
         }
@@ -1141,10 +1129,7 @@ namespace AnotoWorkshop {
                     fi.x--;
                 }
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             designPanel.Invalidate();
             calculateSfBox();
         }
@@ -1155,10 +1140,7 @@ namespace AnotoWorkshop {
                     fi.x++;
                 }
             }
-            if (!_needToSaveForm) {
-                Text = _currentForm.FormName + "*";
-                _needToSaveForm = true;
-            }
+            needToSave();
             designPanel.Invalidate();
             calculateSfBox();
         }

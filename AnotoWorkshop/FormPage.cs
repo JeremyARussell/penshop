@@ -15,13 +15,5 @@ namespace AnotoWorkshop {
             Fields = new List<Field>();
             PageNumber = pagenum;
         }
-
-        public void addField(Field field) {
-            Fields.Add(field);
-        }
-
-        public void removeField(Field field) {
-            Fields.Remove(field);
-        }
     }
 }
