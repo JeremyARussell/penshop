@@ -123,13 +123,14 @@ namespace AnotoWorkshop {
                         break;
 
                     case MouseMode.Adding:
-                        Pen pt = new Pen(Color.Pink, 2);                //When adding the rectangle is pink (for now) to...
-                        e.Graphics.DrawRectangle(pt, _selectionRect);   //help the user know they aren't selecting things...
-                        e.Graphics.DrawLine(pt, _topCrossPoint,
-                                                _bottomCrossPoint);
-                        e.Graphics.DrawLine(pt, _leftCrossPoint,
-                                                _rightCrossPoint);
-
+                        Pen pt = new Pen(Color.Pink, 2); //When adding the rectangle is pink (for now) to...
+                        e.Graphics.DrawRectangle(pt, _selectionRect); //help the user know they aren't selecting things...
+                        if (_fieldToAdd.type != Type.LineDraw) { //The crosshairs get in the way of seeing the line the user is drawing, so we only draw the crosshairs for everything except the LineDraw fields
+                            e.Graphics.DrawLine(pt, _topCrossPoint,     //Starting to draw the vertical crosshair, the first point being the top...
+                                                _bottomCrossPoint);     //...and the last point being the bottom.
+                            e.Graphics.DrawLine(pt, _leftCrossPoint,    //Same principle here, but the horizontal crosshair instead...
+                                                _rightCrossPoint);      //...
+                        }
                         break;
                 }
 
@@ -273,11 +274,19 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Adding:
-                            //switch (_fieldToAdd.type) {
-                            //    case Type.Label:
-                            //        break;
-                            //}
-                            //TODO - some stuff for the labels and junk, whatever fields react to just the click and not any sizing or what not.
+                            switch (_fieldToAdd.type) {                         //Using a switch in case we need it later, it could be an if statement now though.
+                                case Type.Label:                                                    //When the left mouse button clicks down, and we're adding a label.
+                                    _fieldToAdd.zx = e.X - _xOffset;                                                                                    //Setting the fields positions...
+                                    _fieldToAdd.zy = e.Y - _yOffset;                                                                                    //...
+                                    _fieldToAdd.zwidth  = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;     //A Label's outer box size is based off the string it displays...
+                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;    //...here we use TextRenderer.MeasureText to get this information.
+                                  
+                                    _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
+                                    _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
+                                    _mode = MouseMode.None;     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
+                                    needToSave();
+                                    break;
+                            }
                             break;
                     }
                 }
@@ -474,11 +483,7 @@ namespace AnotoWorkshop {
 
                                     break;
 
-                                case Type.Label:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
-                                    _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;
-                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;
+                                case Type.Label: //Nothing for MouseUp concerning the Label
                                     break;
 
                                 case Type.RectangleDraw:
@@ -498,7 +503,9 @@ namespace AnotoWorkshop {
 
                             needToSave();
 
-                            _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);
+                            if (_fieldToAdd.type != Type.Label) {   //We don't add a field during MouseUp for labels since that is handled during MouseDown.
+                                _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);
+                            }
                             buildFieldTree();
                             refreshProperties(_fieldToAdd);
                             _fieldToAdd = null;
@@ -523,7 +530,10 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void calculateSfBox() {
+        /// <summary>
+        /// This function goes through and makes sure the blue group selection box is the right size based off the fields that are selected.
+        /// </summary>
+        private void calculateSfBox() { //TODO - Finish refactoring.
             Point sfBoxPosition = new Point(99999, 99999);
             Size sfBoxSize = new Size();
 
@@ -565,6 +575,7 @@ namespace AnotoWorkshop {
                 fi.zoomLevel = _zoomLevel;
             }
 
+            calculateLabelSizes();
             calculateSfBox();
             designPanel.Invalidate();
         }
@@ -577,6 +588,7 @@ namespace AnotoWorkshop {
                 fi.zoomLevel = _zoomLevel;
             }
 
+            calculateLabelSizes();
             calculateSfBox();
             designPanel.Invalidate();
         }
@@ -634,29 +646,36 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
+        /// <summary>
+        /// The Designer's copy function. Takes the field or fields selected and places a copy in memory to later paste.
+        /// </summary>
         private void copy() {                                                       //As the name suggests this is the copying function.
             _fieldsToCopy = new List<Field>();                                      //Create new blank _fieldsToCopy list of Fields
-
+            //TODO - Fix a bug where if nothing is selected we can empty out our fields to copy on accident. Probably use a bool to track if it needs to happen and make it happen in the foreach loop. an if before the first add should work fine.
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {                                                  //...and if they are selected...
                     _fieldsToCopy.Add(returnCopy(fi));                              //...add a copy of them (this is done due to the nature of C# references acting sort of like pointers) to the _fieldsToCopy list
                 }
             }
 
-            deselectAll();//TODO - Something smoother then this later would be nice.//So that when we paste later and caclulate the group box using calculateSfBox() it won't lump the copied fields in with the pasted fields.
             designPanel.Invalidate();
         }
 
-        private void paste() {                                                      //The paste function
-            foreach (Field fi in _fieldsToCopy) {                                   //
-                //fi.x = fi.x + 15;
-                fi.y = fi.y + 18;                                                   //
-                fi.selected = true;                                                 //
-                fi.zoomLevel = _zoomLevel;                                          //
-                _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));     //
-            }
-            needToSave();
+        /// <summary>
+        /// The Designer's pasting function. Pastes all the fields that have been cut or copied.
+        /// </summary>
+        private void paste() {                                                      
+            deselectAll();              //We run this here to prevent an issue with what's being copied remaining selected.
 
+            foreach (Field fi in _fieldsToCopy) {                                   
+                //fi.x = fi.x + 15; //TODO - Added pasting in different positions depensing on if it's a right click and paste or a CTRL-V paste.
+                fi.y = fi.y + 18;          //Offsetting so the pasted object(s) sits below the copied object(s).
+                fi.selected = true;                 //Selecting them before they are finally pasted. So that they will be when they are added. This helps with possible overlap issues, etc.
+                fi.zoomLevel = _zoomLevel;                    //Setting the zoom level to counter if someone copies, then zooms out, then pastes. etc.
+                _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));   //Using returnCopy to be able to make position, selected, and zoomlevel changes before the fields are pasted.
+            }
+
+            needToSave();
             buildFieldTree();
             calculateSfBox();                                                       //
             designPanel.Invalidate();
@@ -691,10 +710,6 @@ namespace AnotoWorkshop {
 
 
         #region Field Deletion
-
-        private void btnDeleteField_Click(object sender, EventArgs e) {
-            deleteFields();
-        }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             deleteFields();
@@ -807,6 +822,19 @@ namespace AnotoWorkshop {
 
         #region Global Control Functions
 
+        private void calculateLabelSizes() { //TODO - Refactor
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                if (fi.type == Type.Label) {
+                    fi.zwidth = TextRenderer.MeasureText(fi.text, fi.formatSet.font(_zoomLevel)).Width;
+                    fi.zheight = TextRenderer.MeasureText(fi.text, fi.formatSet.font(_zoomLevel)).Height;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Short and sweet, when we make a change we have to run needToSave(); It's for safety when closing forms
+        /// as well as a very standard and expected feature of just about any program that allows you to create something.
+        /// </summary>
         private void needToSave() {
             if (!_needToSaveForm) {
                 Text = _currentForm.FormName + "*";
@@ -1158,8 +1186,10 @@ namespace AnotoWorkshop {
             buildFieldTree();
         }
 
-        private void buildFieldTree()
-        {
+        /// <summary>
+        /// Refreshes the fields listed in the field hierarchy tree view.
+        /// </summary>
+        private void buildFieldTree() {//TODO - Give this a good Refactor
             trvFieldList.Nodes.Clear();
             int c = 0;
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
