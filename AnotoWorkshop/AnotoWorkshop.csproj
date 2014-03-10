@@ -106,6 +106,7 @@
     <Compile Include="templateSelection.Designer.cs">
       <DependentUpon>templateSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="UndoRedoSystem.cs" />
     <Compile Include="whiteList.cs">
       <SubType>Form</SubType>
     </Compile>

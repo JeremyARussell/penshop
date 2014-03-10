@@ -129,7 +129,7 @@ namespace AnotoWorkshop {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(folderPath, "*.xdp");
                     foreach (string file in fileList) {
                         workingForm = new PenForm(file, _formatSets);
-                        workingForm.thisFormsPath = file;//TODO - internal file path for forms
+                        workingForm.ThisFormsPath = file;//TODO - internal file path for forms
                         _formsToSave.Add(workingForm);
                     }
                 } catch (Exception ex) {

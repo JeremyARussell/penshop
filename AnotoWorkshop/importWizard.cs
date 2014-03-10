@@ -147,7 +147,7 @@ namespace AnotoWorkshop {
             if (((ListView)sender).SelectedItems.Count > 0) {
                 int tint = ((ListView)sender).SelectedItems[0].Index;
 
-                PenForm form = new PenForm(_formsToSave[tint].thisFormsPath, _formatSets);
+                PenForm form = new PenForm(_formsToSave[tint].ThisFormsPath, _formatSets);
                 //////
                 _formsToSave[tint] = form;//Do this again for all of them before importing.
                 //////
@@ -185,7 +185,7 @@ namespace AnotoWorkshop {
 
             for (int i = 0; i < _formsToSave.Count; i++) {
                 string nameHolder = _formsToSave[i].FormName;
-                PenForm form = new PenForm(_formsToSave[i].thisFormsPath, _formatSets, nameHolder);
+                PenForm form = new PenForm(_formsToSave[i].ThisFormsPath, _formatSets, nameHolder);
                 _formsToSave[i] = form;
                 _formsToSave[i].saveForm();
             }

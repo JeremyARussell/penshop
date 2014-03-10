@@ -12,8 +12,8 @@ namespace AnotoWorkshop {
         #region Variables
         //Public Variables
         public string FormName;
-        public string thisFormsPath; //Todo - Internal Filepath for forms, needed during import really
-        public List<int> formTemplates = new List<int>();
+        public string ThisFormsPath; //Todo - Internal Filepath for forms, needed during import really
+        public List<int> FormTemplates = new List<int>();
 
         private List<FormPage> _formPages = new List<FormPage>();
         private int _formVersion;
@@ -88,7 +88,7 @@ namespace AnotoWorkshop {
                 writer.WriteAttributeString("version", _formVersion.ToString());
 
                 writer.WriteStartElement("Templates");//Saving the template association list
-                foreach(int template in formTemplates) {
+                foreach(int template in FormTemplates) {
                     writer.WriteStartElement("Template");
                     writer.WriteString(template.ToString());
                     writer.WriteEndElement();//Template                   
@@ -159,7 +159,7 @@ namespace AnotoWorkshop {
         private void processTemplatesList(XmlNode node) {
             foreach(XmlNode nd in node) {
                 if(nd.Name == "Template") {
-                    formTemplates.Add(Convert.ToInt32(nd.InnerText));
+                    FormTemplates.Add(Convert.ToInt32(nd.InnerText));
                 }
             }
         }

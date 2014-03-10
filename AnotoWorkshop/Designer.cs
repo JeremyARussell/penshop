@@ -46,7 +46,7 @@ namespace AnotoWorkshop {
 
         #region Initializers
         /// <summary>
-        /// Initialize new instance of the frmMain Form. The only argument it takes is an existing form.
+        /// Initialize new instance of the Designer Form. The only argument it takes is an existing form.
         /// </summary>
         /// <param name="form">The form that will be used when designing.</param>
         public Designer(PenForm form) {//Only constructor for loading up the designer.
@@ -1225,12 +1225,12 @@ namespace AnotoWorkshop {
 
         private void btnTemplatesList_Click(object sender, EventArgs e) {
 
-            using (var form = new templateSelection(_currentForm.formTemplates)) {
+            using (var form = new templateSelection(_currentForm.FormTemplates)) {
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK) {
                     List<int> val = form.templates;
 
-                    _currentForm.formTemplates = val;
+                    _currentForm.FormTemplates = val;
                 }
             }
         }
