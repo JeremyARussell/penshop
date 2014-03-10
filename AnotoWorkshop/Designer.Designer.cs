@@ -93,6 +93,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAddRichLabel = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -282,6 +283,7 @@
             // 
             // grpAddingFields
             // 
+            this.grpAddingFields.Controls.Add(this.btnAddRichLabel);
             this.grpAddingFields.Controls.Add(this.btnAddLine);
             this.grpAddingFields.Controls.Add(this.btnAddRectangle);
             this.grpAddingFields.Controls.Add(this.btnAddOptionGroup);
@@ -300,7 +302,7 @@
             // 
             // btnAddLine
             // 
-            this.btnAddLine.Location = new System.Drawing.Point(5, 149);
+            this.btnAddLine.Location = new System.Drawing.Point(5, 208);
             this.btnAddLine.Name = "btnAddLine";
             this.btnAddLine.Size = new System.Drawing.Size(65, 23);
             this.btnAddLine.TabIndex = 8;
@@ -310,7 +312,7 @@
             // 
             // btnAddRectangle
             // 
-            this.btnAddRectangle.Location = new System.Drawing.Point(5, 122);
+            this.btnAddRectangle.Location = new System.Drawing.Point(5, 181);
             this.btnAddRectangle.Name = "btnAddRectangle";
             this.btnAddRectangle.Size = new System.Drawing.Size(65, 23);
             this.btnAddRectangle.TabIndex = 7;
@@ -320,7 +322,7 @@
             // 
             // btnAddOptionGroup
             // 
-            this.btnAddOptionGroup.Location = new System.Drawing.Point(5, 207);
+            this.btnAddOptionGroup.Location = new System.Drawing.Point(5, 291);
             this.btnAddOptionGroup.Name = "btnAddOptionGroup";
             this.btnAddOptionGroup.Size = new System.Drawing.Size(82, 23);
             this.btnAddOptionGroup.TabIndex = 5;
@@ -329,9 +331,10 @@
             // 
             // btnAddLabel
             // 
-            this.btnAddLabel.Location = new System.Drawing.Point(5, 76);
+            this.btnAddLabel.Location = new System.Drawing.Point(5, 67);
+            this.btnAddLabel.Margin = new System.Windows.Forms.Padding(1);
             this.btnAddLabel.Name = "btnAddLabel";
-            this.btnAddLabel.Size = new System.Drawing.Size(65, 23);
+            this.btnAddLabel.Size = new System.Drawing.Size(72, 23);
             this.btnAddLabel.TabIndex = 4;
             this.btnAddLabel.Text = "Label";
             this.btnAddLabel.UseVisualStyleBackColor = true;
@@ -339,9 +342,10 @@
             // 
             // btnAddCheckBox
             // 
-            this.btnAddCheckBox.Location = new System.Drawing.Point(5, 46);
+            this.btnAddCheckBox.Location = new System.Drawing.Point(5, 42);
+            this.btnAddCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.btnAddCheckBox.Name = "btnAddCheckBox";
-            this.btnAddCheckBox.Size = new System.Drawing.Size(65, 23);
+            this.btnAddCheckBox.Size = new System.Drawing.Size(72, 23);
             this.btnAddCheckBox.TabIndex = 3;
             this.btnAddCheckBox.Text = "Check Box";
             this.btnAddCheckBox.UseVisualStyleBackColor = true;
@@ -350,8 +354,9 @@
             // btnAddTextField
             // 
             this.btnAddTextField.Location = new System.Drawing.Point(5, 17);
+            this.btnAddTextField.Margin = new System.Windows.Forms.Padding(1);
             this.btnAddTextField.Name = "btnAddTextField";
-            this.btnAddTextField.Size = new System.Drawing.Size(65, 23);
+            this.btnAddTextField.Size = new System.Drawing.Size(72, 23);
             this.btnAddTextField.TabIndex = 2;
             this.btnAddTextField.Text = "Text Field";
             this.btnAddTextField.UseVisualStyleBackColor = true;
@@ -824,6 +829,17 @@
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
             this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
             // 
+            // btnAddRichLabel
+            // 
+            this.btnAddRichLabel.Location = new System.Drawing.Point(5, 92);
+            this.btnAddRichLabel.Margin = new System.Windows.Forms.Padding(1);
+            this.btnAddRichLabel.Name = "btnAddRichLabel";
+            this.btnAddRichLabel.Size = new System.Drawing.Size(72, 23);
+            this.btnAddRichLabel.TabIndex = 9;
+            this.btnAddRichLabel.Text = "Rich Label";
+            this.btnAddRichLabel.UseVisualStyleBackColor = true;
+            this.btnAddRichLabel.Click += new System.EventHandler(this.btnAddRichLabel_Click);
+            // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -932,6 +948,7 @@
         private System.Windows.Forms.ToolStripMenuItem alignHorizontallyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem alignVerticallyToolStripMenuItem;
         private System.Windows.Forms.Label lblDebugMMode;
+        private System.Windows.Forms.Button btnAddRichLabel;
     }
 }
 

@@ -158,7 +158,8 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
 
                                 flPen.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, Font, flPen.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush, 
+                                    new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
                                 break;
 
                             case Type.RectangleDraw:
@@ -410,9 +411,13 @@ namespace AnotoWorkshop {
                                     break;
 
                                 case Type.Label:
-                                    //_selectionRect.Height = (int)(16 * _zoomLevel);
+                                    //Nothing special, no constraints
                                     break;
-
+                  
+                                case Type.FancyLabel:
+                                    //Nothing special, no constraints
+                                    break;
+                            
                                 case Type.RectangleDraw:
                                     //Nothing special, no constraints
                                     break;
@@ -485,6 +490,11 @@ namespace AnotoWorkshop {
 
                                 case Type.Label: //Nothing for MouseUp concerning the Label
                                     break;
+                               
+                                case Type.FancyLabel:
+                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    break;
 
                                 case Type.RectangleDraw:
                                     _fieldToAdd.zx = _selectionRect.X - _xOffset;
@@ -496,7 +506,7 @@ namespace AnotoWorkshop {
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
                                     break;
                             }
-                            if (_fieldToAdd.type != Type.Label && _fieldToAdd.type != Type.FancyLabel) {
+                            if (_fieldToAdd.type != Type.Label) {
                                 _fieldToAdd.zwidth = _selectionRect.Width;
                                 _fieldToAdd.zheight = _selectionRect.Height; 
                             }
@@ -809,6 +819,14 @@ namespace AnotoWorkshop {
             }
         }
 
+        private void btnAddRichLabel_Click(object sender, EventArgs e) {
+            deselectAll();
+
+            _mode = MouseMode.Adding;
+            _fieldToAdd = new Field("Rich Label", Type.FancyLabel);
+            _fieldToAdd.zoomLevel = _zoomLevel;
+        }
+
         private void btnAddRectangle_Click(object sender, EventArgs e) {
             deselectAll();
 
@@ -1065,7 +1083,7 @@ namespace AnotoWorkshop {
             _fieldInProperties.hidden = chkPropHidden.Checked;
             _fieldInProperties.readOnly = chkPropReadOnly.Checked;
             _fieldInProperties.text = txtPropText.Text;
-            if (_fieldInProperties.formatSetName != null) {
+            if (cmbFormatSetNames.SelectedItem.ToString() != "") {
                 _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
             }
 
