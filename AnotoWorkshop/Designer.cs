@@ -628,32 +628,38 @@ namespace AnotoWorkshop {
             paste();
         }
 
+        /// <summary>
+        /// The Designer's cut function, it takes the fields and places them in a list, then removes them from the form to prepare for a paste.
+        /// </summary>
         private void cut() {
-            _fieldsToCopy = new List<Field>();
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    _fieldsToCopy.Add(fi);
+            int shouldClearFieldsToCopy = 0;    //This integer is used to track how many fields are selected in order to solve an issue with the fields to copy being overwritten even if nothing was selected.
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
+                if (fi.selected) {                                                  //...and if they are selected...
+                    shouldClearFieldsToCopy++;  //Incremenent integer for tracking selected fields.
+                    if (shouldClearFieldsToCopy == 1) 
+                        _fieldsToCopy = new List<Field>();    //Create new blank _fieldsToCopy list of Fields
+                    _fieldsToCopy.Add(fi);                              //add the actual field and not a copy, so that we can remove them from the fields to perform the cutting portion this function.
                 }
             }
             foreach (Field fi2 in _fieldsToCopy) {
-                _currentForm.page(_currentPageNumber).Fields.Remove(fi2);
+                _currentForm.page(_currentPageNumber).Fields.Remove(fi2);//In order to actually remove them, we use the actual field instead of a copy.
             }
-            needToSave();
 
-            deselectAll();
-            buildFieldTree();
+            needToSave();
+            deselectAll();              //Nothing should be selected, this is ran to be double sure.
+            buildFieldTree();            
             designPanel.Invalidate();
         }
 
         /// <summary>
         /// The Designer's copy function. Takes the field or fields selected and places a copy in memory to later paste.
         /// </summary>
-        private void copy() {                                                       //As the name suggests this is the copying function.
-            _fieldsToCopy = new List<Field>();                                      //Create new blank _fieldsToCopy list of Fields
-            //TODO - Fix a bug where if nothing is selected we can empty out our fields to copy on accident. Probably use a bool to track if it needs to happen and make it happen in the foreach loop. an if before the first add should work fine.
+        private void copy() {                                                       
+            int shouldClearFieldsToCopy = 0;    //See cut() for breakdown of this variable.
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {                                                  //...and if they are selected...
+                    shouldClearFieldsToCopy++;  
+                    if (shouldClearFieldsToCopy == 1) _fieldsToCopy = new List<Field>();
                     _fieldsToCopy.Add(returnCopy(fi));                              //...add a copy of them (this is done due to the nature of C# references acting sort of like pointers) to the _fieldsToCopy list
                 }
             }
@@ -665,19 +671,21 @@ namespace AnotoWorkshop {
         /// The Designer's pasting function. Pastes all the fields that have been cut or copied.
         /// </summary>
         private void paste() {                                                      
-            deselectAll();              //We run this here to prevent an issue with what's being copied remaining selected.
+            deselectAll();//We run this here to prevent an issue with what's being copied remaining selected.
 
             foreach (Field fi in _fieldsToCopy) {                                   
                 //fi.x = fi.x + 15; //TODO - Added pasting in different positions depensing on if it's a right click and paste or a CTRL-V paste.
                 fi.y = fi.y + 18;          //Offsetting so the pasted object(s) sits below the copied object(s).
                 fi.selected = true;                 //Selecting them before they are finally pasted. So that they will be when they are added. This helps with possible overlap issues, etc.
                 fi.zoomLevel = _zoomLevel;                    //Setting the zoom level to counter if someone copies, then zooms out, then pastes. etc.
-                _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));   //Using returnCopy to be able to make position, selected, and zoomlevel changes before the fields are pasted.
+                _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));   //Using returnCopy to be able to make position, selected, and zoomlevel changes before the fields are pasted...
+                                                                                    //...It also works to prevent continuosly repasting the same fields over and over, effectively just shimmying them down repeatedly.
             }
 
+            _mode = MouseMode.Selected;
             needToSave();
             buildFieldTree();
-            calculateSfBox();                                                       //
+            calculateSfBox();                                                       
             designPanel.Invalidate();
         }
 
