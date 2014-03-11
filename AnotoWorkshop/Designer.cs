@@ -306,7 +306,7 @@ namespace AnotoWorkshop {
         }
 
         private void designer_MouseMove(object sender, MouseEventArgs e) {//Handling what happens when the mouse is moving.
-            if (_currentForm.totalPages() > 0) {
+            if (_currentForm.totalPages() > 0) {    //
                 if (e.Button == MouseButtons.Middle) {
                     _xOffset = e.X - _startPoint.X + _oldXOffset;
                     _yOffset = e.Y - _startPoint.Y + _oldYOffset;
@@ -543,33 +543,33 @@ namespace AnotoWorkshop {
         /// <summary>
         /// This function goes through and makes sure the blue group selection box is the right size based off the fields that are selected.
         /// </summary>
-        private void calculateSfBox() { //TODO - Finish refactoring.
-            Point sfBoxPosition = new Point(99999, 99999);
+        private void calculateSfBox() {
+            Point sfBoxPosition = new Point(99999, 99999);//Position starts way off screen since below we decrease it based off the positions in the selected fields. This keeps the top left spot, 0, 0. From always being the smallest possible locations.
             Size sfBoxSize = new Size();
 
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Figuring out where to place the TL corner of the sfBox.
-                if (fi.selected) {
-                    if (fi.zx < sfBoxPosition.X) {
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Figuring out where to place the top left corner of the sfBox.
+                if (fi.selected) {                                              //This will loop through the selected fields to grab whichever is the lowest...
+                    if (fi.zx < sfBoxPosition.X) {                              //...value of the X position...
                         sfBoxPosition.X = fi.zx - 6;
                     }
-                    if (fi.zy < sfBoxPosition.Y) {
+                    if (fi.zy < sfBoxPosition.Y) {                              //...as well as the lowest value for the Y position.
                         sfBoxPosition.Y = fi.zy - 6;
                     }
                 }
             }
-            foreach (Field pi in _currentForm.page(_currentPageNumber).Fields) {//Figuring out what size to make the sfBox.
-                if (pi.selected) {
-                    if (pi.zx + pi.zwidth - sfBoxPosition.X > sfBoxSize.Width) {
-                        sfBoxSize.Width = pi.zx + 6 + pi.zwidth - sfBoxPosition.X;
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Figuring out what size to make the sfBox.
+                if (fi.selected) {
+                    if (fi.zx + fi.zwidth - sfBoxPosition.X > sfBoxSize.Width) {    //Same principle, except to get size we add width to x position to get the rightmost...
+                        sfBoxSize.Width = fi.zx + 6 + fi.zwidth - sfBoxPosition.X;  //...position of the selected fields...
                     }
-                    if (pi.zy + pi.zheight - sfBoxPosition.Y > sfBoxSize.Height) {
-                        sfBoxSize.Height = pi.zy + 6 + pi.zheight - sfBoxPosition.Y;
+                    if (fi.zy + fi.zheight - sfBoxPosition.Y > sfBoxSize.Height) {
+                        sfBoxSize.Height = fi.zy + 6 + fi.zheight - sfBoxPosition.Y;//...as well as the bottom most position for height.
                     }
                 }
             }
 
-            _groupSelectionRect = new Rectangle(sfBoxPosition, sfBoxSize);
-            _resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height));
+            _groupSelectionRect = new Rectangle(sfBoxPosition, sfBoxSize);      //Build a Rectangle out of the calculated position and size.
+            _resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height)); //This is the resizing rectangle. TODO - Which will be later reworked to only show for individual items. Or something more streamlined.
         }
 
         public void mouseWheel(object sender, MouseEventArgs e) {
