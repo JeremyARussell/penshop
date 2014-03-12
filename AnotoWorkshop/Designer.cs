@@ -176,8 +176,11 @@ namespace AnotoWorkshop {
                                 Pen p3 = new Pen(Color.Green);
                                 e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 p3.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p3.Brush, new Point(fi.zx + _xOffset + fi.zwidth, (fi.zy + _yOffset) + (fi.zheight / 2)));
-                                break;
+                                double zhmod = 4 * _zoomLevel; //This is to give a slight offset to the y position for the string we draw for checkboxes, but also make it match with the _zoomLevel.
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p3.Brush, new Point(                      //This draw strings starts off pretty standard with the text, font and pen...
+                                       fi.zx + _xOffset +    fi.zwidth                                                                  //...starts getting a little fancy by offsetting the x position to account for the checkboxes width...
+                                    , (int)(fi.zy + _yOffset + (((fi.zheight - fi.formatSet.font(_zoomLevel).Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
+                                break;                                                                                                  //...and different levels of zoom and font size, etc.
 
                             case Type.OptionsGroup:
                                 Pen p4 = new Pen(Color.Red);
