@@ -176,7 +176,7 @@ namespace AnotoWorkshop {
                                 Pen p3 = new Pen(Color.Green);
                                 e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 p3.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, Font, p3.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset + 3));
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p3.Brush, new Point(fi.zx + _xOffset + fi.zwidth, (fi.zy + _yOffset) + (fi.zheight / 2)));
                                 break;
 
                             case Type.OptionsGroup:
@@ -245,11 +245,11 @@ namespace AnotoWorkshop {
                             }
                         }
                         
-                    } else {                                                                    //For when we are CTRL clicking within the selected box.
+                    } else {                                                                    //For when we are clicking within the selected box.
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    
-                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {  
-                                if(ModifierKeys.HasFlag(Keys.Control)) { 
-                                    fi.selected = !fi.selected;
+                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {          //Clicking within a field, within the selection box.
+                                if(ModifierKeys.HasFlag(Keys.Control)) {                //and CTRL is held down.
+                                    fi.selected = !fi.selected;                         //toggle if it's selected.
                                 }
                             }
                         }
@@ -263,14 +263,14 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Selected:
-                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                                fi.moveStart = new Point(fi.zx, fi.zy);
+                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Foreach of the page fields...
+                                fi.moveStart = new Point(fi.zx, fi.zy);                             //...grab the current position to use for moving around during mouseMove
                             }
                             break;
 
                         case MouseMode.Resizing:
-                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                                fi.resizeStart = new Size(fi.zwidth, fi.zheight);
+                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Foreach of the page fields...
+                                fi.resizeStart = new Size(fi.zwidth, fi.zheight);                   //...grab the current size to use for resizing during mouseMove
                             }
                             break;
 
