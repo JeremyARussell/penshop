@@ -23,7 +23,7 @@ namespace AnotoWorkshop {
         private Point _rightCrossPoint;     //...
         private Rectangle _selectionRect;      //This is the Rectangle used to actively track where the user is "selecting"
         private Rectangle _groupSelectionRect; //This Rectangle is the group selection rectangle used to encompass a group of things that have been selected.
-        private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
+        //private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
 
         private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
 
@@ -117,9 +117,9 @@ namespace AnotoWorkshop {
                         e.Graphics.DrawRectangle(_groupSelectionPen, //Drawing the group selection box, using the blue group selection pen.
                             new Rectangle((new Point(_groupSelectionRect.X + _xOffset, _groupSelectionRect.Y + _yOffset)), //Using the location of the group selection box combined with the page offset...
                             _groupSelectionRect.Size));                                                                    //...as well as the same rectangles size.
-                        e.Graphics.DrawRectangle(_groupSelectionPen,                                    //Same idea here...
-                            new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)),    //...except using the resising rectangle instead.
-                            _resRect.Size));
+                        //e.Graphics.DrawRectangle(_groupSelectionPen,                                    //Same idea here...
+                        //    new Rectangle((new Point(_resRect.X + _xOffset, _resRect.Y + _yOffset)),    //...except using the resising rectangle instead.
+                        //    _resRect.Size));
                         break;
 
                     case MouseMode.Adding:
@@ -195,6 +195,11 @@ namespace AnotoWorkshop {
                         selectedRect.Width = fi.zwidth + 2;     
                         selectedRect.Height = fi.zheight + 2;
                         e.Graphics.DrawRectangle(_selectionPen, selectedRect);
+
+                        e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle( //Paint the selected fields resizer(s)
+                            (new Point(fi.resizer().Location.X + _xOffset,
+                            fi.resizer().Location.Y + _yOffset)), 
+                            fi.resizer().Size));
                     }
                 }
             }
@@ -219,10 +224,18 @@ namespace AnotoWorkshop {
                 _startPoint.Y = e.Y;    //used generally for moving and resizing fields, but also for adding, etc.
 
                 #region Left Click Down
-                if (e.Button == MouseButtons.Left) {//All the code being ran during the left mouse click.
-                    if (_resRect.Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the resizing rectangle is what is clicked. Accounting for a moved field.
-                        _mode = MouseMode.Resizing;
+                if (e.Button == MouseButtons.Left) {
+                    if(_mode == MouseMode.Selected) {   //To prevent the click down from being able to trigger the resize without being able to see the resizer. //TODO - BUG - We can still have this issue if we click the invisible resizers when we are resizing another seperate field.
+                        foreach(Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                            if(fi.resizer().Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the field's resizer Rectangle contains the point that was clicked...  
+                                fi.resizing = true;                                     //...the field is flagged as resizing...
+                                _mode = MouseMode.Resizing;                             //...and the mode is set to resizing (for proper mouseMove handling)
+                            }
+                        }
                     }
+                    //if (_resRect.Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the resizing rectangle is what is clicked. Accounting for a moved field.
+                    //    _mode = MouseMode.Resizing;
+                    //}
                     
                     if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
                     && _mode != MouseMode.Resizing                                              //or if just just went into resizing mode
@@ -373,9 +386,27 @@ namespace AnotoWorkshop {
 
                         case MouseMode.Resizing:
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                                if (fi.selected) {
-                                    fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
+                                if (fi.resizing) {
+                                    if(fi.type == Type.TextField) {
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
 
+                                        if(fi.width < 5) fi.width = 5;
+                                    }
+                                    if(fi.type == Type.Checkbox) {
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
+                                        fi.zheight = fi.resizeStart.Height - (_startPoint.X - e.X);
+
+                                        if(fi.width < 2) fi.width = 2;
+                                        if(fi.height < 2) fi.height = 2;
+                                    }
+                                    if(fi.type == Type.RectangleDraw || fi.type == Type.FancyLabel) {
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
+                                        fi.zheight = fi.resizeStart.Height - (_startPoint.Y - e.Y);
+
+                                        if(fi.width < 5) fi.width = 5;
+                                        if(fi.height < 5) fi.height = 5;
+                                        
+                                    }
                                 }
                             }
                             needToSave();
@@ -470,6 +501,9 @@ namespace AnotoWorkshop {
 
                         break;
                     case MouseMode.Resizing:
+                        foreach(Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                            fi.resizing = false;//When we were just resizing, if the mouse is lifted we want to go through our fields and make sure none are resizing (since we stopped)
+                        }
                         calculateSfBox();
 
                         _mode = MouseMode.Selected;
@@ -572,7 +606,7 @@ namespace AnotoWorkshop {
             }
 
             _groupSelectionRect = new Rectangle(sfBoxPosition, sfBoxSize);      //Build a Rectangle out of the calculated position and size.
-            _resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height)); //This is the resizing rectangle. TODO - Which will be later reworked to only show for individual items. Or something more streamlined.
+            //_resRect = new Rectangle(new Point(sfBoxPosition.X + sfBoxSize.Width + 7, sfBoxPosition.Y), new Size(2, sfBoxSize.Height)); //This is the resizing rectangle. TODO - Which will be later reworked to only show for individual items. Or something more streamlined.
         }
 
         public void mouseWheel(object sender, MouseEventArgs e) {
@@ -880,7 +914,7 @@ namespace AnotoWorkshop {
             _bottomCrossPoint = new Point();
             _leftCrossPoint = new Point();
             _rightCrossPoint = new Point();
-            _resRect = new Rectangle();
+            //_resRect = new Rectangle();
             _groupSelectionRect = new Rectangle();
             designPanel.Invalidate();
         }

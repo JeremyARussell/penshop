@@ -127,6 +127,44 @@ namespace AnotoWorkshop {
 
         #region Class Functions
 
+        public bool resizing;   //This bool is used to flag if this field is being resized, this is so that we can find which resizer was clicked with a foreach loop.
+
+        /// <summary>
+        /// This function works out a specific resizer Rectangle depending on what the field's type is.
+        /// </summary>
+        /// <returns>The Rectangle representing where to click to begin resizing.</returns>
+        public Rectangle resizer() {
+            Rectangle retRect = new Rectangle();
+
+            switch (type) {
+                case Type.TextField:
+                    retRect = new Rectangle(
+                        (int)((_x + _width + 4) * _zoomLevel),
+                        (int)((_y + 6) * _zoomLevel),
+                        (int)(4 * _zoomLevel),
+                        (int)(4 * _zoomLevel));
+                    break;
+                case Type.Checkbox:
+                    retRect = new Rectangle(
+                        (int)((_x + ((_width - 4) / 2)) * _zoomLevel),
+                        (int)((_y + ((_height - 4) / 2)) * _zoomLevel),
+                        (int)(4 * _zoomLevel),
+                        (int)(4 * _zoomLevel));
+                    break;
+                case Type.FancyLabel:
+                case Type.RectangleDraw:
+                    retRect = new Rectangle(
+                        (int)((_x + _width + 4) * _zoomLevel),
+                        (int)((_y + _height + 4) * _zoomLevel),
+                        (int)(4 * _zoomLevel),
+                        (int)(4 * _zoomLevel));
+                    break;
+
+            }
+
+            return retRect;
+        }
+
         public bool isInside(int locx, int locy) {
             if (locx > (int)(_x * _zoomLevel) && locy > (int)(_y * _zoomLevel) &&
                 locx < (int)(_x * _zoomLevel) + (int)(_width * _zoomLevel) &&
