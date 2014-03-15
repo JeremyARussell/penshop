@@ -127,7 +127,8 @@ namespace AnotoWorkshop {
 
         #region Class Functions
 
-        public bool resizing;   //This bool is used to flag if this field is being resized, this is so that we can find which resizer was clicked with a foreach loop.
+        public bool resizing;   //This bool is used to flag if this field is being resized, this is so that we can find which resizer was clicked with a foreach loop. 
+        //TODO - One day after undo/redo we'll have indexed fields, when that happens we should be able to refer to the specific field clicked.
 
         /// <summary>
         /// This function works out a specific resizer Rectangle depending on what the field's type is.

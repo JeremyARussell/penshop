@@ -41,6 +41,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.grpAddingFields = new System.Windows.Forms.GroupBox();
+            this.btnAddRichLabel = new System.Windows.Forms.Button();
             this.btnAddLine = new System.Windows.Forms.Button();
             this.btnAddRectangle = new System.Windows.Forms.Button();
             this.btnAddOptionGroup = new System.Windows.Forms.Button();
@@ -93,7 +94,6 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddRichLabel = new System.Windows.Forms.Button();
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -299,6 +299,17 @@
             this.grpAddingFields.TabIndex = 5;
             this.grpAddingFields.TabStop = false;
             this.grpAddingFields.Text = "Add Menu";
+            // 
+            // btnAddRichLabel
+            // 
+            this.btnAddRichLabel.Location = new System.Drawing.Point(5, 92);
+            this.btnAddRichLabel.Margin = new System.Windows.Forms.Padding(1);
+            this.btnAddRichLabel.Name = "btnAddRichLabel";
+            this.btnAddRichLabel.Size = new System.Drawing.Size(72, 23);
+            this.btnAddRichLabel.TabIndex = 9;
+            this.btnAddRichLabel.Text = "Rich Label";
+            this.btnAddRichLabel.UseVisualStyleBackColor = true;
+            this.btnAddRichLabel.Click += new System.EventHandler(this.btnAddRichLabel_Click);
             // 
             // btnAddLine
             // 
@@ -828,17 +839,6 @@
             this.alignVerticallyToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
             this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
-            // 
-            // btnAddRichLabel
-            // 
-            this.btnAddRichLabel.Location = new System.Drawing.Point(5, 92);
-            this.btnAddRichLabel.Margin = new System.Windows.Forms.Padding(1);
-            this.btnAddRichLabel.Name = "btnAddRichLabel";
-            this.btnAddRichLabel.Size = new System.Drawing.Size(72, 23);
-            this.btnAddRichLabel.TabIndex = 9;
-            this.btnAddRichLabel.Text = "Rich Label";
-            this.btnAddRichLabel.UseVisualStyleBackColor = true;
-            this.btnAddRichLabel.Click += new System.EventHandler(this.btnAddRichLabel_Click);
             // 
             // Designer
             // 
