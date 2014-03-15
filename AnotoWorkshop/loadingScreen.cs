@@ -46,6 +46,24 @@ namespace AnotoWorkshop {
 
             try {
                 if (_settings.formsFolderLocation != null) {
+                    if (Directory.Exists(_settings.formsFolderLocation) != true) { // Added a check and prompt for when the settings exist but the folder does not.
+                        FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+
+                        openFileDialog1.SelectedPath = Application.StartupPath;
+                        DialogResult result = openFileDialog1.ShowDialog();
+                        if (result == DialogResult.OK) {
+                            string folderPath = openFileDialog1.SelectedPath;
+                            _settings.formsFolderLocation = folderPath;
+                            _settings.saveToFile();
+                        }
+                        if (result == DialogResult.Cancel) {
+                            MessageBox.Show("A working folder for your forms is required", "Loading Screen - Settings Required",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                            return;
+                        }
+                    }
+
                     IEnumerable<string> fileList = Directory.EnumerateFiles(_settings.formsFolderLocation, "*.penform");
                     foreach (string file in fileList) {
                         PenForm tempForm = _form = new PenForm(file);
