@@ -1058,7 +1058,7 @@ namespace AnotoWorkshop {
                 btnPreviousPage.Enabled = false;
             }
 
-            if (_currentForm.page(_currentPageNumber).Fields[0] != null) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
+            if (_currentForm.page(_currentPageNumber).Fields.Count < 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
             buildFieldTree();
@@ -1088,7 +1088,10 @@ namespace AnotoWorkshop {
         #region New Page
 
         private void btnNewPage_Click(object sender, EventArgs e) {
+            btnNextPage.Enabled = true;
             _currentForm.addNewBlankPage();
+            needToSave();
+            designPanel.Invalidate();
         }
 
         #endregion New Page
