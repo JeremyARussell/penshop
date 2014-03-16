@@ -31,20 +31,23 @@ namespace AnotoWorkshop {
         private readonly Pen _selectionPen = new Pen(Color.Gray);            //The pen used for the _selectionRect
         private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f); //The pen used for the _groupSelectionRect
 
-        private _mode globalMode = new _mode(); //global mode instance
+        private _mode _globalMode = new _mode(); //global mode instance
 
         public class _mode {
             private MouseMode _internalMode = MouseMode.None; //The MouseMode is used to keep track of what we should be doing with the mouse during the misc mouse events
 
+// ReSharper disable InconsistentNaming
             public bool None = true;
             public bool TextEditing = false;
             public bool Selecting = false;
             public bool Selected = false;
             public bool Resizing = false;
             public bool Adding = false;
+// ReSharper restore InconsistentNaming
             public MouseMode mode() {
                 return _internalMode; // Internal mode keeper
             }
+
             private void reset() {
                 None = false;
                 TextEditing = false;
@@ -53,6 +56,7 @@ namespace AnotoWorkshop {
                 Resizing = false;
                 Adding = false;
             }
+
             public void setMode(MouseMode m){
                 reset(); // Reset Bools
                 switch (m){
@@ -60,26 +64,32 @@ namespace AnotoWorkshop {
                         None = true;
                         _internalMode = m;
                         break;
+
                     case MouseMode.Adding:
                         Adding = true;
                         _internalMode = m;
                         break;
+
                     case MouseMode.Resizing:
                         Resizing = true;
                         _internalMode = m;
                         break;
+
                     case MouseMode.Selected:
                         Selected = true;
                         _internalMode = m;
                         break;
+
                     case MouseMode.Selecting:
                         Selecting = true;
                         _internalMode = m;
                         break;
+
                     case MouseMode.TextEditing:
                         TextEditing = true;
                         _internalMode = m;
                         break;
+
                     default:
                         None = true;
                         _internalMode = MouseMode.None; // If the mousemode is nothing known (errors) apply No mousemode
@@ -87,6 +97,7 @@ namespace AnotoWorkshop {
                 }
             }
         }
+
         public enum MouseMode {                   //The MouseMode enum, pretty basic here but I'll run through each mode.
             None,                                 //This is a placeholder for switching the mode to when we want the mouse to act as it would normally act.
             TextEditing,                          //This is the mode for editing text labels and rich text label inline.
@@ -150,7 +161,7 @@ namespace AnotoWorkshop {
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
 
             //For Debugging//
-            lblDebugMMode.Text = globalMode.mode().ToString();
+            lblDebugMMode.Text = _globalMode.mode().ToString();
             //For Debugging//
 
             if (_currentForm.totalPages() > 0) { //Being safe about what we paint, without this we get exceptions when have empty pages.
@@ -162,7 +173,7 @@ namespace AnotoWorkshop {
                 };
                 e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);//Finally, we actually draw the page to the panel.   
 
-                switch (globalMode.mode()) {
+                switch (_globalMode.mode()) {
                     case MouseMode.None://No reason to paint anything special when there is no selection mode.
                         break;
 
@@ -283,14 +294,14 @@ namespace AnotoWorkshop {
 
                 #region Left Click Down
                 if (e.Button == MouseButtons.Left) {
-                    if (globalMode.TextEditing) {
-                        stopEditingBox();
+                    if (_globalMode.TextEditing) {
+                        stopEditing();
                     }
-                    if(globalMode.Selected) {   //To prevent the click down from being able to trigger the resize without being able to see the resizer. //TODO - BUG - We can still have this issue if we click the invisible resizers when we are resizing another seperate field.
+                    if(_globalMode.Selected) {   //To prevent the click down from being able to trigger the resize without being able to see the resizer. //TODO - BUG - We can still have this issue if we click the invisible resizers when we are resizing another seperate field.
                         foreach(Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if(fi.resizer().Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the field's resizer Rectangle contains the point that was clicked...  
                                 fi.resizing = true;                                     //...the field is flagged as resizing...
-                                globalMode.setMode(MouseMode.Resizing);                             //...and the mode is set to resizing (for proper mouseMove handling)
+                                _globalMode.setMode(MouseMode.Resizing);                             //...and the mode is set to resizing (for proper mouseMove handling)
                             }
                         }
                     }
@@ -299,8 +310,8 @@ namespace AnotoWorkshop {
                     //}
                     
                     if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
-                    && !globalMode.Resizing                                              //or if just just went into resizing mode
-                    && !globalMode.Adding) {                                             //or we just clicked one of the adding buttons.
+                    && !_globalMode.Resizing                                              //or if just just went into resizing mode
+                    && !_globalMode.Adding) {                                             //or we just clicked one of the adding buttons.
                         int notSelectedCount = 0;                                                   //this is used to track how many fields are selected
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterating through all the fields on the page.
                             if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {                  //If where we are clicking is inside the field.
@@ -309,14 +320,14 @@ namespace AnotoWorkshop {
                                 } else {                                                        //if...but no CTRL
                                     fi.selected = true;                                         //field is selected
                                 }
-                                globalMode.setMode(MouseMode.Selected);                                     //mode become selected
+                                _globalMode.setMode(MouseMode.Selected);                                     //mode become selected
                             } else {                                                            //if we aren't clicking inside a field
                                 if(!ModifierKeys.HasFlag(Keys.Control)) {                       //And we are holding down CTRL
                                     fi.selected = false;                                        //field is unselected
                                     ++notSelectedCount;                                             //Increment the notSelectedCount integer by one
                                     if (notSelectedCount ==                                         //Here we check if the notSelectedCount integer is...
                                         _currentForm.page(_currentPageNumber).Fields.Count)         //...equal to the total amount of fields on this page...
-                                        globalMode.setMode(MouseMode.Selecting);                                //...
+                                        _globalMode.setMode(MouseMode.Selecting);                                //...
                                    _groupSelectionRect = new Rectangle();
                                 }                               
                             }
@@ -332,7 +343,7 @@ namespace AnotoWorkshop {
                         }
                     }
 
-                    switch (globalMode.mode()) {
+                    switch (_globalMode.mode()) {
                         case MouseMode.None:
                             break;
 
@@ -362,7 +373,7 @@ namespace AnotoWorkshop {
                                   
                                     _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
                                     _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
-                                    globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
+                                    _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
                                     needToSave();
                                     break;
                             }
@@ -390,7 +401,7 @@ namespace AnotoWorkshop {
                     _yOffset = e.Y - _startPoint.Y + _oldYOffset;
                 }
 
-                if (globalMode.Adding)
+                if (_globalMode.Adding)
                 {
                     _topCrossPoint = new Point(e.X, 0);
                     _bottomCrossPoint = new Point(e.X, 1000);
@@ -399,7 +410,7 @@ namespace AnotoWorkshop {
                 }
 
                 if (e.Button == MouseButtons.Left && !ModifierKeys.HasFlag(Keys.Control)) {
-                    switch (globalMode.mode()) {
+                    switch (_globalMode.mode()) {
                         case MouseMode.None:
                             break;
 
@@ -538,7 +549,7 @@ namespace AnotoWorkshop {
                 _oldXOffset = _xOffset;
                 _oldYOffset = _yOffset;
 
-                switch (globalMode.mode()) {
+                switch (_globalMode.mode()) {
                     case MouseMode.None:
                         break;
 
@@ -547,7 +558,7 @@ namespace AnotoWorkshop {
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) toSelect = true;
                         } if (toSelect) {
-                            globalMode.setMode(MouseMode.Selected);
+                            _globalMode.setMode(MouseMode.Selected);
                             goto case MouseMode.Selected;
                         }
                         break;
@@ -568,7 +579,7 @@ namespace AnotoWorkshop {
                         }
                         calculateSfBox();
 
-                        globalMode.setMode(MouseMode.Selected);
+                        _globalMode.setMode(MouseMode.Selected);
                         break;
                     case MouseMode.Adding:
                         if (_selectionRect.Width > 0 && _selectionRect.Height > 0) {
@@ -619,7 +630,7 @@ namespace AnotoWorkshop {
                             refreshProperties(_fieldToAdd);
                             _fieldToAdd = null;
                         }
-                        globalMode.setMode(MouseMode.None);
+                        _globalMode.setMode(MouseMode.None);
                         break;
                 }
 
@@ -715,7 +726,7 @@ namespace AnotoWorkshop {
         #region Designer Focus
 
         private void designPanel_MouseEnter(object sender, EventArgs e) {
-            if (!globalMode.TextEditing) {
+            if (!_globalMode.TextEditing) {
                 ((Panel)sender).Focus();
             }
         }
@@ -787,31 +798,38 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        private RichTextBox labelEditBox = new RichTextBox();
-        private Field currentEditField;
+        private RichTextBox _labelEditBox = new RichTextBox();
+        private Field _currentEditField;
 
         /// <summary>
         /// The Designer's edit function. Takes the field or fields selected and places a copy in memory to later paste.
         /// </summary>
 
-        private void edit() {
-            
+        private void startEditing() {
+            _shouldZoom = false;//Toggling zoom off while editing
+
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {
                     if (fi.type == Type.FancyLabel || fi.type == Type.Label) {
                         if (fi.type == Type.FancyLabel) {
-                            labelEditBox.Multiline = true; //Fancy label with multiline
+                            _labelEditBox.Multiline = true; //Fancy label with multiline
                         } else {
-                            labelEditBox.Multiline = false; //Not a fancy label so no multiline
+                            _labelEditBox.Multiline = false; //Not a fancy label so no multiline
                         }
-                        currentEditField = fi; //Assigning the field that will be assigned text later
-                        labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
-                        labelEditBox.Text = fi.text; 
-                        labelEditBox.Location = new Point(fi.zx+_xOffset,fi.zy+_oldYOffset);
-                        labelEditBox.Size = new Size(fi.zwidth, fi.zheight);
-                        designPanel.Controls.Add(labelEditBox);
-                        labelEditBox.Show();
-                        globalMode.setMode(MouseMode.TextEditing);
+                        _currentEditField = fi; //Assigning the field that will be assigned text later
+                        _labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
+                        _labelEditBox.BorderStyle = BorderStyle.None;
+
+                        _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _labelEditBox.Text = fi.text;
+                        _labelEditBox.RightMargin = fi.zwidth - 15;
+                        _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
+                        _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+                        designPanel.Controls.Add(_labelEditBox);
+                        _labelEditBox.Show();
+
+                        _globalMode.setMode(MouseMode.TextEditing);
+
                         break;//Stopping the loop from checking past the first label or RichLabel.
                     }
                 }
@@ -820,10 +838,12 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        public void stopEditingBox() {
-            currentEditField.text = labelEditBox.Text;
-            labelEditBox.Hide();
-            currentEditField = null;
+        public void stopEditing() {
+            _currentEditField.text = _labelEditBox.Text;
+            _labelEditBox.Hide();
+            _currentEditField = null;
+
+            _shouldZoom = true;//Toggling zoom back on
             calculateLabelSizes();
         }
 
@@ -842,7 +862,7 @@ namespace AnotoWorkshop {
                                                                                     //...It also works to prevent continuosly repasting the same fields over and over, effectively just shimmying them down repeatedly.
             }
 
-            globalMode.setMode(MouseMode.Selected);
+            _globalMode.setMode(MouseMode.Selected);
             needToSave();
             buildFieldTree();
             calculateSfBox();                                                       
@@ -906,7 +926,7 @@ namespace AnotoWorkshop {
         private void btn_AddField_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
 
             //Testing Grounds///
             string fieldName = "";
@@ -930,7 +950,7 @@ namespace AnotoWorkshop {
         private void btnAddCheckBox_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
 
             string fieldName = "";
 
@@ -952,7 +972,7 @@ namespace AnotoWorkshop {
         private void btnAddLabel_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Label", Type.Label);
             _fieldToAdd.text = "Placeholder Text";                 //To give it text, and therefore dimensions in the display.
             _fieldToAdd.zoomLevel = _zoomLevel;
@@ -963,7 +983,7 @@ namespace AnotoWorkshop {
         private void btnAddRichLabel_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.FancyLabel);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
@@ -971,7 +991,7 @@ namespace AnotoWorkshop {
         private void btnAddRectangle_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rectangle", Type.RectangleDraw);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
@@ -979,7 +999,7 @@ namespace AnotoWorkshop {
         private void btnAddLine_Click(object sender, EventArgs e) {
             deselectAll();
 
-            globalMode.setMode(MouseMode.Adding);
+            _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Line", Type.LineDraw);
             _fieldToAdd.zoomLevel = _zoomLevel;
         }
@@ -1290,7 +1310,7 @@ namespace AnotoWorkshop {
             if (e.Control && e.KeyCode == Keys.X) { cut(); return; }
             if (e.Control && e.KeyCode == Keys.C) { copy(); return; }
             if (e.Control && e.KeyCode == Keys.V) { paste(); return; }
-            if (e.KeyCode == Keys.Space && !globalMode.TextEditing) { edit(); return; }//Only enters if TextEditing is false
+            if (e.KeyCode == Keys.Space && !_globalMode.TextEditing) { startEditing(); return; }//Only enters if TextEditing is false
         }
 
         #endregion Universal Methods
@@ -1386,7 +1406,7 @@ namespace AnotoWorkshop {
 
             highlightHeirarchy();
 
-            globalMode.setMode(MouseMode.Selected);
+            _globalMode.setMode(MouseMode.Selected);
             calculateSfBox();
             designPanel.Invalidate();
 
