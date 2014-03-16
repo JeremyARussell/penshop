@@ -26,6 +26,7 @@ namespace AnotoWorkshop {
         //private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
 
         private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
+        private bool _shouldZoom = true;       //Used to flag if we should allow zooming or not.
 
         private readonly Pen _selectionPen = new Pen(Color.Gray);            //The pen used for the _selectionRect
         private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f); //The pen used for the _groupSelectionRect
@@ -339,6 +340,7 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Selected:
+                            if (_shouldZoom) _shouldZoom = false;
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Foreach of the page fields...
                                 fi.moveStart = new Point(fi.zx, fi.zy);                             //...grab the current position to use for moving around during mouseMove
                             }
@@ -445,26 +447,26 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Resizing:
-                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                                if (fi.resizing) {
+                            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Go through the fields...
+                                if (fi.resizing) {                                              //...and find the one we are specifically resizing.
                                     if(fi.type == Type.TextField) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);//We only resize width for TextFields
 
-                                        if(fi.width < 5) fi.width = 5;
+                                        if(fi.width < 5) fi.width = 5;                           //Don't let it get smaller then 5 points wide.
                                     }
                                     if(fi.type == Type.Checkbox) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
-                                        fi.zheight = fi.resizeStart.Height - (_startPoint.X - e.X);
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);       //Here we equally resize width and height...
+                                        fi.zheight = fi.resizeStart.Height - (_startPoint.X - e.X);     //...based off the horizontal motion of the mouse.
 
-                                        if(fi.width < 2) fi.width = 2;
+                                        if(fi.width < 2) fi.width = 2;                                  //Without letting it get smaller then 2 points in size.
                                         if(fi.height < 2) fi.height = 2;
                                     }
                                     if(fi.type == Type.RectangleDraw || fi.type == Type.FancyLabel) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);
-                                        fi.zheight = fi.resizeStart.Height - (_startPoint.Y - e.Y);
+                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);  //For the Rectangles and Rich Labels we freely resize width...
+                                        fi.zheight = fi.resizeStart.Height - (_startPoint.Y - e.Y);//...and height
 
-                                        if(fi.width < 5) fi.width = 5;
-                                        if(fi.height < 5) fi.height = 5;
+                                        if(fi.width < 5) fi.width = 5;                             //Here we limit them from getting smaller then 5 points for width...
+                                        if(fi.height < 5) fi.height = 5;                           //...and height
                                         
                                     }
                                 }
@@ -628,6 +630,8 @@ namespace AnotoWorkshop {
                     cntxtFieldControls.Show(conPostX, conPostY);
                 }
 
+                _shouldZoom = true;//flag for deciding on if we should allow zooming at the moment. Enabled to allow zooming.
+
                 _startPoint = new Point();
                 _endPoint = new Point();
                 _selectionRect = new Rectangle();
@@ -670,31 +674,36 @@ namespace AnotoWorkshop {
         }
 
         public void mouseWheel(object sender, MouseEventArgs e) {
-            if (e.Delta > 0)
+            if (e.Delta > 0)//Scrolling up
                 zoomIn();
-            else
+            else {          //Scrolling down
                 zoomOut();
+            }
         }
 
         private void zoomIn() {
-            if (globalMode.TextEditing) return;
-            _zoomLevel += 0.25;
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                fi.zoomLevel = _zoomLevel;
+            if (_shouldZoom) {  //Using this bool to prevent zooming if we are doing a few specific things (like editing labels, or moving fields)
+                if (_zoomLevel < 4.00) {//4.00 acts as an upper bounds for zooming
+                    _zoomLevel += 0.25;
+                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Apply the new zoomLevel to all the pages fields.
+                        fi.zoomLevel = _zoomLevel;
+                    }
+                }
             }
 
-            calculateLabelSizes();
+            calculateLabelSizes();          //Some visual cleanup
             calculateSfBox();
             designPanel.Invalidate();
         }
 
         private void zoomOut() {
-            if (globalMode.TextEditing) return;
-            if (_zoomLevel > 0.26) {
-                _zoomLevel -= 0.25;
-            }
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                fi.zoomLevel = _zoomLevel;
+            if (_shouldZoom) {
+                if (_zoomLevel > 0.26) {//0.26 is the lower bounds.
+                    _zoomLevel -= 0.25;
+                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                        fi.zoomLevel = _zoomLevel;
+                    }
+                }
             }
 
             calculateLabelSizes();
