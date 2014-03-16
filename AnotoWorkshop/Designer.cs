@@ -77,6 +77,8 @@ namespace AnotoWorkshop {
 
             foreach (var fSet in _settings.globalFormatSet) {   //Iterate through the globalFormatSets...
                 cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
+
+                cntxtFormatSets.Items.Add(fSet.Key);//Building the FormatSet context menu's items.
             }
 
             Text = _currentForm.FormName;       //Put the forms name as the screens title
@@ -849,19 +851,10 @@ namespace AnotoWorkshop {
 
             _mode = MouseMode.Adding;
             _fieldToAdd = new Field("Label", Type.Label);
+            _fieldToAdd.text = "Placeholder Text";                 //To give it text, and therefore dimensions in the display.
             _fieldToAdd.zoomLevel = _zoomLevel;
 
-            using (var form = new labelCreator()) {
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK) {
-                    string val = form.text;
-                    string val2 = form.type;
-
-                    _fieldToAdd.text = val;
-                    _fieldToAdd.formatSet = _settings.getFormatSetByName(val2);
-
-                }
-            }
+            cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);//Setting this up for picking the formatSet instead of the below.
         }
 
         private void btnAddRichLabel_Click(object sender, EventArgs e) {
@@ -1354,6 +1347,10 @@ namespace AnotoWorkshop {
                     e.Cancel = true;
                 }               
             }    
+        }
+
+        private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+            _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
         }
     }
 }

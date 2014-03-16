@@ -94,6 +94,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cntxtFormatSets = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabs.SuspendLayout();
             this.tabDesigner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -840,6 +841,12 @@
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
             this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
             // 
+            // cntxtFormatSets
+            // 
+            this.cntxtFormatSets.Name = "cntxtFormatSets";
+            this.cntxtFormatSets.Size = new System.Drawing.Size(153, 26);
+            this.cntxtFormatSets.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cntxtFormatSets_ItemClicked);
+            // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -949,6 +956,7 @@
         private System.Windows.Forms.ToolStripMenuItem alignVerticallyToolStripMenuItem;
         private System.Windows.Forms.Label lblDebugMMode;
         private System.Windows.Forms.Button btnAddRichLabel;
+        private System.Windows.Forms.ContextMenuStrip cntxtFormatSets;
     }
 }
 
