@@ -822,7 +822,7 @@ namespace AnotoWorkshop {
 
                         _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
                         _labelEditBox.Text = fi.text;
-                        _labelEditBox.RightMargin = fi.zwidth - 15;
+                        _labelEditBox.RightMargin = fi.zwidth - 10;
                         _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
                         _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
                         designPanel.Controls.Add(_labelEditBox);
