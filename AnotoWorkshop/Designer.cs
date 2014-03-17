@@ -225,10 +225,24 @@ namespace AnotoWorkshop {
                             case Type.FancyLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
-
+                                StringFormat format = new StringFormat(StringFormat.GenericTypographic);
                                 flPen.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush, 
-                                    new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
+                                if (fi.texts != null)
+                                {
+                                    Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
+                                    for (int i = 0; i < fi.texts.Count; i++)
+                                    {
+                                        int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
+                                        if (zoomedFontSize == 0) zoomedFontSize = 1;
+                                        e.Graphics.DrawString(fi.texts[i].text, new Font(fi.texts[i].set.FontFamily, zoomedFontSize), flPen.Brush, (RectangleF)displayRectangle, format);
+                                    }
+                                }
+                                else
+                                {
+                                    e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
+                                                                        new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
+                                }
+                                
                                 break;
 
                             case Type.RectangleDraw:
@@ -819,9 +833,9 @@ namespace AnotoWorkshop {
                         _currentEditField = fi; //Assigning the field that will be assigned text later
                         _labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
                         _labelEditBox.BorderStyle = BorderStyle.None;
-
                         _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
                         _labelEditBox.Text = fi.text;
+                        _labelEditBox.MouseUp += _labelEditBox_MouseUp;
                         _labelEditBox.RightMargin = fi.zwidth - 15;
                         _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
                         _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
@@ -838,8 +852,57 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
+        void _labelEditBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
+            }
+        }
+
+        public Dictionary<int, textSetPair> parseTextToDict(RichTextBox s){
+            var tempD = new Dictionary<int,textSetPair>();
+            if (s.TextLength > 0)
+            {
+                string prevText = "";
+                Font prevFormat = null;
+                for (int i = 0; i < s.TextLength; i++)
+                {
+                    _labelEditBox.SelectionStart = i;
+                    _labelEditBox.SelectionLength = 1;
+                    if(i == 0){
+                        prevFormat = _labelEditBox.SelectionFont;
+                    }
+                    if(!prevFormat.Equals(_labelEditBox.SelectionFont)){
+                        var toAdd = new textSetPair();
+                        toAdd.text = prevText;
+                        toAdd.set = prevFormat;
+                        prevFormat = _labelEditBox.SelectionFont;
+                        tempD.Add(tempD.Count, toAdd);
+                        prevText = "";
+                    } else {
+                        prevText = prevText + _labelEditBox.SelectedText.ToString();
+                    }
+                    if (i == s.TextLength - 1)
+                    {
+                        var toAdd = new textSetPair();
+                        toAdd.text = prevText;
+                        toAdd.set = prevFormat;
+                        prevFormat = _labelEditBox.SelectionFont;
+                        tempD.Add(tempD.Count, toAdd);
+                    }
+                }
+
+                return tempD;
+            }
+            else
+            {
+                return tempD;
+            }
+        }
         public void stopEditing() {
             _currentEditField.text = _labelEditBox.Text;
+            _currentEditField.texts = parseTextToDict(_labelEditBox);
             _labelEditBox.Hide();
             _currentEditField = null;
 
@@ -1242,7 +1305,7 @@ namespace AnotoWorkshop {
             _fieldInProperties.width = Convert.ToInt32(txtPropWidth.Text);
             _fieldInProperties.height = Convert.ToInt32(txtPropHeight.Text);
             _fieldInProperties.hidden = chkPropHidden.Checked;
-            _fieldInProperties.readOnly = chkPropReadOnly.Checked;
+            _fieldInProperties.readOnly = chkPropReadOnly.Checked;             
             _fieldInProperties.text = txtPropText.Text;
             if (cmbFormatSetNames.SelectedItem.ToString() != "") {
                 _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
@@ -1474,7 +1537,12 @@ namespace AnotoWorkshop {
         }
 
         private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-            _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
+            if (_globalMode.TextEditing)
+            {
+                _labelEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+            } else{
+                _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
+            }
         }
     }
 }
