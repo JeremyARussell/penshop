@@ -17,7 +17,10 @@ namespace AnotoWorkshop {
     }
 
     #endregion Field Type Enum
-
+    public class textSetPair{
+        public string text{get;set;}
+        public Font set{get;set;}
+    }
     public class Field //Franklin
     {//Advanced type stuff is filled when the add button is clicked for each guy.
         #region Variables
@@ -48,7 +51,7 @@ namespace AnotoWorkshop {
         private double _zoomLevel = 1.00;
 
         public List<FormatSet> textTypes;
-        public List<string> texts;
+        public Dictionary<int, textSetPair> texts;
 
         //calculate, only found in readOnly (AKA Variable info from database/(ei, NextGen)) OR the script stuff.
 
