@@ -163,8 +163,13 @@ namespace AnotoWorkshop {
         private void btnNewForm_Click(object sender, EventArgs e) {
             PenForm newPenform = new PenForm();
             newPenform.FormName = Interaction.InputBox("Name of form?");
-            newPenform.saveForm();
-
+            if (newPenform.FormName != "")
+            {
+                newPenform.saveForm();
+            }
+            else {
+            MessageBox.Show("Enter a form name.");
+            }
             checkForForms();
         }
 

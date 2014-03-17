@@ -1002,6 +1002,8 @@ namespace AnotoWorkshop {
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.FancyLabel);
             _fieldToAdd.zoomLevel = _zoomLevel;
+
+            cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
         }
 
         private void btnAddRectangle_Click(object sender, EventArgs e) {
@@ -1074,7 +1076,7 @@ namespace AnotoWorkshop {
                 btnPreviousPage.Enabled = false;
             }
 
-            if (_currentForm.page(_currentPageNumber).Fields[0] != null) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
+            if (_currentForm.page(_currentPageNumber).Fields.Count < 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
             buildFieldTree();
@@ -1104,7 +1106,10 @@ namespace AnotoWorkshop {
         #region New Page
 
         private void btnNewPage_Click(object sender, EventArgs e) {
+            btnNextPage.Enabled = true;
             _currentForm.addNewBlankPage();
+            needToSave();
+            designPanel.Invalidate();
         }
 
         #endregion New Page
