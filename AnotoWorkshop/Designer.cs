@@ -986,6 +986,8 @@ namespace AnotoWorkshop {
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.FancyLabel);
             _fieldToAdd.zoomLevel = _zoomLevel;
+
+            cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
         }
 
         private void btnAddRectangle_Click(object sender, EventArgs e) {
