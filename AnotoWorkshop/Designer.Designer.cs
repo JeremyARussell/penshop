@@ -411,6 +411,7 @@
             this.alignHorizontallyToolStripMenuItem.Name = "alignHorizontallyToolStripMenuItem";
             this.alignHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.alignHorizontallyToolStripMenuItem.Text = "Align Horizontally";
+            this.alignHorizontallyToolStripMenuItem.Click += new System.EventHandler(this.alignHorizontallyToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -423,6 +424,7 @@
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -435,18 +437,21 @@
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // cntxtFieldControls
             // 
@@ -467,6 +472,7 @@
             this.alignVerticallyToolStripMenuItem.Name = "alignVerticallyToolStripMenuItem";
             this.alignVerticallyToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.alignVerticallyToolStripMenuItem.Text = "Align Vertically";
+            this.alignVerticallyToolStripMenuItem.Click += new System.EventHandler(this.alignVerticallyToolStripMenuItem_Click);
             // 
             // designPanel
             // 
@@ -919,7 +925,7 @@
             // cntxtFormatSets
             // 
             this.cntxtFormatSets.Name = "cntxtFormatSets";
-            this.cntxtFormatSets.Size = new System.Drawing.Size(153, 26);
+            this.cntxtFormatSets.Size = new System.Drawing.Size(61, 4);
             this.cntxtFormatSets.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cntxtFormatSets_ItemClicked);
             // 
             // Designer
