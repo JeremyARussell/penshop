@@ -243,18 +243,23 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                                 StringFormat format = new StringFormat(StringFormat.GenericTypographic);
                                 flPen.Color = Color.Black;
-                                if (fi.texts != null)
-                                {
-                                    Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
-                                    for (int i = 0; i < fi.texts.Count; i++)
-                                    {
+                                if (fi.texts != null) {
+                                    int yTracker = fi.zy + _yOffset;
+                                    Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, yTracker), fi.rect().Size);
+                                    for (int i = 0; i < fi.texts.Count; i++) {
                                         int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
                                         if (zoomedFontSize == 0) zoomedFontSize = 1;
-                                        e.Graphics.DrawString(fi.texts[i].text, new Font(fi.texts[i].set.FontFamily, zoomedFontSize), flPen.Brush, (RectangleF)displayRectangle, format);
+
+                                        if (i > 0) {
+                                            Point testloc = new Point(displayRectangle.Location.X, yTracker);
+                                            displayRectangle.Location = testloc; 
+                                        }
+
+                                        yTracker = yTracker + (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height;
+
+                                        e.Graphics.DrawString(fi.texts[i].text, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
                                                                         new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
                                 }
@@ -867,6 +872,7 @@ namespace AnotoWorkshop {
                         _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
                         designPanel.Controls.Add(_labelEditBox);
                         _labelEditBox.Show();
+                        _labelEditBox.Focus();
 
                         _globalMode.setMode(MouseMode.TextEditing);
 
@@ -886,15 +892,13 @@ namespace AnotoWorkshop {
 
         public Dictionary<int, textSetPair> parseTextToDict(RichTextBox s){
             var tempD = new Dictionary<int,textSetPair>();
-            if (s.TextLength > 0)
-            {
+            if (s.TextLength > 0) {
                 string prevText = "";
                 Font prevFormat = null;
-                for (int i = 0; i < s.TextLength; i++)
-                {
+                for (int i = 0; i < s.TextLength; i++) {
                     _labelEditBox.SelectionStart = i;
                     _labelEditBox.SelectionLength = 1;
-                    if(i == 0){
+                    if (i == 0) {
                         prevFormat = _labelEditBox.SelectionFont;
                     }
                     if(!prevFormat.Equals(_labelEditBox.SelectionFont)){
@@ -907,8 +911,7 @@ namespace AnotoWorkshop {
                     } else {
                         prevText = prevText + _labelEditBox.SelectedText.ToString();
                     }
-                    if (i == s.TextLength - 1)
-                    {
+                    if (i == s.TextLength - 1) {
                         var toAdd = new textSetPair();
                         toAdd.text = prevText;
                         toAdd.set = prevFormat;
@@ -916,7 +919,6 @@ namespace AnotoWorkshop {
                         tempD.Add(tempD.Count, toAdd);
                     }
                 }
-
                 return tempD;
             } else {
                 return tempD;
@@ -929,6 +931,7 @@ namespace AnotoWorkshop {
             refreshProperties(_currentEditField);//Refreshing the properties to reflect the changes to the field's text.
             _currentEditField = null;
 
+            needToSave();
             _shouldZoom = true;//Toggling zoom back on
             designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
             calculateLabelSizes();
@@ -1389,7 +1392,7 @@ namespace AnotoWorkshop {
                     return true;
                 }
                 if (_labelEditBox.Focused) {
-                    return base.ProcessCmdKey(ref msg, keyData);
+                    return base.ProcessCmdKey(ref msg, keyData);//If the _labelEditBox is focused we let the Spacebar act as it normally would.
                 }
             }
             //Form Control Keybindings

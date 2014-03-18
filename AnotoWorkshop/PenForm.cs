@@ -447,7 +447,7 @@ namespace AnotoWorkshop {
             return retStr;
         }
 
-        public void exportXDP() {//.xdp export
+        public void exportXDP() {//.xdp export //TODO - FINISH ALREADY
             string versionString = _formVersion.ToString("D7");
 
             const string adobeXdpNs = @"http://ns.adobe.com/xdp/";//Xdp
@@ -670,7 +670,7 @@ namespace AnotoWorkshop {
                             #region Fancy Label - Not Started
 
                             case Type.FancyLabel:
-                                //writer.WriteStartElement("field");
+                                //writer.WriteStartElement("field"); TODO - Saving the new RichLabels
                                 //writer.WriteEndElement();//end field
                                 break;
 
@@ -1382,7 +1382,7 @@ namespace AnotoWorkshop {
 
         #region EPS Exporting
 
-        public void exportEPS() {
+        public void exportEPS() {//TODO - Finish this soon
 
             string versionString = _formVersion.ToString("D7");
 
