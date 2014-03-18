@@ -920,10 +920,11 @@ namespace AnotoWorkshop {
             _currentEditField.text = _labelEditBox.Text;
             _currentEditField.texts = parseTextToDict(_labelEditBox);
             _labelEditBox.Hide();
+            refreshProperties(_currentEditField);//Refreshing the properties to reflect the changes to the field's text.
             _currentEditField = null;
 
-            designPanel.Focus();
             _shouldZoom = true;//Toggling zoom back on
+            designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
             calculateLabelSizes();
         }
 
