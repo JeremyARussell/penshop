@@ -1334,7 +1334,9 @@ namespace AnotoWorkshop {
             }
 
             _currentForm.page(_currentPageNumber).Fields.Add(_fieldInProperties);
-            designPanel.Invalidate();
+            calculateLabelSizes();   //...
+            calculateSfBox();        //......Some visual cleanup for rendering the changes.
+            designPanel.Invalidate();//...
         }
 
         #endregion Field Properties
