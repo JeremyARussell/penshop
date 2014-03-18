@@ -142,7 +142,7 @@ namespace AnotoWorkshop {
             btnAddLine.Text = "\uE108";
 
             designerLoadStuff();            //Misc things to initialize for the designer stuff
-            buildFieldTree();               //Function for building the Field Heirarchy 
+            refreshHierarchyView();               //Function for building the Field Heirarchy 
 
         }
 
@@ -396,15 +396,21 @@ namespace AnotoWorkshop {
                         case MouseMode.Adding:
                             switch (_fieldToAdd.type) {                         //Using a switch in case we need it later, it could be an if statement now though.
                                 case Type.Label:                                                    //When the left mouse button clicks down, and we're adding a label.
-                                    _fieldToAdd.zx = e.X - _xOffset;                                                                                    //Setting the fields positions...
-                                    _fieldToAdd.zy = e.Y - _yOffset;                                                                                    //...
-                                    _fieldToAdd.zwidth  = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;     //A Label's outer box size is based off the string it displays...
-                                    _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;    //...here we use TextRenderer.MeasureText to get this information.
-                                  
-                                    _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
-                                    _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
-                                    _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
-                                    needToSave();
+                                    if (_fieldToAdd.formatSet.name != null) {//This is here to keep us from adding a lebel that had no formatSet.
+                                        _fieldToAdd.zx = e.X - _xOffset;                                                                                    //Setting the fields positions...
+                                        _fieldToAdd.zy = e.Y - _yOffset;                                                                                    //...
+                                        _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;      //A Label's outer box size is based off the string it displays...
+                                        _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;    //...here we use TextRenderer.MeasureText to get this information.
+
+                                        _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
+                                        _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
+                                        _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
+
+                                        refreshHierarchyView();
+                                        needToSave();
+                                    } else {
+                                        _globalMode.setMode(MouseMode.None);//Regardless of if we got to actually make a new label or not, we need to get out of adding mode so we don't get cross hairs and addingpen based selection boxes.
+                                    }
                                     break;
                             }
                             break;
@@ -656,7 +662,7 @@ namespace AnotoWorkshop {
                             if (_fieldToAdd.type != Type.Label) {   //We don't add a field during MouseUp for labels since that is handled during MouseDown.
                                 _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);
                             }
-                            buildFieldTree();
+                            refreshHierarchyView();
                             refreshProperties(_fieldToAdd);
                             _fieldToAdd = null;
                         }
@@ -808,7 +814,7 @@ namespace AnotoWorkshop {
 
             needToSave();
             deselectAll();              //Nothing should be selected, this is ran to be double sure.
-            buildFieldTree();            
+            refreshHierarchyView();            
             designPanel.Invalidate();
         }
 
@@ -945,7 +951,7 @@ namespace AnotoWorkshop {
 
             _globalMode.setMode(MouseMode.Selected);
             needToSave();
-            buildFieldTree();
+            refreshHierarchyView();
             calculateSfBox();                                                       
             designPanel.Invalidate();
         }
@@ -996,7 +1002,7 @@ namespace AnotoWorkshop {
             }
             needToSave();
             deselectAll();
-            buildFieldTree();
+            refreshHierarchyView();
         }
 
         #endregion Field Deletion
@@ -1144,7 +1150,7 @@ namespace AnotoWorkshop {
             if (_currentForm.page(_currentPageNumber).Fields.Count < 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
-            buildFieldTree();
+            refreshHierarchyView();
             designPanel.Invalidate();
         }
 
@@ -1161,7 +1167,7 @@ namespace AnotoWorkshop {
             if (_currentForm.page(_currentPageNumber).Fields.Capacity != 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
 
             deselectAll();
-            buildFieldTree();
+            refreshHierarchyView();
             designPanel.Invalidate();
         }
 
@@ -1469,13 +1475,13 @@ namespace AnotoWorkshop {
         #region Field Tree Management
 
         private void btnRefreshFieldTree_Click(object sender, EventArgs e) {
-            buildFieldTree();
+            refreshHierarchyView();
         }
 
         /// <summary>
         /// Refreshes the fields listed in the field hierarchy tree view.
         /// </summary>
-        private void buildFieldTree() {//TODO - Give this a good Refactor
+        private void refreshHierarchyView() {//TODO - Give this a good Refactor
             trvFieldList.Nodes.Clear();
             int c = 0;
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
@@ -1572,10 +1578,9 @@ namespace AnotoWorkshop {
         }
 
         private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-            if (_globalMode.TextEditing)
-            {
+            if (_globalMode.TextEditing) {
                 _labelEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
-            } else{
+            } else {
                 _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
             }
         }
