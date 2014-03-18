@@ -851,9 +851,12 @@ namespace AnotoWorkshop {
                         _labelEditBox.BorderStyle = BorderStyle.None;
                         _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
                         _labelEditBox.Text = fi.text;
-                        _labelEditBox.RightMargin = fi.zwidth - 10;
                         _labelEditBox.MouseUp += _labelEditBox_MouseUp;
-                        _labelEditBox.RightMargin = fi.zwidth - 15;
+                        if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
+                            _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...
+                        } else {                                        //...if it's more than 10 (our offset)...
+                            _labelEditBox.RightMargin = fi.zwidth - 10; //...we go ahead and apply the offset to the margin we are using to tweak the rending of text to fix a word wrapping bug.
+                        }
                         _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
                         _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
                         designPanel.Controls.Add(_labelEditBox);
@@ -869,10 +872,8 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        void _labelEditBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
+        void _labelEditBox_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
                 cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
             }
         }
@@ -911,9 +912,7 @@ namespace AnotoWorkshop {
                 }
 
                 return tempD;
-            }
-            else
-            {
+            } else {
                 return tempD;
             }
         }
@@ -923,6 +922,7 @@ namespace AnotoWorkshop {
             _labelEditBox.Hide();
             _currentEditField = null;
 
+            designPanel.Focus();
             _shouldZoom = true;//Toggling zoom back on
             calculateLabelSizes();
         }
@@ -1373,6 +1373,16 @@ namespace AnotoWorkshop {
                     return true;
                 }
             }
+
+            if (keyData == Keys.Space) {
+                if (designPanel.Focused) {
+                    OnKeyPress(new KeyPressEventArgs((Char)Keys.Space));
+                    return true;
+                }
+                if (_labelEditBox.Focused) {
+                    return base.ProcessCmdKey(ref msg, keyData);
+                }
+            }
             //Form Control Keybindings
             //if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
             //if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
@@ -1387,6 +1397,7 @@ namespace AnotoWorkshop {
             if (e.KeyChar == (Char)Keys.Down) moveFieldsDown();
             if (e.KeyChar == (Char)Keys.Left) moveFieldsLeft();
             if (e.KeyChar == (Char)Keys.Right) moveFieldsRight();
+            if (e.KeyChar == (Char)Keys.Space && !_globalMode.TextEditing) { startEditing(); return; }//Only enters if TextEditing is false
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e) {
@@ -1395,7 +1406,6 @@ namespace AnotoWorkshop {
             if (e.Control && e.KeyCode == Keys.X) { cut(); return; }
             if (e.Control && e.KeyCode == Keys.C) { copy(); return; }
             if (e.Control && e.KeyCode == Keys.V) { paste(); return; }
-            if (e.KeyCode == Keys.Space && !_globalMode.TextEditing) { startEditing(); return; }//Only enters if TextEditing is false
         }
 
         #endregion Universal Methods
