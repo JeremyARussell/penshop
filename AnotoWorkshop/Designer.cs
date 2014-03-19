@@ -246,23 +246,41 @@ namespace AnotoWorkshop {
                                 if (fi.texts != null) {
                                     //WORKING
                                     int yTracker = fi.zy + _yOffset;
+                                    int tempWidth = 0;
+                                    Rectangle originalRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
+                                    string spaces = "";
                                     //WORKING 
                                     Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, yTracker), fi.rect().Size);
                                     for (int i = 0; i < fi.texts.Count; i++) {
+                                        string testString = fi.texts[i].text;
                                         int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
                                         if (zoomedFontSize == 0) zoomedFontSize = 1;
-
-                                        //Working
-                                        int tewidth = 0;
 
                                         if (i > 0) {
                                             Point displayRectangleLoc = new Point(displayRectangle.Location.X, yTracker);
                                             displayRectangle.Location = displayRectangleLoc; 
+                                            testString = spaces + fi.texts[i].text;
                                         }
-                                        //Working
-                                        yTracker = yTracker + (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height;
 
-                                        e.Graphics.DrawString(fi.texts[i].text, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
+                                        tempWidth = (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Width;
+
+                                        if (tempWidth < originalRectangle.Width) {
+                                            int dividor = (int)(fi.texts[i].set.Size / 6);
+                                            tempWidth = tempWidth * dividor;
+                                            for(int c = tempWidth; c > 10;c = c - 10) {
+                                                spaces = spaces + " ";
+                                            }
+                                            yTracker = yTracker + (int)(e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height / 2);
+                                        } else {
+                                            yTracker = yTracker + (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height;
+                                        }
+                                        
+
+                                        //Working
+                                        e.Graphics.DrawString(testString, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
+                                        if(spaces.Length > 0) {
+                                            //spaces = "";
+                                        }
                                     }
                                 } else {
                                     e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
