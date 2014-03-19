@@ -244,17 +244,22 @@ namespace AnotoWorkshop {
                                 StringFormat format = new StringFormat(StringFormat.GenericTypographic);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
+                                    //WORKING
                                     int yTracker = fi.zy + _yOffset;
+                                    //WORKING 
                                     Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, yTracker), fi.rect().Size);
                                     for (int i = 0; i < fi.texts.Count; i++) {
                                         int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
                                         if (zoomedFontSize == 0) zoomedFontSize = 1;
 
-                                        if (i > 0) {
-                                            Point testloc = new Point(displayRectangle.Location.X, yTracker);
-                                            displayRectangle.Location = testloc; 
-                                        }
+                                        //Working
+                                        int tewidth = 0;
 
+                                        if (i > 0) {
+                                            Point displayRectangleLoc = new Point(displayRectangle.Location.X, yTracker);
+                                            displayRectangle.Location = displayRectangleLoc; 
+                                        }
+                                        //Working
                                         yTracker = yTracker + (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height;
 
                                         e.Graphics.DrawString(fi.texts[i].text, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
