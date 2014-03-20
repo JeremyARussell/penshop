@@ -244,14 +244,67 @@ namespace AnotoWorkshop {
                                 StringFormat format = new StringFormat(StringFormat.GenericTypographic);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
-                                    //WORKING
+                                    int yTracker = 0;
+                                    int xTracker = 0;
+                                    int lastStringHeight = 0;
+                                    int lastStringWidth = 0;
+                                    Rectangle boundingRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
+                                    SizeF lastStringSize = new Size();
+                                    bool needToSpace = false;
+
+                                    for (int t = 0; t < fi.texts.Count; t++) {
+                                        //Display the current string
+                                        string testString = fi.texts[t].text;
+                                        int zoomedFontSize = (int)(fi.texts[t].set.Size * (_zoomLevel));
+                                        if (zoomedFontSize == 0) zoomedFontSize = 1;
+
+                                        if (needToSpace) {
+                                            //Add the proper spacing to the current string before displaying it.
+                                        }
+
+                                        e.Graphics.DrawString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), flPen.Brush, boundingRectangle, format);
+
+                                        //Check if the string took all of it's line
+                                        lastStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
+                                        
+                                        int lastFontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
+                                        
+                                        if (lastStringSize.Height > lastFontHeight) {
+                                            //We used multiple lines.
+                                            //int lines = (int)(lastStringSize.Height / lastFontHeight);
+                                            //int totalVerticalDrop = lastFontHeight * 
+                                        }
+                                        
+                                        if (lastStringSize.Width < boundingRectangle.Width) {
+                                            //Width was in fact shorter then needed
+                                        }
+
+
+                                        //If it did we need to offset the yTracker for each line dropped.
+
+                                        //If it didn't make sure the next strings y location remains the same.
+                                        //But be sure to space it in so that it doesn't overlap
+
+                                        
+
+
+
+                                    }
+
+                                }
+                                    
+                                    
+                                    /*{
+
                                     int yTracker = fi.zy + _yOffset;
                                     int tempWidth = 0;
                                     Rectangle originalRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
                                     string spaces = "";
-                                    //WORKING 
+
                                     Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, yTracker), fi.rect().Size);
                                     for (int i = 0; i < fi.texts.Count; i++) {
+                                        
+                                        
                                         string testString = fi.texts[i].text;
                                         int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
                                         if (zoomedFontSize == 0) zoomedFontSize = 1;
@@ -276,13 +329,18 @@ namespace AnotoWorkshop {
                                         }
                                         
 
-                                        //Working
+
                                         e.Graphics.DrawString(testString, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
                                         if(spaces.Length > 0) {
                                             //spaces = "";
                                         }
+
+
+
+
+
                                     }
-                                } else {
+                                }*/ else {
                                     e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
                                                                         new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
                                 }
