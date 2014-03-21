@@ -244,13 +244,13 @@ namespace AnotoWorkshop {
                                 StringFormat format = new StringFormat(StringFormat.GenericTypographic);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
-                                    int yTracker = 0;
-                                    int xTracker = 0;
-                                    int lastStringHeight = 0;
+                                    int yTracker = fi.zy + _yOffset;
                                     int lastStringWidth = 0;
                                     Rectangle boundingRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
-                                    SizeF lastStringSize = new Size();
+                                    SizeF currentStringSize = new Size();
                                     bool needToSpace = false;
+                                    bool needToDrop = false;
+                                    string spacingString = "";
 
                                     for (int t = 0; t < fi.texts.Count; t++) {
                                         //Display the current string
@@ -258,25 +258,47 @@ namespace AnotoWorkshop {
                                         int zoomedFontSize = (int)(fi.texts[t].set.Size * (_zoomLevel));
                                         if (zoomedFontSize == 0) zoomedFontSize = 1;
 
+                                        if (needToDrop) {
+                                            boundingRectangle.Y = yTracker;
+                                            needToDrop = false;
+                                        }
+
                                         if (needToSpace) {
                                             //Add the proper spacing to the current string before displaying it.
+                                            string space = " ";
+                                            int testi = (int)e.Graphics.MeasureString(space, fi.texts[t].set).Width;
+                                            for (int ns = lastStringWidth; ns > testi; ns-=testi) {
+                                                spacingString += " ";
+                                            }
+                                            testString = spacingString + testString;
                                         }
 
                                         e.Graphics.DrawString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), flPen.Brush, boundingRectangle, format);
 
+                                        if (needToSpace) {
+                                            lastStringWidth = 0;
+                                            spacingString = "";
+                                            needToSpace = false;
+                                        }
+
                                         //Check if the string took all of it's line
-                                        lastStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
+                                        currentStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
                                         
-                                        int lastFontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
+                                        int fontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
                                         
-                                        if (lastStringSize.Height > lastFontHeight) {
+                                        if (currentStringSize.Height > fontHeight) {
                                             //We used multiple lines.
                                             //int lines = (int)(lastStringSize.Height / lastFontHeight);
                                             //int totalVerticalDrop = lastFontHeight * 
+                                            yTracker = yTracker + (int)(currentStringSize.Height / 2);
+                                            needToDrop = true;
+
                                         }
                                         
-                                        if (lastStringSize.Width < boundingRectangle.Width) {
+                                        if (currentStringSize.Width < boundingRectangle.Width) {
                                             //Width was in fact shorter then needed
+                                            lastStringWidth = (int)currentStringSize.Width;
+                                            needToSpace = true;
                                         }
 
 
