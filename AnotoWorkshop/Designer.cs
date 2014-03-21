@@ -241,7 +241,7 @@ namespace AnotoWorkshop {
                             case Type.FancyLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
-                                StringFormat format = new StringFormat(StringFormat.GenericTypographic);
+                                StringFormat format = new StringFormat(StringFormat.GenericDefault);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
                                     int yTracker = fi.zy + _yOffset;
@@ -250,6 +250,7 @@ namespace AnotoWorkshop {
                                     SizeF currentStringSize = new Size();
                                     bool needToSpace = false;
                                     bool needToDrop = false;
+                                    //bool onSameLineStill = true;
                                     string spacingString = "";
 
                                     for (int t = 0; t < fi.texts.Count; t++) {
@@ -266,14 +267,16 @@ namespace AnotoWorkshop {
                                         if (needToSpace) {
                                             //Add the proper spacing to the current string before displaying it.
                                             string space = " ";
-                                            int testi = (int)e.Graphics.MeasureString(space, fi.texts[t].set).Width;
-                                            for (int ns = lastStringWidth; ns > testi; ns-=testi) {
+                                            double testi = e.Graphics.MeasureString(space, fi.texts[t].set).Width;
+                                            testi = testi - 0.5;
+                                            for (double  ns = lastStringWidth; ns > testi; ns-=testi) {
                                                 spacingString += " ";
                                             }
                                             testString = spacingString + testString;
+                                            //int tryDebuggingthis = (int)e.Graphics.MeasureString(spacingString, fi.texts[t].set).Width;
                                         }
 
-                                        e.Graphics.DrawString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), flPen.Brush, boundingRectangle, format);
+                                        e.Graphics.DrawString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), flPen.Brush, boundingRectangle);
 
                                         if (needToSpace) {
                                             lastStringWidth = 0;
@@ -282,20 +285,33 @@ namespace AnotoWorkshop {
                                         }
 
                                         //Check if the string took all of it's line
-                                        currentStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
+                                        //currentStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
                                         
+                                        ///*
+                                        int linesUsed;
+                                        int charactersFitted;
+
+                                        //Check if the string took all of it's line
+                                        currentStringSize = e.Graphics.MeasureString(testString,
+                                            new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style),
+                                            boundingRectangle.Size,
+                                            format, 
+                                            out charactersFitted,
+                                            out linesUsed);
+                                        //*/
+
                                         int fontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
                                         
                                         if (currentStringSize.Height > fontHeight) {
                                             //We used multiple lines.
                                             //int lines = (int)(lastStringSize.Height / lastFontHeight);
                                             //int totalVerticalDrop = lastFontHeight * 
-                                            yTracker = yTracker + (int)(currentStringSize.Height / 2);
+                                            yTracker = yTracker + (int)(currentStringSize.Height / 2);//TODO - SOMETHING TO SWITCH THIS IF WE DON'T NEED IT, OR SOMETHING... YAY
                                             needToDrop = true;
 
                                         }
                                         
-                                        if (currentStringSize.Width < boundingRectangle.Width) {
+                                        if (currentStringSize.Width < boundingRectangle.Width - 10) {
                                             //Width was in fact shorter then needed
                                             lastStringWidth = (int)currentStringSize.Width;
                                             needToSpace = true;
@@ -1010,7 +1026,7 @@ namespace AnotoWorkshop {
                         toAdd.set = prevFormat;
                         prevFormat = _labelEditBox.SelectionFont;
                         tempD.Add(tempD.Count, toAdd);
-                        prevText = "";
+                        prevText = _labelEditBox.SelectedText;
                     } else {
                         prevText = prevText + _labelEditBox.SelectedText.ToString();
                     }
