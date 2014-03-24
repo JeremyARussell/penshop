@@ -172,6 +172,8 @@ namespace AnotoWorkshop {
 
         #region The Designer
 
+
+
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
@@ -241,6 +243,7 @@ namespace AnotoWorkshop {
                             case Type.FancyLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                     
                                 StringFormat format = new StringFormat(StringFormat.GenericDefault);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
@@ -306,8 +309,11 @@ namespace AnotoWorkshop {
                                             //We used multiple lines.
                                             //int lines = (int)(lastStringSize.Height / lastFontHeight);
                                             //int totalVerticalDrop = lastFontHeight * 
-                                            yTracker = yTracker + (int)(currentStringSize.Height / 2);//TODO - SOMETHING TO SWITCH THIS IF WE DON'T NEED IT, OR SOMETHING... YAY
-                                            needToDrop = true;
+                                            if (linesUsed > 1) {
+                                                yTracker = yTracker + (int) (currentStringSize.Height/2);
+                                                    //TODO - SOMETHING TO SWITCH THIS IF WE DON'T NEED IT, OR SOMETHING... YAY
+                                                needToDrop = true;
+                                            }
 
                                         }
                                         
