@@ -244,6 +244,12 @@ namespace AnotoWorkshop {
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                      
+                                //Display formated text word for word using a new RichContent class.
+
+                                break;
+
+
+                                /*
                                 StringFormat format = new StringFormat(StringFormat.GenericDefault);
                                 flPen.Color = Color.Black;
                                 if (fi.texts != null) {
@@ -290,7 +296,6 @@ namespace AnotoWorkshop {
                                         //Check if the string took all of it's line
                                         //currentStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
                                         
-                                        ///*
                                         int linesUsed;
                                         int charactersFitted;
 
@@ -301,7 +306,6 @@ namespace AnotoWorkshop {
                                             format, 
                                             out charactersFitted,
                                             out linesUsed);
-                                        //*/
 
                                         int fontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
                                         
@@ -338,7 +342,7 @@ namespace AnotoWorkshop {
                                 }
                                     
                                     
-                                    /*{
+                                    ///*{
 
                                     int yTracker = fi.zy + _yOffset;
                                     int tempWidth = 0;
@@ -384,12 +388,13 @@ namespace AnotoWorkshop {
 
 
                                     }
-                                }*/ else {
+                                //} else {
                                     e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
                                                                         new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
                                 }
+                                */
                                 
-                                break;
+                                //break;
 
                             case Type.RectangleDraw:
                                 Pen recPen = new Pen(Color.LightGreen);
