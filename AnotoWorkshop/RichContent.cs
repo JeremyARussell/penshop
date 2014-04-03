@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AnotoWorkshop {
     class RichContent {
@@ -18,7 +19,9 @@ namespace AnotoWorkshop {
 
 
         //Constructed out of a richTextBox that get's passed along from the startEditing and endEditing parts of the main code.
+        public void RichContent(RichTextBox box) {
 
+        }
         
 
         /*A method/algorithm that goes through each character and font of the richTextBox and calculates the width,

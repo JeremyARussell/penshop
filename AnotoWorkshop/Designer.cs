@@ -246,6 +246,10 @@ namespace AnotoWorkshop {
                      
                                 //Display formated text word for word using a new RichContent class.
 
+                                //Foreach Line
+                                    //Foreach Word
+                                    //DrawText with font being word.font and position being word.position
+
                                 break;
 
 
@@ -1054,6 +1058,7 @@ namespace AnotoWorkshop {
                 return tempD;
             }
         }
+
         public void stopEditing() {
             _currentEditField.text = _labelEditBox.Text;
             _currentEditField.texts = parseTextToDict(_labelEditBox);

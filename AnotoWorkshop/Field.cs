@@ -17,12 +17,13 @@ namespace AnotoWorkshop {
     }
 
     #endregion Field Type Enum
-    public class textSetPair{
-        public string text{get;set;}
-        public Font set{get;set;}
-    }
-    public class Field //Franklin
-    {//Advanced type stuff is filled when the add button is clicked for each guy.
+
+    //public class textSetPair { //Being replaced by internal RichContent.
+    //    public string text { get; set; }
+    //    public Font set { get; set; }
+    //}
+
+    public class Field {
         #region Variables
 
         public string name;
@@ -187,10 +188,6 @@ namespace AnotoWorkshop {
         }
 
         #endregion Class Functions
-
-        #region Fancy Field Specific - Not Started
-
-        #endregion Fancy Field Specific - Not Started
 
         #region Options Group Specific - Not Started
 
