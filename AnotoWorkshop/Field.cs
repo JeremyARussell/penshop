@@ -52,7 +52,8 @@ namespace AnotoWorkshop {
         private double _zoomLevel = 1.00;
 
         //public List<FormatSet> textTypes;
-        public Dictionary<int, textSetPair> texts;
+        //public Dictionary<int, textSetPair> texts;
+        public RichContent richContent = null;
 
         //calculate, only found in readOnly (AKA Variable info from database/(ei, NextGen)) OR the script stuff.
 

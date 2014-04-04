@@ -172,9 +172,16 @@ namespace AnotoWorkshop {
 
         #region The Designer
 
-
+        private void drawOnBaseline(string s, Graphics g, Font f, Brush b, Point pos) {
+            float baselineOffset = f.SizeInPoints / f.FontFamily.GetEmHeight(f.Style) * f.FontFamily.GetCellAscent(f.Style);
+            float baselineOffsetPixels = g.DpiY / 72f * baselineOffset;
+      
+            g.DrawString(s, f, b, new Point(pos.X, pos.Y - (int)(baselineOffsetPixels + 0.5f)), StringFormat.GenericTypographic);
+        }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
+            //if (tempGraphics == null) tempGraphics = e.Graphics;
+            
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
 
@@ -247,8 +254,37 @@ namespace AnotoWorkshop {
                                 //Display formated text word for word using a new RichContent class.
 
                                 //Foreach Line
+                                if (fi.richContent != null) {
+                                    int yPosition = fi.zy + _yOffset;
+                                    int xPosition = 0;
+                                    for (int i = 0; i < fi.richContent.lines.Count; i++) {
+                                        yPosition = yPosition + fi.richContent.lines[i].baselineDrop;
+                                        foreach (var word in fi.richContent.lines[i].words) {
+                                            drawOnBaseline(word.pString, e.Graphics, word.font, Brushes.Black,
+                                                           new Point(xPosition + fi.zx + _xOffset,
+                                                                     yPosition));
+                                            xPosition = word.horizontalPos;
+                                        }
+                                    }
+                                }
                                     //Foreach Word
                                     //DrawText with font being word.font and position being word.position
+
+
+                                /*NOTES
+                                 * So part of the problem they had last night was that they were being drawn at their widths, meaning their position for starting was
+                                 * already where they were ending. I now apply the word's width to the position of the next word but I think there is much room for 
+                                 * improvement there, probably by working more during the original parse to figure out the position.
+                                 * 
+                                 * While drawing last night they wouldn't drop down, I had to remember to increment it each line, the only thing is it doesn't seem
+                                 * right still, not exactly sure what's going on but it seems to be extra dropping stuff down when I have a few fonts
+                                
+
+
+                                *///END NOTES
+
+
+
 
                                 break;
 
@@ -1024,44 +1060,13 @@ namespace AnotoWorkshop {
             }
         }
 
-        public Dictionary<int, textSetPair> parseTextToDict(RichTextBox s){
-            var tempD = new Dictionary<int,textSetPair>();
-            if (s.TextLength > 0) {
-                string prevText = "";
-                Font prevFormat = null;
-                for (int i = 0; i < s.TextLength; i++) {
-                    _labelEditBox.SelectionStart = i;
-                    _labelEditBox.SelectionLength = 1;
-                    if (i == 0) {
-                        prevFormat = _labelEditBox.SelectionFont;
-                    }
-                    if(!prevFormat.Equals(_labelEditBox.SelectionFont)){
-                        var toAdd = new textSetPair();
-                        toAdd.text = prevText;
-                        toAdd.set = prevFormat;
-                        prevFormat = _labelEditBox.SelectionFont;
-                        tempD.Add(tempD.Count, toAdd);
-                        prevText = _labelEditBox.SelectedText;
-                    } else {
-                        prevText = prevText + _labelEditBox.SelectedText.ToString();
-                    }
-                    if (i == s.TextLength - 1) {
-                        var toAdd = new textSetPair();
-                        toAdd.text = prevText;
-                        toAdd.set = prevFormat;
-                        prevFormat = _labelEditBox.SelectionFont;
-                        tempD.Add(tempD.Count, toAdd);
-                    }
-                }
-                return tempD;
-            } else {
-                return tempD;
-            }
-        }
+
+        //Graphics tempGraphics = null;
 
         public void stopEditing() {
             _currentEditField.text = _labelEditBox.Text;
-            _currentEditField.texts = parseTextToDict(_labelEditBox);
+
+            _currentEditField.richContent = new RichContent(_labelEditBox, _currentEditField.rect().Size);
             _labelEditBox.Hide();
             refreshProperties(_currentEditField);//Refreshing the properties to reflect the changes to the field's text.
             _currentEditField = null;
