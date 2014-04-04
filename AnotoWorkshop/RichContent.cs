@@ -85,29 +85,36 @@ namespace AnotoWorkshop {
 
             if (usedCharacters.Count > 0) {
                 
-                string prevText = null;
+                string workingString = null;
                 Font prevFormat = null;
 
                 for (int i = 0; i < usedCharacters.Count; i++) {
 
                     if (i == 0) {
                         prevFormat = usedFormatSets[i];
-                        prevText = usedCharacters[i].ToString();
+                        workingString = "";
                     }
 
                     if (!prevFormat.Equals(usedFormatSets[i]) || //A change in Font causes us to make a new word from the prevtText
-                        usedCharacters[i].ToString() == " ") {//A space causes us to make a new word out of the prevText
+                        usedCharacters[i].ToString() == " " || //A space causes us to make a new word out of the prevText
+                        i == usedCharacters.Count - 1) {
 
                         workingWord = new Word();
 
-                        string stringToAdd = prevText;
+                        workingString = workingString + usedCharacters[i];
+
+                        string stringToAdd = workingString;
                         Font setToAdd = prevFormat;
 
                         prevFormat = usedFormatSets[i];
 
                         workingWord.pString = stringToAdd;
                         workingWord.font    = setToAdd;
-                        workingWord.horizontalPos = TextRenderer.MeasureText(stringToAdd, setToAdd).Width + runningWidth;
+
+                        using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+                             workingWord.horizontalPos = (int)g.MeasureString(stringToAdd, setToAdd).Width + runningWidth;
+                        }
+
                         runningWidth = workingWord.horizontalPos;
 
 
@@ -127,9 +134,10 @@ namespace AnotoWorkshop {
 
 
                         } else {
-                            if (workingLine.baselineDrop < TextRenderer.MeasureText(workingWord.pString, workingWord.font).Height)
-                            workingLine.baselineDrop = TextRenderer.MeasureText(workingWord.pString, workingWord.font).Height;
-
+                            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+                                if (workingLine.baselineDrop < (int)g.MeasureString(workingWord.pString, workingWord.font).Height) 
+                                    workingLine.baselineDrop = (int)g.MeasureString(workingWord.pString, workingWord.font).Height;
+                                }
                             workingLine.words.Add(workingWord);
                         }
 
@@ -137,13 +145,16 @@ namespace AnotoWorkshop {
                         //If the workingWord plus the prior words total widths add up to less than the wrapping width the workingWord
                         //...is added to the currentLine, if it's not we first increment the currentLine and add it to this latest line.
 
-                        prevText = usedCharacters[i].ToString();
+                        workingString = "";
 
                     } else {
-                        prevText = prevText + usedCharacters[i];
+                        workingString = workingString + usedCharacters[i];
                     }
 
-
+                    if (i == usedCharacters.Count - 1) {
+                        lines.Add(currentLineNumber, workingLine);
+                    }
+ 
                 }
 
 
