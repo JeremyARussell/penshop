@@ -15,7 +15,7 @@ namespace AnotoWorkshop {
     }
 
     public class Line {
-        public List<Word> words = new List<Word>() ;
+        public Dictionary<int, Word> words = new Dictionary<int, Word>();
         public int baselineDrop = 0;
     }
 
@@ -76,6 +76,7 @@ namespace AnotoWorkshop {
             lines.Clear();
 
             Word workingWord = null;
+            int currentWordNumber = 0;
             //Font workingFont = null;
 
             Line workingLine = new Line();
@@ -128,17 +129,22 @@ namespace AnotoWorkshop {
                             currentLineNumber++;
 
                             workingLine = new Line();
-                            runningWidth = 0;
+                            currentWordNumber = 0;
+                            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+                                 runningWidth = (int)g.MeasureString(workingWord.pString, workingWord.font).Width;
+                            }
 
-                            workingLine.words.Add(workingWord);
-
+                            workingWord.horizontalPos = 0;
+                            workingLine.words.Add(currentWordNumber, workingWord);
+                            currentWordNumber++;
 
                         } else {
                             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
                                 if (workingLine.baselineDrop < (int)g.MeasureString(workingWord.pString, workingWord.font).Height) 
                                     workingLine.baselineDrop = (int)g.MeasureString(workingWord.pString, workingWord.font).Height;
                                 }
-                            workingLine.words.Add(workingWord);
+                            workingLine.words.Add(currentWordNumber, workingWord);
+                            currentWordNumber++;
                         }
 
 

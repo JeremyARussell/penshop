@@ -259,11 +259,11 @@ namespace AnotoWorkshop {
                                     int xPosition = 0;
                                     for (int i = 0; i < fi.richContent.lines.Count; i++) {
                                         yPosition = yPosition + fi.richContent.lines[i].baselineDrop;
-                                        foreach (var word in fi.richContent.lines[i].words) {
-                                            drawOnBaseline(word.pString, e.Graphics, word.font, Brushes.Black,
+                                        for (int iw = 0; iw < fi.richContent.lines[i].words.Count; iw++) {
+                                            drawOnBaseline(fi.richContent.lines[i].words[iw].pString, e.Graphics, fi.richContent.lines[i].words[iw].font, Brushes.Black,
                                                            new Point(xPosition + fi.zx + _xOffset,
                                                                      yPosition));
-                                            xPosition = word.horizontalPos;
+                                            xPosition = fi.richContent.lines[i].words[iw].horizontalPos;
                                         }
                                     }
                                 }
