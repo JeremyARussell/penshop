@@ -256,9 +256,10 @@ namespace AnotoWorkshop {
                                 //Foreach Line
                                 if (fi.richContent != null) {
                                     int yPosition = fi.zy + _yOffset;
-                                    int xPosition = 0;
+                                    int xPosition;
                                     for (int i = 0; i < fi.richContent.lines.Count; i++) {
                                         yPosition = yPosition + fi.richContent.lines[i].baselineDrop;
+                                        xPosition = 0;
                                         for (int iw = 0; iw < fi.richContent.lines[i].words.Count; iw++) {
                                             drawOnBaseline(fi.richContent.lines[i].words[iw].pString, e.Graphics, fi.richContent.lines[i].words[iw].font, Brushes.Black,
                                                            new Point(xPosition + fi.zx + _xOffset,

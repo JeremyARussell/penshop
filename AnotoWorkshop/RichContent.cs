@@ -134,7 +134,7 @@ namespace AnotoWorkshop {
                                  runningWidth = (int)g.MeasureString(workingWord.pString, workingWord.font).Width;
                             }
 
-                            workingWord.horizontalPos = 0;
+                            workingWord.horizontalPos = runningWidth;
                             workingLine.words.Add(currentWordNumber, workingWord);
                             currentWordNumber++;
 
