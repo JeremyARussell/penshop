@@ -1,43 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;//May not need
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace AnotoWorkshop {
 
+    /// <summary>
+    /// This mini-class is used to represent an individual word.
+    /// </summary>
     public class Word {
-        public Font font;
-        public string pString;
-        public int horizontalPos;
+        public Font font;           //The font used for this word
+        public string pString;      //The string of the word itself
+        public int horizontalPos;   //The horizontalPos is the measured width of the word - Note: may change this later to be the measured width of the previous word
     }
 
+    /// <summary>
+    /// This mini-class represents individual lines.
+    /// </summary>
     public class Line {
-        public Dictionary<int, Word> words = new Dictionary<int, Word>();
-        public int baselineDrop = 0;
+        public Dictionary<int, Word> words = new Dictionary<int, Word>();   //The individuals words that make up this line, ordered by their placement number.
+        public int baselineDrop = 0;                                        //The baseline height for the line, based off the tallest word.
     }
 
     public class RichContent {
-        ////Dictionary sets matched using common index.
-        //a font set
-        public Dictionary<int, Font> usedFormatSets = new Dictionary<int, Font>();
-        //a character set
-        public Dictionary<int, char> usedCharacters = new Dictionary<int, char>(); 
+        public Dictionary<int, Font> usedFormatSets = new Dictionary<int, Font>();//An ordered set of FormatSets...
+        public Dictionary<int, char> usedCharacters = new Dictionary<int, char>();//                            ...and the characters that line up with them
+
         //a calculated returned width - I think I meant a running calculated width, not sure right now.
 
-        
-        //A max width and height for the wordwrapping.
-        private Size _size = new Size();
+        private Size _size = new Size();//A max width and height for the wordwrapping.
 
-        //words that represent grouped characters with common formats
-        //returned "lines" and there calculated, respective content and (sizes) - ()for the fact that they cannot be wider than the max width
-        public Dictionary<int, Line> lines = new Dictionary<int, Line>(); 
+        public Dictionary<int, Line> lines = new Dictionary<int, Line>();//This RichContent instances order dictionary of lines that make it up.
 
         private RichTextBox _box = new RichTextBox();//The working RichTextBox for this RichContent instance.
-
-        //private Graphics _g;
 
         //Constructed out of a richTextBox that get's passed along from the startEditing and endEditing parts of the main code.
         public RichContent (RichTextBox box, Size size) {
@@ -45,11 +40,11 @@ namespace AnotoWorkshop {
             _size = size;
 
             parseIntoDictionaries();
-
             parseOutLines();
         }
-        
 
+        //Will need a constructor to handle loading this class from the xml .penform file.
+        
         /*A method/algorithm that goes through each character and font of the richTextBox and calculates the width,
          * the baseline height, the words and lines that use the height. Using the max width of the entire 
          * RichLabel/FancyLabel.
@@ -77,7 +72,6 @@ namespace AnotoWorkshop {
 
             Word workingWord = null;
             int currentWordNumber = 0;
-            //Font workingFont = null;
 
             Line workingLine = new Line();
             int currentLineNumber = 0;
@@ -120,9 +114,6 @@ namespace AnotoWorkshop {
 
 
                         if (runningWidth > _size.Width) {
-
-                            //BASELINE CHECK BITCHES
-
 
                             lines.Add(currentLineNumber, workingLine);
 
