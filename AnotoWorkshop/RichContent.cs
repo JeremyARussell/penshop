@@ -43,7 +43,7 @@ namespace AnotoWorkshop {
             parseOutLines();
         }
 
-        //Will need a constructor to handle loading this class from the xml .penform file.
+        //TODO - Will need a constructor to handle loading this class from the xml .penform file.
         
         /*A method/algorithm that goes through each character and font of the richTextBox and calculates the width,
          * the baseline height, the words and lines that use the height. Using the max width of the entire 
@@ -90,9 +90,7 @@ namespace AnotoWorkshop {
                         workingString = "";
                     }
 
-                    if (!prevFormat.Equals(usedFormatSets[i]) || //A change in Font causes us to make a new word from the prevtText
-                        usedCharacters[i].ToString() == " " || //A space causes us to make a new word out of the prevText
-                        i == usedCharacters.Count - 1) {
+                    if (true) {
 
                         workingWord = new Word();
 
@@ -107,7 +105,7 @@ namespace AnotoWorkshop {
                         workingWord.font    = setToAdd;
 
                         using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                             workingWord.horizontalPos = (int)g.MeasureString(stringToAdd, setToAdd).Width + runningWidth;
+                             workingWord.horizontalPos = (int)g.MeasureString(stringToAdd, setToAdd, new Point(0, 0), StringFormat.GenericTypographic).Width + runningWidth;
                         }
 
                         runningWidth = workingWord.horizontalPos;
@@ -122,7 +120,7 @@ namespace AnotoWorkshop {
                             workingLine = new Line();
                             currentWordNumber = 0;
                             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                                 runningWidth = (int)g.MeasureString(workingWord.pString, workingWord.font).Width;
+                                 runningWidth = (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Width;
                             }
 
                             workingWord.horizontalPos = runningWidth;
@@ -131,8 +129,8 @@ namespace AnotoWorkshop {
 
                         } else {
                             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                                if (workingLine.baselineDrop < (int)g.MeasureString(workingWord.pString, workingWord.font).Height) 
-                                    workingLine.baselineDrop = (int)g.MeasureString(workingWord.pString, workingWord.font).Height;
+                                if (workingLine.baselineDrop < (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Height) 
+                                    workingLine.baselineDrop = (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Height;
                                 }
                             workingLine.words.Add(currentWordNumber, workingWord);
                             currentWordNumber++;
@@ -163,7 +161,8 @@ namespace AnotoWorkshop {
         }
 
 
-        private void parseIntoWords(){
+        /*
+         * private void parseIntoWords(){
             var tempFont = new Dictionary<int, Font>();
             var tempStringSet = new Dictionary<int, string>();
 
@@ -204,7 +203,7 @@ namespace AnotoWorkshop {
                     }
                 }
             }
-        }
+        }*/
 
         /*A method which returns a richTextBox, with the .Text and .Size properties preset.
          */
