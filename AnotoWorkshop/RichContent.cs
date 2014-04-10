@@ -11,7 +11,7 @@ namespace AnotoWorkshop {
     public class Word {
         public Font font;           //The font used for this word
         public string pString;      //The string of the word itself
-        public int horizontalPos;   //The horizontalPos is the measured width of the word - Note: may change this later to be the measured width of the previous word
+        public float horizontalPos;   //The horizontalPos is the measured width of the word - Note: may change this later to be the measured width of the previous word
     }
 
     /// <summary>
@@ -76,7 +76,10 @@ namespace AnotoWorkshop {
             Line workingLine = new Line();
             int currentLineNumber = 0;
 
-            int runningWidth = 0;
+            float runningWidth = 0;
+
+            StringFormat sf = StringFormat.GenericTypographic;
+            sf.FormatFlags = StringFormatFlags.MeasureTrailingSpaces;
 
             if (usedCharacters.Count > 0) {
                 
@@ -105,7 +108,7 @@ namespace AnotoWorkshop {
                         workingWord.font    = setToAdd;
 
                         using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                             workingWord.horizontalPos = (int)g.MeasureString(stringToAdd, setToAdd, new Point(0, 0), StringFormat.GenericTypographic).Width + runningWidth;
+                             workingWord.horizontalPos = g.MeasureString(stringToAdd, setToAdd, new Point(0, 0), sf).Width + runningWidth;
                         }
 
                         runningWidth = workingWord.horizontalPos;
@@ -120,7 +123,7 @@ namespace AnotoWorkshop {
                             workingLine = new Line();
                             currentWordNumber = 0;
                             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                                 runningWidth = (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Width;
+                                 runningWidth = g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), sf).Width;
                             }
 
                             workingWord.horizontalPos = runningWidth;
@@ -129,8 +132,8 @@ namespace AnotoWorkshop {
 
                         } else {
                             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
-                                if (workingLine.baselineDrop < (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Height) 
-                                    workingLine.baselineDrop = (int)g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), StringFormat.GenericTypographic).Height;
+                                if (workingLine.baselineDrop < g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), sf).Height) 
+                                    workingLine.baselineDrop = (int) g.MeasureString(workingWord.pString, workingWord.font, new Point(0, 0), sf).Height;
                                 }
                             workingLine.words.Add(currentWordNumber, workingWord);
                             currentWordNumber++;

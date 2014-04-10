@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -181,7 +182,8 @@ namespace AnotoWorkshop {
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
             //if (tempGraphics == null) tempGraphics = e.Graphics;
-            
+            //if (e.Graphics.TextRenderingHint != TextRenderingHint.AntiAlias) e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.
 
@@ -264,7 +266,7 @@ namespace AnotoWorkshop {
                                             drawOnBaseline(fi.richContent.lines[i].words[iw].pString, e.Graphics, fi.richContent.lines[i].words[iw].font, Brushes.Black,
                                                            new Point(xPosition + fi.zx + _xOffset,
                                                                      yPosition));
-                                            xPosition = fi.richContent.lines[i].words[iw].horizontalPos;
+                                            xPosition = (int)fi.richContent.lines[i].words[iw].horizontalPos;
                                         }
                                     }
                                 }
