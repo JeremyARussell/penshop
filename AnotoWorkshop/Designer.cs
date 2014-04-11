@@ -173,11 +173,11 @@ namespace AnotoWorkshop {
 
         #region The Designer
 
-        private void drawOnBaseline(string s, Graphics g, Font f, Brush b, Point pos) {
+        private void drawOnBaseline(string s, Graphics g, Font f, Brush b, PointF pos) {
             float baselineOffset = f.SizeInPoints / f.FontFamily.GetEmHeight(f.Style) * f.FontFamily.GetCellAscent(f.Style);
             float baselineOffsetPixels = g.DpiY / 72f * baselineOffset;
       
-            g.DrawString(s, f, b, new Point(pos.X, pos.Y - (int)(baselineOffsetPixels + 0.5f)), StringFormat.GenericTypographic);
+            g.DrawString(s, f, b, new PointF(pos.X, pos.Y - baselineOffsetPixels + 0.5f), StringFormat.GenericTypographic);
         }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
@@ -257,16 +257,16 @@ namespace AnotoWorkshop {
 
                                 //Foreach Line
                                 if (fi.richContent != null) {
-                                    int yPosition = fi.zy + _yOffset;
-                                    int xPosition;
+                                    float yPosition = fi.zy + _yOffset;
+                                    float xPosition;
                                     for (int i = 0; i < fi.richContent.lines.Count; i++) {
                                         yPosition = yPosition + fi.richContent.lines[i].baselineDrop;
                                         xPosition = 0;
                                         for (int iw = 0; iw < fi.richContent.lines[i].words.Count; iw++) {
                                             drawOnBaseline(fi.richContent.lines[i].words[iw].pString, e.Graphics, fi.richContent.lines[i].words[iw].font, Brushes.Black,
-                                                           new Point(xPosition + fi.zx + _xOffset,
-                                                                     yPosition));
-                                            xPosition = (int)fi.richContent.lines[i].words[iw].horizontalPos;
+                                                           new PointF(xPosition + fi.zx + _xOffset + 2,
+                                                                     yPosition - 3));
+                                            xPosition = fi.richContent.lines[i].words[iw].horizontalPos;
                                         }
                                     }
                                 }
@@ -281,163 +281,8 @@ namespace AnotoWorkshop {
                                  * 
                                  * While drawing last night they wouldn't drop down, I had to remember to increment it each line, the only thing is it doesn't seem
                                  * right still, not exactly sure what's going on but it seems to be extra dropping stuff down when I have a few fonts
-                                
-
-
-                                *///END NOTES
-
-
-
-
+                                 *///END NOTES
                                 break;
-
-
-                                /*
-                                StringFormat format = new StringFormat(StringFormat.GenericDefault);
-                                flPen.Color = Color.Black;
-                                if (fi.texts != null) {
-                                    int yTracker = fi.zy + _yOffset;
-                                    int lastStringWidth = 0;
-                                    Rectangle boundingRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
-                                    SizeF currentStringSize = new Size();
-                                    bool needToSpace = false;
-                                    bool needToDrop = false;
-                                    //bool onSameLineStill = true;
-                                    string spacingString = "";
-
-                                    for (int t = 0; t < fi.texts.Count; t++) {
-                                        //Display the current string
-                                        string testString = fi.texts[t].text;
-                                        int zoomedFontSize = (int)(fi.texts[t].set.Size * (_zoomLevel));
-                                        if (zoomedFontSize == 0) zoomedFontSize = 1;
-
-                                        if (needToDrop) {
-                                            boundingRectangle.Y = yTracker;
-                                            needToDrop = false;
-                                        }
-
-                                        if (needToSpace) {
-                                            //Add the proper spacing to the current string before displaying it.
-                                            string space = " ";
-                                            double testi = e.Graphics.MeasureString(space, fi.texts[t].set).Width;
-                                            testi = testi - 0.5;
-                                            for (double  ns = lastStringWidth; ns > testi; ns-=testi) {
-                                                spacingString += " ";
-                                            }
-                                            testString = spacingString + testString;
-                                            //int tryDebuggingthis = (int)e.Graphics.MeasureString(spacingString, fi.texts[t].set).Width;
-                                        }
-
-                                        e.Graphics.DrawString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), flPen.Brush, boundingRectangle);
-
-                                        if (needToSpace) {
-                                            lastStringWidth = 0;
-                                            spacingString = "";
-                                            needToSpace = false;
-                                        }
-
-                                        //Check if the string took all of it's line
-                                        //currentStringSize = e.Graphics.MeasureString(testString, new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style), boundingRectangle.Width);
-                                        
-                                        int linesUsed;
-                                        int charactersFitted;
-
-                                        //Check if the string took all of it's line
-                                        currentStringSize = e.Graphics.MeasureString(testString,
-                                            new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style),
-                                            boundingRectangle.Size,
-                                            format, 
-                                            out charactersFitted,
-                                            out linesUsed);
-
-                                        int fontHeight = new Font(fi.texts[t].set.FontFamily, zoomedFontSize, fi.texts[t].set.Style).Height;
-                                        
-                                        if (currentStringSize.Height > fontHeight) {
-                                            //We used multiple lines.
-                                            //int lines = (int)(lastStringSize.Height / lastFontHeight);
-                                            //int totalVerticalDrop = lastFontHeight * 
-                                            if (linesUsed > 1) {
-                                                yTracker = yTracker + (int) (currentStringSize.Height/2);
-                                                    //TODO - SOMETHING TO SWITCH THIS IF WE DON'T NEED IT, OR SOMETHING... YAY
-                                                needToDrop = true;
-                                            }
-
-                                        }
-                                        
-                                        if (currentStringSize.Width < boundingRectangle.Width - 10) {
-                                            //Width was in fact shorter then needed
-                                            lastStringWidth = (int)currentStringSize.Width;
-                                            needToSpace = true;
-                                        }
-
-
-                                        //If it did we need to offset the yTracker for each line dropped.
-
-                                        //If it didn't make sure the next strings y location remains the same.
-                                        //But be sure to space it in so that it doesn't overlap
-
-                                        
-
-
-
-                                    }
-
-                                }
-                                    
-                                    
-                                    ///*{
-
-                                    int yTracker = fi.zy + _yOffset;
-                                    int tempWidth = 0;
-                                    Rectangle originalRectangle = new Rectangle(new Point(fi.zx + _xOffset, fi.zy + _yOffset), fi.rect().Size);
-                                    string spaces = "";
-
-                                    Rectangle displayRectangle = new Rectangle(new Point(fi.zx + _xOffset, yTracker), fi.rect().Size);
-                                    for (int i = 0; i < fi.texts.Count; i++) {
-                                        
-                                        
-                                        string testString = fi.texts[i].text;
-                                        int zoomedFontSize = (int)(fi.texts[i].set.Size * (_zoomLevel));
-                                        if (zoomedFontSize == 0) zoomedFontSize = 1;
-
-                                        if (i > 0) {
-                                            Point displayRectangleLoc = new Point(displayRectangle.Location.X, yTracker);
-                                            displayRectangle.Location = displayRectangleLoc; 
-                                            testString = spaces + fi.texts[i].text;
-                                        }
-
-                                        tempWidth = (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Width;
-
-                                        if (tempWidth < originalRectangle.Width) {
-                                            int dividor = (int)(fi.texts[i].set.Size / 6);
-                                            tempWidth = tempWidth * dividor;
-                                            for(int c = tempWidth; c > 10;c = c - 10) {
-                                                spaces = spaces + " ";
-                                            }
-                                            yTracker = yTracker + (int)(e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height / 2);
-                                        } else {
-                                            yTracker = yTracker + (int)e.Graphics.MeasureString(fi.texts[i].text, fi.texts[i].set, fi.zwidth).Height;
-                                        }
-                                        
-
-
-                                        e.Graphics.DrawString(testString, new Font(fi.texts[i].set.FontFamily, zoomedFontSize, fi.texts[i].set.Style), flPen.Brush, displayRectangle, format);
-                                        if(spaces.Length > 0) {
-                                            //spaces = "";
-                                        }
-
-
-
-
-
-                                    }
-                                //} else {
-                                    e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), flPen.Brush,
-                                                                        new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));//The rectangle here works to give word wrapping to this drawString overload.
-                                }
-                                */
-                                
-                                //break;
 
                             case Type.RectangleDraw:
                                 Pen recPen = new Pen(Color.LightGreen);
@@ -1030,17 +875,19 @@ namespace AnotoWorkshop {
                         } else {
                             _labelEditBox.Multiline = false; //Not a fancy label so no multiline
                         }
+
                         _currentEditField = fi; //Assigning the field that will be assigned text later
                         _labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
                         _labelEditBox.BorderStyle = BorderStyle.None;
                         _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
-                        _labelEditBox.Text = fi.text;
+                        _labelEditBox.
+                        _labelEditBox.Text ;
                         _labelEditBox.MouseUp += _labelEditBox_MouseUp;
-                        if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
-                            _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...
-                        } else {                                        //...if it's more than 10 (our offset)...
-                            _labelEditBox.RightMargin = fi.zwidth - 10; //...we go ahead and apply the offset to the margin we are using to tweak the rending of text to fix a word wrapping bug.
-                        }
+                        //if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
+                        //    _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...
+                        //} else {                                        //...if it's more than 10 (our offset)...
+                        //    _labelEditBox.RightMargin = fi.zwidth - 10; //...we go ahead and apply the offset to the margin we are using to tweak the rending of text to fix a word wrapping bug.
+                        //}
                         _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
                         _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
                         designPanel.Controls.Add(_labelEditBox);
@@ -1062,9 +909,6 @@ namespace AnotoWorkshop {
                 cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
             }
         }
-
-
-        //Graphics tempGraphics = null;
 
         public void stopEditing() {
             _currentEditField.text = _labelEditBox.Text;

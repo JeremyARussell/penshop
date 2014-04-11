@@ -56,11 +56,8 @@ namespace AnotoWorkshop {
                     _box.SelectionStart = i;
                     _box.SelectionLength = 1;
 
-                    string stringToAdd = _box.SelectedText;
-                    Font fontToAdd = _box.SelectionFont;
-
-                    usedCharacters.Add(i, Convert.ToChar(stringToAdd));
-                    usedFormatSets.Add(i, fontToAdd);
+                    usedCharacters.Add(i, Convert.ToChar(_box.SelectedText));
+                    usedFormatSets.Add(i, _box.SelectionFont);
                 }
             }
         }
@@ -93,7 +90,9 @@ namespace AnotoWorkshop {
                         workingString = "";
                     }
 
-                    if (true) {
+                    if (!prevFormat.Equals(usedFormatSets[i]) || //A change in Font causes us to make a new word from the prevtText
+                        usedCharacters[i].ToString() == " " || //A space causes us to make a new word out of the prevText
+                        i == usedCharacters.Count - 1) {
 
                         workingWord = new Word();
 
@@ -146,7 +145,7 @@ namespace AnotoWorkshop {
                         workingString = "";
 
                     } else {
-                        workingString = workingString + usedCharacters[i];
+                        workingString += usedCharacters[i];
                     }
 
                     if (i == usedCharacters.Count - 1) {
