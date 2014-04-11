@@ -177,7 +177,7 @@ namespace AnotoWorkshop {
             float baselineOffset = f.SizeInPoints / f.FontFamily.GetEmHeight(f.Style) * f.FontFamily.GetCellAscent(f.Style);
             float baselineOffsetPixels = g.DpiY / 72f * baselineOffset;
       
-            g.DrawString(s, f, b, new PointF(pos.X, pos.Y - baselineOffsetPixels + 0.5f), StringFormat.GenericTypographic);
+            g.DrawString(s, f, b, new PointF(pos.X, pos.Y - baselineOffsetPixels + 0.5f));
         }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
@@ -880,8 +880,8 @@ namespace AnotoWorkshop {
                         _labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
                         _labelEditBox.BorderStyle = BorderStyle.None;
                         _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
-                        _labelEditBox.
-                        _labelEditBox.Text ;
+                       // _labelEditBox.
+                        _labelEditBox.Text = fi.text;
                         _labelEditBox.MouseUp += _labelEditBox_MouseUp;
                         //if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
                         //    _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...

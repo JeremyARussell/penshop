@@ -11,7 +11,7 @@ namespace AnotoWorkshop {
         public string fontWeight { get; set; }//weight - bold
         public string name { get; set; }
 
-        private int _fontSize;//size - 14pt, 12pt
+        private float _fontSize;//size - 14pt, 12pt
 
         //baselineShift - 0pt - Todo - Won't do this one right now
         //node for fill color - Todo - was on colored text, won't worry about right now
@@ -40,7 +40,7 @@ namespace AnotoWorkshop {
 
         #region Properties
 
-        public int fontSize {
+        public float fontSize {
             get { return _fontSize; }
             set { _fontSize = value; }
         }
@@ -96,8 +96,8 @@ namespace AnotoWorkshop {
             }
 
             FontFamily theFontFamily = new FontFamily(fontTypeface);
-            int zoomedFontSize = (int)(_fontSize * (zoom - 0.25));
-            if (zoomedFontSize == 0) zoomedFontSize = 1;
+            float zoomedFontSize = (float) (_fontSize * (zoom - 0.25f));
+            if (zoomedFontSize < 1) zoomedFontSize = 1;
 
             Font retFont = new Font(theFontFamily, zoomedFontSize, theFontStyle);
             return retFont;
