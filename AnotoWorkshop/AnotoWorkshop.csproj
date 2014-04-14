@@ -61,6 +61,7 @@
     <Compile Include="fieldSelection.Designer.cs">
       <DependentUpon>fieldSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="GDrawRichContent.cs" />
     <Compile Include="importWizard.cs">
       <SubType>Form</SubType>
     </Compile>

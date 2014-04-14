@@ -255,8 +255,11 @@ namespace AnotoWorkshop {
                      
                                 //Display formated text word for word using a new RichContent class.
 
+                                if(fi.richContent != null) e.Graphics.DrawRtfText(fi.richContent.box.Rtf, fi.rect());
+
+
                                 //Foreach Line
-                                if (fi.richContent != null) {
+                                /*if (fi.richContent != null) {
                                     float yPosition = fi.zy + _yOffset;
                                     float xPosition;
                                     for (int i = 0; i < fi.richContent.lines.Count; i++) {
@@ -272,7 +275,7 @@ namespace AnotoWorkshop {
                                 }
                                     //Foreach Word
                                     //DrawText with font being word.font and position being word.position
-
+                                */
 
                                 /*NOTES
                                  * So part of the problem they had last night was that they were being drawn at their widths, meaning their position for starting was
@@ -757,6 +760,7 @@ namespace AnotoWorkshop {
                     _zoomLevel += 0.25;
                     foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Apply the new zoomLevel to all the pages fields.
                         fi.zoomLevel = _zoomLevel;
+                        if (fi.richContent != null) fi.richContent.box.ZoomFactor = (float)_zoomLevel;
                     }
                 }
             }
@@ -857,42 +861,52 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        private RichTextBox _labelEditBox = new RichTextBox();
-        private Field _currentEditField;
+        private RichTextBox _activeRichTextEditBox = new RichTextBox();
+        private Field _activeEditField;
+
+        void activeRichTextEditBox_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
+                
+            }
+        }
 
         /// <summary>
         /// The Designer's edit function. Takes the field or fields selected and places a copy in memory to later paste.
         /// </summary>
 
+
+        private bool _shouldDelete = true;
         private void startEditing() {
             _shouldZoom = false;//Toggling zoom off while editing
+            _shouldDelete = false;
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {
                     if (fi.type == Type.FancyLabel || fi.type == Type.Label) {
                         if (fi.type == Type.FancyLabel) {
-                            _labelEditBox.Multiline = true; //Fancy label with multiline
+                            _activeRichTextEditBox.Multiline = true; //Fancy label with multiline
                         } else {
-                            _labelEditBox.Multiline = false; //Not a fancy label so no multiline
+                            _activeRichTextEditBox.Multiline = false; //Not a fancy label so no multiline
                         }
 
-                        _currentEditField = fi; //Assigning the field that will be assigned text later
-                        _labelEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
-                        _labelEditBox.BorderStyle = BorderStyle.None;
-                        _labelEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _activeEditField = fi; //Assigning the field that will be assigned text later
+                        _activeRichTextEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
+                        _activeRichTextEditBox.BorderStyle = BorderStyle.None;
+                        _activeRichTextEditBox.Font = fi.formatSet.font(_zoomLevel);
                        // _labelEditBox.
-                        _labelEditBox.Text = fi.text;
-                        _labelEditBox.MouseUp += _labelEditBox_MouseUp;
+                        _activeRichTextEditBox.Text = fi.text;
+                        _activeRichTextEditBox.MouseUp += activeRichTextEditBox_MouseUp;
                         //if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
                         //    _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...
                         //} else {                                        //...if it's more than 10 (our offset)...
                         //    _labelEditBox.RightMargin = fi.zwidth - 10; //...we go ahead and apply the offset to the margin we are using to tweak the rending of text to fix a word wrapping bug.
                         //}
-                        _labelEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
-                        _labelEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
-                        designPanel.Controls.Add(_labelEditBox);
-                        _labelEditBox.Show();
-                        _labelEditBox.Focus();
+                        _activeRichTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
+                        _activeRichTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+                        designPanel.Controls.Add(_activeRichTextEditBox);
+                        _activeRichTextEditBox.Show();
+                        _activeRichTextEditBox.Focus();
 
                         _globalMode.setMode(MouseMode.TextEditing);
 
@@ -904,22 +918,23 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        void _labelEditBox_MouseUp(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Right) {
-                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
-            }
-        }
-
         public void stopEditing() {
-            _currentEditField.text = _labelEditBox.Text;
+            _activeEditField.text = _activeRichTextEditBox.Text;
 
-            _currentEditField.richContent = new RichContent(_labelEditBox, _currentEditField.rect().Size);
-            _labelEditBox.Hide();
-            refreshProperties(_currentEditField);//Refreshing the properties to reflect the changes to the field's text.
-            _currentEditField = null;
+            RichTextBox tempBox = new RichTextBox();
+
+            tempBox.Rtf = _activeRichTextEditBox.Rtf;
+            tempBox.Location = _activeRichTextEditBox.Location;
+            tempBox.Size = _activeRichTextEditBox.Size;
+
+            _activeEditField.richContent = new RichContent(tempBox, _activeEditField.rect().Size);
+            _activeRichTextEditBox.Hide();
+            refreshProperties(_activeEditField);//Refreshing the properties to reflect the changes to the field's text.
+            _activeEditField = null;
 
             needToSave();
             _shouldZoom = true;//Toggling zoom back on
+            _shouldDelete = true;
             designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
             calculateLabelSizes();
         }
@@ -981,18 +996,20 @@ namespace AnotoWorkshop {
         }
 
         private void deleteFields() {
-            List<Field> fieldsToDelete = new List<Field>();
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                if (fi.selected) {
-                    fieldsToDelete.Add(fi);
+            if (_shouldDelete) {
+                List<Field> fieldsToDelete = new List<Field>();
+                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                    if (fi.selected) {
+                        fieldsToDelete.Add(fi);
+                    }
                 }
+                foreach (Field fi in fieldsToDelete) {
+                    _currentForm.page(_currentPageNumber).Fields.Remove(fi);
+                }
+                needToSave();
+                deselectAll();
+                refreshHierarchyView();
             }
-            foreach (Field fi in fieldsToDelete) {
-                _currentForm.page(_currentPageNumber).Fields.Remove(fi);
-            }
-            needToSave();
-            deselectAll();
-            refreshHierarchyView();
         }
 
         #endregion Field Deletion
@@ -1378,7 +1395,7 @@ namespace AnotoWorkshop {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Space));
                     return true;
                 }
-                if (_labelEditBox.Focused) {
+                if (_activeRichTextEditBox.Focused) {
                     return base.ProcessCmdKey(ref msg, keyData);//If the _labelEditBox is focused we let the Spacebar act as it normally would.
                 }
             }
@@ -1569,7 +1586,7 @@ namespace AnotoWorkshop {
 
         private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
             if (_globalMode.TextEditing) {
-                _labelEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+                _activeRichTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
             } else {
                 _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
             }

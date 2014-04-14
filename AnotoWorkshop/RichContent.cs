@@ -36,11 +36,16 @@ namespace AnotoWorkshop {
 
         //Constructed out of a richTextBox that get's passed along from the startEditing and endEditing parts of the main code.
         public RichContent (RichTextBox box, Size size) {
-            _box = box;
+            this.box = box;
             _size = size;
 
-            parseIntoDictionaries();
-            parseOutLines();
+            //parseIntoDictionaries();
+            //parseOutLines();
+        }
+
+        public RichTextBox box {
+            get { return _box; }
+            set { _box = value; }
         }
 
         //TODO - Will need a constructor to handle loading this class from the xml .penform file.
@@ -51,13 +56,13 @@ namespace AnotoWorkshop {
          */
 
         private void parseIntoDictionaries() {
-            if (_box.TextLength > 0) {
-                for (int i = 0; i < _box.TextLength; i++) {
-                    _box.SelectionStart = i;
-                    _box.SelectionLength = 1;
+            if (box.TextLength > 0) {
+                for (int i = 0; i < box.TextLength; i++) {
+                    box.SelectionStart = i;
+                    box.SelectionLength = 1;
 
-                    usedCharacters.Add(i, Convert.ToChar(_box.SelectedText));
-                    usedFormatSets.Add(i, _box.SelectionFont);
+                    usedCharacters.Add(i, Convert.ToChar(box.SelectedText));
+                    usedFormatSets.Add(i, box.SelectionFont);
                 }
             }
         }
