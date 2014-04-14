@@ -253,38 +253,8 @@ namespace AnotoWorkshop {
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                      
-                                //Display formated text word for word using a new RichContent class.
+                                if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect());
 
-                                if(fi.richContent != null) e.Graphics.DrawRtfText(fi.richContent.box.Rtf, fi.rect());
-
-
-                                //Foreach Line
-                                /*if (fi.richContent != null) {
-                                    float yPosition = fi.zy + _yOffset;
-                                    float xPosition;
-                                    for (int i = 0; i < fi.richContent.lines.Count; i++) {
-                                        yPosition = yPosition + fi.richContent.lines[i].baselineDrop;
-                                        xPosition = 0;
-                                        for (int iw = 0; iw < fi.richContent.lines[i].words.Count; iw++) {
-                                            drawOnBaseline(fi.richContent.lines[i].words[iw].pString, e.Graphics, fi.richContent.lines[i].words[iw].font, Brushes.Black,
-                                                           new PointF(xPosition + fi.zx + _xOffset + 2,
-                                                                     yPosition - 3));
-                                            xPosition = fi.richContent.lines[i].words[iw].horizontalPos;
-                                        }
-                                    }
-                                }
-                                    //Foreach Word
-                                    //DrawText with font being word.font and position being word.position
-                                */
-
-                                /*NOTES
-                                 * So part of the problem they had last night was that they were being drawn at their widths, meaning their position for starting was
-                                 * already where they were ending. I now apply the word's width to the position of the next word but I think there is much room for 
-                                 * improvement there, probably by working more during the original parse to figure out the position.
-                                 * 
-                                 * While drawing last night they wouldn't drop down, I had to remember to increment it each line, the only thing is it doesn't seem
-                                 * right still, not exactly sure what's going on but it seems to be extra dropping stuff down when I have a few fonts
-                                 *///END NOTES
                                 break;
 
                             case Type.RectangleDraw:
@@ -760,7 +730,7 @@ namespace AnotoWorkshop {
                     _zoomLevel += 0.25;
                     foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Apply the new zoomLevel to all the pages fields.
                         fi.zoomLevel = _zoomLevel;
-                        if (fi.richContent != null) fi.richContent.box.ZoomFactor = (float)_zoomLevel;
+                        fi.richBox.ZoomFactor = (float)_zoomLevel;
                     }
                 }
             }
@@ -776,6 +746,7 @@ namespace AnotoWorkshop {
                     _zoomLevel -= 0.25;
                     foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                         fi.zoomLevel = _zoomLevel;
+                        fi.richBox.ZoomFactor = (float)_zoomLevel;
                     }
                 }
             }
@@ -927,7 +898,7 @@ namespace AnotoWorkshop {
             tempBox.Location = _activeRichTextEditBox.Location;
             tempBox.Size = _activeRichTextEditBox.Size;
 
-            _activeEditField.richContent = new RichContent(tempBox, _activeEditField.rect().Size);
+            _activeEditField.richBox = tempBox;
             _activeRichTextEditBox.Hide();
             refreshProperties(_activeEditField);//Refreshing the properties to reflect the changes to the field's text.
             _activeEditField = null;

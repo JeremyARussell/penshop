@@ -20,10 +20,10 @@ namespace AnotoWorkshop {
             #region StaticsAndStructs
 
             [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-            public static extern IntPtr LoadLibrary(string lpFileName);
+            private static extern IntPtr LoadLibrary(string lpFileName);
            
             [DllImport("USER32.dll")]
-            public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
+            private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT {
@@ -34,18 +34,18 @@ namespace AnotoWorkshop {
             }
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct CHARRANGE {
-                public int cpMin;        //First character of range (0 for start of doc)
-                public int cpMax;        //Last character of range (-1 for end of doc)
+            public struct TEXT_RANGE {
+                public int min;        //First character of range (0 for start of doc)
+                public int max;        //Last character of range (-1 for end of doc)
             }
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct FORMATRANGE {
+            public struct TEXT_FORMAT {
                 public IntPtr hdc;       //Actual surface to draw on
                 public IntPtr hdcTarget; //Target surface for determining text formatting
                 public RECT rc;          //Region of the surface to draw to (in twips)
                 public RECT rcPage;      //Region of the whole surface (page size) (in twips)
-                public CHARRANGE chrg;   //Range of text to draw
+                public TEXT_RANGE chrg;   //Range of text to draw
             }
 
             private const int WM_USER = 0x0400;
@@ -76,9 +76,9 @@ namespace AnotoWorkshop {
                 rectLayoutArea.Right = (int)(layoutArea.Right * anInchX);
                 IntPtr hdc = graphics.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
-                FORMATRANGE fmtRange;
-                fmtRange.chrg.cpMax = -1;       //character range...
-                fmtRange.chrg.cpMin = 0;        //...
+                TEXT_FORMAT fmtRange;
+                fmtRange.chrg.max = -1;       //character range...
+                fmtRange.chrg.min = 0;        //...
                 fmtRange.hdc = hdc;                  //...this one is used for measuring...
                 fmtRange.hdcTarget = hdc;            //...
                 fmtRange.rc = rectLayoutArea;           //printable area on page

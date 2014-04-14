@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace AnotoWorkshop {
 
@@ -53,8 +54,10 @@ namespace AnotoWorkshop {
 
         //public List<FormatSet> textTypes;
         //public Dictionary<int, textSetPair> texts;
-        public RichContent richContent = null;
+        //public RichContent richContents = null;
+        private RichTextBox _richBox = new RichTextBox();//The working RichTextBox for this RichContent instance.
 
+        
         //calculate, only found in readOnly (AKA Variable info from database/(ei, NextGen)) OR the script stuff.
 
         #endregion Variables
@@ -126,6 +129,11 @@ namespace AnotoWorkshop {
         public double zoomLevel {
             get { return _zoomLevel; }
             set { _zoomLevel = value; }
+        }
+
+        public RichTextBox richBox {
+            get { return _richBox; }
+            set { _richBox = value; }
         }
 
         #endregion Universal Properties
