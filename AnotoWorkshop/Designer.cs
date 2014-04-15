@@ -28,6 +28,8 @@ namespace AnotoWorkshop {
 
         private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
         private bool _shouldZoom = true;       //Used to flag if we should allow zooming or not.
+        private bool _shouldDelete = true;     //Used to flag if we should allow deleting functionality, implemented to prevent deletion of fields while editing.
+        private bool _shouldMove = true;     //
 
         private readonly Pen _selectionPen = new Pen(Color.Gray);            //The pen used for the _selectionRect
         private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f); //The pen used for the _groupSelectionRect
@@ -253,7 +255,7 @@ namespace AnotoWorkshop {
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                      
-                                if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect());
+                                if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(_xOffset, _yOffset));
 
                                 break;
 
@@ -846,11 +848,10 @@ namespace AnotoWorkshop {
         /// The Designer's edit function. Takes the field or fields selected and places a copy in memory to later paste.
         /// </summary>
 
-
-        private bool _shouldDelete = true;
         private void startEditing() {
             _shouldZoom = false;//Toggling zoom off while editing
             _shouldDelete = false;
+            _shouldMove = false;
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {
@@ -865,16 +866,14 @@ namespace AnotoWorkshop {
                         _activeRichTextEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
                         _activeRichTextEditBox.BorderStyle = BorderStyle.None;
                         _activeRichTextEditBox.Font = fi.formatSet.font(_zoomLevel);
-                       // _labelEditBox.
-                        _activeRichTextEditBox.Text = fi.text;
                         _activeRichTextEditBox.MouseUp += activeRichTextEditBox_MouseUp;
-                        //if (fi.zwidth < 10) {                           //Here we want to offset the _labelEditBox's Margin, but only if it's more than what we want to offset it by...
-                        //    _labelEditBox.RightMargin = 0;              //...if it's less than that, like right here, we make the margin 0 to prevent an exception...
-                        //} else {                                        //...if it's more than 10 (our offset)...
-                        //    _labelEditBox.RightMargin = fi.zwidth - 10; //...we go ahead and apply the offset to the margin we are using to tweak the rending of text to fix a word wrapping bug.
-                        //}
+
+
+                        _activeRichTextEditBox.Text = fi.text;
                         _activeRichTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
                         _activeRichTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+
+
                         designPanel.Controls.Add(_activeRichTextEditBox);
                         _activeRichTextEditBox.Show();
                         _activeRichTextEditBox.Focus();
@@ -906,6 +905,7 @@ namespace AnotoWorkshop {
             needToSave();
             _shouldZoom = true;//Toggling zoom back on
             _shouldDelete = true;
+            _shouldMove = true;
             designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
             calculateLabelSizes();
         }
@@ -1380,10 +1380,12 @@ namespace AnotoWorkshop {
         }
 
         private void frmMain_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == (Char)Keys.Up) moveFieldsUp();
-            if (e.KeyChar == (Char)Keys.Down) moveFieldsDown();
-            if (e.KeyChar == (Char)Keys.Left) moveFieldsLeft();
-            if (e.KeyChar == (Char)Keys.Right) moveFieldsRight();
+            if (_shouldMove) {
+                if (e.KeyChar == (Char) Keys.Up) moveFieldsUp();
+                if (e.KeyChar == (Char) Keys.Down) moveFieldsDown();
+                if (e.KeyChar == (Char) Keys.Left) moveFieldsLeft();
+                if (e.KeyChar == (Char) Keys.Right) moveFieldsRight();
+            }
             if (e.KeyChar == (Char)Keys.Space && !_globalMode.TextEditing) { startEditing(); return; }//Only enters if TextEditing is false
         }
 

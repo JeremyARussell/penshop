@@ -4,20 +4,23 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace AnotoWorkshop {
+    /// <summary>
+    /// The class lets us use some Windows OS .dll's to give the Graphics some extra functionality, letting us render rich content properly.
+    /// </summary>
     public static class GDrawRichContent {
         private static RichContentDrawer _rtfDrawer;
 
-        public static void DrawRtfText(this Graphics graphics, string rtf, Rectangle layoutArea) {
+        public static void DrawRtfText(this Graphics graphics, string rtf, Rectangle layoutArea, Point offset) {
             if (_rtfDrawer == null) {
                 _rtfDrawer = new RichContentDrawer();
             }
             _rtfDrawer.Rtf = rtf;
-            _rtfDrawer.Draw(graphics, layoutArea);
+            _rtfDrawer.Draw(graphics, layoutArea, offset);
         }
 
         private class RichContentDrawer : RichTextBox {
 
-            #region StaticsAndStructs
+            #region 
 
             [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
             private static extern IntPtr LoadLibrary(string lpFileName);
@@ -26,7 +29,7 @@ namespace AnotoWorkshop {
             private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct RECT {
+            private struct RECT {
                 public int Left;
                 public int Top;
                 public int Right;
@@ -34,23 +37,23 @@ namespace AnotoWorkshop {
             }
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct TEXT_RANGE {
+            private struct TEXT_RANGE {
                 public int min;        //First character of range (0 for start of doc)
                 public int max;        //Last character of range (-1 for end of doc)
             }
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct TEXT_FORMAT {
+            private struct TEXT_FORMAT {
                 public IntPtr hdc;       //Actual surface to draw on
                 public IntPtr hdcTarget; //Target surface for determining text formatting
                 public RECT rc;          //Region of the surface to draw to (in twips)
                 public RECT rcPage;      //Region of the whole surface (page size) (in twips)
-                public TEXT_RANGE chrg;   //Range of text to draw
+                public TEXT_RANGE chrg;  //Range of text to draw
             }
 
             private const int WM_USER = 0x0400;
-            public const int EM_FORMATRANGE = WM_USER + 57;
-            public const int WS_EX_TRANSPARENT = 0x20;
+            private const int EM_FORMATRANGE = WM_USER + 57;
+            private const int WS_EX_TRANSPARENT = 0x20;
             #endregion
             
             protected override CreateParams CreateParams {
@@ -64,23 +67,23 @@ namespace AnotoWorkshop {
                 }
             }
 
-            public void Draw(Graphics graphics, Rectangle layoutArea) {
+            public void Draw(Graphics graphics, Rectangle layoutArea, Point offset) {
                 double anInchX = 1440 / graphics.DpiX;
                 double anInchY = 1440 / graphics.DpiY;
 
                 //Calculate the area to render.
                 RECT rectLayoutArea;
-                rectLayoutArea.Top = (int)(layoutArea.Top * anInchY);
-                rectLayoutArea.Bottom = (int)(layoutArea.Bottom * anInchY);
-                rectLayoutArea.Left = (int)(layoutArea.Left * anInchX);
-                rectLayoutArea.Right = (int)(layoutArea.Right * anInchX);
+                rectLayoutArea.Top = (int)((layoutArea.Top + offset.Y) * anInchY);          //Apply the offset so that the text matches the real world...
+                rectLayoutArea.Bottom = (int)((layoutArea.Bottom + offset.Y) * anInchY);    //...rendering position
+                rectLayoutArea.Left = (int)((layoutArea.Left + offset.X + 1) * anInchX);//The extra 1 is to keep the offset lined up.
+                rectLayoutArea.Right = (int)((layoutArea.Right + offset.X + 1) * anInchX);
                 IntPtr hdc = graphics.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
                 TEXT_FORMAT fmtRange;
-                fmtRange.chrg.max = -1;       //character range...
-                fmtRange.chrg.min = 0;        //...
-                fmtRange.hdc = hdc;                  //...this one is used for measuring...
-                fmtRange.hdcTarget = hdc;            //...
+                fmtRange.chrg.min = 0;        //character range, min...
+                fmtRange.chrg.max = -1;       //...and max
+                fmtRange.hdc = hdc;                  //...this one is used for drawing...
+                fmtRange.hdcTarget = hdc;            //...this one for measuring
                 fmtRange.rc = rectLayoutArea;           //printable area on page
                 fmtRange.rcPage = rectLayoutArea;       //size of page
 
@@ -88,7 +91,7 @@ namespace AnotoWorkshop {
                 Marshal.StructureToPtr(fmtRange, lParam, false);
 
                 IntPtr wParam = new IntPtr(1);
-                //Where the magic happens, more details later.
+                //Where the magic happens.
                 SendMessage(Handle, EM_FORMATRANGE, wParam, lParam);
 
                 //Cleaning up
