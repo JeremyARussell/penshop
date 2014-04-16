@@ -7,12 +7,12 @@ namespace AnotoWorkshop {
 
     public partial class settingsScreen : Form {
 
-        #region Variables - Not Started
+        #region Variables
 
         private Settings _settings;
         private bool _needToSaveSettings = false;
 
-        #endregion Variables - Not Started
+        #endregion Variables
 
         #region Initializers
 
@@ -229,8 +229,6 @@ namespace AnotoWorkshop {
                     }               
               }    
         }
-
-
 
 
     }

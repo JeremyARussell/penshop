@@ -112,8 +112,16 @@ namespace AnotoWorkshop {
         #region Load Settings
 
         private void btnLoadSettings_Click(object sender, EventArgs e) {
-            new settingsScreen().ShowDialog();
-        }
+            if (_settings.screen.Visible) {
+                if (_settings.screen.InvokeRequired) {
+                    _settings.screen.Invoke(new MethodInvoker(_settings.screen.Activate));
+                } else {
+                    _settings.screen.BringToFront();
+                }
+            } else {
+                _settings.screen.ShowDialog();
+            }
+       }
 
         #endregion Load Settings
 

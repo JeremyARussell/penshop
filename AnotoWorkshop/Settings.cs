@@ -318,6 +318,6 @@ namespace AnotoWorkshop {
 
         #endregion White List
 
-
+        public settingsScreen screen = new settingsScreen();
     }
 }
