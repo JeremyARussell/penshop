@@ -1396,6 +1396,8 @@ namespace AnotoWorkshop {
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e) {
+            if (_globalMode.TextEditing) return;
+
             if (e.KeyCode == Keys.Delete) { deleteFields(); return; }
 
             if (e.Control && e.KeyCode == Keys.X) { cut(); return; }
