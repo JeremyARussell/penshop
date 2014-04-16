@@ -163,19 +163,25 @@ namespace AnotoWorkshop {
         private void btnNewForm_Click(object sender, EventArgs e) {
             PenForm newPenform = new PenForm();
             newPenform.FormName = Interaction.InputBox("Name of form?");
-            if (newPenform.FormName != "")
-            {
+            if (newPenform.FormName != "") {
                 newPenform.saveForm();
-            }
-            else {
-            MessageBox.Show("Enter a form name.");
+            } else {
+                MessageBox.Show("Enter a form name.");
             }
             checkForForms();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+        private void button1_Click(object sender, EventArgs e) {
             new whiteList().ShowDialog();
+        }
+
+        private void btnRemoveForm_Click(object sender, EventArgs e) {
+            if (lstvForms.SelectedItems.Count > 0) {
+                string filePath = lstvForms.SelectedItems[0].Tag.ToString();
+                File.Move(filePath, filePath + ".del");
+
+                checkForForms();
+            }
         }
     }
 }
