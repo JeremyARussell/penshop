@@ -144,8 +144,16 @@ namespace AnotoWorkshop {
             btnAddRectangle.Text = "\uE2B3";
             btnAddLine.Text = "\uE108";
 
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Loading the RichTextBox's that go with the RichLabel's
+                if(fi.type == Type.RichLabel) {
+                    fi.richBox = new RichTextBox();
+                    fi.richBox.Rtf = fi.rtc;
+                }
+            }
+
             designerLoadStuff();            //Misc things to initialize for the designer stuff
             refreshHierarchyView();               //Function for building the Field Heirarchy 
+
 
         }
 
@@ -174,13 +182,6 @@ namespace AnotoWorkshop {
 
 
         #region The Designer
-
-        private void drawOnBaseline(string s, Graphics g, Font f, Brush b, PointF pos) {
-            float baselineOffset = f.SizeInPoints / f.FontFamily.GetEmHeight(f.Style) * f.FontFamily.GetCellAscent(f.Style);
-            float baselineOffsetPixels = g.DpiY / 72f * baselineOffset;
-      
-            g.DrawString(s, f, b, new PointF(pos.X, pos.Y - baselineOffsetPixels + 0.5f));
-        }
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
             //if (tempGraphics == null) tempGraphics = e.Graphics;
@@ -251,7 +252,7 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
                                 break;
 
-                            case Type.FancyLabel:
+                            case Type.RichLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                      
@@ -506,7 +507,7 @@ namespace AnotoWorkshop {
                                         if(fi.width < 2) fi.width = 2;                                  //Without letting it get smaller then 2 points in size.
                                         if(fi.height < 2) fi.height = 2;
                                     }
-                                    if(fi.type == Type.RectangleDraw || fi.type == Type.FancyLabel) {
+                                    if(fi.type == Type.RectangleDraw || fi.type == Type.RichLabel) {
                                         fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);  //For the Rectangles and Rich Labels we freely resize width...
                                         fi.zheight = fi.resizeStart.Height - (_startPoint.Y - e.Y);//...and height
 
@@ -555,7 +556,7 @@ namespace AnotoWorkshop {
                                     //Nothing special, no constraints
                                     break;
                   
-                                case Type.FancyLabel:
+                                case Type.RichLabel:
                                     //Nothing special, no constraints
                                     break;
                             
@@ -635,7 +636,7 @@ namespace AnotoWorkshop {
                                 case Type.Label: //Nothing for MouseUp concerning the Label
                                     break;
                                
-                                case Type.FancyLabel:
+                                case Type.RichLabel:
                                     _fieldToAdd.zx = _selectionRect.X - _xOffset;
                                     _fieldToAdd.zy = _selectionRect.Y - _yOffset;
                                     break;
@@ -855,19 +856,24 @@ namespace AnotoWorkshop {
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) {
-                    if (fi.type == Type.FancyLabel || fi.type == Type.Label) {
-                        if (fi.type == Type.FancyLabel) {
+                    if (fi.type == Type.RichLabel || fi.type == Type.Label) {
+                        if (fi.type == Type.RichLabel) {
                             _activeRichTextEditBox.Multiline = true; //Fancy label with multiline
                         } else {
                             _activeRichTextEditBox.Multiline = false; //Not a fancy label so no multiline
                         }
 
+
+                        //TODO - Place inside of formLoad, it's universal and always applies.
                         _activeEditField = fi; //Assigning the field that will be assigned text later
                         _activeRichTextEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
                         _activeRichTextEditBox.BorderStyle = BorderStyle.None;
                         _activeRichTextEditBox.Font = fi.formatSet.font(_zoomLevel);
                         _activeRichTextEditBox.MouseUp += activeRichTextEditBox_MouseUp;
 
+
+
+                        //TODO - Revamp the editing system
 
                         _activeRichTextEditBox.Text = fi.text;
                         _activeRichTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
@@ -1049,7 +1055,7 @@ namespace AnotoWorkshop {
             deselectAll();
 
             _globalMode.setMode(MouseMode.Adding);
-            _fieldToAdd = new Field("Rich Label", Type.FancyLabel);
+            _fieldToAdd = new Field("Rich Label", Type.RichLabel);
             _fieldToAdd.zoomLevel = _zoomLevel;
 
             cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);

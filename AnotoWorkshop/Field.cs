@@ -10,7 +10,7 @@ namespace AnotoWorkshop {
         None,
         TextField,//an input text field that recognizes handwriting and turns it into digital alphanums.
         Checkbox,//check box, attached to an appropriate checkbox field in nextgen/other EMR stuff.
-        FancyLabel,
+        RichLabel,
         Label,//basically static labels and such.
         OptionsGroup,//The main thing to watch for here is the naming scheme with the XML version.
         LineDraw,
@@ -36,6 +36,7 @@ namespace AnotoWorkshop {
         public Type type;
 
         public string text;
+        public string rtc;
 
         public FormatSet formatSet = new FormatSet();
         public string formatSetName;
@@ -165,7 +166,7 @@ namespace AnotoWorkshop {
                         (int)(4 * _zoomLevel),
                         (int)(4 * _zoomLevel));
                     break;
-                case Type.FancyLabel:
+                case Type.RichLabel:
                 case Type.RectangleDraw:
                     retRect = new Rectangle(
                         (int)((_x + _width + 4) * _zoomLevel),

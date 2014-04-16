@@ -113,7 +113,7 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString("readOnly", fi.readOnly.ToString());
                         //writer.WriteAttributeString("name", fi.group);
                         //writer.WriteAttributeString("name", fi.textTypes);
-                        //writer.WriteAttributeString("name", fi.texts);//For Fancy Labels
+                        if(fi.type == Type.RichLabel && fi.richBox != null) writer.WriteAttributeString("RTC", fi.richBox.Rtf);//For Fancy Labels
 
                         writer.WriteEndElement();//Field
                     }
@@ -193,6 +193,10 @@ namespace AnotoWorkshop {
 
                         bool.TryParse(reader["hidden"], out workingField.hidden);
                         bool.TryParse(reader["readOnly"], out workingField.readOnly);
+
+                        if (workingField.type == Type.RichLabel) {//Fancy Label code
+                            workingField.rtc = reader["RTC"];
+                        }
 
                     }
                 }//End loop
@@ -292,7 +296,7 @@ namespace AnotoWorkshop {
                     }
 
                     if (reader.Name == "exData") {
-                        workingField.type = Type.FancyLabel;
+                        workingField.type = Type.RichLabel;
                         workingField.text = "Fancy Field Testing Text";//TODO - Finish this loading junk, text coupled with formatting.
                     }
 
@@ -669,7 +673,7 @@ namespace AnotoWorkshop {
 
                             #region Fancy Label - Not Started
 
-                            case Type.FancyLabel:
+                            case Type.RichLabel:
                                 //writer.WriteStartElement("field"); TODO - Saving the new RichLabels
                                 //writer.WriteEndElement();//end field
                                 break;
@@ -1422,7 +1426,7 @@ namespace AnotoWorkshop {
                                 e.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.x, fi.y));
                                 break;
 
-                            case Type.FancyLabel:
+                            case Type.RichLabel:
                                 Pen flPen = new Pen(Color.FromArgb(255, 51, 102, 255));
                                 //e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
 

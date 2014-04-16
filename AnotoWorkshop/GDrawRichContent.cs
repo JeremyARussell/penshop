@@ -14,8 +14,15 @@ namespace AnotoWorkshop {
             if (_rtfDrawer == null) {
                 _rtfDrawer = new RichContentDrawer();
             }
-            _rtfDrawer.Rtf = rtf;
-            _rtfDrawer.Draw(graphics, layoutArea, offset);
+
+            try {
+                _rtfDrawer.Rtf = rtf;
+                _rtfDrawer.Draw(graphics, layoutArea, offset);
+            }
+            catch (InvalidOperationException e) {   //Due to multithreading, we need to make sure the RichContentDrawer is remade to be used by the current Designer thread
+                _rtfDrawer = new RichContentDrawer();
+                Console.WriteLine(e);
+            }
         }
 
         private class RichContentDrawer : RichTextBox {
