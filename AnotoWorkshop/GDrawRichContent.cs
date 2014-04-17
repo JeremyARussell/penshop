@@ -80,10 +80,10 @@ namespace AnotoWorkshop {
 
                 //Calculate the area to render.
                 RECT rectLayoutArea;
-                rectLayoutArea.Top = (int)((layoutArea.Top + offset.Y) * anInchY);          //Apply the offset so that the text matches the real world...
-                rectLayoutArea.Bottom = (int)((layoutArea.Bottom + offset.Y) * anInchY);    //...rendering position
-                rectLayoutArea.Left = (int)((layoutArea.Left + offset.X + 1) * anInchX);//The extra 1 is to keep the offset lined up.
-                rectLayoutArea.Right = (int)((layoutArea.Right + offset.X + 1) * anInchX);
+                rectLayoutArea.Top    = (int)((layoutArea.Top    + offset.Y)     * anInchY);    //Apply the offset so that the text matches the real world...
+                rectLayoutArea.Bottom = (int)((layoutArea.Bottom + offset.Y)     * anInchY);    //...rendering position
+                rectLayoutArea.Left   = (int)((layoutArea.Left   + offset.X + 1) * anInchX);//The extra 1 is to keep the offset lined up.
+                rectLayoutArea.Right  = (int)((layoutArea.Right  + offset.X + 1) * anInchX);
                 IntPtr hdc = graphics.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
                 TEXT_FORMAT fmtRange;

@@ -82,7 +82,7 @@ namespace AnotoWorkshop {
                 }
 
                 catch (Exception s) {
-                    
+                    Console.Write(s);
                 }
 
                 myConnection.Close();

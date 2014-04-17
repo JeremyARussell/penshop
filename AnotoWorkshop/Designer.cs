@@ -24,7 +24,11 @@ namespace AnotoWorkshop {
         private Point _rightCrossPoint;     //...
         private Rectangle _selectionRect;      //This is the Rectangle used to actively track where the user is "selecting"
         private Rectangle _groupSelectionRect; //This Rectangle is the group selection rectangle used to encompass a group of things that have been selected.
-        //private Rectangle _resRect;            //This is the little blue resizing widget you grab to resize the width of the fields.
+
+        //variables needed for editing the labels
+        private RichTextBox _activeTextEditBox = new RichTextBox();
+        private Field _activeEditField;
+
 
         private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
         private bool _shouldZoom = true;       //Used to flag if we should allow zooming or not.
@@ -151,6 +155,13 @@ namespace AnotoWorkshop {
                 }
             }
 
+            //Consistent activeTextEdit
+            _activeTextEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
+            _activeTextEditBox.BorderStyle = BorderStyle.None;
+            _activeTextEditBox.MouseUp += activeRichTextEditBox_MouseUp;
+            _activeTextEditBox.Hide();
+            designPanel.Controls.Add(_activeTextEditBox);
+
             designerLoadStuff();            //Misc things to initialize for the designer stuff
             refreshHierarchyView();               //Function for building the Field Heirarchy 
 
@@ -170,7 +181,6 @@ namespace AnotoWorkshop {
 
             foreach (var fSet in _settings.globalFormatSet) {   //Iterate through the globalFormatSets...
                 cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
-
                 cntxtFormatSets.Items.Add(fSet.Key);//Building the FormatSet context menu's items.
             }
 
@@ -835,87 +845,6 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-        private RichTextBox _activeRichTextEditBox = new RichTextBox();
-        private Field _activeEditField;
-
-        void activeRichTextEditBox_MouseUp(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Right) {
-                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
-                
-            }
-        }
-
-        /// <summary>
-        /// The Designer's edit function. Takes the field or fields selected and places a copy in memory to later paste.
-        /// </summary>
-
-        private void startEditing() {
-            _shouldZoom = false;//Toggling zoom off while editing
-            _shouldDelete = false;
-            _shouldMove = false;
-
-            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
-                if (fi.selected) {
-                    if (fi.type == Type.RichLabel || fi.type == Type.Label) {
-                        if (fi.type == Type.RichLabel) {
-                            _activeRichTextEditBox.Multiline = true; //Fancy label with multiline
-                        } else {
-                            _activeRichTextEditBox.Multiline = false; //Not a fancy label so no multiline
-                        }
-
-
-                        //TODO - Place inside of formLoad, it's universal and always applies.
-                        _activeEditField = fi; //Assigning the field that will be assigned text later
-                        _activeRichTextEditBox.ScrollBars = RichTextBoxScrollBars.None; //No Scrollbar in RichTextEdit
-                        _activeRichTextEditBox.BorderStyle = BorderStyle.None;
-                        _activeRichTextEditBox.Font = fi.formatSet.font(_zoomLevel);
-                        _activeRichTextEditBox.MouseUp += activeRichTextEditBox_MouseUp;
-
-
-
-                        //TODO - Revamp the editing system
-
-                        _activeRichTextEditBox.Text = fi.text;
-                        _activeRichTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _oldYOffset);
-                        _activeRichTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
-
-
-                        designPanel.Controls.Add(_activeRichTextEditBox);
-                        _activeRichTextEditBox.Show();
-                        _activeRichTextEditBox.Focus();
-
-                        _globalMode.setMode(MouseMode.TextEditing);
-
-                        break;//Stopping the loop from checking past the first label or RichLabel.
-                    }
-                }
-            }
-
-            designPanel.Invalidate();
-        }
-
-        public void stopEditing() {
-            _activeEditField.text = _activeRichTextEditBox.Text;
-
-            RichTextBox tempBox = new RichTextBox();
-
-            tempBox.Rtf = _activeRichTextEditBox.Rtf;
-            tempBox.Location = _activeRichTextEditBox.Location;
-            tempBox.Size = _activeRichTextEditBox.Size;
-
-            _activeEditField.richBox = tempBox;
-            _activeRichTextEditBox.Hide();
-            refreshProperties(_activeEditField);//Refreshing the properties to reflect the changes to the field's text.
-            _activeEditField = null;
-
-            needToSave();
-            _shouldZoom = true;//Toggling zoom back on
-            _shouldDelete = true;
-            _shouldMove = true;
-            designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
-            calculateLabelSizes();
-        }
-
         /// <summary>
         /// The Designer's pasting function. Pastes all the fields that have been cut or copied.
         /// </summary>
@@ -1380,7 +1309,7 @@ namespace AnotoWorkshop {
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Space));
                     return true;
                 }
-                if (_activeRichTextEditBox.Focused) {
+                if (_activeTextEditBox.Focused) {
                     return base.ProcessCmdKey(ref msg, keyData);//If the _labelEditBox is focused we let the Spacebar act as it normally would.
                 }
             }
@@ -1541,6 +1470,119 @@ namespace AnotoWorkshop {
 
         #endregion Field Tree Management
 
+
+        #region Editing Labels
+
+        void activeRichTextEditBox_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
+                
+            }
+        }
+
+        /// <summary>
+        /// The Designer's edit function. Takes the field or fields selected and places a copy in memory to later paste.
+        /// </summary>
+        private void startEditing() {
+            _shouldZoom = false;//Toggling zoom off while editing
+            _shouldDelete = false;
+            _shouldMove = false;
+
+            foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
+                if (fi.selected) { 
+                    if (fi.type == Type.Label) {
+                        _globalMode.setMode(MouseMode.TextEditing);
+                        _activeEditField = fi;
+
+                        _activeTextEditBox.Multiline = false;
+
+                        _activeTextEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _activeTextEditBox.Text = fi.text;
+                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset + 1, fi.zy + _yOffset);
+                        _activeTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+
+
+                        _activeTextEditBox.Show();
+                        _activeTextEditBox.Focus();
+
+                        
+                        break;//Stopping the loop from checking past the first label or RichLabel.
+
+                    }
+
+                    if (fi.type == Type.RichLabel) {
+                        _globalMode.setMode(MouseMode.TextEditing);
+                        _activeEditField = fi;
+                        
+                        _activeTextEditBox.Multiline = true;
+                    
+                        _activeTextEditBox.Rtf = fi.richBox.Rtf;
+                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _yOffset);
+                        _activeTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+
+
+                        _activeTextEditBox.Show();
+                        _activeTextEditBox.Focus();
+
+                        break;
+                    }
+
+                    if (fi.type == Type.Checkbox) {
+                        _globalMode.setMode(MouseMode.TextEditing);
+                        _activeEditField = fi;
+
+                        _activeTextEditBox.Multiline = false;
+
+                        _activeTextEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _activeTextEditBox.Text = fi.text;
+                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset + fi.zwidth + 2, fi.zy + _yOffset);
+                        _activeTextEditBox.Size = new Size(200, 50);
+
+
+                        _activeTextEditBox.Show();
+                        _activeTextEditBox.Focus();
+
+                        break;
+
+                    }
+                }
+            }
+
+            designPanel.Invalidate();
+        }
+
+        public void stopEditing() {
+            if (_activeEditField.type == Type.Label || _activeEditField.type == Type.Checkbox) {
+                _activeEditField.text = _activeTextEditBox.Text;
+            }
+
+            if (_activeEditField.type == Type.RichLabel) {
+            RichTextBox tempBox = new RichTextBox();
+
+            tempBox.Rtf = _activeTextEditBox.Rtf;
+            tempBox.Location = _activeTextEditBox.Location;
+            tempBox.Size = _activeTextEditBox.Size;
+
+            _activeEditField.richBox = tempBox;
+            
+            }
+
+            _activeTextEditBox.Hide();
+            refreshProperties(_activeEditField);//Refreshing the properties to reflect the changes to the field's text.
+            _activeEditField = null;
+
+
+
+
+            needToSave();
+            _shouldZoom = true;//Toggling zoom back on
+            _shouldDelete = true;
+            _shouldMove = true;
+            designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
+            calculateLabelSizes();
+        }
+        #endregion Editing Labels
+
         private void btnTemplatesList_Click(object sender, EventArgs e) {
 
             using (var form = new templateSelection(_currentForm.FormTemplates)) {
@@ -1575,7 +1617,16 @@ namespace AnotoWorkshop {
 
         private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
             if (_globalMode.TextEditing) {
-                _activeRichTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+
+                if (_activeEditField.type == Type.Label || _activeEditField.type == Type.Checkbox) {
+                    _activeEditField.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);
+                    _activeTextEditBox.Font = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+                }
+
+                if (_activeEditField.type == Type.RichLabel) {
+                    _activeTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+                }
+                
             } else {
                 _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
             }
