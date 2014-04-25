@@ -266,7 +266,7 @@ namespace AnotoWorkshop {
                                 Pen flPen = new Pen(Color.LightBlue);
                                 e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
                      
-                                if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(_xOffset, _yOffset), (float)_zoomLevel);
+                                if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(_xOffset, _yOffset));
 
                                 break;
 
