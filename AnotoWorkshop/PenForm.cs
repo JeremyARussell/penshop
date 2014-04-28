@@ -266,8 +266,8 @@ namespace AnotoWorkshop {
                         workingField.name = reader["name"];
 
                         if (reader["presence"] != "invisible") {
-                            workingField.zx = convertUM(reader["x"]);
-                            workingField.zy = convertUM(reader["y"]);
+                            workingField.x = convertUM(reader["x"]);
+                            workingField.y = convertUM(reader["y"]);
                         } else {
                             workingField.hidden = true;
                         }
@@ -277,11 +277,11 @@ namespace AnotoWorkshop {
                         }
 
                         if (reader["w"] == null) {
-                            workingField.zwidth = convertUM(reader["minW"]);
-                            workingField.zheight = convertUM(reader["minH"]);
+                            workingField.width = convertUM(reader["minW"]);
+                            workingField.height = convertUM(reader["minH"]);
                         } else {
-                            workingField.zwidth = convertUM(reader["w"]);//Width
-                            workingField.zheight = convertUM(reader["h"]);//Height
+                            workingField.width = convertUM(reader["w"]);//Width
+                            workingField.height = convertUM(reader["h"]);//Height
                         }
                     }
 

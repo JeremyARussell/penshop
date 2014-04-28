@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -80,17 +81,28 @@ namespace AnotoWorkshop {
 
                 //Calculate the area to render.
                 RECT rectLayoutArea;
-                rectLayoutArea.Top    = (int)((layoutArea.Top    + offset.Y)     * anInchY);    //Apply the offset so that the text matches the real world...
-                rectLayoutArea.Bottom = (int)((layoutArea.Bottom + offset.Y)     * anInchY);    //...rendering position
-                rectLayoutArea.Left   = (int)((layoutArea.Left   + offset.X + 1) * anInchX);//The extra 1 is to keep the offset lined up.
-                rectLayoutArea.Right  = (int)((layoutArea.Right  + offset.X + 1) * anInchX);
-                IntPtr hdc = graphics.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
+                rectLayoutArea.Top    = 0;    //Apply the offset so that the text matches the real world...
+                rectLayoutArea.Bottom = (int)((layoutArea.Bottom - layoutArea.Top)     * anInchY);    //...rendering position
+                rectLayoutArea.Left   = 0;//The extra 1 is to keep the offset lined up.
+                rectLayoutArea.Right  = (int)((layoutArea.Right - layoutArea.Left ) * anInchX);
+                
+	            Bitmap Bmp = new Bitmap((int)layoutArea.Width, (int)layoutArea.Height, PixelFormat.Format32bppArgb);
+	            Graphics g = Graphics.FromImage(Bmp);
+                IntPtr hdc = g.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
+	            Metafile metafile = new Metafile(hdc, new RectangleF(0, 0, layoutArea.Width * 26, layoutArea.Height * 26));
+
+                g.ReleaseHdc(hdc);
+                g.Dispose();
+
+                g = Graphics.FromImage(metafile);
+                IntPtr mfHdc = g.GetHdc();
+                
                 TEXT_FORMAT fmtRange;
                 fmtRange.chrg.min = 0;        //character range, min...
                 fmtRange.chrg.max = -1;       //...and max
-                fmtRange.hdc = hdc;                  //...this one is used for drawing...
-                fmtRange.hdcTarget = hdc;            //...this one for measuring
+                fmtRange.hdc = mfHdc;                  //...this one is used for drawing...
+                fmtRange.hdcTarget = mfHdc;            //...this one for measuring
                 fmtRange.rc = rectLayoutArea;           //printable area on page
                 fmtRange.rcPage = rectLayoutArea;       //size of page
 
@@ -103,7 +115,12 @@ namespace AnotoWorkshop {
 
                 //Cleaning up
                 Marshal.FreeCoTaskMem(lParam);
-                graphics.ReleaseHdc(hdc);
+                g.ReleaseHdc(hdc);
+                g.Dispose();
+
+                //graphics.ScaleTransform(zFactor, zFactor);
+                graphics.DrawImage(metafile, new Point(layoutArea.Location.X + offset.X, layoutArea.Location.Y + offset.Y));
+
             }
         }
     }

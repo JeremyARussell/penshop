@@ -30,7 +30,7 @@ namespace AnotoWorkshop {
         private Field _activeEditField;
 
 
-        private double _zoomLevel = 1.00;      //Used to zoom in and out of pages.
+        private float _zoomLevel = 1.00f;      //Used to zoom in and out of pages.
         private bool _shouldZoom = true;       //Used to flag if we should allow zooming or not.
         private bool _shouldDelete = true;     //Used to flag if we should allow deleting functionality, implemented to prevent deletion of fields while editing.
         private bool _shouldMove = true;     //
@@ -204,12 +204,14 @@ namespace AnotoWorkshop {
             lblDebugMMode.Text = _globalMode.mode().ToString();
             //For Debugging//
 
+            e.Graphics.ScaleTransform(_zoomLevel, _zoomLevel);
+
             if (_currentForm.totalPages() > 0) { //Being safe about what we paint, without this we get exceptions when have empty pages.
                 Rectangle pageRectangle = new Rectangle {       //This rectangle is for drawing the white "page" that all the fields are on
                                 X = _xOffset,                   //Offsetting the page by the X and Y...
                                 Y = _yOffset,                   //...offsets to facilitate "moving" the page.
-                                Height = (int) (792*_zoomLevel),//Height and Width get their dimensions multiplied by the...
-                                Width = (int) (612*_zoomLevel)  //...value of _zoomLevel to allow for enlarging and shrinking.
+                                Height = 792,//Height and Width get their dimensions multiplied by the...
+                                Width  = 612  //...value of _zoomLevel to allow for enlarging and shrinking.
                 };
                 e.Graphics.FillRectangle(new SolidBrush(Color.White), pageRectangle);//Finally, we actually draw the page to the panel.   
 
@@ -248,23 +250,23 @@ namespace AnotoWorkshop {
                         switch (fi.type) { //Switch statement to draw different things for each type of field.
                             case Type.TextField:
                                 Pen p1 = new Pen(Color.DarkGray);
-                                e.Graphics.DrawRectangle(p1, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(p1, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 p1.Color = Color.LightGray;
-                                e.Graphics.DrawLine(p1, fi.zx + _xOffset + 1, fi.zy + _yOffset - 1 + fi.zheight, //Creates the shadow line for the text box.
-                                                        fi.zx + _xOffset - 1 + fi.zwidth, fi.zy + _yOffset - 1 + fi.zheight);
+                                e.Graphics.DrawLine(p1, fi.x + _xOffset + 1, fi.y + _yOffset - 1 + fi.height, //Creates the shadow line for the text box.
+                                                        fi.x + _xOffset - 1 + fi.width, fi.y + _yOffset - 1 + fi.height);
                                 break;
 
                             case Type.Label:
                                 Pen p2 = new Pen(Color.LightBlue);
-                                e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
 
                                 p2.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p2.Brush, new Point(fi.zx + _xOffset, fi.zy + _yOffset));
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.x + _xOffset, fi.y + _yOffset));
                                 break;
 
                             case Type.RichLabel:
                                 Pen flPen = new Pen(Color.LightBlue);
-                                e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                      
                                 if(fi.richBox != null) e.Graphics.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(_xOffset, _yOffset));
 
@@ -272,36 +274,36 @@ namespace AnotoWorkshop {
 
                             case Type.RectangleDraw:
                                 Pen recPen = new Pen(Color.LightGreen);
-                                e.Graphics.DrawRectangle(recPen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(recPen, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 break;
 
                             case Type.LineDraw:
                                 Pen linePen = new Pen(Color.LightGreen);
-                                e.Graphics.DrawRectangle(linePen, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(linePen, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 break;
 
                             case Type.Checkbox:
                                 Pen p3 = new Pen(Color.Green);
-                                e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 p3.Color = Color.Black;
-                                double zhmod = 4 * _zoomLevel; //This is to give a slight offset to the y position for the string we draw for checkboxes, but also make it match with the _zoomLevel.
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(_zoomLevel), p3.Brush, new Point(                      //This draw strings starts off pretty standard with the text, font and pen...
-                                       fi.zx + _xOffset +    fi.zwidth                                                                  //...starts getting a little fancy by offsetting the x position to account for the checkboxes width...
-                                    , (int)(fi.zy + _yOffset + (((fi.zheight - fi.formatSet.font(_zoomLevel).Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
+                                double zhmod = 4; //This is to give a slight offset to the y position for the string we draw for checkboxes, but also make it match with the _zoomLevel.
+                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p3.Brush, new Point(                      //This draw strings starts off pretty standard with the text, font and pen...
+                                       fi.x + _xOffset +    fi.width                                                                  //...starts getting a little fancy by offsetting the x position to account for the checkboxes width...
+                                    , (int)(fi.y + _yOffset + (((fi.height - fi.formatSet.font().Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
                                 break;                                                                                                  //...and different levels of zoom and font size, etc.
 
                             case Type.OptionsGroup:
                                 Pen p4 = new Pen(Color.Red);
-                                e.Graphics.DrawRectangle(p4, new Rectangle((new Point(fi.zx + _xOffset, fi.zy + _yOffset)), fi.rect().Size));
+                                e.Graphics.DrawRectangle(p4, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 break;
                         }
                     }
                     if (fi.selected) {                          //drawing the dashed outline to indicate something is selected //TODO - Redesign this to be more of a selection glow or something.
                         Rectangle selectedRect = fi.rect();     //Initialize new rectangle based of field's position and size.
-                        selectedRect.X = fi.zx - 1 + _xOffset;  //Added "padding" for the individual selected rectangle...
-                        selectedRect.Y = fi.zy - 1 + _yOffset;  //...(otherwise you wouldn't see it due to overlap)
-                        selectedRect.Width = fi.zwidth + 2;     
-                        selectedRect.Height = fi.zheight + 2;
+                        selectedRect.X = fi.x - 1 + _xOffset;  //Added "padding" for the individual selected rectangle...
+                        selectedRect.Y = fi.y - 1 + _yOffset;  //...(otherwise you wouldn't see it due to overlap)
+                        selectedRect.Width = fi.width + 2;     
+                        selectedRect.Height = fi.height + 2;
                         e.Graphics.DrawRectangle(_selectionPen, selectedRect);
 
                         e.Graphics.DrawRectangle(_groupSelectionPen, new Rectangle( //Paint the selected fields resizer(s)
@@ -328,8 +330,13 @@ namespace AnotoWorkshop {
 
         private void designer_MouseDown(object sender, MouseEventArgs e) {//Controls the events that occur when the mouse is down. (not a click though, which is an down and up)
             if (_currentForm.totalPages() > 0) {//Empty page protection.
-                _startPoint.X = e.X;    //Assigning the start point as the location the mouse is clicked down on...
-                _startPoint.Y = e.Y;    //used generally for moving and resizing fields, but also for adding, etc.
+
+                int zx = (int)(e.X / _zoomLevel);
+                int zy = (int)(e.Y / _zoomLevel);
+
+
+                _startPoint.X = zx;    //Assigning the start point as the location the mouse is clicked down on...
+                _startPoint.Y = zy;    //used generally for moving and resizing fields, but also for adding, etc.
 
                 #region Left Click Down
                 if (e.Button == MouseButtons.Left) {
@@ -338,22 +345,22 @@ namespace AnotoWorkshop {
                     }
                     if(_globalMode.Selected) {   //To prevent the click down from being able to trigger the resize without being able to see the resizer. //TODO - BUG - We can still have this issue if we click the invisible resizers when we are resizing another seperate field.
                         foreach(Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                            if(fi.resizer().Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the field's resizer Rectangle contains the point that was clicked...  
+                            if(fi.resizer().Contains(zx - _xOffset, zy - _yOffset)) { //If the field's resizer Rectangle contains the point that was clicked...  
                                 fi.resizing = true;                                     //...the field is flagged as resizing...
                                 _globalMode.setMode(MouseMode.Resizing);                             //...and the mode is set to resizing (for proper mouseMove handling)
                             }
                         }
                     }
-                    //if (_resRect.Contains(e.X - _xOffset, e.Y - _yOffset)) { //If the resizing rectangle is what is clicked. Accounting for a moved field.
+                    //if (_resRect.Contains(zx - _xOffset, zy - _yOffset)) { //If the resizing rectangle is what is clicked. Accounting for a moved field.
                     //    _mode = MouseMode.Resizing;
                     //}
                     
-                    if (!_groupSelectionRect.Contains(e.X - _xOffset, e.Y - _yOffset)           //Not within the group box
+                    if (!_groupSelectionRect.Contains(zx - _xOffset, zy - _yOffset)           //Not within the group box
                     && !_globalMode.Resizing                                              //or if just just went into resizing mode
                     && !_globalMode.Adding) {                                             //or we just clicked one of the adding buttons.
                         int notSelectedCount = 0;                                                   //this is used to track how many fields are selected
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterating through all the fields on the page.
-                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {                  //If where we are clicking is inside the field.
+                            if (fi.isInside(zx - _xOffset, zy - _yOffset)) {                  //If where we are clicking is inside the field.
                                 if(ModifierKeys.HasFlag(Keys.Control)) {                        //AND CTRL is being held down.
                                     fi.selected = !fi.selected;                                 //the clicked field is toggled as selected or not
                                 } else {                                                        //if...but no CTRL
@@ -374,7 +381,7 @@ namespace AnotoWorkshop {
                         
                     } else {                                                                    //For when we are clicking within the selected box.
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    
-                            if (fi.isInside(e.X - _xOffset, e.Y - _yOffset)) {          //Clicking within a field, within the selection box.
+                            if (fi.isInside(zx - _xOffset, zy - _yOffset)) {          //Clicking within a field, within the selection box.
                                 if(ModifierKeys.HasFlag(Keys.Control)) {                //and CTRL is held down.
                                     fi.selected = !fi.selected;                         //toggle if it's selected.
                                 }
@@ -392,13 +399,13 @@ namespace AnotoWorkshop {
                         case MouseMode.Selected:
                             if (_shouldZoom) _shouldZoom = false;
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Foreach of the page fields...
-                                fi.moveStart = new Point(fi.zx, fi.zy);                             //...grab the current position to use for moving around during mouseMove
+                                fi.moveStart = new Point(fi.x, fi.y);                             //...grab the current position to use for moving around during mouseMove
                             }
                             break;
 
                         case MouseMode.Resizing:
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Foreach of the page fields...
-                                fi.resizeStart = new Size(fi.zwidth, fi.zheight);                   //...grab the current size to use for resizing during mouseMove
+                                fi.resizeStart = new Size(fi.width, fi.height);                   //...grab the current size to use for resizing during mouseMove
                             }
                             break;
 
@@ -406,10 +413,10 @@ namespace AnotoWorkshop {
                             switch (_fieldToAdd.type) {                         //Using a switch in case we need it later, it could be an if statement now though.
                                 case Type.Label:                                                    //When the left mouse button clicks down, and we're adding a label.
                                     if (_fieldToAdd.formatSet.name != null) {//This is here to keep us from adding a lebel that had no formatSet.
-                                        _fieldToAdd.zx = e.X - _xOffset;                                                                                    //Setting the fields positions...
-                                        _fieldToAdd.zy = e.Y - _yOffset;                                                                                    //...
-                                        _fieldToAdd.zwidth = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Width;      //A Label's outer box size is based off the string it displays...
-                                        _fieldToAdd.zheight = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font(_zoomLevel)).Height;    //...here we use TextRenderer.MeasureText to get this information.
+                                        _fieldToAdd.x = zx - _xOffset;                                                                                    //Setting the fields positions...
+                                        _fieldToAdd.y = zy - _yOffset;                                                                                    //...
+                                        _fieldToAdd.width = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Width;      //A Label's outer box size is based off the string it displays...
+                                        _fieldToAdd.height = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Height;    //...here we use TextRenderer.MeasureText to get this information.
 
                                         _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
                                         _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
@@ -441,17 +448,21 @@ namespace AnotoWorkshop {
 
         private void designer_MouseMove(object sender, MouseEventArgs e) {//Handling what happens when the mouse is moving.
             if (_currentForm.totalPages() > 0) {    //
+
+                int zx = (int)(e.X / _zoomLevel);
+                int zy = (int)(e.Y / _zoomLevel);
+
                 if (e.Button == MouseButtons.Middle) {
-                    _xOffset = e.X - _startPoint.X + _oldXOffset;
-                    _yOffset = e.Y - _startPoint.Y + _oldYOffset;
+                    _xOffset = zx - _startPoint.X + _oldXOffset;
+                    _yOffset = zy - _startPoint.Y + _oldYOffset;
                 }
 
                 if (_globalMode.Adding)
                 {
-                    _topCrossPoint = new Point(e.X, 0);
-                    _bottomCrossPoint = new Point(e.X, 1000);
-                    _leftCrossPoint = new Point(0, e.Y);
-                    _rightCrossPoint = new Point(1000, e.Y); 
+                    _topCrossPoint = new Point(zx, 0);
+                    _bottomCrossPoint = new Point(zx, 1000);
+                    _leftCrossPoint = new Point(0, zy);
+                    _rightCrossPoint = new Point(1000, zy); 
                 }
 
                 if (e.Button == MouseButtons.Left && !ModifierKeys.HasFlag(Keys.Control)) {
@@ -460,27 +471,27 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Selecting://Figuring out the position and size of the selection rectangle.
-                            if (e.X > _startPoint.X) {
+                            if (zx > _startPoint.X) {
                                 _selectionRect.X = _startPoint.X;
-                                _selectionRect.Width = e.X - _startPoint.X;
+                                _selectionRect.Width = zx - _startPoint.X;
                             } else {
-                                _selectionRect.X = e.X;
-                                _selectionRect.Width = _startPoint.X - e.X;
+                                _selectionRect.X = zx;
+                                _selectionRect.Width = _startPoint.X - zx;
                             }
-                            if (e.Y > _startPoint.Y) {
+                            if (zy > _startPoint.Y) {
                                 _selectionRect.Y = _startPoint.Y;
-                                _selectionRect.Height = e.Y - _startPoint.Y;
+                                _selectionRect.Height = zy - _startPoint.Y;
                             } else {
-                                _selectionRect.Y = e.Y;
-                                _selectionRect.Height = _startPoint.Y - e.Y;
+                                _selectionRect.Y = zy;
+                                _selectionRect.Height = _startPoint.Y - zy;
                             }
 
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Checking if fields are within the selection rectangle.
-                                if (fi.zx > _selectionRect.X - _xOffset && fi.zx < _selectionRect.Width + _selectionRect.X - _xOffset &&
-                                    fi.zy > _selectionRect.Y - _yOffset && fi.zy < _selectionRect.Height + _selectionRect.Y - _yOffset &&
+                                if (fi.x > _selectionRect.X - _xOffset && fi.x < _selectionRect.Width + _selectionRect.X - _xOffset &&
+                                    fi.y > _selectionRect.Y - _yOffset && fi.y < _selectionRect.Height + _selectionRect.Y - _yOffset &&
 
-                                    fi.zwidth + fi.zx < _selectionRect.Width + _selectionRect.X - _xOffset &&
-                                    fi.zheight + fi.zy < _selectionRect.Height + _selectionRect.Y - _yOffset
+                                    fi.width + fi.x < _selectionRect.Width + _selectionRect.X - _xOffset &&
+                                    fi.height + fi.y < _selectionRect.Height + _selectionRect.Y - _yOffset
                                     )
                                 {
                                     fi.selected = true;
@@ -493,8 +504,8 @@ namespace AnotoWorkshop {
                         case MouseMode.Selected:
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                                 if (fi.selected) {//Moving stuff around code.
-                                    fi.zx = fi.moveStart.X - (_startPoint.X - e.X);
-                                    fi.zy = fi.moveStart.Y - (_startPoint.Y - e.Y);
+                                    fi.x = fi.moveStart.X - (_startPoint.X - zx);
+                                    fi.y = fi.moveStart.Y - (_startPoint.Y - zy);
                                 }
                             }
 
@@ -506,20 +517,20 @@ namespace AnotoWorkshop {
                             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Go through the fields...
                                 if (fi.resizing) {                                              //...and find the one we are specifically resizing.
                                     if(fi.type == Type.TextField) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);//We only resize width for TextFields
+                                        fi.width = fi.resizeStart.Width - (_startPoint.X - zx);//We only resize width for TextFields
 
                                         if(fi.width < 5) fi.width = 5;                           //Don't let it get smaller then 5 points wide.
                                     }
                                     if(fi.type == Type.Checkbox) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);       //Here we equally resize width and height...
-                                        fi.zheight = fi.resizeStart.Height - (_startPoint.X - e.X);     //...based off the horizontal motion of the mouse.
+                                        fi.width = fi.resizeStart.Width - (_startPoint.X - zx);       //Here we equally resize width and height...
+                                        fi.height = fi.resizeStart.Height - (_startPoint.X - zx);     //...based off the horizontal motion of the mouse.
 
                                         if(fi.width < 2) fi.width = 2;                                  //Without letting it get smaller then 2 points in size.
                                         if(fi.height < 2) fi.height = 2;
                                     }
                                     if(fi.type == Type.RectangleDraw || fi.type == Type.RichLabel) {
-                                        fi.zwidth = fi.resizeStart.Width - (_startPoint.X - e.X);  //For the Rectangles and Rich Labels we freely resize width...
-                                        fi.zheight = fi.resizeStart.Height - (_startPoint.Y - e.Y);//...and height
+                                        fi.width = fi.resizeStart.Width - (_startPoint.X - zx);  //For the Rectangles and Rich Labels we freely resize width...
+                                        fi.height = fi.resizeStart.Height - (_startPoint.Y - zy);//...and height
 
                                         if(fi.width < 5) fi.width = 5;                             //Here we limit them from getting smaller then 5 points for width...
                                         if(fi.height < 5) fi.height = 5;                           //...and height
@@ -532,29 +543,29 @@ namespace AnotoWorkshop {
                             break;
 
                         case MouseMode.Adding:
-                            if (e.X > _startPoint.X) {
+                            if (zx > _startPoint.X) {
                                 _selectionRect.X = _startPoint.X;
-                                _selectionRect.Width = e.X - _startPoint.X;
+                                _selectionRect.Width = zx - _startPoint.X;
                             } else {
-                                _selectionRect.X = e.X;
-                                _selectionRect.Width = _startPoint.X - e.X;
+                                _selectionRect.X = zx;
+                                _selectionRect.Width = _startPoint.X - zx;
                             }
 
-                            if (e.Y > _startPoint.Y) {
+                            if (zy > _startPoint.Y) {
                                 _selectionRect.Y = _startPoint.Y;
-                                _selectionRect.Height = e.Y - _startPoint.Y;
+                                _selectionRect.Height = zy - _startPoint.Y;
                             } else {
-                                _selectionRect.Y = e.Y;
-                                _selectionRect.Height = _startPoint.Y - e.Y;
+                                _selectionRect.Y = zy;
+                                _selectionRect.Height = _startPoint.Y - zy;
                             }
 
                             switch (_fieldToAdd.type) {
                                 case Type.TextField:
-                                    _selectionRect.Height = (int)(16 * _zoomLevel);
+                                    _selectionRect.Height = 16;
                                     break;
 
                                 case Type.OptionsGroup:
-                                    _selectionRect.Height = (int)(16 * _zoomLevel);
+                                    _selectionRect.Height = 16;
                                     break;
 
                                 case Type.Checkbox:
@@ -575,8 +586,8 @@ namespace AnotoWorkshop {
                                     break;
 
                                 case Type.LineDraw:
-                                    if (_selectionRect.Height < _selectionRect.Width) _selectionRect.Height = (int)(2 * _zoomLevel);
-                                    else _selectionRect.Width = (int)(2 * _zoomLevel);
+                                    if (_selectionRect.Height < _selectionRect.Width) _selectionRect.Height = 2;
+                                    else _selectionRect.Width = 2;
                                     break;
                             }
                             break;
@@ -630,16 +641,16 @@ namespace AnotoWorkshop {
                         if (_selectionRect.Width > 0 && _selectionRect.Height > 0) {
                             switch (_fieldToAdd.type) {
                                 case Type.TextField:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
 
                                 case Type.OptionsGroup:
                                     break;
 
                                 case Type.Checkbox:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
 
                                     break;
 
@@ -647,23 +658,23 @@ namespace AnotoWorkshop {
                                     break;
                                
                                 case Type.RichLabel:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
 
                                 case Type.RectangleDraw:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
 
                                 case Type.LineDraw:
-                                    _fieldToAdd.zx = _selectionRect.X - _xOffset;
-                                    _fieldToAdd.zy = _selectionRect.Y - _yOffset;
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
                             }
                             if (_fieldToAdd.type != Type.Label) {
-                                _fieldToAdd.zwidth = _selectionRect.Width;
-                                _fieldToAdd.zheight = _selectionRect.Height; 
+                                _fieldToAdd.width = _selectionRect.Width;
+                                _fieldToAdd.height = _selectionRect.Height; 
                             }
 
                             needToSave();
@@ -706,21 +717,21 @@ namespace AnotoWorkshop {
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Figuring out where to place the top left corner of the sfBox.
                 if (fi.selected) {                                              //This will loop through the selected fields to grab whichever is the lowest...
-                    if (fi.zx < sfBoxPosition.X) {                              //...value of the X position...
-                        sfBoxPosition.X = fi.zx - 6;
+                    if (fi.x < sfBoxPosition.X) {                              //...value of the X position...
+                        sfBoxPosition.X = fi.x - 6;
                     }
-                    if (fi.zy < sfBoxPosition.Y) {                              //...as well as the lowest value for the Y position.
-                        sfBoxPosition.Y = fi.zy - 6;
+                    if (fi.y < sfBoxPosition.Y) {                              //...as well as the lowest value for the Y position.
+                        sfBoxPosition.Y = fi.y - 6;
                     }
                 }
             }
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Figuring out what size to make the sfBox.
                 if (fi.selected) {
-                    if (fi.zx + fi.zwidth - sfBoxPosition.X > sfBoxSize.Width) {    //Same principle, except to get size we add width to x position to get the rightmost...
-                        sfBoxSize.Width = fi.zx + 6 + fi.zwidth - sfBoxPosition.X;  //...position of the selected fields...
+                    if (fi.x + fi.width - sfBoxPosition.X > sfBoxSize.Width) {    //Same principle, except to get size we add width to x position to get the rightmost...
+                        sfBoxSize.Width = fi.x + 6 + fi.width - sfBoxPosition.X;  //...position of the selected fields...
                     }
-                    if (fi.zy + fi.zheight - sfBoxPosition.Y > sfBoxSize.Height) {
-                        sfBoxSize.Height = fi.zy + 6 + fi.zheight - sfBoxPosition.Y;//...as well as the bottom most position for height.
+                    if (fi.y + fi.height - sfBoxPosition.Y > sfBoxSize.Height) {
+                        sfBoxSize.Height = fi.y + 6 + fi.height - sfBoxPosition.Y;//...as well as the bottom most position for height.
                     }
                 }
             }
@@ -740,11 +751,7 @@ namespace AnotoWorkshop {
         private void zoomIn() {
             if (_shouldZoom) {  //Using this bool to prevent zooming if we are doing a few specific things (like editing labels, or moving fields)
                 if (_zoomLevel < 4.00) {//4.00 acts as an upper bounds for zooming
-                    _zoomLevel += 0.25;
-                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Apply the new zoomLevel to all the pages fields.
-                        fi.zoomLevel = _zoomLevel;
-                        fi.richBox.ZoomFactor = (float)_zoomLevel;
-                    }
+                    _zoomLevel += 0.25f;
                 }
             }
 
@@ -756,11 +763,7 @@ namespace AnotoWorkshop {
         private void zoomOut() {
             if (_shouldZoom) {
                 if (_zoomLevel > 0.26) {//0.26 is the lower bounds.
-                    _zoomLevel -= 0.25;
-                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                        fi.zoomLevel = _zoomLevel;
-                        fi.richBox.ZoomFactor = (float)_zoomLevel;
-                    }
+                    _zoomLevel -= 0.25f;
                 }
             }
 
@@ -855,7 +858,6 @@ namespace AnotoWorkshop {
                 //fi.x = fi.x + 15; //TODO - Added pasting in different positions depensing on if it's a right click and paste or a CTRL-V paste.
                 fi.y = fi.y + 18;          //Offsetting so the pasted object(s) sits below the copied object(s).
                 fi.selected = true;                 //Selecting them before they are finally pasted. So that they will be when they are added. This helps with possible overlap issues, etc.
-                fi.zoomLevel = _zoomLevel;                    //Setting the zoom level to counter if someone copies, then zooms out, then pastes. etc.
                 _currentForm.page(_currentPageNumber).Fields.Add(returnCopy(fi));   //Using returnCopy to be able to make position, selected, and zoomlevel changes before the fields are pasted...
                                                                                     //...It also works to prevent continuosly repasting the same fields over and over, effectively just shimmying them down repeatedly.
             }
@@ -886,7 +888,6 @@ namespace AnotoWorkshop {
             }    
             tempField.text = fi.text;
             tempField.selected = fi.selected;
-            tempField.zoomLevel = fi.zoomLevel;
             needToSave();
             return tempField;
             
@@ -944,7 +945,6 @@ namespace AnotoWorkshop {
 
             
             _fieldToAdd = new Field(fieldName, Type.TextField);
-            _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
         private void btnAddCheckBox_Click(object sender, EventArgs e) {
@@ -966,7 +966,6 @@ namespace AnotoWorkshop {
             _fieldToAdd = new Field(fieldName, Type.Checkbox);
             _fieldToAdd.x = 10;
             _fieldToAdd.y = 10;
-            _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
         private void btnAddLabel_Click(object sender, EventArgs e) {
@@ -975,7 +974,6 @@ namespace AnotoWorkshop {
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Label", Type.Label);
             _fieldToAdd.text = "Placeholder Text";                 //To give it text, and therefore dimensions in the display.
-            _fieldToAdd.zoomLevel = _zoomLevel;
 
             cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);//Setting this up for picking the formatSet instead of the below.
         }
@@ -985,7 +983,6 @@ namespace AnotoWorkshop {
 
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.RichLabel);
-            _fieldToAdd.zoomLevel = _zoomLevel;
 
             cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
         }
@@ -995,7 +992,6 @@ namespace AnotoWorkshop {
 
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rectangle", Type.RectangleDraw);
-            _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
         private void btnAddLine_Click(object sender, EventArgs e) {
@@ -1003,7 +999,6 @@ namespace AnotoWorkshop {
 
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Line", Type.LineDraw);
-            _fieldToAdd.zoomLevel = _zoomLevel;
         }
 
         #endregion Field Addition
@@ -1014,8 +1009,8 @@ namespace AnotoWorkshop {
         private void calculateLabelSizes() { //TODO - Refactor
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                 if (fi.type == Type.Label) {
-                    fi.zwidth = TextRenderer.MeasureText(fi.text, fi.formatSet.font(_zoomLevel)).Width;
-                    fi.zheight = TextRenderer.MeasureText(fi.text, fi.formatSet.font(_zoomLevel)).Height;
+                    fi.width = TextRenderer.MeasureText(fi.text, fi.formatSet.font()).Width;
+                    fi.height = TextRenderer.MeasureText(fi.text, fi.formatSet.font()).Height;
                 }
             }
         }
@@ -1060,7 +1055,7 @@ namespace AnotoWorkshop {
                 btnPreviousPage.Enabled = false;
             }
 
-            if (_currentForm.page(_currentPageNumber).Fields.Count < 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
+            //TODO - Page zoom level, offset position changing
 
             deselectAll();
             refreshHierarchyView();
@@ -1077,8 +1072,7 @@ namespace AnotoWorkshop {
                 btnNextPage.Enabled = false;
             }
 
-            if (_currentForm.page(_currentPageNumber).Fields.Capacity != 0) _zoomLevel = _currentForm.page(_currentPageNumber).Fields[0].zoomLevel;
-
+            //TODO - Zoom and offset per page
             deselectAll();
             refreshHierarchyView();
             designPanel.Invalidate();
@@ -1496,10 +1490,10 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Multiline = false;
 
-                        _activeTextEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _activeTextEditBox.Font = fi.formatSet.font();
                         _activeTextEditBox.Text = fi.text;
-                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset + 1, fi.zy + _yOffset);
-                        _activeTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+                        _activeTextEditBox.Location = new Point(fi.x + _xOffset + 1, fi.y + _yOffset);
+                        _activeTextEditBox.Size = new Size(fi.width + 1, fi.height + 1);
 
 
                         _activeTextEditBox.Show();
@@ -1517,8 +1511,8 @@ namespace AnotoWorkshop {
                         _activeTextEditBox.Multiline = true;
                     
                         _activeTextEditBox.Rtf = fi.richBox.Rtf;
-                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset, fi.zy + _yOffset);
-                        _activeTextEditBox.Size = new Size(fi.zwidth + 1, fi.zheight + 1);
+                        _activeTextEditBox.Location = new Point(fi.x + _xOffset, fi.y + _yOffset);
+                        _activeTextEditBox.Size = new Size(fi.width + 1, fi.height + 1);
 
 
                         _activeTextEditBox.Show();
@@ -1533,9 +1527,9 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Multiline = false;
 
-                        _activeTextEditBox.Font = fi.formatSet.font(_zoomLevel);
+                        _activeTextEditBox.Font = fi.formatSet.font();
                         _activeTextEditBox.Text = fi.text;
-                        _activeTextEditBox.Location = new Point(fi.zx + _xOffset + fi.zwidth + 2, fi.zy + _yOffset);
+                        _activeTextEditBox.Location = new Point(fi.x + _xOffset + fi.width + 2, fi.y + _yOffset);
                         _activeTextEditBox.Size = new Size(200, 50);
 
 

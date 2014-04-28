@@ -51,8 +51,6 @@ namespace AnotoWorkshop {
 
         public bool selected;
 
-        private double _zoomLevel = 1.00;
-
         //public List<FormatSet> textTypes;
         //public Dictionary<int, textSetPair> texts;
         //public RichContent richContents = null;
@@ -87,26 +85,6 @@ namespace AnotoWorkshop {
 
         #region Universal Properties
 
-        public int zx {
-            get { return (int)(_x * _zoomLevel); }
-            set { _x = value / _zoomLevel; }
-        }
-
-        public int zy {
-            get { return (int)(_y * _zoomLevel); }
-            set { _y = value / _zoomLevel; }
-        }
-
-        public int zwidth {
-            get { return (int)(_width * _zoomLevel); }
-            set { _width = value / _zoomLevel; }
-        }
-
-        public int zheight {
-            get { return (int)(_height * _zoomLevel); }
-            set { _height = value / _zoomLevel; }
-        }
-
         public int x {
             get { return (int)(_x); }
             set { _x = value; }
@@ -125,11 +103,6 @@ namespace AnotoWorkshop {
         public int height {
             get { return (int)(_height); }
             set { _height = value; }
-        }
-
-        public double zoomLevel {
-            get { return _zoomLevel; }
-            set { _zoomLevel = value; }
         }
 
         public RichTextBox richBox {
@@ -154,25 +127,27 @@ namespace AnotoWorkshop {
             switch (type) {
                 case Type.TextField:
                     retRect = new Rectangle(
-                        (int)((_x + _width + 4) * _zoomLevel),
-                        (int)((_y + 6) * _zoomLevel),
-                        (int)(4 * _zoomLevel),
-                        (int)(4 * _zoomLevel));
+                        (int)(_x + _width + 4),
+                        (int)(_y + 6),
+                        4,
+                        4);
                     break;
+
                 case Type.Checkbox:
                     retRect = new Rectangle(
-                        (int)((_x + ((_width - 4) / 2)) * _zoomLevel),
-                        (int)((_y + ((_height - 4) / 2)) * _zoomLevel),
-                        (int)(4 * _zoomLevel),
-                        (int)(4 * _zoomLevel));
+                        (int)((_x + (_width - 4) / 2)),
+                        (int)((_y + (_height - 4) / 2)),
+                        4,
+                        4);
                     break;
+
                 case Type.RichLabel:
                 case Type.RectangleDraw:
                     retRect = new Rectangle(
-                        (int)((_x + _width + 4) * _zoomLevel),
-                        (int)((_y + _height + 4) * _zoomLevel),
-                        (int)(4 * _zoomLevel),
-                        (int)(4 * _zoomLevel));
+                        (int)(_x + _width + 4),
+                        (int)(_y + _height + 4),
+                        4,
+                        4);
                     break;
 
             }
@@ -181,9 +156,9 @@ namespace AnotoWorkshop {
         }
 
         public bool isInside(int locx, int locy) {
-            if (locx > (int)(_x * _zoomLevel) && locy > (int)(_y * _zoomLevel) &&
-                locx < (int)(_x * _zoomLevel) + (int)(_width * _zoomLevel) &&
-                locy < (int)(_y * _zoomLevel) + (int)(_height * _zoomLevel)) {
+            if (locx > (int)(_x) && locy > (int)(_y) &&
+                locx < (int)(_x) + (int)(_width) &&
+                locy < (int)(_y) + (int)(_height)) {
                 //selected = true;
                 return true;
             }
@@ -192,7 +167,7 @@ namespace AnotoWorkshop {
         }
 
         public Rectangle rect() {
-            Rectangle thisRect = new Rectangle((int)(_x * _zoomLevel), (int)(_y * _zoomLevel), (int)(_width * _zoomLevel), (int)(_height * _zoomLevel));
+            Rectangle thisRect = new Rectangle((int)(_x), (int)(_y), (int)(_width), (int)(_height));
 
             return thisRect;
         }
