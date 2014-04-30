@@ -46,13 +46,15 @@
             this.label21 = new System.Windows.Forms.Label();
             this.btnAddRichLabel = new System.Windows.Forms.Button();
             this.btnAddCheckBox = new System.Windows.Forms.Button();
-            this.btnAddTextField = new System.Windows.Forms.Button();
+            this.btnAddInputTextField = new System.Windows.Forms.Button();
             this.btnAddRectangle = new System.Windows.Forms.Button();
             this.btnAddLine = new System.Windows.Forms.Button();
             this.Input = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.btnAddLabel = new System.Windows.Forms.Button();
+            this.btnAddOutputTextField = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -252,13 +254,15 @@
             this.tableLayoutPanel1.Controls.Add(this.label19, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnAddRichLabel, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddCheckBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddTextField, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnAddInputTextField, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddRectangle, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnAddLine, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.Input, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label22, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label23, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnAddLabel, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnAddOutputTextField, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label11, 2, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -304,17 +308,17 @@
             this.btnAddCheckBox.UseVisualStyleBackColor = true;
             this.btnAddCheckBox.Click += new System.EventHandler(this.btnAddCheckBox_Click);
             // 
-            // btnAddTextField
+            // btnAddInputTextField
             // 
-            this.btnAddTextField.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddTextField.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddTextField.Location = new System.Drawing.Point(8, 3);
-            this.btnAddTextField.Name = "btnAddTextField";
-            this.btnAddTextField.Size = new System.Drawing.Size(44, 44);
-            this.btnAddTextField.TabIndex = 0;
-            this.btnAddTextField.Text = "button7";
-            this.btnAddTextField.UseVisualStyleBackColor = true;
-            this.btnAddTextField.Click += new System.EventHandler(this.btn_AddField_Click);
+            this.btnAddInputTextField.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnAddInputTextField.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddInputTextField.Location = new System.Drawing.Point(8, 3);
+            this.btnAddInputTextField.Name = "btnAddInputTextField";
+            this.btnAddInputTextField.Size = new System.Drawing.Size(44, 44);
+            this.btnAddInputTextField.TabIndex = 0;
+            this.btnAddInputTextField.Text = "button7";
+            this.btnAddInputTextField.UseVisualStyleBackColor = true;
+            this.btnAddInputTextField.Click += new System.EventHandler(this.btn_AddField_Click);
             // 
             // btnAddRectangle
             // 
@@ -384,6 +388,28 @@
             this.btnAddLabel.Text = "button9";
             this.btnAddLabel.UseVisualStyleBackColor = true;
             this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
+            // 
+            // btnAddOutputTextField
+            // 
+            this.btnAddOutputTextField.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnAddOutputTextField.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddOutputTextField.Location = new System.Drawing.Point(128, 68);
+            this.btnAddOutputTextField.Name = "btnAddOutputTextField";
+            this.btnAddOutputTextField.Size = new System.Drawing.Size(44, 44);
+            this.btnAddOutputTextField.TabIndex = 12;
+            this.btnAddOutputTextField.Text = "button7";
+            this.btnAddOutputTextField.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(130, 115);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(39, 13);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Output";
             // 
             // groupBox2
             // 
@@ -983,7 +1009,7 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button btnAddRichLabel;
         private System.Windows.Forms.Button btnAddCheckBox;
-        private System.Windows.Forms.Button btnAddTextField;
+        private System.Windows.Forms.Button btnAddInputTextField;
         private System.Windows.Forms.Button btnAddRectangle;
         private System.Windows.Forms.Button btnAddLine;
         private System.Windows.Forms.Label Input;
@@ -1039,6 +1065,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblVersionNumber;
         private System.Windows.Forms.ContextMenuStrip cntxtFormatSets;
+        private System.Windows.Forms.Button btnAddOutputTextField;
+        private System.Windows.Forms.Label label11;
 
     }
 }

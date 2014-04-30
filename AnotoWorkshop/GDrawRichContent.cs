@@ -86,8 +86,8 @@ namespace AnotoWorkshop {
                 rectLayoutArea.Left   = 0;//The extra 1 is to keep the offset lined up.
                 rectLayoutArea.Right  = (int)((layoutArea.Right - layoutArea.Left ) * anInchX);
                 
-	            Bitmap Bmp = new Bitmap((int)layoutArea.Width, (int)layoutArea.Height, PixelFormat.Format32bppArgb);
-	            Graphics g = Graphics.FromImage(Bmp);
+	            Bitmap tmpBmp = new Bitmap(layoutArea.Width, layoutArea.Height, PixelFormat.Format32bppArgb);
+	            Graphics g = Graphics.FromImage(tmpBmp);
                 IntPtr hdc = g.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
 	            Metafile metafile = new Metafile(hdc, new RectangleF(0, 0, layoutArea.Width * 26, layoutArea.Height * 26));

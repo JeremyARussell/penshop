@@ -38,9 +38,9 @@ namespace AnotoWorkshop {
         private readonly Pen _selectionPen = new Pen(Color.Gray);            //The pen used for the _selectionRect
         private readonly Pen _groupSelectionPen = new Pen(Color.Blue, 2.0f); //The pen used for the _groupSelectionRect
 
-        private _mode _globalMode = new _mode(); //global mode instance
+        private Mode _globalMode = new Mode(); //global mode instance
 
-        public class _mode {
+        public class Mode {
             private MouseMode _internalMode = MouseMode.None; //The MouseMode is used to keep track of what we should be doing with the mouse during the misc mouse events
 
 // ReSharper disable InconsistentNaming
@@ -141,7 +141,7 @@ namespace AnotoWorkshop {
             btnNewPage.Text = "\uE160";
             btnNextPage.Text = "\uE111";
             btnPreviousPage.Text = "\uE112";
-            btnAddTextField.Text = "\uE18F";
+            btnAddInputTextField.Text = "\uE18F";
             btnAddCheckBox.Text = "\uE0A2";
             btnAddLabel.Text = "\uE185";
             btnAddRichLabel.Text = "\uE185";
@@ -1482,6 +1482,8 @@ namespace AnotoWorkshop {
             _shouldDelete = false;
             _shouldMove = false;
 
+            _activeTextEditBox.ZoomFactor = _zoomLevel;
+
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) { 
                     if (fi.type == Type.Label) {
@@ -1492,8 +1494,8 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Font = fi.formatSet.font();
                         _activeTextEditBox.Text = fi.text;
-                        _activeTextEditBox.Location = new Point(fi.x + _xOffset + 1, fi.y + _yOffset);
-                        _activeTextEditBox.Size = new Size(fi.width + 1, fi.height + 1);
+                        _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
+                        _activeTextEditBox.Size = new Size((int)(fi.width * _zoomLevel) + 1, (int)(fi.height * _zoomLevel) + 1);
 
 
                         _activeTextEditBox.Show();
@@ -1511,8 +1513,8 @@ namespace AnotoWorkshop {
                         _activeTextEditBox.Multiline = true;
                     
                         _activeTextEditBox.Rtf = fi.richBox.Rtf;
-                        _activeTextEditBox.Location = new Point(fi.x + _xOffset, fi.y + _yOffset);
-                        _activeTextEditBox.Size = new Size(fi.width + 1, fi.height + 1);
+                        _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
+                        _activeTextEditBox.Size = new Size((int)(fi.width * _zoomLevel) + 1, (int)(fi.height * _zoomLevel) + 1);
 
 
                         _activeTextEditBox.Show();
@@ -1529,9 +1531,8 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Font = fi.formatSet.font();
                         _activeTextEditBox.Text = fi.text;
-                        _activeTextEditBox.Location = new Point(fi.x + _xOffset + fi.width + 2, fi.y + _yOffset);
-                        _activeTextEditBox.Size = new Size(200, 50);
-
+                        _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset + fi.width) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
+                        _activeTextEditBox.Size = new Size((int)(300 * _zoomLevel) + 1, (int)(50 * _zoomLevel) + 1);
 
                         _activeTextEditBox.Show();
                         _activeTextEditBox.Focus();
@@ -1550,23 +1551,20 @@ namespace AnotoWorkshop {
                 _activeEditField.text = _activeTextEditBox.Text;
             }
 
-            if (_activeEditField.type == Type.RichLabel) {
-            RichTextBox tempBox = new RichTextBox();
+                if (_activeEditField.type == Type.RichLabel) {
+                RichTextBox tempBox = new RichTextBox();
 
-            tempBox.Rtf = _activeTextEditBox.Rtf;
-            tempBox.Location = _activeTextEditBox.Location;
-            tempBox.Size = _activeTextEditBox.Size;
+                tempBox.Rtf = _activeTextEditBox.Rtf;
+                tempBox.Location = _activeTextEditBox.Location;
+                tempBox.Size = _activeTextEditBox.Size;
 
-            _activeEditField.richBox = tempBox;
+                _activeEditField.richBox = tempBox;
             
             }
 
             _activeTextEditBox.Hide();
             refreshProperties(_activeEditField);//Refreshing the properties to reflect the changes to the field's text.
             _activeEditField = null;
-
-
-
 
             needToSave();
             _shouldZoom = true;//Toggling zoom back on
