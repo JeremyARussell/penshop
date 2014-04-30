@@ -1164,7 +1164,7 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
 
                             writer.WriteStartElement( adobeXmpPrefix, "MetadataDate", null);
-                            writer.WriteString("2013-07-24T19:12:33Z");//TODO - FIX THIS -> (System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());
+                            writer.WriteString(System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());//TODO "2013-07-24T19:12:33Z"- FIX THIS -> (System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());
                             writer.WriteEndElement();//MetadataDate
                             
                             writer.WriteStartElement(adobeXmpPrefix,"CreatorTool",null);
@@ -1430,10 +1430,10 @@ namespace AnotoWorkshop {
                                 Pen flPen = new Pen(Color.FromArgb(255, 51, 102, 255));
                                 //e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
 
-                                //e.Graphics.DrawString(
+                                e.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(0, 0));
 
                                 //flPen.Color = Color.Black;
-                                e.DrawString(fi.text, fi.formatSet.font(), flPen.Brush, new Point(fi.x, fi.y));
+                                //e.DrawString(fi.text, fi.formatSet.font(), flPen.Brush, new Point(fi.x, fi.y));
                                 break;
 
                             case Type.RectangleDraw:

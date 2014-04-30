@@ -90,7 +90,7 @@ namespace AnotoWorkshop {
 	            Graphics g = Graphics.FromImage(tmpBmp);
                 IntPtr hdc = g.GetHdc();      //Use a Graphics pointer to refer to the paint surface...
 
-	            Metafile metafile = new Metafile(hdc, new RectangleF(0, 0, layoutArea.Width * 26, layoutArea.Height * 26));
+	            Metafile metafile = new Metafile(hdc, new RectangleF(0, 0, layoutArea.Width * 36, layoutArea.Height * 36));
 
                 g.ReleaseHdc(hdc);
                 g.Dispose();
