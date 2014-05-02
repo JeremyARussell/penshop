@@ -194,8 +194,6 @@ namespace AnotoWorkshop {
         #region The Designer
 
         private void designer_Paint(object sender, PaintEventArgs e) {//The paint event handler for when the designer area gets redrawn. - Franklin, look for zoomLevel
-            //if (tempGraphics == null) tempGraphics = e.Graphics;
-            //if (e.Graphics.TextRenderingHint != TextRenderingHint.AntiAlias) e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             lblCurrentPage.Text = Convert.ToString(_currentPageNumber + 1); //For displaying which we we are on...
             lblTotalpages.Text = _currentForm.totalPages().ToString();      //...out of the total pages on this form.

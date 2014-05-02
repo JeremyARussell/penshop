@@ -1461,28 +1461,15 @@ namespace AnotoWorkshop {
                     }
                 }
 
-                //designPanel.DrawToBitmap(bitTest, new Rectangle(0, 0, 612, 792));
+                using (MagickImage image = new MagickImage(bitTest)) {
 
-                //bitTest.Save(_settings.exportFolder + @"\test.bmp");
-
-                //MagickGeometry geoTest = new MagickGeometry(612, 792);
-
-
-                using (MagickImage image = new MagickImage(bitTest))
-                {
-                    //image.
-                    //image.;
                     var ime = image.Density;
                     Console.WriteLine(ime.Width + " - " + ime.Height);
                 
-                    //image.Resize(816, 1056);
                     image.Format = MagickFormat.Eps;
-                    //image.BoundingBox.Width = 612;
-                    //image.BoundingBox.Height = 792;
-                    image.Write(_settings.exportFolder + @"\" + FormName + "." + versionString + "_" + page.PageNumber +  ".eps");//TODO32 - Name of eps file
+                    image.Write(_settings.exportFolder + @"\" + FormName + "." + versionString + "_" + page.PageNumber +  ".eps");
                 }
             }
-
         }
 
         #endregion EPS Exporting
