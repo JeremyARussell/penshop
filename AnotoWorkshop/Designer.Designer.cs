@@ -43,8 +43,6 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label21 = new System.Windows.Forms.Label();
-            this.btnAddRichLabel = new System.Windows.Forms.Button();
             this.btnAddCheckBox = new System.Windows.Forms.Button();
             this.btnAddInputTextField = new System.Windows.Forms.Button();
             this.btnAddRectangle = new System.Windows.Forms.Button();
@@ -53,8 +51,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.btnAddLabel = new System.Windows.Forms.Button();
-            this.btnAddOutputTextField = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +100,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cntxtFormatSets = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
@@ -249,10 +246,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.label21, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.label20, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label19, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddRichLabel, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddCheckBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddInputTextField, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddRectangle, 0, 2);
@@ -261,8 +256,6 @@
             this.tableLayoutPanel1.Controls.Add(this.label22, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label23, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnAddLabel, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddOutputTextField, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label11, 2, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -272,29 +265,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 130);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // label21
-            // 
-            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(183, 50);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(56, 13);
-            this.label21.TabIndex = 9;
-            this.label21.Text = "Rich Label";
-            // 
-            // btnAddRichLabel
-            // 
-            this.btnAddRichLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddRichLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.btnAddRichLabel.Location = new System.Drawing.Point(189, 3);
-            this.btnAddRichLabel.Name = "btnAddRichLabel";
-            this.btnAddRichLabel.Size = new System.Drawing.Size(44, 44);
-            this.btnAddRichLabel.TabIndex = 3;
-            this.btnAddRichLabel.Text = "button10";
-            this.btnAddRichLabel.UseVisualStyleBackColor = true;
-            this.btnAddRichLabel.Click += new System.EventHandler(this.btnAddRichLabel_Click);
             // 
             // btnAddCheckBox
             // 
@@ -349,11 +319,11 @@
             this.Input.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.Input.AutoSize = true;
             this.Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Input.Location = new System.Drawing.Point(14, 50);
+            this.Input.Location = new System.Drawing.Point(13, 50);
             this.Input.Name = "Input";
-            this.Input.Size = new System.Drawing.Size(31, 13);
+            this.Input.Size = new System.Drawing.Size(33, 13);
             this.Input.TabIndex = 6;
-            this.Input.Text = "Input";
+            this.Input.Text = "Writer";
             // 
             // label22
             // 
@@ -388,28 +358,6 @@
             this.btnAddLabel.Text = "button9";
             this.btnAddLabel.UseVisualStyleBackColor = true;
             this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
-            // 
-            // btnAddOutputTextField
-            // 
-            this.btnAddOutputTextField.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddOutputTextField.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddOutputTextField.Location = new System.Drawing.Point(128, 68);
-            this.btnAddOutputTextField.Name = "btnAddOutputTextField";
-            this.btnAddOutputTextField.Size = new System.Drawing.Size(44, 44);
-            this.btnAddOutputTextField.TabIndex = 12;
-            this.btnAddOutputTextField.Text = "button7";
-            this.btnAddOutputTextField.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(130, 115);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(39, 13);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "Output";
             // 
             // groupBox2
             // 
@@ -938,6 +886,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.propertyGrid1);
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox3);
             this.panel2.Controls.Add(this.groupBox2);
@@ -953,6 +902,13 @@
             this.cntxtFormatSets.Name = "cntxtFormatSets";
             this.cntxtFormatSets.Size = new System.Drawing.Size(61, 4);
             this.cntxtFormatSets.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cntxtFormatSets_ItemClicked);
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Location = new System.Drawing.Point(8, 165);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(10, 46);
+            this.propertyGrid1.TabIndex = 3;
             // 
             // Designer
             // 
@@ -1006,8 +962,6 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Button btnAddRichLabel;
         private System.Windows.Forms.Button btnAddCheckBox;
         private System.Windows.Forms.Button btnAddInputTextField;
         private System.Windows.Forms.Button btnAddRectangle;
@@ -1065,8 +1019,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblVersionNumber;
         private System.Windows.Forms.ContextMenuStrip cntxtFormatSets;
-        private System.Windows.Forms.Button btnAddOutputTextField;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
 
     }
 }
