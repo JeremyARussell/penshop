@@ -133,8 +133,8 @@ namespace AnotoWorkshop {
 
         private void frmMain_Load(object sender, EventArgs e) {
 
-            btnUndo.Text = "\uE10D";
-            btnRedo.Text = "\uE10E";
+            //btnUndo.Text = "\uE10D";
+            //btnRedo.Text = "\uE10E";
             btnSaveForm.Text = "\uE105";
             btnExportForm.Text = "\uE126";
             btnLoadSettingsScreen.Text = "\uE115";
@@ -144,7 +144,7 @@ namespace AnotoWorkshop {
             btnAddInputTextField.Text = "\uE18F";
             btnAddCheckBox.Text = "\uE0A2";
             btnAddLabel.Text = "\uE185";
-            btnAddRichLabel.Text = "\uE185";
+            //btnAddRichLabel.Text = "\uE185";
             btnAddRectangle.Text = "\uE2B3";
             btnAddLine.Text = "\uE108";
 
