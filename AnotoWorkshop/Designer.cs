@@ -623,6 +623,7 @@ namespace AnotoWorkshop {
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) {
                                 refreshProperties(fi);
+                                propertyGrid.SelectedObject = fi;
                             }
                         }
 
