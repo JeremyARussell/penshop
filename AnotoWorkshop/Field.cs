@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace AnotoWorkshop {
 
@@ -41,7 +42,7 @@ namespace AnotoWorkshop {
         public FormatSet formatSet = new FormatSet();
         public string formatSetName;
 
-        public int group;
+        //public int group;
         public bool hidden;
         public bool readOnly;
         public int listIndex;
@@ -85,26 +86,47 @@ namespace AnotoWorkshop {
 
         #region Universal Properties
 
+        [Browsable(true)]
+        [ReadOnly(false)]//Subclassing will let us apply read only differently for different field types.
+        [Description("The X coordinate of the selected field.")]             
+        [Category("Position")]
+        [DisplayName("X")]
         public int x {
             get { return (int)(_x); }
             set { _x = value; }
         }
 
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Description("The Y coordinate of the selected field.")]             
+        [Category("Position")]
+        [DisplayName("Y")]
         public int y {
             get { return (int)(_y); }
             set { _y = value; }
         }
 
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Description("The width of the selected field.")]             
+        [Category("Size")]
+        [DisplayName("Width")]
         public int width {
             get { return (int)(_width); }
             set { _width = value; }
         }
 
+        [Browsable(true)]
+        [ReadOnly(false)]//Subclassing will let us apply read only differently for different field types.
+        [Description("The height of the selected field.")]             
+        [Category("Size")]
+        [DisplayName("Height")]
         public int height {
             get { return (int)(_height); }
             set { _height = value; }
         }
 
+        [Browsable(false)]
         public RichTextBox richBox {
             get { return _richBox; }
             set { _richBox = value; }
