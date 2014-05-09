@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -28,23 +27,21 @@ namespace AnotoWorkshop {
     public class Field {
         #region Variables
 
-        public string name;
         private double _x;
         private double _y;
         private double _width;
         private double _height;
 
-        public Type type;
+        public Type _type;
 
-        public string text;
         public string rtc;
 
         public FormatSet formatSet = new FormatSet();
         public string formatSetName;
 
         //public int group;
-        public bool hidden;
-        public bool readOnly;
+        public bool _hidden;
+        public bool _readOnly;
         public int listIndex;
 
         public Point moveStart;
@@ -130,6 +127,30 @@ namespace AnotoWorkshop {
         public RichTextBox richBox {
             get { return _richBox; }
             set { _richBox = value; }
+        }
+
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Description("The name of this field, used to link with tables and columns.")]
+        //[Category("")]
+        [DisplayName("Name")]
+        public string name { get; set; }
+
+        public bool readOnly {
+            get { return _readOnly; }
+            set { _readOnly = value; }
+        }
+
+        public bool hidden {
+            get { return _hidden; }
+            set { _hidden = value; }
+        }
+
+        public string text { get; set; }
+
+        public Type type {
+            get { return _type; }
+            set { _type = value; }
         }
 
         #endregion Universal Properties

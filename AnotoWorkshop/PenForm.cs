@@ -179,7 +179,7 @@ namespace AnotoWorkshop {
                         workingField.width = Convert.ToInt32(reader["width"]);
                         workingField.height = Convert.ToInt32(reader["height"]);
 
-                        Enum.TryParse(reader["type"], out workingField.type);
+                        Enum.TryParse(reader["type"], out workingField._type);
 
                         workingField.text = reader["text"];
                         workingField.name = reader["name"];
@@ -191,8 +191,8 @@ namespace AnotoWorkshop {
                         } catch (Exception) {
                         }
 
-                        bool.TryParse(reader["hidden"], out workingField.hidden);
-                        bool.TryParse(reader["readOnly"], out workingField.readOnly);
+                        bool.TryParse(reader["hidden"], out workingField._hidden);
+                        bool.TryParse(reader["readOnly"], out workingField._readOnly);
 
                         if (workingField.type == Type.RichLabel) {//Fancy Label code
                             workingField.rtc = reader["RTC"];
