@@ -164,6 +164,28 @@ namespace AnotoWorkshop {
             }
         }
 
+        /// <summary>
+        /// Helper method to work with Properties as out parameters.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        static Type parseType(string text) {
+            Type tmp;
+            Enum.TryParse(text, out tmp);
+            return tmp;
+        }
+
+        /// <summary>
+        /// Helper method to work with Properties as out parameters.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        static bool parseBool(string text) {
+            bool tmp;
+            bool.TryParse(text, out tmp);
+            return tmp;
+        }
+
         private Field loadNode(XmlNode field) {
             try {
                 Field workingField = new Field();
@@ -179,7 +201,7 @@ namespace AnotoWorkshop {
                         workingField.width = Convert.ToInt32(reader["width"]);
                         workingField.height = Convert.ToInt32(reader["height"]);
 
-                        Enum.TryParse(reader["type"], out workingField._type);
+                        workingField.type = parseType(reader["type"]);
 
                         workingField.text = reader["text"];
                         workingField.name = reader["name"];
@@ -189,10 +211,11 @@ namespace AnotoWorkshop {
                             workingField.formatSet =
                                 _settings.getFormatSetByName(workingField.formatSetName);
                         } catch (Exception) {
+
                         }
 
-                        bool.TryParse(reader["hidden"], out workingField._hidden);
-                        bool.TryParse(reader["readOnly"], out workingField._readOnly);
+                        workingField.hidden   = parseBool(reader["hidden"]);
+                        workingField.readOnly = parseBool(reader["readOnly"]);
 
                         if (workingField.type == Type.RichLabel) {//Fancy Label code
                             workingField.rtc = reader["RTC"];

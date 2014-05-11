@@ -162,12 +162,43 @@ namespace AnotoWorkshop {
             _activeTextEditBox.Hide();
             designPanel.Controls.Add(_activeTextEditBox);
 
+
             designerLoadStuff();            //Misc things to initialize for the designer stuff
             refreshHierarchyView();               //Function for building the Field Heirarchy 
 
 
         }
 
+        private bool ResizeDescriptionArea(ref PropertyGrid grid, int nNumLines) {
+          try {
+            PropertyInfo pi = grid.GetType().GetProperty("Controls");
+
+            foreach(Control c in grid.Controls) {
+               System.Type ct = c.GetType();
+               string sName = ct.Name;
+       
+               if(sName == "DocComment")
+               {
+                   pi = ct.GetProperty("Lines");
+                   pi.SetValue(c, nNumLines, null);
+
+                   FieldInfo fi = ct.BaseType.GetField("userSized",
+                       BindingFlags.Instance |
+                       BindingFlags.NonPublic);
+ 
+                   fi.SetValue(c, true);
+               }
+            }
+
+            return true;
+          } catch(Exception error) {
+             #if(DEBUG)
+                MessageBox.Show(error.Message, "ResizeDescriptionArea()");
+             #endif
+  
+             return false;
+          }
+        }
         /// <summary>
         /// Just a void function for doing some on load prep work.
         /// </summary>
@@ -183,6 +214,8 @@ namespace AnotoWorkshop {
                 cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
                 cntxtFormatSets.Items.Add(fSet.Key);//Building the FormatSet context menu's items.
             }
+
+            ResizeDescriptionArea(ref propertyGrid, 6);
 
             Text = _currentForm.FormName;       //Put the forms name as the screens title
         }
@@ -623,7 +656,6 @@ namespace AnotoWorkshop {
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) {
                                 refreshProperties(fi);
-                                propertyGrid.SelectedObject = fi;
                             }
                         }
 
@@ -1237,6 +1269,9 @@ namespace AnotoWorkshop {
             cmbFormatSetNames.SelectedItem = fi.formatSet.name;
 
             _fieldInProperties = fi;
+
+            propertyGrid.SelectedObject = fi;
+
         }
 
         private void btnPropSave_Click(object sender, EventArgs e) {

@@ -147,7 +147,7 @@
             // btnPropSave
             // 
             this.btnPropSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPropSave.Location = new System.Drawing.Point(231, 561);
+            this.btnPropSave.Location = new System.Drawing.Point(171, 395);
             this.btnPropSave.Name = "btnPropSave";
             this.btnPropSave.Size = new System.Drawing.Size(94, 29);
             this.btnPropSave.TabIndex = 21;
@@ -374,7 +374,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(331, 192);
+            this.groupBox2.Size = new System.Drawing.Size(271, 150);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toolbox";
@@ -464,7 +464,7 @@
             this.designPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.designPanel.Location = new System.Drawing.Point(0, 0);
             this.designPanel.Name = "designPanel";
-            this.designPanel.Size = new System.Drawing.Size(840, 792);
+            this.designPanel.Size = new System.Drawing.Size(687, 584);
             this.designPanel.TabIndex = 2;
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designer_Paint);
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
@@ -555,7 +555,7 @@
             this.groupBox1.Controls.Add(this.lblCurrentPage);
             this.groupBox1.Controls.Add(this.tableLayoutPanel2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(1180, 12);
+            this.groupBox1.Location = new System.Drawing.Point(920, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
             this.groupBox1.Size = new System.Drawing.Size(247, 59);
@@ -768,7 +768,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(331, 596);
+            this.groupBox3.Size = new System.Drawing.Size(271, 430);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Properties";
@@ -779,7 +779,7 @@
             this.propertyGrid.Location = new System.Drawing.Point(3, 22);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid.Size = new System.Drawing.Size(325, 571);
+            this.propertyGrid.Size = new System.Drawing.Size(265, 405);
             this.propertyGrid.TabIndex = 3;
             // 
             // trvFieldList
@@ -787,7 +787,7 @@
             this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvFieldList.Location = new System.Drawing.Point(3, 22);
             this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(254, 767);
+            this.trvFieldList.Size = new System.Drawing.Size(207, 559);
             this.trvFieldList.TabIndex = 0;
             this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
             this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.heirarchyViewClick);
@@ -800,7 +800,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(260, 792);
+            this.groupBox4.Size = new System.Drawing.Size(213, 584);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Layout Hierarchy";
@@ -835,7 +835,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1439, 896);
+            this.splitContainer1.Size = new System.Drawing.Size(1179, 688);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 37;
             // 
@@ -852,8 +852,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(1439, 792);
-            this.splitContainer2.SplitterDistance = 260;
+            this.splitContainer2.Size = new System.Drawing.Size(1179, 584);
+            this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -869,8 +869,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(1175, 792);
-            this.splitContainer3.SplitterDistance = 840;
+            this.splitContainer3.Size = new System.Drawing.Size(962, 584);
+            this.splitContainer3.SplitterDistance = 687;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer4
@@ -888,15 +888,15 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer4.Size = new System.Drawing.Size(331, 792);
-            this.splitContainer4.SplitterDistance = 192;
+            this.splitContainer4.Size = new System.Drawing.Size(271, 584);
+            this.splitContainer4.SplitterDistance = 150;
             this.splitContainer4.TabIndex = 0;
             // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1439, 896);
+            this.ClientSize = new System.Drawing.Size(1179, 688);
             this.Controls.Add(this.splitContainer1);
             this.KeyPreview = true;
             this.Name = "Designer";

@@ -24,6 +24,7 @@ namespace AnotoWorkshop {
     //    public Font set { get; set; }
     //}
 
+    [DefaultPropertyAttribute("name")]
     public class Field {
         #region Variables
 
@@ -32,16 +33,12 @@ namespace AnotoWorkshop {
         private double _width;
         private double _height;
 
-        public Type _type;
-
         public string rtc;
 
         public FormatSet formatSet = new FormatSet();
         public string formatSetName;
 
         //public int group;
-        public bool _hidden;
-        public bool _readOnly;
         public int listIndex;
 
         public Point moveStart;
@@ -114,7 +111,7 @@ namespace AnotoWorkshop {
         }
 
         [Browsable(true)]
-        [ReadOnly(false)]//Subclassing will let us apply read only differently for different field types.
+        [ReadOnly(false)]
         [Description("The height of the selected field.")]             
         [Category("Size")]
         [DisplayName("Height")]
@@ -132,26 +129,37 @@ namespace AnotoWorkshop {
         [Browsable(true)]
         [ReadOnly(false)]
         [Description("The name of this field, used to link with tables and columns.")]
-        //[Category("")]
+        [Category("")]
         [DisplayName("Name")]
         public string name { get; set; }
 
-        public bool readOnly {
-            get { return _readOnly; }
-            set { _readOnly = value; }
-        }
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Description("This flag shows if we are using this Text Field for handwriting recognition(false) or displaying patient information(true).")]             
+        [Category("Flags")]
+        [DisplayName("pt Output")]//TODO - This will not be a showing property once the subclassing is setup, except for the textField
+        public bool readOnly { get; set; }
 
-        public bool hidden {
-            get { return _hidden; }
-            set { _hidden = value; }
-        }
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Description("This flag is used to toggle between showing and hiding a field.")]             
+        [Category("Flags")]
+        [DisplayName("Hidden?")]
+        public bool hidden { get; set; }
 
+        [Browsable(true)]
+        [ReadOnly(true)]
+        [Description("The text that belongs to this field.")]             
+        [Category("")]
+        [DisplayName("")]
         public string text { get; set; }
 
-        public Type type {
-            get { return _type; }
-            set { _type = value; }
-        }
+        [Browsable(true)]
+        [ReadOnly(true)]
+        [Description("The type of field we have selected.")]             
+        [Category("")]
+        [DisplayName("Type")]
+        public Type type { get; set; }
 
         #endregion Universal Properties
 
