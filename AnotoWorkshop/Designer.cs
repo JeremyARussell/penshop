@@ -133,6 +133,9 @@ namespace AnotoWorkshop {
 
         private void frmMain_Load(object sender, EventArgs e) {
 
+            _mFontMenu = new FontEditorMenu();
+            _mFontMenuContainer = new PopupContainer(_mFontMenu);
+
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
             btnSaveForm.Text = "\uE105";
@@ -169,35 +172,31 @@ namespace AnotoWorkshop {
 
         }
 
-        private bool ResizeDescriptionArea(ref PropertyGrid grid, int nNumLines) {
-          try {
-            PropertyInfo pi = grid.GetType().GetProperty("Controls");
+        private void ResizeDescriptionArea(ref PropertyGrid grid, int nNumLines) {
+            try {
+                PropertyInfo pi = grid.GetType().GetProperty("Controls");
 
-            foreach(Control c in grid.Controls) {
-               System.Type ct = c.GetType();
-               string sName = ct.Name;
+                foreach(Control c in grid.Controls) {
+                    System.Type ct = c.GetType();
+                    string sName = ct.Name;
        
-               if(sName == "DocComment")
-               {
-                   pi = ct.GetProperty("Lines");
-                   pi.SetValue(c, nNumLines, null);
+                    if(sName == "DocComment") {
+                        pi = ct.GetProperty("Lines");
+                        pi.SetValue(c, nNumLines, null);
 
-                   FieldInfo fi = ct.BaseType.GetField("userSized",
-                       BindingFlags.Instance |
-                       BindingFlags.NonPublic);
+                        FieldInfo fi = ct.BaseType.GetField("userSized",
+                        BindingFlags.Instance | BindingFlags.NonPublic);
  
-                   fi.SetValue(c, true);
-               }
-            }
-
-            return true;
-          } catch(Exception error) {
-             #if(DEBUG)
+                        fi.SetValue(c, true);
+                        }
+                    }
+                } catch(Exception error) {
+                #if(DEBUG)
                 MessageBox.Show(error.Message, "ResizeDescriptionArea()");
-             #endif
-  
-             return false;
-          }
+                #endif
+
+                return;
+            }
         }
         /// <summary>
         /// Just a void function for doing some on load prep work.
@@ -473,9 +472,35 @@ namespace AnotoWorkshop {
                 #endregion Middle Click Down
 
                 #region Right Click Down
+                if (e.Button == MouseButtons.Right) {
+                    _globalMode.setMode(MouseMode.None);
+                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                        fi.selected = false;
+                        if (fi.isInside(zx - _xOffset, zy - _yOffset)) {
+                            if(fi.type == Type.Label || fi.type == Type.Checkbox) {
+                                _needFontMenu = true;
+                                fi.selected = true;
+                                _globalMode.setMode(MouseMode.Selected);
+                            } else {
+                                _needFontMenu = false;
+                                fi.selected = true;
+                                _globalMode.setMode(MouseMode.Selected);
+                            }
+                        }
+                    }
+                    calculateSfBox();
+
+                }
                 #endregion Right Click Down
             }
         }
+
+        private bool _needFontMenu = false;
+
+        FontEditorMenu _mFontMenu;
+        PopupContainer _mFontMenuContainer;
+
+
 
         private void designer_MouseMove(object sender, MouseEventArgs e) {//Handling what happens when the mouse is moving.
             if (_currentForm.totalPages() > 0) {    //
@@ -722,10 +747,15 @@ namespace AnotoWorkshop {
                 }
 
                 if (e.Button == MouseButtons.Right) {
-                    int conPostX = e.X + designPanel.PointToScreen(designPanel.Location).X;
-                    int conPostY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
+                    //int conPostX = e.X + designPanel.PointToScreen(designPanel.Location).X;
+                    //int conPostY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
 
-                    cntxtFieldControls.Show(conPostX, conPostY);
+                    cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
+
+                    if(_needFontMenu) {
+                        _mFontMenuContainer.Show(MousePosition.X, MousePosition.Y);
+                    }
+
                 }
 
                 _shouldZoom = true;//flag for deciding on if we should allow zooming at the moment. Enabled to allow zooming.

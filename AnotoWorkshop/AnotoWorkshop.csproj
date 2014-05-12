@@ -61,6 +61,12 @@
     <Compile Include="fieldSelection.Designer.cs">
       <DependentUpon>fieldSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="FontEditorMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FontEditorMenu.Designer.cs">
+      <DependentUpon>FontEditorMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="GDrawRichContent.cs" />
     <Compile Include="importWizard.cs">
       <SubType>Form</SubType>
@@ -90,6 +96,12 @@
     </Compile>
     <Compile Include="LogWriter.cs" />
     <Compile Include="PenForm.cs" />
+    <Compile Include="PopupContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PopupContainer.Designer.cs">
+      <DependentUpon>PopupContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrintConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +140,9 @@
       <DependentUpon>Designer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="FontEditorMenu.resx">
+      <DependentUpon>FontEditorMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="importWizard.resx">
       <DependentUpon>importWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -160,7 +175,6 @@
     <EmbeddedResource Include="whiteList.resx">
       <DependentUpon>whiteList.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
