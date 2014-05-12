@@ -131,10 +131,21 @@ namespace AnotoWorkshop {
             MouseWheel += mouseWheel; //To override the built in MouseWheel event with my own.
         }
 
+        int testX;
+        int testY;
+
+        private void testValueChenged (object sender, EventArgs a) {
+            this.Focus();
+            _mFontMenuContainer.Show(testX, testY);
+
+        }
+
         private void frmMain_Load(object sender, EventArgs e) {
 
             _mFontMenu = new FontEditorMenu();
             _mFontMenuContainer = new PopupContainer(_mFontMenu);
+
+            _mFontMenu.cmbFontList.SelectedValueChanged += testValueChenged;
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
@@ -481,6 +492,7 @@ namespace AnotoWorkshop {
                                 _needFontMenu = true;
                                 fi.selected = true;
                                 _globalMode.setMode(MouseMode.Selected);
+                                break;
                             } else {
                                 _needFontMenu = false;
                                 fi.selected = true;
@@ -750,10 +762,13 @@ namespace AnotoWorkshop {
                     //int conPostX = e.X + designPanel.PointToScreen(designPanel.Location).X;
                     //int conPostY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
 
-                    cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
 
                     if(_needFontMenu) {
-                        _mFontMenuContainer.Show(MousePosition.X, MousePosition.Y);
+                        testX = MousePosition.X;
+                        testY = MousePosition.Y;
+                        _mFontMenuContainer.Show(testX, testY);
+                    } else {
+                        cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
                     }
 
                 }

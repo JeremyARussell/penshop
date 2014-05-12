@@ -42,11 +42,21 @@ namespace AnotoWorkshop
                 popedControl = null;
                 Dispose(true);// this popup container will be disposed immediately after disposion of the contained control
             };
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
+
+
         }
 
         
-
-
+protected override CreateParams CreateParams {  
+  get {  
+    CreateParams cp = base.CreateParams;  
+    cp.ExStyle |= 0x00000020; //WS_EX_TRANSPARENT  
+    return cp;  
+  }  
+}
         protected override bool ProcessDialogKey(Keys keyData)
         {//prevent alt from closing it and allow alt+menumonic to work
             if ((keyData & Keys.Alt) == Keys.Alt)
