@@ -135,8 +135,26 @@ namespace AnotoWorkshop {
         int testY;
 
         private void testValueChenged (object sender, EventArgs a) {
-            this.Focus();
-            _mFontMenuContainer.Show(testX, testY);
+            //this.Focus();
+            //_mFontMenuContainer.Show(testX, testY);
+
+            //_mFontMenuContainer.AutoClose = true;
+
+        }        
+        
+        private void testDropDrop (object sender, EventArgs a) {
+            //this.Focus();
+            //_mFontMenuContainer.Show(testX, testY);
+
+            _mFontMenuContainer.AutoClose = false;
+
+        }
+        
+        private void testDropDropClosed (object sender, EventArgs a) {
+            //this.Focus();
+            //_mFontMenuContainer.Show(testX, testY);
+
+            _mFontMenuContainer.AutoClose = true;
 
         }
 
@@ -146,6 +164,8 @@ namespace AnotoWorkshop {
             _mFontMenuContainer = new PopupContainer(_mFontMenu);
 
             _mFontMenu.cmbFontList.SelectedValueChanged += testValueChenged;
+            _mFontMenu.cmbFontList.DropDown += testDropDrop;
+            _mFontMenu.cmbFontList.DropDownClosed += testDropDropClosed;
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
@@ -767,6 +787,8 @@ namespace AnotoWorkshop {
                         testX = MousePosition.X;
                         testY = MousePosition.Y;
                         _mFontMenuContainer.Show(testX, testY);
+                        //_mFontMenu.Location = new Point(testX, testY);
+                        //_mFontMenu.Show();
                     } else {
                         cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
                     }

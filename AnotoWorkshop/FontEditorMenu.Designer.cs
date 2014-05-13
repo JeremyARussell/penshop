@@ -34,6 +34,7 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmbFontSizes
@@ -117,11 +118,22 @@
             this.checkBox4.Text = "S";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(315, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(29, 23);
+            this.button1.TabIndex = 46;
+            this.button1.Text = "X";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FontEditorMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -129,7 +141,7 @@
             this.Controls.Add(this.cmbFontSizes);
             this.Controls.Add(this.cmbFontList);
             this.Name = "FontEditorMenu";
-            this.Size = new System.Drawing.Size(315, 28);
+            this.Size = new System.Drawing.Size(348, 28);
             this.Load += new System.EventHandler(this.fontEditorMenu_Load);
             this.ResumeLayout(false);
 
@@ -143,5 +155,6 @@
         public System.Windows.Forms.CheckBox checkBox2;
         public System.Windows.Forms.CheckBox checkBox3;
         public System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Button button1;
     }
 }

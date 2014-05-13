@@ -4,21 +4,16 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
-namespace AnotoWorkshop
-{
-    public partial class PopupContainer : ToolStripDropDown
-    {
-        private Control _mPopedContainer;
-
-        private ToolStripControlHost _mHost;
+namespace AnotoWorkshop {
+    public partial class PopupContainer : ToolStripDropDown {
         
+        private FontEditorMenu _mPopedContainer;
+        private ToolStripControlHost _mHost;
         private bool _mFade = true;
 
+        
 
-   
-
-        public PopupContainer(Control popedControl)
-        {
+        public PopupContainer(FontEditorMenu popedControl) {
             InitializeComponent();
 
             if (popedControl == null)
@@ -43,53 +38,32 @@ namespace AnotoWorkshop
                 Dispose(true);// this popup container will be disposed immediately after disposion of the contained control
             };
 
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            BackColor = Color.Transparent;
-
-
         }
-
         
-protected override CreateParams CreateParams {  
-  get {  
-    CreateParams cp = base.CreateParams;  
-    cp.ExStyle |= 0x00000020; //WS_EX_TRANSPARENT  
-    return cp;  
-  }  
-}
-        protected override bool ProcessDialogKey(Keys keyData)
-        {//prevent alt from closing it and allow alt+menumonic to work
+
+        protected override bool ProcessDialogKey(Keys keyData) {
             if ((keyData & Keys.Alt) == Keys.Alt)
                 return false;
 
             return base.ProcessDialogKey(keyData);
         }
 
-
-        
-        
-     
-        
-        public void Show(Control control)
-        {
+        public void Show(Control control) {
             if (control == null)
                 throw new ArgumentNullException("control");
         
             Show(control, control.ClientRectangle);
         }
 
-        public void Show(Form f, Point p)
-        {
+        public void Show(Form f, Point p) {
             Show(f, new Rectangle(p,new Size(0,0)));
 
         }
 
-        private void Show(Control control, Rectangle area)
-        {
+        private void Show(Control control, Rectangle area) {
             if (control == null)
                 throw new ArgumentNullException("control");
            
-
             Point location = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
             
             Rectangle screen = Screen.FromControl(control).WorkingArea;
@@ -104,24 +78,18 @@ protected override CreateParams CreateParams {
             
             Show(control, location, ToolStripDropDownDirection.BelowRight);
         }
-
-        
-        
         
         private const int Frames = 5;
         private const int Totalduration = 100;
         private const int Frameduration = Totalduration / Frames;
 
-        protected override void SetVisibleCore(bool visible)
-        {
+        protected override void SetVisibleCore(bool visible) {
             double opacity = Opacity;
             if (visible && _mFade) Opacity = 0;
             base.SetVisibleCore(visible);
             if (!visible || !_mFade) return;
-            for (int i = 1; i <= Frames; i++)
-            {
-                if (i > 1)
-                {
+            for (int i = 1; i <= Frames; i++) {
+                if (i > 1) {
                     System.Threading.Thread.Sleep(Frameduration);
                 }
                 Opacity = opacity * i / Frames;
@@ -129,32 +97,28 @@ protected override CreateParams CreateParams {
             Opacity = opacity;
         }
 
-        protected override void OnClosing(ToolStripDropDownClosingEventArgs e)
-        {
-            e.Cancel = true;
+        protected override void OnClosing(ToolStripDropDownClosingEventArgs e) {
+            //if(_mPopedContainer.needToStayOpen) {
+            ///    e.Cancel = true;
+            //} else {  
+            //    e.Cancel = false;
+            //}
         }
                
-
-        protected override void OnOpening(CancelEventArgs e)
-        {
-            if (_mPopedContainer.IsDisposed || _mPopedContainer.Disposing)
-            {
+        protected override void OnOpening(CancelEventArgs e) {
+            if (_mPopedContainer.IsDisposed || _mPopedContainer.Disposing) {
                 e.Cancel = true;
                 return;
             }
             base.OnOpening(e);
         }
 
-        protected override void OnOpened(EventArgs e)
-        {
+        protected override void OnOpened(EventArgs e) {
+            _mPopedContainer.needToStayOpen = true;
             _mPopedContainer.Focus();
             
             base.OnOpened(e);
         }
-
-
-
-        
 
     }
 }
