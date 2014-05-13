@@ -781,6 +781,7 @@
             this.propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.propertyGrid.Size = new System.Drawing.Size(265, 405);
             this.propertyGrid.TabIndex = 3;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // trvFieldList
             // 

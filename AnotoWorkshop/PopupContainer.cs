@@ -29,7 +29,7 @@ namespace AnotoWorkshop
             _mFade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
 
             _mHost = new ToolStripControlHost(popedControl);
-            _mHost.AutoSize = false;//make it take the same room as the poped control
+            _mHost.AutoSize = true;//make it take the same room as the poped control
        
             Padding = Margin = _mHost.Padding = _mHost.Margin = Padding.Empty;
             
@@ -129,7 +129,10 @@ protected override CreateParams CreateParams {
             Opacity = opacity;
         }
 
-
+        protected override void OnClosing(ToolStripDropDownClosingEventArgs e)
+        {
+            e.Cancel = true;
+        }
                
 
         protected override void OnOpening(CancelEventArgs e)

@@ -1702,5 +1702,12 @@ namespace AnotoWorkshop {
                 _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
             }
         }
+
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            needToSave();
+            calculateSfBox();
+            designPanel.Invalidate();
+        }
     }
 }

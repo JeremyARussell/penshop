@@ -137,11 +137,11 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cmbFontSizes;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
         public System.Windows.Forms.ComboBox cmbFontList;
+        public System.Windows.Forms.ComboBox cmbFontSizes;
+        public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.CheckBox checkBox2;
+        public System.Windows.Forms.CheckBox checkBox3;
+        public System.Windows.Forms.CheckBox checkBox4;
     }
 }
