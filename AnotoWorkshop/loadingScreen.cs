@@ -128,7 +128,7 @@ namespace AnotoWorkshop {
         #region Import Forms
 
         private List<PenForm> _formsToSave = new List<PenForm>();
-        private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
+        //private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
 
         private void btnImportForms_Click(object sender, EventArgs e) {
             if(!_settings.visitedImportWizard) {
@@ -154,7 +154,7 @@ namespace AnotoWorkshop {
                 try {
                     IEnumerable<string> fileList = Directory.EnumerateFiles(folderPath, "*.xdp");
                     foreach (string file in fileList) {
-                        workingForm = new PenForm(file, _formatSets);
+                        workingForm = new PenForm(file/*, _formatSets*/);
                         workingForm.ThisFormsPath = file;//TODO - internal file path for forms
                         _formsToSave.Add(workingForm);
                     }
@@ -162,7 +162,7 @@ namespace AnotoWorkshop {
                     throw ex;
                 }
 
-                new ImportWizard(_formsToSave, _formatSets, this).ShowDialog();
+                new ImportWizard(_formsToSave, /*_formatSets,*/ this).ShowDialog();
             }
         }
 

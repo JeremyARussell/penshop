@@ -28,7 +28,7 @@ namespace AnotoWorkshop {
         #endregion Tutorial Flags
         #region Private Variables
         private string _saveDirectory = Application.StartupPath;
-        private Dictionary<string, FormatSet> _globalFormatSet;
+        //private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Section> _globalAliases;
         private List<int> _whiteList; 
 
@@ -60,7 +60,7 @@ namespace AnotoWorkshop {
         /// Load the global settings with the information from a settings.xml file.
         /// </summary>
         public void loadFromFile() {
-            _globalFormatSet = new Dictionary<string, FormatSet>();
+            //_globalFormatSet = new Dictionary<string, FormatSet>();
             _globalAliases = new Dictionary<string, Section>();
             _whiteList = new List<int>();
             
@@ -81,7 +81,7 @@ namespace AnotoWorkshop {
 
                     #region Load FormatSets
                     //Loading the misc FormatSets
-                    if (node.Name == @"FormatSet") {
+                    /*if (node.Name == @"FormatSet") {
                         string tempKey = node["name"].ToString();
                         string tempFont = node["fontType"].ToString();
                         int tempFontSize = Convert.ToInt32(node["fontSize"].ToString());
@@ -95,7 +95,7 @@ namespace AnotoWorkshop {
                         tempSet.name = tempKey;
 
                         _globalFormatSet.Add(tempKey, tempSet);
-                    }
+                    }*/
                     #endregion Load FormatSets
 
                     #region Load Visisted Flags
@@ -172,7 +172,7 @@ namespace AnotoWorkshop {
                 #endregion Save General Settings
 
                 #region Saving Format Sets
-                writer.WriteStartElement("FormatSets");
+                /*writer.WriteStartElement("FormatSets");
 
                 foreach (var set in _globalFormatSet) {
                     writer.WriteStartElement("FormatSet");
@@ -186,6 +186,7 @@ namespace AnotoWorkshop {
                 }
 
                 writer.WriteEndElement();//FormatSets
+                 */
                 #endregion Saving Format Sets
 
                 #region First Time Flags
@@ -241,19 +242,19 @@ namespace AnotoWorkshop {
         #endregion Aliases
 
         #region FormatSets
-        public Dictionary<string, FormatSet> globalFormatSet {
-            get { return _globalFormatSet; }
-            set { _globalFormatSet = value; }
-        }
+        //public Dictionary<string, FormatSet> globalFormatSet {
+        //    get { return _globalFormatSet; }
+        //    set { _globalFormatSet = value; }
+        //}
 
         public string saveDirectory {
             get { return _saveDirectory; }
             set { _saveDirectory = value; }
         }
 
-        public FormatSet getFormatSetByName(string name) {
-            return _globalFormatSet[name];//TODO - BUG - 11AG
-        }
+        //public FormatSet getFormatSetByName(string name) {
+        //    return _globalFormatSet[name];//TODO - BUG - 11AG
+        //}
         #endregion FormatSets
 
         #region Database Connection String

@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace AnotoWorkshop {
 
-    public class FormatSet {
+    public class OBS_FormatSet {
 
         #region Variables
 
@@ -29,7 +29,7 @@ namespace AnotoWorkshop {
 
         #region Initializers
 
-        public FormatSet() {
+        public OBS_FormatSet() {
             //_name = "empty";
             _fontSize = 10;
             fontTypeface = "Arial";

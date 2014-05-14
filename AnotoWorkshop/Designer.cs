@@ -240,10 +240,10 @@ namespace AnotoWorkshop {
 
             lblVersionNumber.Text = _currentForm.versionNumber.ToString();              //Setting the version number label
 
-            foreach (var fSet in _settings.globalFormatSet) {   //Iterate through the globalFormatSets...
-                cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
-                cntxtFormatSets.Items.Add(fSet.Key);//Building the FormatSet context menu's items.
-            }
+            //foreach (var fSet in _settings.globalFormatSet) {   //Iterate through the globalFormatSets...
+            //    cmbFormatSetNames.Items.Add(fSet.Key);          //... to add each one to the formatSet combobox
+            //    cntxtFormatSets.Items.Add(fSet.Key);//Building the FormatSet context menu's items.
+            //}
 
             ResizeDescriptionArea(ref propertyGrid, 6);
 
@@ -322,7 +322,7 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
 
                                 p2.Color = Color.Black;
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.x + _xOffset, fi.y + _yOffset));
+                                e.Graphics.DrawString(fi.text, fi.font(), p2.Brush, new Point(fi.x + _xOffset, fi.y + _yOffset));
                                 break;
 
                             case Type.RichLabel:
@@ -348,9 +348,9 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(p3, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
                                 p3.Color = Color.Black;
                                 double zhmod = 4; //This is to give a slight offset to the y position for the string we draw for checkboxes, but also make it match with the _zoomLevel.
-                                e.Graphics.DrawString(fi.text, fi.formatSet.font(), p3.Brush, new Point(                      //This draw strings starts off pretty standard with the text, font and pen...
+                                e.Graphics.DrawString(fi.text, fi.font(), p3.Brush, new Point(                      //This draw strings starts off pretty standard with the text, font and pen...
                                        fi.x + _xOffset +    fi.width                                                                  //...starts getting a little fancy by offsetting the x position to account for the checkboxes width...
-                                    , (int)(fi.y + _yOffset + (((fi.height - fi.formatSet.font().Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
+                                    , (int)(fi.y + _yOffset + (((fi.height - fi.font().Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
                                 break;                                                                                                  //...and different levels of zoom and font size, etc.
 
                             case Type.OptionsGroup:
@@ -473,21 +473,21 @@ namespace AnotoWorkshop {
                         case MouseMode.Adding:
                             switch (_fieldToAdd.type) {                         //Using a switch in case we need it later, it could be an if statement now though.
                                 case Type.Label:                                                    //When the left mouse button clicks down, and we're adding a label.
-                                    if (_fieldToAdd.formatSet.name != null) {//This is here to keep us from adding a lebel that had no formatSet.
-                                        _fieldToAdd.x = zx - _xOffset;                                                                                    //Setting the fields positions...
-                                        _fieldToAdd.y = zy - _yOffset;                                                                                    //...
-                                        _fieldToAdd.width = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Width;      //A Label's outer box size is based off the string it displays...
-                                        _fieldToAdd.height = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.formatSet.font()).Height;    //...here we use TextRenderer.MeasureText to get this information.
-
-                                        _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
-                                        _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
-                                        _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
-
-                                        refreshHierarchyView();
-                                        needToSave();
-                                    } else {
-                                        _globalMode.setMode(MouseMode.None);//Regardless of if we got to actually make a new label or not, we need to get out of adding mode so we don't get cross hairs and addingpen based selection boxes.
-                                    }
+                                    //if (_fieldToAdd.formatSet.name != null) {//This is here to keep us from adding a lebel that had no formatSet.
+                                    //    _fieldToAdd.x = zx - _xOffset;                                                                                    //Setting the fields positions...
+                                    //    _fieldToAdd.y = zy - _yOffset;                                                                                    //...
+                                    //    _fieldToAdd.width = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Width;      //A Label's outer box size is based off the string it displays...
+                                    //    _fieldToAdd.height = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Height;    //...here we use TextRenderer.MeasureText to get this information.
+                                    //
+                                    //   _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
+                                    //    _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
+                                    //    _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
+                                    //
+                                    //    refreshHierarchyView();
+                                    //    needToSave();
+                                    //} else {
+                                    //    _globalMode.setMode(MouseMode.None);//Regardless of if we got to actually make a new label or not, we need to get out of adding mode so we don't get cross hairs and addingpen based selection boxes.
+                                    //}
                                     break;
                             }
                             break;
@@ -509,6 +509,7 @@ namespace AnotoWorkshop {
                         fi.selected = false;
                         if (fi.isInside(zx - _xOffset, zy - _yOffset)) {
                             if(fi.type == Type.Label || fi.type == Type.Checkbox) {
+                                _changingFontField = fi;
                                 _needFontMenu = true;
                                 fi.selected = true;
                                 _globalMode.setMode(MouseMode.Selected);
@@ -528,6 +529,7 @@ namespace AnotoWorkshop {
         }
 
         private bool _needFontMenu = false;
+        Field _changingFontField = null;
 
         FontEditorMenu _mFontMenu;
         PopupContainer _mFontMenuContainer;
@@ -786,7 +788,39 @@ namespace AnotoWorkshop {
                     if(_needFontMenu) {
                         testX = MousePosition.X;
                         testY = MousePosition.Y;
+
+
+                        _mFontMenu.cmbFontList.Text = _changingFontField.fontTypeface;
+                        _mFontMenu.cmbFontSizes.Text = _changingFontField.fontSize.ToString();
+
+                        //_mFontMenu.chkBoldToggle = _changingFontField.fontStyle;
+                        if (_changingFontField.fontStyle == FontStyle.Bold) {
+                            _mFontMenu.chkBoldToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkBoldToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle == FontStyle.Italic) {
+                            _mFontMenu.chkItalicToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkItalicToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle == FontStyle.Underline) {
+                            _mFontMenu.chkUnderlinedToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkUnderlinedToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle == FontStyle.Strikeout) {
+                            _mFontMenu.chkStrikethroughToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkStrikethroughToggle.Checked = false;
+                        }
+
+
                         _mFontMenuContainer.Show(testX, testY);
+                        //cntxtFieldControls.Show(testX, testY + _mFontMenuContainer.Height + 3);
                         //_mFontMenu.Location = new Point(testX, testY);
                         //_mFontMenu.Show();
                     } else {
@@ -980,10 +1014,14 @@ namespace AnotoWorkshop {
             tempField.hidden = fi.hidden;
             tempField.readOnly = fi.readOnly;
             tempField.type = fi.type;
-            tempField.formatSetName = fi.formatSet.name;                                    //formatSet copying is done in two stages, first is the setting of the tempField's formatSet's name as...
-            if (tempField.formatSetName != null) {          //make sure formatSetName for the tempField isn't null, to prevent a null access bug with the _settings call within this if statement.
-                tempField.formatSet = _settings.getFormatSetByName(tempField.formatSetName);//...the field to copies formatSet's name. Then back again through the settings singleton. //TODO - There's probably a better way to do this.
-            }    
+            //tempField.formatSetName = fi.formatSet.name;                                    //formatSet copying is done in two stages, first is the setting of the tempField's formatSet's name as...
+            //if (tempField.formatSetName != null) {          //make sure formatSetName for the tempField isn't null, to prevent a null access bug with the _settings call within this if statement.
+            //    tempField.formatSet = _settings.getFormatSetByName(tempField.formatSetName);//...the field to copies formatSet's name. Then back again through the settings singleton. //TODO - There's probably a better way to do this.
+            //}    
+            tempField.fontTypeface = fi.fontTypeface;
+            tempField.fontSize = fi.fontSize;
+            tempField.fontStyle = fi.fontStyle;
+
             tempField.text = fi.text;
             tempField.selected = fi.selected;
             needToSave();
@@ -1107,8 +1145,8 @@ namespace AnotoWorkshop {
         private void calculateLabelSizes() { //TODO - Refactor
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                 if (fi.type == Type.Label) {
-                    fi.width = TextRenderer.MeasureText(fi.text, fi.formatSet.font()).Width;
-                    fi.height = TextRenderer.MeasureText(fi.text, fi.formatSet.font()).Height;
+                    fi.width = TextRenderer.MeasureText(fi.text, fi.font()).Width;
+                    fi.height = TextRenderer.MeasureText(fi.text, fi.font()).Height;
                 }
             }
         }
@@ -1333,7 +1371,7 @@ namespace AnotoWorkshop {
             chkPropReadOnly.Checked = fi.readOnly;
             txtPropFieldType.Text = fi.type.ToString();
             txtPropText.Text = fi.text;
-            cmbFormatSetNames.SelectedItem = fi.formatSet.name;
+            //cmbFormatSetNames.SelectedItem = fi.formatSet.name;
 
             _fieldInProperties = fi;
 
@@ -1341,7 +1379,7 @@ namespace AnotoWorkshop {
 
         }
 
-        private void btnPropSave_Click(object sender, EventArgs e) {
+        private void btnPropSave_Click(object sender, EventArgs e) {//TODO - SAFELY remove this prop stuff
             _currentForm.page(_currentPageNumber).Fields.Remove(_fieldInProperties);
 
             _fieldInProperties.name = txtPropName.Text;
@@ -1352,9 +1390,9 @@ namespace AnotoWorkshop {
             _fieldInProperties.hidden = chkPropHidden.Checked;
             _fieldInProperties.readOnly = chkPropReadOnly.Checked;             
             _fieldInProperties.text = txtPropText.Text;
-            if (cmbFormatSetNames.SelectedItem.ToString() != "") {
-                _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
-            }
+            //if (cmbFormatSetNames.SelectedItem.ToString() != "") {
+            //    _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
+            //}
 
             _currentForm.page(_currentPageNumber).Fields.Add(_fieldInProperties);
             calculateLabelSizes();   //...
@@ -1593,7 +1631,7 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Multiline = false;
 
-                        _activeTextEditBox.Font = fi.formatSet.font();
+                        _activeTextEditBox.Font = fi.font();
                         _activeTextEditBox.Text = fi.text;
                         _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
                         _activeTextEditBox.Size = new Size((int)(fi.width * _zoomLevel) + 1, (int)(fi.height * _zoomLevel) + 1);
@@ -1630,7 +1668,7 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Multiline = false;
 
-                        _activeTextEditBox.Font = fi.formatSet.font();
+                        _activeTextEditBox.Font = fi.font();
                         _activeTextEditBox.Text = fi.text;
                         _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset + fi.width) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
                         _activeTextEditBox.Size = new Size((int)(300 * _zoomLevel) + 1, (int)(50 * _zoomLevel) + 1);
@@ -1709,20 +1747,20 @@ namespace AnotoWorkshop {
         }
 
         private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-            if (_globalMode.TextEditing) {
-
-                if (_activeEditField.type == Type.Label || _activeEditField.type == Type.Checkbox) {
-                    _activeEditField.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);
-                    _activeTextEditBox.Font = _settings.getFormatSetByName(e.ClickedItem.Text).font();
-                }
-
-                if (_activeEditField.type == Type.RichLabel) {
-                    _activeTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
-                }
-                
-            } else {
-                _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
-            }
+        //    if (_globalMode.TextEditing) {
+        //
+        //        if (_activeEditField.type == Type.Label || _activeEditField.type == Type.Checkbox) {
+        //            _activeEditField.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);
+        //            _activeTextEditBox.Font = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+        //        }
+        //
+        //        if (_activeEditField.type == Type.RichLabel) {
+        //            _activeTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
+        //        }
+        //        
+        //    } else {
+        //        _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
+        //    }
         }
 
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

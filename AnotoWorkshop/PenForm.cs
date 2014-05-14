@@ -29,23 +29,23 @@ namespace AnotoWorkshop {
 
         #region Initializers
 
-        public PenForm(string file, Dictionary<int, FormatSet> workingFormatSets) {
-            _importFormatSetTicker = workingFormatSets.Count;
-            try {
-                _dom.Load(file);
-                importForm(_dom.DocumentElement, workingFormatSets);
-            } catch (XmlException xmlEx) {
-                MessageBox.Show(xmlEx.Message);
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //public PenForm(string file, Dictionary<int, FormatSet> workingFormatSets) {
+        //    _importFormatSetTicker = workingFormatSets.Count;
+        //    try {
+        //       _dom.Load(file);
+        //        importForm(_dom.DocumentElement/*, workingFormatSets*/);
+        //    } catch (XmlException xmlEx) {
+        //        MessageBox.Show(xmlEx.Message);
+        //    } catch (Exception ex) {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
-        public PenForm(string file, Dictionary<int, FormatSet> workingFormatSets, string newName) {
-            _importFormatSetTicker = workingFormatSets.Count;
+        public PenForm(string file, /*Dictionary<int, FormatSet> workingFormatSets,*/ string newName) {
+            //_importFormatSetTicker = workingFormatSets.Count;
             try {
                 _dom.Load(file);
-                importForm(_dom.DocumentElement, workingFormatSets);
+                importForm(_dom.DocumentElement/*, workingFormatSets*/);
                 FormName = newName;
             } catch (XmlException xmlEx) {
                 MessageBox.Show(xmlEx.Message);
@@ -108,7 +108,12 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString("height", fi.height.ToString());
                         writer.WriteAttributeString("type", fi.type.ToString());
                         writer.WriteAttributeString("text", fi.text);
-                        writer.WriteAttributeString("formatSetName", fi.formatSet.name);
+                        //writer.WriteAttributeString("formatSetName", fi.formatSet.name);
+                        writer.WriteAttributeString("fontFamily", fi.fontTypeface);
+                        writer.WriteAttributeString("fontSize", fi.fontSize.ToString());
+                        writer.WriteAttributeString("fontStyle", fi.fontStyle.ToString());
+                        //writer.WriteAttributeString("text", fi.text);
+
                         writer.WriteAttributeString("hidden", fi.hidden.ToString());
                         writer.WriteAttributeString("readOnly", fi.readOnly.ToString());
                         //writer.WriteAttributeString("name", fi.group);
@@ -205,14 +210,12 @@ namespace AnotoWorkshop {
 
                         workingField.text = reader["text"];
                         workingField.name = reader["name"];
-                        workingField.formatSetName = reader["formatSetName"];
 
-                        try {
-                            workingField.formatSet =
-                                _settings.getFormatSetByName(workingField.formatSetName);
-                        } catch (Exception) {
+                        workingField.fontTypeface = reader["fontFamily"];
+                        int.TryParse(reader["fontSize"], out workingField.fontSize);
+                        Enum.TryParse(reader["fontStyle"], out workingField.fontStyle);
 
-                        }
+
 
                         workingField.hidden   = parseBool(reader["hidden"]);
                         workingField.readOnly = parseBool(reader["readOnly"]);
@@ -234,7 +237,7 @@ namespace AnotoWorkshop {
 
         #region Form Importing
 
-        private void importForm(XmlNode form, Dictionary<int, FormatSet> workingFormatSets)//Franklin
+        private void importForm(XmlNode form/*, Dictionary<int, FormatSet> workingFormatSets*/)//Franklin
         {
             XmlNode[] pages = new XmlNode[16];//Spot for 16 pages
 
@@ -262,16 +265,16 @@ namespace AnotoWorkshop {
                 XmlNodeList selectedPage = pages[i].ChildNodes;
                 FormPage workingPage = new FormPage(i);
                 foreach (XmlNode fieldNode in selectedPage) {
-                    workingPage.Fields.Add(processNode(fieldNode, workingFormatSets));
+                    workingPage.Fields.Add(processNode(fieldNode/*, workingFormatSets*/));
                 }
 
                 addPage(workingPage);
             }
         }
 
-        private Field processNode(XmlNode field, Dictionary<int, FormatSet> workingFormatSets) {
+        private Field processNode(XmlNode field/*, Dictionary<int, FormatSet> workingFormatSets*/) {
             try {
-                FormatSet workingFormatSet = new FormatSet();
+                //FormatSet workingFormatSet = new FormatSet();
                 Field workingField = new Field();
                 int fieldFlag = 0;
 
@@ -333,29 +336,29 @@ namespace AnotoWorkshop {
                         if (workingField.width == 0) workingField.width = 2;
                     }
 
-                    if (reader.Name == "font") {
+                    if (reader.Name == "font") {//TODO - NEW FONT IMPORTING TECHNIQUE NEEDED STAT
                         if (reader.IsStartElement()) {
-                            if (reader["size"] != null) {
-                                workingField.formatSet.fontSizeString = reader["size"];
-                            }
-                            if (workingField.formatSet.fontSize == 10) break;
-                            workingField.formatSet.fontTypeface = reader["typeface"];
-                            if (reader["weight"] != null && reader["weight"] != "") {
-                                workingField.formatSet.fontWeight = reader["weight"];
-                            } else {
-                                workingField.formatSet.fontWeight = "normal";
-                            }
+                            //if (reader["size"] != null) {
+                            //    workingField.fontSizeString = reader["size"];
+                            //}
+                            //if (workingField.fontSize == 10) break;
+                            //workingField.formatSet.fontTypeface = reader["typeface"];
+                            //if (reader["weight"] != null && reader["weight"] != "") {
+                            //    workingField.formatSet.fontWeight = reader["weight"];
+                            //} else {
+                            //    workingField.formatSet.fontWeight = "normal";
+                            //}
                         }
                     }
                 }//End loop
 
-                workingFormatSet = workingField.formatSet;
+                //workingFormatSet = workingField.formatSet;
 
-                if (!checkForDuplicateInDictionary(workingFormatSets, workingFormatSet)) {
-                    workingFormatSet = workingField.formatSet;
-                    workingFormatSets.Add(_importFormatSetTicker, workingFormatSet);
-                    _importFormatSetTicker++;
-                }
+                //if (!checkForDuplicateInDictionary(workingFormatSets, workingFormatSet)) {
+                //    workingFormatSet = workingField.formatSet;
+                //    workingFormatSets.Add(_importFormatSetTicker, workingFormatSet);
+                //    _importFormatSetTicker++;
+                //}
 
                 return workingField;
             } catch (Exception e) {
@@ -363,7 +366,13 @@ namespace AnotoWorkshop {
             }
         }
 
-        private bool checkForDuplicateInDictionary(Dictionary<int, FormatSet> toCheckAgainst, FormatSet setToCheck) {
+        //private string fontSizeString {TODO - Might not need this, here for just in cases
+            //get { return _fontSize.ToString() + "pt"; }
+            //set { _fontSize = Convert.ToInt32(value.Substring(0, value.IndexOf("pt"))); }
+        //}
+
+
+        /*private bool checkForDuplicateInDictionary(Dictionary<int, FormatSet> toCheckAgainst, FormatSet setToCheck) {
             bool isaDup = false;
 
             for (int i = 0; i < toCheckAgainst.Count; i++) {
@@ -381,7 +390,7 @@ namespace AnotoWorkshop {
                 }
             }
             return isaDup;
-        }
+        }*/
 
         //private  List<List<string>, List<TextType>> processExDataNode(string ui)
 
@@ -601,16 +610,16 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//textEdit
                                 writer.WriteEndElement();//ui
 
-                                writer.WriteStartElement("font");
-                                if (fi.formatSet.fontTypeface != null || fi.formatSet.fontTypeface != "") {
-                                    writer.WriteAttributeString("typeface", fi.formatSet.fontTypeface);
-                                }
-                                if (fi.formatSet.fontSize > 0) {
-                                    writer.WriteAttributeString("size", fi.formatSet.fontSizeString);
-                                }
-                                if (fi.formatSet.fontWeight != "normal" || fi.formatSet.fontWeight != null) {
-                                    writer.WriteAttributeString("weight", fi.formatSet.fontWeight);
-                                }
+                                writer.WriteStartElement("font");//TODO - TOTALLY NEED NEW FONT EXPORTING CODE AS WELL
+                                //if (fi.formatSet.fontTypeface != null || fi.formatSet.fontTypeface != "") {
+                                //    writer.WriteAttributeString("typeface", fi.formatSet.fontTypeface);
+                                //}
+                                //if (fi.formatSet.fontSize > 0) {
+                                //    writer.WriteAttributeString("size", fi.formatSet.fontSizeString);
+                                //}
+                                //if (fi.formatSet.fontWeight != "normal" || fi.formatSet.fontWeight != null) {
+                                //    writer.WriteAttributeString("weight", fi.formatSet.fontWeight);
+                                //}
                                 //fill color goes here, we aren't doing that yet though.
                                 writer.WriteEndElement();//font
 
@@ -723,18 +732,18 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//text
                                 writer.WriteEndElement();//value
 
-                                writer.WriteStartElement("font");
-                                if (fi.formatSet.fontTypeface != null) {
-                                    writer.WriteAttributeString("typeface", fi.formatSet.fontTypeface);
-                                }
-                                writer.WriteAttributeString("baselineShift", "0pt");
+                                writer.WriteStartElement("font");//TODO - NEW FONT CODE HERE AS WELL
+                                //if (fi.formatSet.fontTypeface != null) {
+                                //    writer.WriteAttributeString("typeface", fi.formatSet.fontTypeface);
+                                //}
+                                //writer.WriteAttributeString("baselineShift", "0pt");
 
-                                if (fi.formatSet.fontSize > 0) {
-                                    writer.WriteAttributeString("size", fi.formatSet.fontSizeString);
-                                }
-                                if (fi.formatSet.fontWeight != "normal" || fi.formatSet.fontWeight != null) {
-                                    writer.WriteAttributeString("weight", fi.formatSet.fontWeight);
-                                }
+                                //if (fi.formatSet.fontSize > 0) {
+                                //    writer.WriteAttributeString("size", fi.formatSet.fontSizeString);
+                                //}
+                                //if (fi.formatSet.fontWeight != "normal" || fi.formatSet.fontWeight != null) {
+                                //    writer.WriteAttributeString("weight", fi.formatSet.fontWeight);
+                                //}
                                 writer.WriteStartElement("fill");
                                 writer.WriteStartElement("color");
                                 writer.WriteAttributeString("value", "51,102,255");
@@ -1446,7 +1455,7 @@ namespace AnotoWorkshop {
                                 //e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
 
                                 //p2.Color = Color.FromArgb(255, 51, 102, 255);
-                                e.DrawString(fi.text, fi.formatSet.font(), p2.Brush, new Point(fi.x, fi.y));
+                                e.DrawString(fi.text, fi.font(), p2.Brush, new Point(fi.x, fi.y));
                                 break;
 
                             case Type.RichLabel:
@@ -1473,7 +1482,7 @@ namespace AnotoWorkshop {
                                 Pen p3 = new Pen(Color.FromArgb(255, 51, 102, 255));
                                 e.DrawRectangle(p3, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 //p3.Color = Color.Black;
-                                e.DrawString(fi.text, fi.formatSet.font(), p3.Brush, new Point(fi.x, fi.y + 3));
+                                e.DrawString(fi.text, fi.font(), p3.Brush, new Point(fi.x, fi.y + 3));
                                 break;
 
                             case Type.OptionsGroup:

@@ -13,7 +13,7 @@ namespace AnotoWorkshop {
 
         private Settings _settings;
         private List<PenForm> _formsToSave = new List<PenForm>();
-        private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
+        //private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
         private readonly LoadingScreen _loadingScreen;
 
         //TODO - Add add the network path for the forms as a prefix. Save in settings file.
@@ -23,10 +23,10 @@ namespace AnotoWorkshop {
 
         #region Initailizer
 
-        public ImportWizard(List<PenForm> formsToSave, Dictionary<int, FormatSet> formatSetsToCleanup, LoadingScreen loadingScreen) {
+        public ImportWizard(List<PenForm> formsToSave/*, Dictionary<int, FormatSet> formatSetsToCleanup*/, LoadingScreen loadingScreen) {
             _settings = Settings.instance;
             _formsToSave = formsToSave;
-            _formatSets = formatSetsToCleanup;
+            //_formatSets = formatSetsToCleanup;
             _loadingScreen = loadingScreen;
 
             InitializeComponent();
@@ -34,11 +34,11 @@ namespace AnotoWorkshop {
 
         private void importWizard_Load(object sender, EventArgs e) {
             refreshFormsList();
-            refreshList();
+            //refreshList();
 
-            foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
-                cmbFontList.Items.Add(font.Name);
-            }
+            //foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
+            //    cmbFontList.Items.Add(font.Name);
+            //}
 
             _loadingScreen.Hide();
         }
@@ -46,7 +46,7 @@ namespace AnotoWorkshop {
         #endregion Initailizer
 
         #region Format Sets
-
+        /*
         private void lstvFormatSets_DoubleClick(object sender, EventArgs e) {
             //Show Format Set related fields.
             lblTestFormat.Visible = true;
@@ -107,13 +107,13 @@ namespace AnotoWorkshop {
         }
 
         private void refreshList() {
-            lstvFormatSets.Clear();
+            lstvForms.Clear();
             for (int i = 0; i < _formatSets.Count; i++) {//populating the test formatsets to cleanup list
-                lstvFormatSets.Items.Add(_formatSets[i].fontSizeString + " - " + _formatSets[i].fontTypeface + " - " +
+                lstvForms.Items.Add(_formatSets[i].fontSizeString + " - " + _formatSets[i].fontTypeface + " - " +
                                              _formatSets[i].fontWeight + " - " + _formatSets[i].name);
             }
         }
-
+        */
         #endregion Format Sets
 
         #region Forms To Import
@@ -125,16 +125,16 @@ namespace AnotoWorkshop {
                 btnSaveFormName.Visible = true;
                 label5.Visible = true;
                 //Hide Format Set related fields.
-                lblTestFormat.Visible = false;
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
-                label4.Visible = false;
-                txtSetName.Visible = false;
-                cmbFontList.Visible = false;
-                cmbFontSizes.Visible = false;
-                cmbFontWeight.Visible = false;
-                btnSaveSetName.Visible = false;
+                //lblTestFormat.Visible = false;
+                //label1.Visible = false;
+                //label2.Visible = false;
+                //label3.Visible = false;
+                //label4.Visible = false;
+                //txtSetName.Visible = false;
+                //cmbFontList.Visible = false;
+                //cmbFontSizes.Visible = false;
+                //cmbFontWeight.Visible = false;
+                //btnSaveSetName.Visible = false;
 
                 txtFormName.Focus();
                 txtFormName.Text = _formsToSave[((ListView)sender).SelectedItems[0].Index].FormName;
@@ -147,7 +147,7 @@ namespace AnotoWorkshop {
             if (((ListView)sender).SelectedItems.Count > 0) {
                 int tint = ((ListView)sender).SelectedItems[0].Index;
 
-                PenForm form = new PenForm(_formsToSave[tint].ThisFormsPath, _formatSets);
+                PenForm form = new PenForm(_formsToSave[tint].ThisFormsPath/*, _formatSets*/);
                 //////
                 _formsToSave[tint] = form;//Do this again for all of them before importing.
                 //////
@@ -185,18 +185,18 @@ namespace AnotoWorkshop {
 
             for (int i = 0; i < _formsToSave.Count; i++) {
                 string nameHolder = _formsToSave[i].FormName;
-                PenForm form = new PenForm(_formsToSave[i].ThisFormsPath, _formatSets, nameHolder);
+                PenForm form = new PenForm(_formsToSave[i].ThisFormsPath,/* _formatSets,*/ nameHolder);
                 _formsToSave[i] = form;
                 _formsToSave[i].saveForm();
             }
 
-            for (int i = 0; i < _formatSets.Count; i++) {//populating the test formatsets to cleanup list
-                //add format Auto Naming
-                if (_formatSets[i].name == null) {
-                    _formatSets[i].name = _formatSets[i].fontSize.ToString() + _formatSets[i].fontTypeface +"_"+ _formatSets[i].fontWeight[0];
-                }
-                _settings.globalFormatSet.Add(_formatSets[i].name, _formatSets[i]);
-            }
+            //for (int i = 0; i < _formatSets.Count; i++) {//populating the test formatsets to cleanup list
+            //    //add format Auto Naming
+            //    if (_formatSets[i].name == null) {
+            //        _formatSets[i].name = _formatSets[i].fontSize.ToString() + _formatSets[i].fontTypeface +"_"+ _formatSets[i].fontWeight[0];
+            //    }
+            //    _settings.globalFormatSet.Add(_formatSets[i].name, _formatSets[i]);
+            //}
 
             //
 

@@ -35,8 +35,22 @@ namespace AnotoWorkshop {
 
         public string rtc;
 
-        public FormatSet formatSet = new FormatSet();
+        //public FormatSet formatSet = new FormatSet();
         public string formatSetName;
+
+        //public Font font;
+        public string fontTypeface = "Arial";
+        public FontStyle fontStyle = FontStyle.Regular;
+        public int fontSize = 12;
+
+        public Font font() {
+
+            FontFamily theFontFamily = new FontFamily(fontTypeface);
+
+            Font retFont = new Font(theFontFamily, fontSize, fontStyle);
+            return retFont;
+        }
+
 
         //public int group;
         public int listIndex;

@@ -6,8 +6,8 @@ namespace AnotoWorkshop {
         public FontEditorMenu() {
             InitializeComponent();
 
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            BackColor = Color.Transparent;
+            //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            //BackColor = Color.Transparent;
 
         }
 
@@ -19,10 +19,5 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
-        {
-            needToStayOpen = false;
-            
-        }
     }
 }

@@ -35,9 +35,9 @@ namespace AnotoWorkshop {
                 }
             }
 
-            foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
-                cmbFontList.Items.Add(font.Name);
-            }
+            //foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
+            //    cmbFontList.Items.Add(font.Name);
+            //}
             //Populate folder paths
             txtFormsFolder.Text = _settings.formsFolderLocation;
             txtExportFolder.Text = _settings.exportFolder;
@@ -49,7 +49,7 @@ namespace AnotoWorkshop {
             txtDbName.Text = _settings.dbcDatabaseName;
             nmrTimeout.Value = _settings.dbcTimeout;
 
-            refreshList();
+            //refreshList();
 
         }
 
@@ -81,33 +81,33 @@ namespace AnotoWorkshop {
         #endregion Db Connection Settings
 
         #region Format Sets
+        /*
+        //private string _activeFormatSet;
 
-        private string _activeFormatSet;
-
-        private void refreshList() {
-            lstvFormatSets.Clear();
-            foreach (var fSet in _settings.globalFormatSet) {
-                lstvFormatSets.Items.Add(fSet.Key);
-            }
-
-        }
+        //private void refreshList() {
+        //    lstvFormatSets.Clear();
+        //    foreach (var fSet in _settings.globalFormatSet) {
+        //        lstvFormatSets.Items.Add(fSet.Key);
+        //   }
+        //
+        //}
         
-        FormatSet _workingFormatSet = new FormatSet();
+        //FormatSet _workingFormatSet = new FormatSet();
 
         private void lstvFormatSets_Click(object sender, EventArgs e) {
-            if (((ListView)sender).SelectedItems.Count > 0) {
-                _workingFormatSet = new FormatSet();
+        //    if (((ListView)sender).SelectedItems.Count > 0) {
+        //        _workingFormatSet = new FormatSet();
 
-                _activeFormatSet = ((ListView)sender).SelectedItems[0].Text;
+        //        _activeFormatSet = ((ListView)sender).SelectedItems[0].Text;
                 
-                _workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
-                _workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
-                _workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
-                _workingFormatSet.fontWeight = _settings.globalFormatSet[_activeFormatSet].fontWeight;
+        //       _workingFormatSet.name = _settings.globalFormatSet[_activeFormatSet].name;
+        //        _workingFormatSet.fontSize = _settings.globalFormatSet[_activeFormatSet].fontSize;
+        //        _workingFormatSet.fontTypeface = _settings.globalFormatSet[_activeFormatSet].fontTypeface;
+        //        _workingFormatSet.fontWeight = _settings.globalFormatSet[_activeFormatSet].fontWeight;
 
-                refreshFontExample();
+        //        refreshFontExample();
 
-            }
+        //    }
         }
 
         private void refreshFontExample() {
@@ -190,6 +190,7 @@ namespace AnotoWorkshop {
             _workingFormatSet.fontWeight = cmbFontWeight.SelectedItem.ToString();
             refreshFontExample();
         }
+        */
         #endregion Format Sets
 
         private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
@@ -200,13 +201,13 @@ namespace AnotoWorkshop {
         }
 
         private void btnNewFormatSet_Click(object sender, EventArgs e) {
-            createNewFormatSet();
+            //createNewFormatSet();
         }
 
         private void txtSetName_TextChanged(object sender, EventArgs e) {
-            if(_savingNewSet) {
-                _workingFormatSet.name = txtSetName.Text;
-            }
+            //if(_savingNewSet) {
+            //    _workingFormatSet.name = txtSetName.Text;
+            //}
         }
 
         private void settingsScreen_FormClosing(object sender, FormClosingEventArgs e)

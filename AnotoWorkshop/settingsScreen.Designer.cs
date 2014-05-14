@@ -30,22 +30,10 @@
         {
             this.txtFormsFolder = new System.Windows.Forms.TextBox();
             this.btnSaveFile = new System.Windows.Forms.Button();
-            this.lstvFormatSets = new System.Windows.Forms.ListView();
             this.txtExportFolder = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbFontWeight = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmbFontSizes = new System.Windows.Forms.ComboBox();
-            this.cmbFontList = new System.Windows.Forms.ComboBox();
-            this.btnSaveSetName = new System.Windows.Forms.Button();
-            this.txtSetName = new System.Windows.Forms.TextBox();
-            this.lblTestFormat = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnSaveFormsFolders = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnNewFormatSet = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
@@ -83,16 +71,6 @@
             this.btnSaveFile.UseVisualStyleBackColor = true;
             this.btnSaveFile.Click += new System.EventHandler(this.btnSaveFile_Click);
             // 
-            // lstvFormatSets
-            // 
-            this.lstvFormatSets.Location = new System.Drawing.Point(12, 356);
-            this.lstvFormatSets.Name = "lstvFormatSets";
-            this.lstvFormatSets.Size = new System.Drawing.Size(238, 177);
-            this.lstvFormatSets.TabIndex = 30;
-            this.lstvFormatSets.UseCompatibleStateImageBehavior = false;
-            this.lstvFormatSets.View = System.Windows.Forms.View.List;
-            this.lstvFormatSets.Click += new System.EventHandler(this.lstvFormatSets_Click);
-            // 
             // txtExportFolder
             // 
             this.txtExportFolder.Location = new System.Drawing.Point(85, 39);
@@ -100,119 +78,6 @@
             this.txtExportFolder.Name = "txtExportFolder";
             this.txtExportFolder.Size = new System.Drawing.Size(158, 20);
             this.txtExportFolder.TabIndex = 31;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(264, 443);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 13);
-            this.label4.TabIndex = 41;
-            this.label4.Text = "Format Set Weight";
-            // 
-            // cmbFontWeight
-            // 
-            this.cmbFontWeight.FormattingEnabled = true;
-            this.cmbFontWeight.Items.AddRange(new object[] {
-            "normal",
-            "bold",
-            "italic"});
-            this.cmbFontWeight.Location = new System.Drawing.Point(364, 441);
-            this.cmbFontWeight.Name = "cmbFontWeight";
-            this.cmbFontWeight.Size = new System.Drawing.Size(121, 21);
-            this.cmbFontWeight.TabIndex = 40;
-            this.cmbFontWeight.SelectedValueChanged += new System.EventHandler(this.cmbFontWeight_SelectedValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(264, 416);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
-            this.label3.TabIndex = 39;
-            this.label3.Text = "Format Set Font";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(264, 389);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 13);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "Format Set Size";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(264, 364);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 13);
-            this.label1.TabIndex = 37;
-            this.label1.Text = "Format Set Name";
-            // 
-            // cmbFontSizes
-            // 
-            this.cmbFontSizes.FormattingEnabled = true;
-            this.cmbFontSizes.Items.AddRange(new object[] {
-            "6",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "14",
-            "16",
-            "18",
-            "20",
-            "22",
-            "24",
-            "26",
-            "28",
-            "36",
-            "48",
-            "72"});
-            this.cmbFontSizes.Location = new System.Drawing.Point(364, 387);
-            this.cmbFontSizes.Name = "cmbFontSizes";
-            this.cmbFontSizes.Size = new System.Drawing.Size(121, 21);
-            this.cmbFontSizes.TabIndex = 36;
-            this.cmbFontSizes.SelectedValueChanged += new System.EventHandler(this.cmbFontSizes_SelectedValueChanged);
-            // 
-            // cmbFontList
-            // 
-            this.cmbFontList.FormattingEnabled = true;
-            this.cmbFontList.Location = new System.Drawing.Point(364, 417);
-            this.cmbFontList.Name = "cmbFontList";
-            this.cmbFontList.Size = new System.Drawing.Size(121, 21);
-            this.cmbFontList.TabIndex = 35;
-            this.cmbFontList.SelectedValueChanged += new System.EventHandler(this.cmbFontList_SelectedValueChanged);
-            // 
-            // btnSaveSetName
-            // 
-            this.btnSaveSetName.Location = new System.Drawing.Point(442, 467);
-            this.btnSaveSetName.Name = "btnSaveSetName";
-            this.btnSaveSetName.Size = new System.Drawing.Size(43, 23);
-            this.btnSaveSetName.TabIndex = 34;
-            this.btnSaveSetName.Text = "Save";
-            this.btnSaveSetName.UseVisualStyleBackColor = true;
-            this.btnSaveSetName.Click += new System.EventHandler(this.btnSaveSetName_Click);
-            // 
-            // txtSetName
-            // 
-            this.txtSetName.Location = new System.Drawing.Point(364, 362);
-            this.txtSetName.Margin = new System.Windows.Forms.Padding(2);
-            this.txtSetName.Name = "txtSetName";
-            this.txtSetName.Size = new System.Drawing.Size(122, 20);
-            this.txtSetName.TabIndex = 33;
-            this.txtSetName.TextChanged += new System.EventHandler(this.txtSetName_TextChanged);
-            // 
-            // lblTestFormat
-            // 
-            this.lblTestFormat.AutoSize = true;
-            this.lblTestFormat.Location = new System.Drawing.Point(12, 278);
-            this.lblTestFormat.Name = "lblTestFormat";
-            this.lblTestFormat.Size = new System.Drawing.Size(63, 13);
-            this.lblTestFormat.TabIndex = 42;
-            this.lblTestFormat.Text = "Format Test";
             // 
             // label5
             // 
@@ -241,16 +106,6 @@
             this.label6.Size = new System.Drawing.Size(69, 13);
             this.label6.TabIndex = 45;
             this.label6.Text = "Export Folder";
-            // 
-            // btnNewFormatSet
-            // 
-            this.btnNewFormatSet.Location = new System.Drawing.Point(256, 510);
-            this.btnNewFormatSet.Name = "btnNewFormatSet";
-            this.btnNewFormatSet.Size = new System.Drawing.Size(46, 23);
-            this.btnNewFormatSet.TabIndex = 46;
-            this.btnNewFormatSet.Text = "New...";
-            this.btnNewFormatSet.UseVisualStyleBackColor = true;
-            this.btnNewFormatSet.Click += new System.EventHandler(this.btnNewFormatSet_Click);
             // 
             // shapeContainer1
             // 
@@ -415,22 +270,10 @@
             this.Controls.Add(this.txtDbPass);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtDbUser);
-            this.Controls.Add(this.btnNewFormatSet);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSaveFormsFolders);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblTestFormat);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.cmbFontWeight);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmbFontSizes);
-            this.Controls.Add(this.cmbFontList);
-            this.Controls.Add(this.btnSaveSetName);
-            this.Controls.Add(this.txtSetName);
             this.Controls.Add(this.txtExportFolder);
-            this.Controls.Add(this.lstvFormatSets);
             this.Controls.Add(this.btnSaveFile);
             this.Controls.Add(this.txtFormsFolder);
             this.Controls.Add(this.shapeContainer1);
@@ -452,22 +295,10 @@
 
         private System.Windows.Forms.TextBox txtFormsFolder;
         private System.Windows.Forms.Button btnSaveFile;
-        private System.Windows.Forms.ListView lstvFormatSets;
         private System.Windows.Forms.TextBox txtExportFolder;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cmbFontWeight;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmbFontSizes;
-        private System.Windows.Forms.ComboBox cmbFontList;
-        private System.Windows.Forms.Button btnSaveSetName;
-        private System.Windows.Forms.TextBox txtSetName;
-        private System.Windows.Forms.Label lblTestFormat;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSaveFormsFolders;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnNewFormatSet;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
