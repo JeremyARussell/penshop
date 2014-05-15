@@ -134,38 +134,98 @@ namespace AnotoWorkshop {
         int testX;
         int testY;
 
-        private void testValueChenged (object sender, EventArgs a) {
-            //this.Focus();
-            //_mFontMenuContainer.Show(testX, testY);
-
-            //_mFontMenuContainer.AutoClose = true;
-
+        //Names
+        private void fontNameCmbValueChanged (object sender, EventArgs a) {
+            _changingFontField.fontTypeface = _mFontMenu.cmbFontList.Text;
+            designPanel.Invalidate();
         }        
         
-        private void testDropDrop (object sender, EventArgs a) {
-            //this.Focus();
-            //_mFontMenuContainer.Show(testX, testY);
-
+        private void fontNameCmbDropOpened (object sender, EventArgs a) {
             _mFontMenuContainer.AutoClose = false;
-
         }
         
-        private void testDropDropClosed (object sender, EventArgs a) {
-            //this.Focus();
-            //_mFontMenuContainer.Show(testX, testY);
-
+        private void fontNameCmbDropClosed (object sender, EventArgs a) {
             _mFontMenuContainer.AutoClose = true;
-
         }
+
+        //Size
+        private void fontSizeCmbValueChanged (object sender, EventArgs a) {
+            int.TryParse(_mFontMenu.cmbFontSizes.Text, out _changingFontField.fontSize);
+            designPanel.Invalidate();
+        }        
+        
+        private void fontSizeCmbDropOpened (object sender, EventArgs a) {
+            _mFontMenuContainer.AutoClose = false;
+        }
+        
+        private void fontSizeCmbDropClosed (object sender, EventArgs a) {
+            _mFontMenuContainer.AutoClose = true;
+        }
+
+        //Styles
+        private void chkFontBold (object sender, EventArgs a) {
+            if(_mFontMenu.chkBoldToggle.Checked) {
+                _changingFontField.fontStyle = _changingFontField.fontStyle | FontStyle.Bold;
+                designPanel.Invalidate();
+            } else {
+                _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Bold;
+                designPanel.Invalidate();
+            }
+        }        
+ 
+        private void chkFontItalic (object sender, EventArgs a) {
+            if(_mFontMenu.chkItalicToggle.Checked) {
+                _changingFontField.fontStyle = _changingFontField.fontStyle | FontStyle.Italic;
+                designPanel.Invalidate();
+            } else {
+                _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Italic;
+                designPanel.Invalidate();
+            }
+        }        
+ 
+        private void chkFontUnderline (object sender, EventArgs a) {
+            if(_mFontMenu.chkUnderlineToggle.Checked) {
+                _changingFontField.fontStyle = _changingFontField.fontStyle | FontStyle.Underline;
+                designPanel.Invalidate();
+            } else {
+                _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Underline;
+                designPanel.Invalidate();
+            }
+        }        
+ 
+        private void chkFontStrikeout (object sender, EventArgs a) {
+            if(_mFontMenu.chkStrikeoutToggle.Checked) {
+                _changingFontField.fontStyle = _changingFontField.fontStyle | FontStyle.Strikeout;
+                designPanel.Invalidate();
+            } else {
+                _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Strikeout;
+                designPanel.Invalidate();
+            }
+        }        
+        
+
+        
+
 
         private void frmMain_Load(object sender, EventArgs e) {
 
             _mFontMenu = new FontEditorMenu();
             _mFontMenuContainer = new PopupContainer(_mFontMenu);
 
-            _mFontMenu.cmbFontList.SelectedValueChanged += testValueChenged;
-            _mFontMenu.cmbFontList.DropDown += testDropDrop;
-            _mFontMenu.cmbFontList.DropDownClosed += testDropDropClosed;
+            //Names
+            _mFontMenu.cmbFontList.SelectedValueChanged += fontNameCmbValueChanged;
+            _mFontMenu.cmbFontList.DropDown += fontNameCmbDropOpened;
+            _mFontMenu.cmbFontList.DropDownClosed += fontNameCmbDropClosed;
+            //Size
+            _mFontMenu.cmbFontSizes.SelectedValueChanged += fontSizeCmbValueChanged;
+            _mFontMenu.cmbFontSizes.DropDown += fontSizeCmbDropOpened;
+            _mFontMenu.cmbFontSizes.DropDownClosed += fontSizeCmbDropClosed;
+            //Styles
+            _mFontMenu.chkBoldToggle.CheckedChanged += chkFontBold;
+            _mFontMenu.chkItalicToggle.CheckedChanged += chkFontItalic;
+            _mFontMenu.chkUnderlineToggle.CheckedChanged += chkFontUnderline;
+            _mFontMenu.chkStrikeoutToggle.CheckedChanged += chkFontStrikeout;
+
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
@@ -807,15 +867,15 @@ namespace AnotoWorkshop {
                         }
 
                         if (_changingFontField.fontStyle == FontStyle.Underline) {
-                            _mFontMenu.chkUnderlinedToggle.Checked = true;
+                            _mFontMenu.chkUnderlineToggle.Checked = true;
                         } else {
-                            _mFontMenu.chkUnderlinedToggle.Checked = false;
+                            _mFontMenu.chkUnderlineToggle.Checked = false;
                         }
 
                         if (_changingFontField.fontStyle == FontStyle.Strikeout) {
-                            _mFontMenu.chkStrikethroughToggle.Checked = true;
+                            _mFontMenu.chkStrikeoutToggle.Checked = true;
                         } else {
-                            _mFontMenu.chkStrikethroughToggle.Checked = false;
+                            _mFontMenu.chkStrikeoutToggle.Checked = false;
                         }
 
 
@@ -1710,6 +1770,9 @@ namespace AnotoWorkshop {
             _shouldDelete = true;
             _shouldMove = true;
             designPanel.Focus();    //Focusing back onto the designLabel, evidently the click that got us here did not do that already.
+
+            _globalMode.setMode(MouseMode.Selected);
+            
             calculateLabelSizes();
         }
         #endregion Editing Labels

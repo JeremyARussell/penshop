@@ -31,9 +31,9 @@
             this.cmbFontSizes = new System.Windows.Forms.ComboBox();
             this.cmbFontList = new System.Windows.Forms.ComboBox();
             this.chkBoldToggle = new System.Windows.Forms.CheckBox();
-            this.chkUnderlinedToggle = new System.Windows.Forms.CheckBox();
+            this.chkUnderlineToggle = new System.Windows.Forms.CheckBox();
             this.chkItalicToggle = new System.Windows.Forms.CheckBox();
-            this.chkStrikethroughToggle = new System.Windows.Forms.CheckBox();
+            this.chkStrikeoutToggle = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmbFontSizes
@@ -86,14 +86,14 @@
             // 
             // chkUnderlinedToggle
             // 
-            this.chkUnderlinedToggle.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkUnderlinedToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkUnderlinedToggle.Location = new System.Drawing.Point(263, 2);
-            this.chkUnderlinedToggle.Name = "chkUnderlinedToggle";
-            this.chkUnderlinedToggle.Size = new System.Drawing.Size(23, 23);
-            this.chkUnderlinedToggle.TabIndex = 43;
-            this.chkUnderlinedToggle.Text = "U";
-            this.chkUnderlinedToggle.UseVisualStyleBackColor = true;
+            this.chkUnderlineToggle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkUnderlineToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkUnderlineToggle.Location = new System.Drawing.Point(263, 2);
+            this.chkUnderlineToggle.Name = "chkUnderlineToggle";
+            this.chkUnderlineToggle.Size = new System.Drawing.Size(23, 23);
+            this.chkUnderlineToggle.TabIndex = 43;
+            this.chkUnderlineToggle.Text = "U";
+            this.chkUnderlineToggle.UseVisualStyleBackColor = true;
             // 
             // chkItalicToggle
             // 
@@ -108,23 +108,23 @@
             // 
             // chkStrikethroughToggle
             // 
-            this.chkStrikethroughToggle.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkStrikethroughToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkStrikethroughToggle.Location = new System.Drawing.Point(289, 2);
-            this.chkStrikethroughToggle.Name = "chkStrikethroughToggle";
-            this.chkStrikethroughToggle.Size = new System.Drawing.Size(23, 23);
-            this.chkStrikethroughToggle.TabIndex = 45;
-            this.chkStrikethroughToggle.Text = "S";
-            this.chkStrikethroughToggle.UseVisualStyleBackColor = true;
+            this.chkStrikeoutToggle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkStrikeoutToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkStrikeoutToggle.Location = new System.Drawing.Point(289, 2);
+            this.chkStrikeoutToggle.Name = "chkStrikeoutToggle";
+            this.chkStrikeoutToggle.Size = new System.Drawing.Size(23, 23);
+            this.chkStrikeoutToggle.TabIndex = 45;
+            this.chkStrikeoutToggle.Text = "S";
+            this.chkStrikeoutToggle.UseVisualStyleBackColor = true;
             // 
             // FontEditorMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.Controls.Add(this.chkStrikethroughToggle);
+            this.Controls.Add(this.chkStrikeoutToggle);
             this.Controls.Add(this.chkItalicToggle);
-            this.Controls.Add(this.chkUnderlinedToggle);
+            this.Controls.Add(this.chkUnderlineToggle);
             this.Controls.Add(this.chkBoldToggle);
             this.Controls.Add(this.cmbFontSizes);
             this.Controls.Add(this.cmbFontList);
@@ -140,8 +140,8 @@
         public System.Windows.Forms.ComboBox cmbFontList;
         public System.Windows.Forms.ComboBox cmbFontSizes;
         public System.Windows.Forms.CheckBox chkBoldToggle;
-        public System.Windows.Forms.CheckBox chkUnderlinedToggle;
+        public System.Windows.Forms.CheckBox chkUnderlineToggle;
         public System.Windows.Forms.CheckBox chkItalicToggle;
-        public System.Windows.Forms.CheckBox chkStrikethroughToggle;
+        public System.Windows.Forms.CheckBox chkStrikeoutToggle;
     }
 }
