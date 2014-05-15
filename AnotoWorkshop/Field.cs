@@ -36,7 +36,7 @@ namespace AnotoWorkshop {
         public string rtc;
 
         //public FormatSet formatSet = new FormatSet();
-        public string formatSetName;
+        //public string formatSetName;
 
         //public Font font;
         public string fontTypeface = "Arial";

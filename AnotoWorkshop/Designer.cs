@@ -564,25 +564,7 @@ namespace AnotoWorkshop {
 
                 #region Right Click Down
                 if (e.Button == MouseButtons.Right) {
-                    _globalMode.setMode(MouseMode.None);
-                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                        fi.selected = false;
-                        if (fi.isInside(zx - _xOffset, zy - _yOffset)) {
-                            if(fi.type == Type.Label || fi.type == Type.Checkbox) {
-                                _changingFontField = fi;
-                                _needFontMenu = true;
-                                fi.selected = true;
-                                _globalMode.setMode(MouseMode.Selected);
-                                break;
-                            } else {
-                                _needFontMenu = false;
-                                fi.selected = true;
-                                _globalMode.setMode(MouseMode.Selected);
-                            }
-                        }
-                    }
-                    calculateSfBox();
-
+                    _needFontMenu = false;
                 }
                 #endregion Right Click Down
             }
@@ -775,8 +757,51 @@ namespace AnotoWorkshop {
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) {
                                 refreshProperties(fi);
+
+                                if(fi.type == Type.Label || fi.type == Type.Checkbox) {
+                                    _changingFontField = fi;
+                                    _needFontMenu = true;
+                                } else {
+                                    _needFontMenu = false;
+                                    _changingFontField = null;
+                                }
+
                             }
                         }
+
+                    if(_needFontMenu && _changingFontField != null) {
+                        testX = designPanel.PointToScreen(new Point(_changingFontField.x, _changingFontField.y)).X;
+                        testY = designPanel.PointToScreen(new Point(_changingFontField.x, _changingFontField.y)).Y;
+
+                        _mFontMenu.cmbFontList.Text = _changingFontField.fontTypeface;
+                        _mFontMenu.cmbFontSizes.Text = _changingFontField.fontSize.ToString();
+
+                        if (_changingFontField.fontStyle.HasFlag(FontStyle.Bold)) {
+                            _mFontMenu.chkBoldToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkBoldToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle.HasFlag(FontStyle.Italic)) {
+                            _mFontMenu.chkItalicToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkItalicToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle.HasFlag(FontStyle.Underline)) {
+                            _mFontMenu.chkUnderlineToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkUnderlineToggle.Checked = false;
+                        }
+
+                        if (_changingFontField.fontStyle.HasFlag(FontStyle.Strikeout)) {
+                            _mFontMenu.chkStrikeoutToggle.Checked = true;
+                        } else {
+                            _mFontMenu.chkStrikeoutToggle.Checked = false;
+                        }
+
+                        _mFontMenuContainer.Show(testX, testY);
+                    }
 
                         break;
                     case MouseMode.Resizing:
@@ -841,52 +866,7 @@ namespace AnotoWorkshop {
                 }
 
                 if (e.Button == MouseButtons.Right) {
-                    //int conPostX = e.X + designPanel.PointToScreen(designPanel.Location).X;
-                    //int conPostY = e.Y + designPanel.PointToScreen(designPanel.Location).Y;
-
-
-                    if(_needFontMenu) {
-                        testX = MousePosition.X;
-                        testY = MousePosition.Y;
-
-
-                        _mFontMenu.cmbFontList.Text = _changingFontField.fontTypeface;
-                        _mFontMenu.cmbFontSizes.Text = _changingFontField.fontSize.ToString();
-
-                        //_mFontMenu.chkBoldToggle = _changingFontField.fontStyle;
-                        if (_changingFontField.fontStyle == FontStyle.Bold) {
-                            _mFontMenu.chkBoldToggle.Checked = true;
-                        } else {
-                            _mFontMenu.chkBoldToggle.Checked = false;
-                        }
-
-                        if (_changingFontField.fontStyle == FontStyle.Italic) {
-                            _mFontMenu.chkItalicToggle.Checked = true;
-                        } else {
-                            _mFontMenu.chkItalicToggle.Checked = false;
-                        }
-
-                        if (_changingFontField.fontStyle == FontStyle.Underline) {
-                            _mFontMenu.chkUnderlineToggle.Checked = true;
-                        } else {
-                            _mFontMenu.chkUnderlineToggle.Checked = false;
-                        }
-
-                        if (_changingFontField.fontStyle == FontStyle.Strikeout) {
-                            _mFontMenu.chkStrikeoutToggle.Checked = true;
-                        } else {
-                            _mFontMenu.chkStrikeoutToggle.Checked = false;
-                        }
-
-
-                        _mFontMenuContainer.Show(testX, testY);
-                        //cntxtFieldControls.Show(testX, testY + _mFontMenuContainer.Height + 3);
-                        //_mFontMenu.Location = new Point(testX, testY);
-                        //_mFontMenu.Show();
-                    } else {
-                        cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
-                    }
-
+                    cntxtFieldControls.Show(MousePosition.X, MousePosition.Y);
                 }
 
                 _shouldZoom = true;//flag for deciding on if we should allow zooming at the moment. Enabled to allow zooming.

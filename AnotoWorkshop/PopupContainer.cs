@@ -7,34 +7,34 @@ using System.Windows.Forms;
 namespace AnotoWorkshop {
     public partial class PopupContainer : ToolStripDropDown {
         
-        private FontEditorMenu _mPopedContainer;
+        private FontEditorMenu _mToolStrip;
         private ToolStripControlHost _mHost;
         private bool _mFade = true;
 
         
 
-        public PopupContainer(FontEditorMenu popedControl) {
+        public PopupContainer(FontEditorMenu toolStrip) {
             InitializeComponent();
 
-            if (popedControl == null)
+            if (toolStrip == null)
                 throw new ArgumentNullException("popedControl");
 
-            _mPopedContainer = popedControl;
+            _mToolStrip = toolStrip;
 
             _mFade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
 
-            _mHost = new ToolStripControlHost(popedControl);
+            _mHost = new ToolStripControlHost(toolStrip);
             _mHost.AutoSize = true;//make it take the same room as the poped control
        
             Padding = Margin = _mHost.Padding = _mHost.Margin = Padding.Empty;
             
-            popedControl.Location = Point.Empty;
+            toolStrip.Location = Point.Empty;
             
             Items.Add(_mHost);
             
-            popedControl.Disposed += delegate
+            toolStrip.Disposed += delegate
                                          {
-                popedControl = null;
+                toolStrip = null;
                 Dispose(true);// this popup container will be disposed immediately after disposion of the contained control
             };
 
@@ -98,15 +98,11 @@ namespace AnotoWorkshop {
         }
 
         protected override void OnClosing(ToolStripDropDownClosingEventArgs e) {
-            //if(_mPopedContainer.needToStayOpen) {
-            ///    e.Cancel = true;
-            //} else {  
-            //    e.Cancel = false;
-            //}
+            _mToolStrip.ActiveControl = _mToolStrip.cmbFontList;
         }
                
         protected override void OnOpening(CancelEventArgs e) {
-            if (_mPopedContainer.IsDisposed || _mPopedContainer.Disposing) {
+            if (_mToolStrip.IsDisposed || _mToolStrip.Disposing) {
                 e.Cancel = true;
                 return;
             }
@@ -114,8 +110,7 @@ namespace AnotoWorkshop {
         }
 
         protected override void OnOpened(EventArgs e) {
-            _mPopedContainer.needToStayOpen = true;
-            _mPopedContainer.Focus();
+            _mToolStrip.Focus();
             
             base.OnOpened(e);
         }

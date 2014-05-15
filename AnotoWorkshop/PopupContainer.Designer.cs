@@ -19,10 +19,10 @@
                 {
                     components.Dispose();
                 }
-                if (_mPopedContainer != null)
+                if (_mToolStrip != null)
                 {
-                    System.Windows.Forms.Control _content = _mPopedContainer;
-                    _mPopedContainer = null;
+                    System.Windows.Forms.Control _content = _mToolStrip;
+                    _mToolStrip = null;
                     _content.Dispose();
                 }
             }
