@@ -10,7 +10,6 @@ namespace AnotoWorkshop {
         private FontEditorMenu _mToolStrip;
         private ToolStripControlHost _mHost;
         private bool _mFade = true;
-
         private Designer _mDesignerForm;
 
         public PopupContainer(FontEditorMenu toolStrip, Designer designerForm) {
@@ -46,7 +45,7 @@ namespace AnotoWorkshop {
             //if(keyData.HasFlag(Keys.Delete) || keyData.HasFlag(Keys.Space)) {
                 //if(!keyData.HasFlag(Keys.Back)) {
                     //if(!keyData.HasFlag(Keys.RButton)) {
-                        _mDesignerForm.test(ref msg, keyData);
+                        _mDesignerForm.ProcessCmdKeyPassthrough(ref msg, keyData);
                         return true;
                     //}
 

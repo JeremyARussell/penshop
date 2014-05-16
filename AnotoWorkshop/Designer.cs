@@ -137,6 +137,7 @@ namespace AnotoWorkshop {
         //Names
         private void fontNameCmbValueChanged (object sender, EventArgs a) {
             _changingFontField.fontTypeface = _mFontMenu.cmbFontList.Text;
+            calculateLabelSizes();
             designPanel.Invalidate();
         }        
         
@@ -151,6 +152,7 @@ namespace AnotoWorkshop {
         //Size
         private void fontSizeCmbValueChanged (object sender, EventArgs a) {
             int.TryParse(_mFontMenu.cmbFontSizes.Text, out _changingFontField.fontSize);
+            calculateLabelSizes();
             designPanel.Invalidate();
         }        
         
@@ -171,6 +173,7 @@ namespace AnotoWorkshop {
                 _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Bold;
                 designPanel.Invalidate();
             }
+            calculateLabelSizes();
         }        
  
         private void chkFontItalic (object sender, EventArgs a) {
@@ -181,6 +184,7 @@ namespace AnotoWorkshop {
                 _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Italic;
                 designPanel.Invalidate();
             }
+            calculateLabelSizes();
         }        
  
         private void chkFontUnderline (object sender, EventArgs a) {
@@ -191,6 +195,7 @@ namespace AnotoWorkshop {
                 _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Underline;
                 designPanel.Invalidate();
             }
+            calculateLabelSizes();
         }        
  
         private void chkFontStrikeout (object sender, EventArgs a) {
@@ -201,6 +206,7 @@ namespace AnotoWorkshop {
                 _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Strikeout;
                 designPanel.Invalidate();
             }
+            calculateLabelSizes();
         }        
         
 
@@ -1182,6 +1188,7 @@ namespace AnotoWorkshop {
                     fi.height = TextRenderer.MeasureText(fi.text, fi.font()).Height;
                 }
             }
+            calculateSfBox();
         }
         
         /// <summary>
@@ -1441,7 +1448,7 @@ namespace AnotoWorkshop {
 
         #region Universal Methods
 
-        public void test(ref Message msg, Keys keyData) {
+        public void ProcessCmdKeyPassthrough(ref Message msg, Keys keyData) {
             ProcessCmdKey(ref msg, keyData);
         }
 

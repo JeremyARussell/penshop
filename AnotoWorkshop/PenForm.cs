@@ -733,17 +733,17 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//value
 
                                 writer.WriteStartElement("font");//TODO - NEW FONT CODE HERE AS WELL
-                                //if (fi.formatSet.fontTypeface != null) {
-                                //    writer.WriteAttributeString("typeface", fi.formatSet.fontTypeface);
-                                //}
-                                //writer.WriteAttributeString("baselineShift", "0pt");
+                                if (fi.fontTypeface != null) {
+                                    writer.WriteAttributeString("typeface", fi.fontTypeface);
+                                }
+                                writer.WriteAttributeString("baselineShift", "0pt");
 
-                                //if (fi.formatSet.fontSize > 0) {
-                                //    writer.WriteAttributeString("size", fi.formatSet.fontSizeString);
-                                //}
-                                //if (fi.formatSet.fontWeight != "normal" || fi.formatSet.fontWeight != null) {
-                                //    writer.WriteAttributeString("weight", fi.formatSet.fontWeight);
-                                //}
+                                if (fi.fontSize > 0) {
+                                    writer.WriteAttributeString("size", fi.fontSize.ToString() + "pt");
+                                }
+                                if (fi.fontStyle != FontStyle.Regular) {
+                                    writer.WriteAttributeString("weight", fi.fontStyle.ToString());
+                                }
                                 writer.WriteStartElement("fill");
                                 writer.WriteStartElement("color");
                                 writer.WriteAttributeString("value", "51,102,255");
