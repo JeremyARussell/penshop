@@ -210,7 +210,7 @@ namespace AnotoWorkshop {
         private void frmMain_Load(object sender, EventArgs e) {
 
             _mFontMenu = new FontEditorMenu();
-            _mFontMenuContainer = new PopupContainer(_mFontMenu);
+            _mFontMenuContainer = new PopupContainer(_mFontMenu, this);
 
             //Names
             _mFontMenu.cmbFontList.SelectedValueChanged += fontNameCmbValueChanged;
@@ -225,7 +225,6 @@ namespace AnotoWorkshop {
             _mFontMenu.chkItalicToggle.CheckedChanged += chkFontItalic;
             _mFontMenu.chkUnderlineToggle.CheckedChanged += chkFontUnderline;
             _mFontMenu.chkStrikeoutToggle.CheckedChanged += chkFontStrikeout;
-
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
@@ -533,22 +532,18 @@ namespace AnotoWorkshop {
                         case MouseMode.Adding:
                             switch (_fieldToAdd.type) {                         //Using a switch in case we need it later, it could be an if statement now though.
                                 case Type.Label:                                                    //When the left mouse button clicks down, and we're adding a label.
-                                    //if (_fieldToAdd.formatSet.name != null) {//This is here to keep us from adding a lebel that had no formatSet.
-                                    //    _fieldToAdd.x = zx - _xOffset;                                                                                    //Setting the fields positions...
-                                    //    _fieldToAdd.y = zy - _yOffset;                                                                                    //...
-                                    //    _fieldToAdd.width = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Width;      //A Label's outer box size is based off the string it displays...
-                                    //    _fieldToAdd.height = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Height;    //...here we use TextRenderer.MeasureText to get this information.
-                                    //
-                                    //   _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
-                                    //    _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
-                                    //    _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
-                                    //
-                                    //    refreshHierarchyView();
-                                    //    needToSave();
-                                    //} else {
-                                    //    _globalMode.setMode(MouseMode.None);//Regardless of if we got to actually make a new label or not, we need to get out of adding mode so we don't get cross hairs and addingpen based selection boxes.
-                                    //}
-                                    break;
+                                    _fieldToAdd.x = zx - _xOffset;                                                                                    //Setting the fields positions...
+                                    _fieldToAdd.y = zy - _yOffset;                                                                                    //...
+                                    _fieldToAdd.width = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Width;      //A Label's outer box size is based off the string it displays...
+                                    _fieldToAdd.height = TextRenderer.MeasureText(_fieldToAdd.text, _fieldToAdd.font()).Height;    //...here we use TextRenderer.MeasureText to get this information.
+                                    
+                                    _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
+                                    _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
+                                    _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
+                                    
+                                    refreshHierarchyView();
+                                    needToSave();
+                                break;
                             }
                             break;
                     }
@@ -1151,7 +1146,6 @@ namespace AnotoWorkshop {
             _fieldToAdd = new Field("Label", Type.Label);
             _fieldToAdd.text = "Placeholder Text";                 //To give it text, and therefore dimensions in the display.
 
-            cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);//Setting this up for picking the formatSet instead of the below.
         }
 
         private void btnAddRichLabel_Click(object sender, EventArgs e) {
@@ -1160,7 +1154,6 @@ namespace AnotoWorkshop {
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.RichLabel);
 
-            cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
         }
 
         private void btnAddRectangle_Click(object sender, EventArgs e) {
@@ -1448,6 +1441,10 @@ namespace AnotoWorkshop {
 
         #region Universal Methods
 
+        public void test(ref Message msg, Keys keyData) {
+            ProcessCmdKey(ref msg, keyData);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {//Steals the KeyEvents away from everything, for better control over what happens during key presses.
             //Delete
             //if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
@@ -1478,7 +1475,8 @@ namespace AnotoWorkshop {
             }
 
             if (keyData == Keys.Space) {
-                if (designPanel.Focused) {
+                if (designPanel.Focused || _mFontMenuContainer.Visible) {
+                    _mFontMenuContainer.Close();
                     OnKeyPress(new KeyPressEventArgs((Char)Keys.Space));
                     return true;
                 }
@@ -1486,6 +1484,13 @@ namespace AnotoWorkshop {
                     return base.ProcessCmdKey(ref msg, keyData);//If the _labelEditBox is focused we let the Spacebar act as it normally would.
                 }
             }
+
+            if (keyData == Keys.Delete) {//Doing here as well in case we came from
+                _mFontMenuContainer.Close();
+                deleteFields();
+                return true;
+            }
+
             //Form Control Keybindings
             //if (keyData == Keys.ControlKey) OnKeyPress(new KeyPressEventArgs((Char)Keys.ControlKey));
             //if (keyData == Keys.C) OnKeyPress(new KeyPressEventArgs((Char)Keys.C));
@@ -1648,7 +1653,7 @@ namespace AnotoWorkshop {
 
         void activeRichTextEditBox_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
-                cntxtFormatSets.Show(MousePosition.X, MousePosition.Y);
+                //TODO - handle rich text SelectedText Font changing
                 
             }
         }

@@ -11,15 +11,16 @@ namespace AnotoWorkshop {
         private ToolStripControlHost _mHost;
         private bool _mFade = true;
 
-        
+        private Designer _mDesignerForm;
 
-        public PopupContainer(FontEditorMenu toolStrip) {
+        public PopupContainer(FontEditorMenu toolStrip, Designer designerForm) {
             InitializeComponent();
 
             if (toolStrip == null)
-                throw new ArgumentNullException("popedControl");
+                throw new ArgumentNullException("toolStrip");
 
             _mToolStrip = toolStrip;
+            _mDesignerForm = designerForm;
 
             _mFade = SystemInformation.IsMenuAnimationEnabled && SystemInformation.IsMenuFadeEnabled;
 
@@ -41,9 +42,29 @@ namespace AnotoWorkshop {
         }
         
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {//Steals the KeyEvents away from everything, for better control over what happens during key presses.
+            //if(keyData.HasFlag(Keys.Delete) || keyData.HasFlag(Keys.Space)) {
+                //if(!keyData.HasFlag(Keys.Back)) {
+                    //if(!keyData.HasFlag(Keys.RButton)) {
+                        _mDesignerForm.test(ref msg, keyData);
+                        return true;
+                    //}
+
+                //}
+
+            //}
+
+            //return ProcessDialogKey(keyData);
+
+        }
+
         protected override bool ProcessDialogKey(Keys keyData) {
+            
+            
+            
             if ((keyData & Keys.Alt) == Keys.Alt)
                 return false;
+
 
             return base.ProcessDialogKey(keyData);
         }

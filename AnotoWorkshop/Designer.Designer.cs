@@ -92,7 +92,6 @@
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.trvFieldList = new System.Windows.Forms.TreeView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cntxtFormatSets = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -447,7 +446,7 @@
             this.alignHorizontallyToolStripMenuItem,
             this.alignVerticallyToolStripMenuItem});
             this.cntxtFieldControls.Name = "cntxtFieldControls";
-            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 180);
+            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 202);
             // 
             // alignVerticallyToolStripMenuItem
             // 
@@ -806,12 +805,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Layout Hierarchy";
             // 
-            // cntxtFormatSets
-            // 
-            this.cntxtFormatSets.Name = "cntxtFormatSets";
-            this.cntxtFormatSets.Size = new System.Drawing.Size(61, 4);
-            this.cntxtFormatSets.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cntxtFormatSets_ItemClicked);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1003,7 +996,6 @@
         private System.Windows.Forms.TreeView trvFieldList;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label lblVersionNumber;
-        private System.Windows.Forms.ContextMenuStrip cntxtFormatSets;
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
