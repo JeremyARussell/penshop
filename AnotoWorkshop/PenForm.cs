@@ -741,9 +741,17 @@ namespace AnotoWorkshop {
                                 if (fi.fontSize > 0) {
                                     writer.WriteAttributeString("size", fi.fontSize.ToString() + "pt");
                                 }
-                                if (fi.fontStyle != FontStyle.Regular) {
-                                    writer.WriteAttributeString("weight", fi.fontStyle.ToString());
+                                //Font
+                                if (fi.fontStyle.HasFlag(FontStyle.Bold)) {
+                                    writer.WriteAttributeString("weight", "bold");
                                 }
+                                if (fi.fontStyle.HasFlag(FontStyle.Italic)) {
+                                    writer.WriteAttributeString("posture", "italic");
+                                }
+                                if (fi.fontStyle.HasFlag(FontStyle.Underline)) {
+                                    writer.WriteAttributeString("underline", "1");
+                                }
+
                                 writer.WriteStartElement("fill");
                                 writer.WriteStartElement("color");
                                 writer.WriteAttributeString("value", "51,102,255");
@@ -1196,7 +1204,19 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
 
                             writer.WriteStartElement( adobeXmpPrefix, "MetadataDate", null);
-                            writer.WriteString(System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());//TODO "2013-07-24T19:12:33Z"- FIX THIS -> (System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());
+                            writer.WriteString(System.DateTime.Today.Date.Year.ToString()
+                                               + "-"
+                                               + System.DateTime.Today.Date.Month.ToString()
+                                               + "-"
+                                               + System.DateTime.Today.Date.Day.ToString()
+                                               + "T" 
+                                               + System.DateTime.Now.TimeOfDay.Hours.ToString()
+                                               + ":"
+                                               + System.DateTime.Now.TimeOfDay.Minutes.ToString()
+                                               + ":"
+                                               + System.DateTime.Now.TimeOfDay.Seconds.ToString()
+                                               );
+                //TODO "2013-07-24T19:12:33Z"- FIX THIS -> (System.DateTime.Today.ToString() + "T" + System.DateTime.Now.ToString());
                             writer.WriteEndElement();//MetadataDate
                             
                             writer.WriteStartElement(adobeXmpPrefix,"CreatorTool",null);
