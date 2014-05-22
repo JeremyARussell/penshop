@@ -19,10 +19,6 @@ namespace AnotoWorkshop {
 
     #endregion Field Type Enum
 
-    //public class textSetPair { //Being replaced by internal RichContent.
-    //    public string text { get; set; }
-    //    public Font set { get; set; }
-    //}
 
     [DefaultPropertyAttribute("name")]
     public class Field {
@@ -35,10 +31,9 @@ namespace AnotoWorkshop {
 
         public string rtc;
 
-        //public FormatSet formatSet = new FormatSet();
-        //public string formatSetName;
+        public int exWidth;
+        public int exHeight;
 
-        //public Font font;
         public string fontTypeface = "Arial";
         public FontStyle fontStyle = FontStyle.Regular;
         public int fontSize = 12;
@@ -60,9 +55,6 @@ namespace AnotoWorkshop {
 
         public bool selected;
 
-        //public List<FormatSet> textTypes;
-        //public Dictionary<int, textSetPair> texts;
-        //public RichContent richContents = null;
         private RichTextBox _richBox = new RichTextBox();//The working RichTextBox for this RichContent instance.
 
         
@@ -221,13 +213,21 @@ namespace AnotoWorkshop {
         }
 
         public bool isInside(int locx, int locy) {
-            if (locx > (int)(_x) && locy > (int)(_y) &&
-                locx < (int)(_x) + (int)(_width) &&
-                locy < (int)(_y) + (int)(_height)) {
-                //selected = true;
-                return true;
+            if (type == Type.Checkbox) {
+                if (locx > (int)(_x) && 
+                    locy > (int)(_y) &&
+                    locx < (int)(_x) + (int)(_width) + exWidth &&
+                    locy < (int)(_y) + (int)(_height) + exHeight) {
+                    return true;
+                }
+            } else {
+                if (locx > (int)(_x) && 
+                    locy > (int)(_y) &&
+                    locx < (int)(_x) + (int)(_width) &&
+                    locy < (int)(_y) + (int)(_height)) {
+                    return true;
+                }
             }
-            //selected = false;
             return false;
         }
 

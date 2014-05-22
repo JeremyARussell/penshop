@@ -197,21 +197,7 @@ namespace AnotoWorkshop {
             }
             calculateLabelSizes();
         }        
- 
-        private void chkFontStrikeout (object sender, EventArgs a) {
-            if(_mFontMenu.chkStrikeoutToggle.Checked) {
-                _changingFontField.fontStyle = _changingFontField.fontStyle | FontStyle.Strikeout;
-                designPanel.Invalidate();
-            } else {
-                _changingFontField.fontStyle = _changingFontField.fontStyle & ~FontStyle.Strikeout;
-                designPanel.Invalidate();
-            }
-            calculateLabelSizes();
-        }        
-        
-
-        
-
+         
 
         private void frmMain_Load(object sender, EventArgs e) {
 
@@ -230,7 +216,6 @@ namespace AnotoWorkshop {
             _mFontMenu.chkBoldToggle.CheckedChanged += chkFontBold;
             _mFontMenu.chkItalicToggle.CheckedChanged += chkFontItalic;
             _mFontMenu.chkUnderlineToggle.CheckedChanged += chkFontUnderline;
-            _mFontMenu.chkStrikeoutToggle.CheckedChanged += chkFontStrikeout;
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
@@ -265,6 +250,7 @@ namespace AnotoWorkshop {
             designerLoadStuff();            //Misc things to initialize for the designer stuff
             refreshHierarchyView();               //Function for building the Field Heirarchy 
 
+            calculateLabelSizes();
 
         }
 
@@ -795,11 +781,6 @@ namespace AnotoWorkshop {
                             _mFontMenu.chkUnderlineToggle.Checked = false;
                         }
 
-                        if (_changingFontField.fontStyle.HasFlag(FontStyle.Strikeout)) {
-                            _mFontMenu.chkStrikeoutToggle.Checked = true;
-                        } else {
-                            _mFontMenu.chkStrikeoutToggle.Checked = false;
-                        }
 
                         _mFontMenuContainer.Show(testX, testY);
                     }
@@ -1187,6 +1168,11 @@ namespace AnotoWorkshop {
                     fi.width = TextRenderer.MeasureText(fi.text, fi.font()).Width;
                     fi.height = TextRenderer.MeasureText(fi.text, fi.font()).Height;
                 }
+                if (fi.type == Type.Checkbox) {
+                    fi.exWidth = TextRenderer.MeasureText(fi.text, fi.font()).Width;
+                    fi.exHeight = TextRenderer.MeasureText(fi.text, fi.font()).Height;
+                }
+
             }
             calculateSfBox();
         }
@@ -1294,7 +1280,8 @@ namespace AnotoWorkshop {
         #region Export Form Button
 
         private void btnExportForm_Click(object sender, EventArgs e) {
-            
+            calculateLabelSizes();
+
             if (_settings.exportFolder == @"") {
                 FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
                 DialogResult result = openFileDialog1.ShowDialog();

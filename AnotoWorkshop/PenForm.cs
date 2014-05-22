@@ -690,6 +690,60 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//integer
                                 writer.WriteEndElement();//items
                                 writer.WriteEndElement();//end field
+
+
+
+                                writer.WriteStartElement("draw");
+                                writer.WriteAttributeString("name", fi.name);
+                                writer.WriteAttributeString("x", convertToMm(fi.x + fi.width + 3));
+                                writer.WriteAttributeString("y", convertToMm((fi.y) + (fi.exHeight / 2)));
+                                writer.WriteAttributeString("w", convertToMm(fi.exWidth));
+                                writer.WriteAttributeString("h", convertToMm(fi.exHeight));
+                                writer.WriteStartElement("ui");
+                                writer.WriteStartElement("textEdit");
+                                writer.WriteEndElement();//textEdit
+                                writer.WriteEndElement();//ui
+
+                                writer.WriteStartElement("value");
+                                writer.WriteStartElement("text");
+                                if (fi.text != null) { writer.WriteString(fi.text.ToString()); }
+                                writer.WriteEndElement();//text
+                                writer.WriteEndElement();//value
+
+                                writer.WriteStartElement("font");//TODO - NEW FONT CODE HERE AS WELL
+                                if (fi.fontTypeface != null) {
+                                    writer.WriteAttributeString("typeface", fi.fontTypeface);
+                                }
+                                writer.WriteAttributeString("baselineShift", "0pt");
+
+                                if (fi.fontSize > 0) {
+                                    writer.WriteAttributeString("size", fi.fontSize.ToString() + "pt");
+                                }
+                                //Font
+                                if (fi.fontStyle.HasFlag(FontStyle.Bold)) {
+                                    writer.WriteAttributeString("weight", "bold");
+                                }
+                                if (fi.fontStyle.HasFlag(FontStyle.Italic)) {
+                                    writer.WriteAttributeString("posture", "italic");
+                                }
+                                if (fi.fontStyle.HasFlag(FontStyle.Underline)) {
+                                    writer.WriteAttributeString("underline", "1");
+                                }
+
+                                writer.WriteStartElement("fill");
+                                writer.WriteStartElement("color");
+                                writer.WriteAttributeString("value", "51,102,255");
+                                writer.WriteEndElement();//color                                    writer.WriteEndElement();//font
+                                writer.WriteEndElement();//fill                                    writer.WriteEndElement();//font
+                                writer.WriteEndElement();//font                                    writer.WriteEndElement();//font
+
+                                writer.WriteStartElement("margin");
+                                writer.WriteAttributeString("bottomInset", "0mm");
+                                writer.WriteAttributeString("leftInset", "0mm");
+                                writer.WriteAttributeString("rightInset", "0mm");
+                                writer.WriteAttributeString("topInset", "0mm");
+                                writer.WriteEndElement();//margin
+                                writer.WriteEndElement();//field
                                 break;
 
                             #endregion Checkbox - Mostly Done, double check before ".xdp export" is complete
@@ -1479,10 +1533,10 @@ namespace AnotoWorkshop {
                                 break;
 
                             case Type.RichLabel:
-                                Pen flPen = new Pen(Color.FromArgb(255, 51, 102, 255));
+                                //Pen flPen = new Pen(Color.FromArgb(255, 51, 102, 255));
                                 //e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
 
-                                e.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(0, 0));
+                                //e.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(0, 0));
 
                                 //flPen.Color = Color.Black;
                                 //e.DrawString(fi.text, fi.formatSet.font(), flPen.Brush, new Point(fi.x, fi.y));
@@ -1502,7 +1556,7 @@ namespace AnotoWorkshop {
                                 Pen p3 = new Pen(Color.FromArgb(255, 51, 102, 255));
                                 e.DrawRectangle(p3, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 //p3.Color = Color.Black;
-                                e.DrawString(fi.text, fi.font(), p3.Brush, new Point(fi.x, fi.y + 3));
+                                e.DrawString(fi.text, fi.font(), p3.Brush, new Point(fi.x + fi.width, (int)(fi.y + (((fi.height - fi.font().Size) / 2)) - 4)));
                                 break;
 
                             case Type.OptionsGroup:

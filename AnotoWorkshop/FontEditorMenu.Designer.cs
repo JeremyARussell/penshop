@@ -33,7 +33,6 @@
             this.chkBoldToggle = new System.Windows.Forms.CheckBox();
             this.chkUnderlineToggle = new System.Windows.Forms.CheckBox();
             this.chkItalicToggle = new System.Windows.Forms.CheckBox();
-            this.chkStrikeoutToggle = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmbFontSizes
@@ -84,7 +83,7 @@
             this.chkBoldToggle.Text = "B";
             this.chkBoldToggle.UseVisualStyleBackColor = true;
             // 
-            // chkUnderlinedToggle
+            // chkUnderlineToggle
             // 
             this.chkUnderlineToggle.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkUnderlineToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -106,30 +105,18 @@
             this.chkItalicToggle.Text = "I";
             this.chkItalicToggle.UseVisualStyleBackColor = true;
             // 
-            // chkStrikethroughToggle
-            // 
-            this.chkStrikeoutToggle.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkStrikeoutToggle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkStrikeoutToggle.Location = new System.Drawing.Point(289, 2);
-            this.chkStrikeoutToggle.Name = "chkStrikeoutToggle";
-            this.chkStrikeoutToggle.Size = new System.Drawing.Size(23, 23);
-            this.chkStrikeoutToggle.TabIndex = 45;
-            this.chkStrikeoutToggle.Text = "S";
-            this.chkStrikeoutToggle.UseVisualStyleBackColor = true;
-            // 
             // FontEditorMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.Controls.Add(this.chkStrikeoutToggle);
             this.Controls.Add(this.chkItalicToggle);
             this.Controls.Add(this.chkUnderlineToggle);
             this.Controls.Add(this.chkBoldToggle);
             this.Controls.Add(this.cmbFontSizes);
             this.Controls.Add(this.cmbFontList);
             this.Name = "FontEditorMenu";
-            this.Size = new System.Drawing.Size(315, 28);
+            this.Size = new System.Drawing.Size(290, 28);
             this.Load += new System.EventHandler(this.fontEditorMenu_Load);
             this.ResumeLayout(false);
 
@@ -142,6 +129,5 @@
         public System.Windows.Forms.CheckBox chkBoldToggle;
         public System.Windows.Forms.CheckBox chkUnderlineToggle;
         public System.Windows.Forms.CheckBox chkItalicToggle;
-        public System.Windows.Forms.CheckBox chkStrikeoutToggle;
     }
 }
