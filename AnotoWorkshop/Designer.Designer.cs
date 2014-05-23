@@ -29,19 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.chkPropReadOnly = new System.Windows.Forms.CheckBox();
-            this.chkPropHidden = new System.Windows.Forms.CheckBox();
-            this.btnPropSave = new System.Windows.Forms.Button();
-            this.txtPropText = new System.Windows.Forms.TextBox();
-            this.txtPropName = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtPropHeight = new System.Windows.Forms.TextBox();
-            this.txtPropWidth = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cmbFormatSetNames = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAddCheckBox = new System.Windows.Forms.Button();
             this.btnAddInputTextField = new System.Windows.Forms.Button();
@@ -63,7 +52,6 @@
             this.cntxtFieldControls = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.alignVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.designPanel = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.btnExportForm = new System.Windows.Forms.Button();
@@ -79,15 +67,6 @@
             this.btnNewPage = new System.Windows.Forms.Button();
             this.btnPreviousPage = new System.Windows.Forms.Button();
             this.btnNextPage = new System.Windows.Forms.Button();
-            this.txtPropY = new System.Windows.Forms.TextBox();
-            this.txtPropX = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtPropFieldType = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.trvFieldList = new System.Windows.Forms.TreeView();
@@ -121,81 +100,6 @@
             this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // chkPropReadOnly
-            // 
-            this.chkPropReadOnly.AutoSize = true;
-            this.chkPropReadOnly.Location = new System.Drawing.Point(149, 147);
-            this.chkPropReadOnly.Margin = new System.Windows.Forms.Padding(2);
-            this.chkPropReadOnly.Name = "chkPropReadOnly";
-            this.chkPropReadOnly.Size = new System.Drawing.Size(98, 24);
-            this.chkPropReadOnly.TabIndex = 26;
-            this.chkPropReadOnly.Text = "ReadOnly";
-            this.chkPropReadOnly.UseVisualStyleBackColor = true;
-            // 
-            // chkPropHidden
-            // 
-            this.chkPropHidden.AutoSize = true;
-            this.chkPropHidden.Location = new System.Drawing.Point(64, 147);
-            this.chkPropHidden.Margin = new System.Windows.Forms.Padding(2);
-            this.chkPropHidden.Name = "chkPropHidden";
-            this.chkPropHidden.Size = new System.Drawing.Size(79, 24);
-            this.chkPropHidden.TabIndex = 25;
-            this.chkPropHidden.Text = "Hidden";
-            this.chkPropHidden.UseVisualStyleBackColor = true;
-            // 
-            // btnPropSave
-            // 
-            this.btnPropSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPropSave.Location = new System.Drawing.Point(171, 395);
-            this.btnPropSave.Name = "btnPropSave";
-            this.btnPropSave.Size = new System.Drawing.Size(94, 29);
-            this.btnPropSave.TabIndex = 21;
-            this.btnPropSave.Text = "Save Properties";
-            this.btnPropSave.UseVisualStyleBackColor = true;
-            this.btnPropSave.Click += new System.EventHandler(this.btnPropSave_Click);
-            // 
-            // txtPropText
-            // 
-            this.txtPropText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropText.Location = new System.Drawing.Point(64, 82);
-            this.txtPropText.Name = "txtPropText";
-            this.txtPropText.Size = new System.Drawing.Size(183, 23);
-            this.txtPropText.TabIndex = 19;
-            // 
-            // txtPropName
-            // 
-            this.txtPropName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropName.Location = new System.Drawing.Point(64, 25);
-            this.txtPropName.Name = "txtPropName";
-            this.txtPropName.Size = new System.Drawing.Size(183, 23);
-            this.txtPropName.TabIndex = 18;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(6, 85);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 17);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Text";
-            // 
-            // txtPropHeight
-            // 
-            this.txtPropHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropHeight.Location = new System.Drawing.Point(188, 215);
-            this.txtPropHeight.Name = "txtPropHeight";
-            this.txtPropHeight.Size = new System.Drawing.Size(43, 21);
-            this.txtPropHeight.TabIndex = 15;
-            // 
-            // txtPropWidth
-            // 
-            this.txtPropWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropWidth.Location = new System.Drawing.Point(109, 215);
-            this.txtPropWidth.Name = "txtPropWidth";
-            this.txtPropWidth.Size = new System.Drawing.Size(43, 21);
-            this.txtPropWidth.TabIndex = 14;
-            // 
             // label19
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -207,25 +111,6 @@
             this.label19.TabIndex = 7;
             this.label19.Text = "Checkbox";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(6, 118);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 17);
-            this.label10.TabIndex = 29;
-            this.label10.Text = "Format";
-            // 
-            // cmbFormatSetNames
-            // 
-            this.cmbFormatSetNames.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbFormatSetNames.FormattingEnabled = true;
-            this.cmbFormatSetNames.Location = new System.Drawing.Point(64, 111);
-            this.cmbFormatSetNames.Name = "cmbFormatSetNames";
-            this.cmbFormatSetNames.Size = new System.Drawing.Size(183, 24);
-            this.cmbFormatSetNames.TabIndex = 28;
-            // 
             // label20
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -236,15 +121,6 @@
             this.label20.Size = new System.Drawing.Size(33, 13);
             this.label20.TabIndex = 8;
             this.label20.Text = "Label";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(158, 215);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(25, 20);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "H:";
             // 
             // tableLayoutPanel1
             // 
@@ -281,6 +157,7 @@
             this.btnAddCheckBox.Name = "btnAddCheckBox";
             this.btnAddCheckBox.Size = new System.Drawing.Size(44, 44);
             this.btnAddCheckBox.TabIndex = 1;
+            this.btnAddCheckBox.TabStop = false;
             this.btnAddCheckBox.Text = "button8";
             this.btnAddCheckBox.UseVisualStyleBackColor = true;
             this.btnAddCheckBox.Click += new System.EventHandler(this.btnAddCheckBox_Click);
@@ -293,6 +170,7 @@
             this.btnAddInputTextField.Name = "btnAddInputTextField";
             this.btnAddInputTextField.Size = new System.Drawing.Size(44, 44);
             this.btnAddInputTextField.TabIndex = 0;
+            this.btnAddInputTextField.TabStop = false;
             this.btnAddInputTextField.Text = "button7";
             this.btnAddInputTextField.UseVisualStyleBackColor = true;
             this.btnAddInputTextField.Click += new System.EventHandler(this.btn_AddField_Click);
@@ -305,6 +183,7 @@
             this.btnAddRectangle.Name = "btnAddRectangle";
             this.btnAddRectangle.Size = new System.Drawing.Size(44, 44);
             this.btnAddRectangle.TabIndex = 4;
+            this.btnAddRectangle.TabStop = false;
             this.btnAddRectangle.Text = "button11";
             this.btnAddRectangle.UseVisualStyleBackColor = true;
             this.btnAddRectangle.Click += new System.EventHandler(this.btnAddRectangle_Click);
@@ -317,6 +196,7 @@
             this.btnAddLine.Name = "btnAddLine";
             this.btnAddLine.Size = new System.Drawing.Size(44, 44);
             this.btnAddLine.TabIndex = 5;
+            this.btnAddLine.TabStop = false;
             this.btnAddLine.Text = "button12";
             this.btnAddLine.UseVisualStyleBackColor = true;
             this.btnAddLine.Click += new System.EventHandler(this.btnAddLine_Click);
@@ -362,6 +242,7 @@
             this.btnAddLabel.Name = "btnAddLabel";
             this.btnAddLabel.Size = new System.Drawing.Size(44, 44);
             this.btnAddLabel.TabIndex = 2;
+            this.btnAddLabel.TabStop = false;
             this.btnAddLabel.Text = "button9";
             this.btnAddLabel.UseVisualStyleBackColor = true;
             this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
@@ -446,7 +327,7 @@
             this.alignHorizontallyToolStripMenuItem,
             this.alignVerticallyToolStripMenuItem});
             this.cntxtFieldControls.Name = "cntxtFieldControls";
-            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 202);
+            this.cntxtFieldControls.Size = new System.Drawing.Size(170, 180);
             // 
             // alignVerticallyToolStripMenuItem
             // 
@@ -471,15 +352,6 @@
             this.designPanel.MouseHover += new System.EventHandler(this.designPanel_MouseLeave);
             this.designPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.designer_MouseMove);
             this.designPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.designer_MouseUp);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(80, 215);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(28, 20);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "W:";
             // 
             // label16
             // 
@@ -507,6 +379,7 @@
             this.btnExportForm.Name = "btnExportForm";
             this.btnExportForm.Size = new System.Drawing.Size(44, 44);
             this.btnExportForm.TabIndex = 4;
+            this.btnExportForm.TabStop = false;
             this.btnExportForm.Text = "btnExport";
             this.btnExportForm.UseVisualStyleBackColor = true;
             this.btnExportForm.Click += new System.EventHandler(this.btnExportForm_Click);
@@ -519,6 +392,7 @@
             this.btnSaveForm.Name = "btnSaveForm";
             this.btnSaveForm.Size = new System.Drawing.Size(44, 44);
             this.btnSaveForm.TabIndex = 3;
+            this.btnSaveForm.TabStop = false;
             this.btnSaveForm.Text = "btnSave";
             this.btnSaveForm.UseVisualStyleBackColor = true;
             this.btnSaveForm.Click += new System.EventHandler(this.btnSaveForm_Click);
@@ -531,6 +405,7 @@
             this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
             this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
             this.btnLoadSettingsScreen.TabIndex = 6;
+            this.btnLoadSettingsScreen.TabStop = false;
             this.btnLoadSettingsScreen.Text = "btnSettings";
             this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
@@ -627,6 +502,7 @@
             this.btnNewPage.Name = "btnNewPage";
             this.btnNewPage.Size = new System.Drawing.Size(32, 33);
             this.btnNewPage.TabIndex = 3;
+            this.btnNewPage.TabStop = false;
             this.btnNewPage.Text = "new pg";
             this.btnNewPage.UseVisualStyleBackColor = true;
             this.btnNewPage.Click += new System.EventHandler(this.btnNewPage_Click);
@@ -638,6 +514,7 @@
             this.btnPreviousPage.Name = "btnPreviousPage";
             this.btnPreviousPage.Size = new System.Drawing.Size(32, 33);
             this.btnPreviousPage.TabIndex = 1;
+            this.btnPreviousPage.TabStop = false;
             this.btnPreviousPage.Text = "<";
             this.btnPreviousPage.UseVisualStyleBackColor = true;
             this.btnPreviousPage.Click += new System.EventHandler(this.btnPreviousPage_Click);
@@ -650,119 +527,14 @@
             this.btnNextPage.Name = "btnNextPage";
             this.btnNextPage.Size = new System.Drawing.Size(33, 33);
             this.btnNextPage.TabIndex = 2;
+            this.btnNextPage.TabStop = false;
             this.btnNextPage.Text = ">";
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
             // 
-            // txtPropY
-            // 
-            this.txtPropY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropY.Location = new System.Drawing.Point(188, 188);
-            this.txtPropY.Name = "txtPropY";
-            this.txtPropY.Size = new System.Drawing.Size(43, 21);
-            this.txtPropY.TabIndex = 11;
-            // 
-            // txtPropX
-            // 
-            this.txtPropX.BackColor = System.Drawing.Color.White;
-            this.txtPropX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropX.Location = new System.Drawing.Point(109, 188);
-            this.txtPropX.Name = "txtPropX";
-            this.txtPropX.Size = new System.Drawing.Size(43, 21);
-            this.txtPropX.TabIndex = 10;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(158, 188);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(24, 20);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Y:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(80, 188);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 20);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "X:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 218);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 17);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Size";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(15, 188);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 17);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Position";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 17);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Type";
-            // 
-            // txtPropFieldType
-            // 
-            this.txtPropFieldType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.txtPropFieldType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropFieldType.FormattingEnabled = true;
-            this.txtPropFieldType.Location = new System.Drawing.Point(64, 52);
-            this.txtPropFieldType.Name = "txtPropFieldType";
-            this.txtPropFieldType.Size = new System.Drawing.Size(183, 24);
-            this.txtPropFieldType.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 17);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.propertyGrid);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.cmbFormatSetNames);
-            this.groupBox3.Controls.Add(this.chkPropReadOnly);
-            this.groupBox3.Controls.Add(this.chkPropHidden);
-            this.groupBox3.Controls.Add(this.btnPropSave);
-            this.groupBox3.Controls.Add(this.txtPropText);
-            this.groupBox3.Controls.Add(this.txtPropName);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.txtPropHeight);
-            this.groupBox3.Controls.Add(this.txtPropWidth);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.txtPropY);
-            this.groupBox3.Controls.Add(this.txtPropX);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.txtPropFieldType);
-            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
@@ -789,6 +561,7 @@
             this.trvFieldList.Name = "trvFieldList";
             this.trvFieldList.Size = new System.Drawing.Size(207, 559);
             this.trvFieldList.TabIndex = 0;
+            this.trvFieldList.TabStop = false;
             this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
             this.trvFieldList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.heirarchyViewClick);
             this.trvFieldList.Enter += new System.EventHandler(this.trvFieldList_MouseEnter);
@@ -832,6 +605,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(1179, 688);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 37;
+            this.splitContainer1.TabStop = false;
             // 
             // splitContainer2
             // 
@@ -849,6 +623,7 @@
             this.splitContainer2.Size = new System.Drawing.Size(1179, 584);
             this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.TabIndex = 0;
+            this.splitContainer2.TabStop = false;
             // 
             // splitContainer3
             // 
@@ -866,6 +641,7 @@
             this.splitContainer3.Size = new System.Drawing.Size(962, 584);
             this.splitContainer3.SplitterDistance = 687;
             this.splitContainer3.TabIndex = 0;
+            this.splitContainer3.TabStop = false;
             // 
             // splitContainer4
             // 
@@ -885,6 +661,7 @@
             this.splitContainer4.Size = new System.Drawing.Size(271, 584);
             this.splitContainer4.SplitterDistance = 150;
             this.splitContainer4.TabIndex = 0;
+            this.splitContainer4.TabStop = false;
             // 
             // Designer
             // 
@@ -908,7 +685,6 @@
             this.groupBox1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -934,19 +710,8 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkPropReadOnly;
-        private System.Windows.Forms.CheckBox chkPropHidden;
-        private System.Windows.Forms.Button btnPropSave;
-        private System.Windows.Forms.TextBox txtPropText;
-        private System.Windows.Forms.TextBox txtPropName;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtPropHeight;
-        private System.Windows.Forms.TextBox txtPropWidth;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cmbFormatSetNames;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnAddCheckBox;
         private System.Windows.Forms.Button btnAddInputTextField;
@@ -968,7 +733,6 @@
         private System.Windows.Forms.ContextMenuStrip cntxtFieldControls;
         private System.Windows.Forms.ToolStripMenuItem alignVerticallyToolStripMenuItem;
         public System.Windows.Forms.Panel designPanel;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnExportForm;
@@ -983,15 +747,6 @@
         private System.Windows.Forms.Button btnNewPage;
         private System.Windows.Forms.Button btnPreviousPage;
         private System.Windows.Forms.Button btnNextPage;
-        private System.Windows.Forms.TextBox txtPropY;
-        private System.Windows.Forms.TextBox txtPropX;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox txtPropFieldType;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TreeView trvFieldList;
         private System.Windows.Forms.GroupBox groupBox4;

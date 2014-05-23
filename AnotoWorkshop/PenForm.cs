@@ -21,7 +21,6 @@ namespace AnotoWorkshop {
 
         private readonly XmlDocument _dom = new XmlDocument();
         private int _counter;
-        private int _importFormatSetTicker;
 
         private Settings _settings = Settings.instance;
 
@@ -489,7 +488,7 @@ namespace AnotoWorkshop {
             const string adobeXdpNs = @"http://ns.adobe.com/xdp/";//Xdp
             const string adobeXdpPrefix = @"xdp";
             const string adobeXfaNs = @"http://www.xfa.org/schema/xfa-template/2.6/";//Xfa
-            const string adobeXfaPrefix = @"Xfa";
+            //const string adobeXfaPrefix = @"Xfa";
             const string adobeXfalNs = @"http://www.xfa.org/schema/xfa-locale-set/2.6/";
             //prefix xfal nogo
             const string adobeXNs = @"adobe:ns:meta/";

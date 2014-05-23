@@ -1197,7 +1197,6 @@ namespace AnotoWorkshop {
             _bottomCrossPoint = new Point();
             _leftCrossPoint = new Point();
             _rightCrossPoint = new Point();
-            //_resRect = new Rectangle();
             _groupSelectionRect = new Rectangle();
             designPanel.Invalidate();
         }
@@ -1386,46 +1385,12 @@ namespace AnotoWorkshop {
 
         #region Field Properties
 
-        private Field _fieldInProperties;
-
         private void refreshProperties(Field fi) {
-            txtPropName.Text = fi.name;
-            txtPropX.Text = fi.x.ToString();
-            txtPropY.Text = fi.y.ToString();
-            txtPropWidth.Text = fi.width.ToString();
-            txtPropHeight.Text = fi.height.ToString();
-            chkPropHidden.Checked = fi.hidden;
-            chkPropReadOnly.Checked = fi.readOnly;
-            txtPropFieldType.Text = fi.type.ToString();
-            txtPropText.Text = fi.text;
-            //cmbFormatSetNames.SelectedItem = fi.formatSet.name;
-
-            _fieldInProperties = fi;
 
             propertyGrid.SelectedObject = fi;
 
         }
 
-        private void btnPropSave_Click(object sender, EventArgs e) {//TODO - SAFELY remove this prop stuff
-            _currentForm.page(_currentPageNumber).Fields.Remove(_fieldInProperties);
-
-            _fieldInProperties.name = txtPropName.Text;
-            _fieldInProperties.x = Convert.ToInt32(txtPropX.Text);
-            _fieldInProperties.y = Convert.ToInt32(txtPropY.Text);
-            _fieldInProperties.width = Convert.ToInt32(txtPropWidth.Text);
-            _fieldInProperties.height = Convert.ToInt32(txtPropHeight.Text);
-            _fieldInProperties.hidden = chkPropHidden.Checked;
-            _fieldInProperties.readOnly = chkPropReadOnly.Checked;             
-            _fieldInProperties.text = txtPropText.Text;
-            //if (cmbFormatSetNames.SelectedItem.ToString() != "") {
-            //    _fieldInProperties.formatSet = _settings.getFormatSetByName(cmbFormatSetNames.SelectedItem.ToString());
-            //}
-
-            _currentForm.page(_currentPageNumber).Fields.Add(_fieldInProperties);
-            calculateLabelSizes();   //...
-            calculateSfBox();        //......Some visual cleanup for rendering the changes.
-            designPanel.Invalidate();//...
-        }
 
         #endregion Field Properties
 
@@ -1440,8 +1405,16 @@ namespace AnotoWorkshop {
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {//Steals the KeyEvents away from everything, for better control over what happens during key presses.
-            //Delete
-            //if (keyData == Keys.Delete) OnKeyPress(new KeyPressEventArgs((Char)Keys.Delete));
+            //stop Editing Text
+            if (keyData == Keys.Enter) {
+                if (_globalMode.mode() == MouseMode.TextEditing) {
+                    if (_activeEditField.type == Type.Checkbox ||
+                        _activeEditField.type == Type.Label) {
+                            stopEditing();
+                            return true;
+                    }
+                }
+            }   
             //Mouse Arrow Moving
             if (keyData == Keys.Up) {
                 if (designPanel.Focused) {
@@ -1788,27 +1761,10 @@ namespace AnotoWorkshop {
             }    
         }
 
-        private void cntxtFormatSets_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-        //    if (_globalMode.TextEditing) {
-        //
-        //        if (_activeEditField.type == Type.Label || _activeEditField.type == Type.Checkbox) {
-        //            _activeEditField.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);
-        //            _activeTextEditBox.Font = _settings.getFormatSetByName(e.ClickedItem.Text).font();
-        //        }
-        //
-        //        if (_activeEditField.type == Type.RichLabel) {
-        //            _activeTextEditBox.SelectionFont = _settings.getFormatSetByName(e.ClickedItem.Text).font();
-        //        }
-        //        
-        //    } else {
-        //        _fieldToAdd.formatSet = _settings.getFormatSetByName(e.ClickedItem.Text);//Assign the field a formatSet
-        //    }
-        }
-
-        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e) {
             needToSave();
-            calculateSfBox();
+            refreshHierarchyView();
+            calculateLabelSizes();
             designPanel.Invalidate();
         }
     }

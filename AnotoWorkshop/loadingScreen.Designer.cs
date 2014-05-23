@@ -67,6 +67,7 @@
             this.btlLoadAliasBuilder.TabIndex = 21;
             this.btlLoadAliasBuilder.Text = "Variables";
             this.btlLoadAliasBuilder.UseVisualStyleBackColor = true;
+            this.btlLoadAliasBuilder.Visible = false;
             this.btlLoadAliasBuilder.Click += new System.EventHandler(this.btlLoadAliasBuilder_Click);
             // 
             // btnImportForms
@@ -77,6 +78,7 @@
             this.btnImportForms.TabIndex = 26;
             this.btnImportForms.Text = "Import...";
             this.btnImportForms.UseVisualStyleBackColor = true;
+            this.btnImportForms.Visible = false;
             this.btnImportForms.Click += new System.EventHandler(this.btnImportForms_Click);
             // 
             // btnNewForm
@@ -108,6 +110,7 @@
             this.button1.TabIndex = 29;
             this.button1.Text = "White List";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // LoadingScreen

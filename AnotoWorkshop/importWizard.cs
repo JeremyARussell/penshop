@@ -17,7 +17,6 @@ namespace AnotoWorkshop {
         private readonly LoadingScreen _loadingScreen;
 
         //TODO - Add add the network path for the forms as a prefix. Save in settings file.
-        private int _activeFormatSet;
 
         #endregion Variables
 
