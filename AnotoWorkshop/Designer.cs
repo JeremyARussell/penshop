@@ -225,12 +225,12 @@ namespace AnotoWorkshop {
             btnNewPage.Text = "\uE160";
             btnNextPage.Text = "\uE111";
             btnPreviousPage.Text = "\uE112";
-            btnAddInputTextField.Text = "\uE18F";
-            btnAddCheckBox.Text = "\uE0A2";
-            btnAddLabel.Text = "\uE185";
+            chkAddWritten.Text = "\uE18F";
+            chkAddCheckbox.Text = "\uE0A2";
+            chkAddLabel.Text = "\uE185";
             //btnAddRichLabel.Text = "\uE185";
-            btnAddRectangle.Text = "\uE2B3";
-            btnAddLine.Text = "\uE108";
+            chkAddRectangle.Text = "\uE2B3";
+            chkAddLine.Text = "\uE108";
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Loading the RichTextBox's that go with the RichLabel's
                 if(fi.type == Type.RichLabel) {
@@ -531,6 +531,7 @@ namespace AnotoWorkshop {
                                     
                                     _currentForm.page(_currentPageNumber).Fields.Add(_fieldToAdd);  //Add the field...
                                     _fieldToAdd = null;                                             //...effectively empty the field, to prepare for a new addition.
+                                    disableOtherAdders(new CheckBox());
                                     _globalMode.setMode(MouseMode.None);     //To prevent null _fieldToAdd during mouseMove and mouseUp errors I was having.
                                     
                                     refreshHierarchyView();
@@ -841,8 +842,12 @@ namespace AnotoWorkshop {
                             }
                             refreshHierarchyView();
                             refreshProperties(_fieldToAdd);
+
+                            disableOtherAdders(new CheckBox());
                             _fieldToAdd = null;
                         }
+
+
                         _globalMode.setMode(MouseMode.None);
                         break;
                 }
@@ -1082,81 +1087,94 @@ namespace AnotoWorkshop {
 
         #region Field Addition
 
-        private void btn_AddField_Click(object sender, EventArgs e) {
+        /// <summary>
+        /// This method is used to deactivate all but the CheckBox that is passed to it. New Adding checkboxes 
+        /// will need to be implemented as we go.
+        /// </summary>
+        /// <param name="me">The CheckBox to remain checked.</param>
+        private void disableOtherAdders(CheckBox me) {
+            if (me != chkAddCheckbox) chkAddCheckbox.Checked = false;
+            if (me != chkAddLabel) chkAddLabel.Checked = false;
+            if (me != chkAddLine) chkAddLine.Checked = false;
+            if (me != chkAddRectangle) chkAddRectangle.Checked = false;
+            if (me != chkAddWritten) chkAddWritten.Checked = false;
+        }
+
+        //These methods are attached to the adder checkboxes click event. They each set things up 
+        //for their respective fields to be added to the page.
+        private void addWritten(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
             deselectAll();
 
             _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddWritten.Checked) _globalMode.setMode(MouseMode.None);
 
-            //Testing Grounds///
             string fieldName = "";
 
-            //using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {//FT1C
-            //    var result = form.ShowDialog();
-            //    if (result == DialogResult.OK) {
-            //        string val = form.name;
-            //
-             //       fieldName = val;
-            //    }
-            //}
-
-            //Testing Grounds End///
-
+            /*using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {//FT1C
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    string val = form.name;
+                    fieldName = val;
+                }
+            //}*/
             
             _fieldToAdd = new Field(fieldName, Type.TextField);
         }
 
-        private void btnAddCheckBox_Click(object sender, EventArgs e) {
+        private void addCheckbox(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
             deselectAll();
 
             _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddCheckbox.Checked) _globalMode.setMode(MouseMode.None);
 
             string fieldName = "";
-
-            /*using (var form = new fieldSelection(_currentForm.formTemplates, "Text")) {
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK) {
-                    string val = form.name;
-
-                    fieldName = val;
-                }
-            }*/
-
             _fieldToAdd = new Field(fieldName, Type.Checkbox);
             _fieldToAdd.x = 10;
             _fieldToAdd.y = 10;
         }
 
-        private void btnAddLabel_Click(object sender, EventArgs e) {
+        private void addLabel(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
             deselectAll();
 
             _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddLabel.Checked) _globalMode.setMode(MouseMode.None);
+
             _fieldToAdd = new Field("Label", Type.Label);
             _fieldToAdd.text = "Placeholder Text";                 //To give it text, and therefore dimensions in the display.
 
         }
 
-        private void btnAddRichLabel_Click(object sender, EventArgs e) {
+        private void addRectangle(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
+            deselectAll();
+
+            _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddRectangle.Checked) _globalMode.setMode(MouseMode.None);
+
+            _fieldToAdd = new Field("Rectangle", Type.RectangleDraw);
+        }
+
+        private void addLine(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
+            deselectAll();
+
+            _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddLine.Checked) _globalMode.setMode(MouseMode.None);
+
+            _fieldToAdd = new Field("Line", Type.LineDraw);
+        }
+
+        private void addRichLabel(object sender, EventArgs e) {
+
             deselectAll();
 
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.RichLabel);
 
         }
-
-        private void btnAddRectangle_Click(object sender, EventArgs e) {
-            deselectAll();
-
-            _globalMode.setMode(MouseMode.Adding);
-            _fieldToAdd = new Field("Rectangle", Type.RectangleDraw);
-        }
-
-        private void btnAddLine_Click(object sender, EventArgs e) {
-            deselectAll();
-
-            _globalMode.setMode(MouseMode.Adding);
-            _fieldToAdd = new Field("Line", Type.LineDraw);
-        }
-
         #endregion Field Addition
 
 

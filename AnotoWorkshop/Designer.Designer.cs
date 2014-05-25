@@ -32,14 +32,10 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnAddCheckBox = new System.Windows.Forms.Button();
-            this.btnAddInputTextField = new System.Windows.Forms.Button();
-            this.btnAddRectangle = new System.Windows.Forms.Button();
-            this.btnAddLine = new System.Windows.Forms.Button();
-            this.Input = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.btnAddLabel = new System.Windows.Forms.Button();
+            this.chkAddWritten = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +71,10 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.chkAddRectangle = new System.Windows.Forms.CheckBox();
+            this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
+            this.chkAddLine = new System.Windows.Forms.CheckBox();
+            this.chkAddLabel = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
@@ -131,14 +131,14 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.label20, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label19, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddCheckBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddInputTextField, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddRectangle, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddLine, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.Input, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label22, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label23, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddLabel, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chkAddWritten, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chkAddRectangle, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.chkAddCheckbox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chkAddLine, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.chkAddLabel, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -148,69 +148,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 130);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // btnAddCheckBox
-            // 
-            this.btnAddCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddCheckBox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.btnAddCheckBox.Location = new System.Drawing.Point(68, 3);
-            this.btnAddCheckBox.Name = "btnAddCheckBox";
-            this.btnAddCheckBox.Size = new System.Drawing.Size(44, 44);
-            this.btnAddCheckBox.TabIndex = 1;
-            this.btnAddCheckBox.TabStop = false;
-            this.btnAddCheckBox.Text = "button8";
-            this.btnAddCheckBox.UseVisualStyleBackColor = true;
-            this.btnAddCheckBox.Click += new System.EventHandler(this.btnAddCheckBox_Click);
-            // 
-            // btnAddInputTextField
-            // 
-            this.btnAddInputTextField.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddInputTextField.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddInputTextField.Location = new System.Drawing.Point(8, 3);
-            this.btnAddInputTextField.Name = "btnAddInputTextField";
-            this.btnAddInputTextField.Size = new System.Drawing.Size(44, 44);
-            this.btnAddInputTextField.TabIndex = 0;
-            this.btnAddInputTextField.TabStop = false;
-            this.btnAddInputTextField.Text = "button7";
-            this.btnAddInputTextField.UseVisualStyleBackColor = true;
-            this.btnAddInputTextField.Click += new System.EventHandler(this.btn_AddField_Click);
-            // 
-            // btnAddRectangle
-            // 
-            this.btnAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.btnAddRectangle.Location = new System.Drawing.Point(8, 68);
-            this.btnAddRectangle.Name = "btnAddRectangle";
-            this.btnAddRectangle.Size = new System.Drawing.Size(44, 44);
-            this.btnAddRectangle.TabIndex = 4;
-            this.btnAddRectangle.TabStop = false;
-            this.btnAddRectangle.Text = "button11";
-            this.btnAddRectangle.UseVisualStyleBackColor = true;
-            this.btnAddRectangle.Click += new System.EventHandler(this.btnAddRectangle_Click);
-            // 
-            // btnAddLine
-            // 
-            this.btnAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.btnAddLine.Location = new System.Drawing.Point(68, 68);
-            this.btnAddLine.Name = "btnAddLine";
-            this.btnAddLine.Size = new System.Drawing.Size(44, 44);
-            this.btnAddLine.TabIndex = 5;
-            this.btnAddLine.TabStop = false;
-            this.btnAddLine.Text = "button12";
-            this.btnAddLine.UseVisualStyleBackColor = true;
-            this.btnAddLine.Click += new System.EventHandler(this.btnAddLine_Click);
-            // 
-            // Input
-            // 
-            this.Input.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.Input.AutoSize = true;
-            this.Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Input.Location = new System.Drawing.Point(13, 50);
-            this.Input.Name = "Input";
-            this.Input.Size = new System.Drawing.Size(33, 13);
-            this.Input.TabIndex = 6;
-            this.Input.Text = "Writer";
             // 
             // label22
             // 
@@ -234,18 +171,29 @@
             this.label23.TabIndex = 11;
             this.label23.Text = "Line";
             // 
-            // btnAddLabel
+            // chkAddWritten
             // 
-            this.btnAddLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAddLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.btnAddLabel.Location = new System.Drawing.Point(128, 3);
-            this.btnAddLabel.Name = "btnAddLabel";
-            this.btnAddLabel.Size = new System.Drawing.Size(44, 44);
-            this.btnAddLabel.TabIndex = 2;
-            this.btnAddLabel.TabStop = false;
-            this.btnAddLabel.Text = "button9";
-            this.btnAddLabel.UseVisualStyleBackColor = true;
-            this.btnAddLabel.Click += new System.EventHandler(this.btnAddLabel_Click);
+            this.chkAddWritten.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddWritten.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddWritten.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddWritten.Location = new System.Drawing.Point(8, 3);
+            this.chkAddWritten.Name = "chkAddWritten";
+            this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
+            this.chkAddWritten.TabIndex = 12;
+            this.chkAddWritten.Text = "checkBox1";
+            this.chkAddWritten.UseVisualStyleBackColor = true;
+            this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label1.Location = new System.Drawing.Point(9, 50);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Written";
             // 
             // groupBox2
             // 
@@ -663,6 +611,58 @@
             this.splitContainer4.TabIndex = 0;
             this.splitContainer4.TabStop = false;
             // 
+            // chkAddRectangle
+            // 
+            this.chkAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddRectangle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddRectangle.Location = new System.Drawing.Point(8, 68);
+            this.chkAddRectangle.Name = "chkAddRectangle";
+            this.chkAddRectangle.Size = new System.Drawing.Size(44, 44);
+            this.chkAddRectangle.TabIndex = 14;
+            this.chkAddRectangle.Text = "checkBox1";
+            this.chkAddRectangle.UseVisualStyleBackColor = true;
+            this.chkAddRectangle.Click += new System.EventHandler(this.addRectangle);
+            // 
+            // chkAddCheckbox
+            // 
+            this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddCheckbox.Location = new System.Drawing.Point(68, 3);
+            this.chkAddCheckbox.Name = "chkAddCheckbox";
+            this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
+            this.chkAddCheckbox.TabIndex = 15;
+            this.chkAddCheckbox.Text = "checkBox2";
+            this.chkAddCheckbox.UseVisualStyleBackColor = true;
+            this.chkAddCheckbox.Click += new System.EventHandler(this.addCheckbox);
+            // 
+            // chkAddLine
+            // 
+            this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddLine.Location = new System.Drawing.Point(68, 68);
+            this.chkAddLine.Name = "chkAddLine";
+            this.chkAddLine.Size = new System.Drawing.Size(44, 44);
+            this.chkAddLine.TabIndex = 16;
+            this.chkAddLine.Text = "checkBox3";
+            this.chkAddLine.UseVisualStyleBackColor = true;
+            this.chkAddLine.Click += new System.EventHandler(this.addLine);
+            // 
+            // chkAddLabel
+            // 
+            this.chkAddLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddLabel.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddLabel.Location = new System.Drawing.Point(128, 3);
+            this.chkAddLabel.Name = "chkAddLabel";
+            this.chkAddLabel.Size = new System.Drawing.Size(44, 44);
+            this.chkAddLabel.TabIndex = 17;
+            this.chkAddLabel.Text = "checkBox4";
+            this.chkAddLabel.UseVisualStyleBackColor = true;
+            this.chkAddLabel.Click += new System.EventHandler(this.addLabel);
+            // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -713,14 +713,8 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button btnAddCheckBox;
-        private System.Windows.Forms.Button btnAddInputTextField;
-        private System.Windows.Forms.Button btnAddRectangle;
-        private System.Windows.Forms.Button btnAddLine;
-        private System.Windows.Forms.Label Input;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button btnAddLabel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblDebugMMode;
         private System.Windows.Forms.ToolStripMenuItem alignHorizontallyToolStripMenuItem;
@@ -756,6 +750,12 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkAddWritten;
+        private System.Windows.Forms.CheckBox chkAddRectangle;
+        private System.Windows.Forms.CheckBox chkAddCheckbox;
+        private System.Windows.Forms.CheckBox chkAddLine;
+        private System.Windows.Forms.CheckBox chkAddLabel;
 
     }
 }
