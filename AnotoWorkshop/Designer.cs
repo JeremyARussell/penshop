@@ -1700,8 +1700,12 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Font = fi.font();
                         _activeTextEditBox.Text = fi.text;
-                        _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset + fi.width) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
-                        _activeTextEditBox.Size = new Size((int)(300 * _zoomLevel) + 1, (int)(50 * _zoomLevel) + 1);
+                        _activeTextEditBox.Location = new Point(//Checkbox locations are a bit special to adjust for the checkbox being bigger than the text.
+                                                            (int)((fi.x + _xOffset + fi.width) * _zoomLevel) + 2
+                                                            , (int)((fi.y + _yOffset + (((fi.height - fi.font().Size) / 2)) - 4) * _zoomLevel)
+                                                            );
+                        
+                        _activeTextEditBox.Size = new Size((int)(fi.exWidth * _zoomLevel) + 1, (int)(fi.exHeight * _zoomLevel) + 1);
 
                         _activeTextEditBox.Show();
                         _activeTextEditBox.Focus();
