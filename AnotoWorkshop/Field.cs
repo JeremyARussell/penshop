@@ -42,7 +42,7 @@ namespace AnotoWorkshop {
 
             FontFamily theFontFamily = new FontFamily(fontTypeface);
 
-            Font retFont = new Font(theFontFamily, fontSize, fontStyle);
+            Font retFont = new Font(theFontFamily, (int)(fontSize * 0.75), fontStyle);
             return retFont;
         }
 
