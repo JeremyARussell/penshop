@@ -131,8 +131,6 @@ namespace AnotoWorkshop {
             MouseWheel += mouseWheel; //To override the built in MouseWheel event with my own.
         }
 
-        int testX;
-        int testY;
 
         //Names
         private void fontNameCmbValueChanged (object sender, EventArgs a) {
@@ -747,8 +745,8 @@ namespace AnotoWorkshop {
                                 refreshProperties(fi);
 
                                 if(fi.type == Type.Label || fi.type == Type.Checkbox) {
-                                    _changingFontField = fi;
                                     _needFontMenu = true;
+                                    _changingFontField = fi;
                                 } else {
                                     _needFontMenu = false;
                                     _changingFontField = null;
@@ -758,8 +756,8 @@ namespace AnotoWorkshop {
                         }
 
                     if(_needFontMenu && _changingFontField != null) {
-                        testX = designPanel.PointToScreen(new Point(_changingFontField.x, _changingFontField.y)).X;
-                        testY = designPanel.PointToScreen(new Point(_changingFontField.x, _changingFontField.y)).Y;
+                        int fontMenuPosX = designPanel.PointToScreen(new Point((int)((_changingFontField.x + _xOffset) * _zoomLevel), (int)((_changingFontField.y + _yOffset) * _zoomLevel))).X - (int)(10 * _zoomLevel);
+                        int fontMenuPosY = designPanel.PointToScreen(new Point((int)((_changingFontField.x + _xOffset) * _zoomLevel), (int)((_changingFontField.y + _yOffset) * _zoomLevel))).Y - (int)(28 + (8 * _zoomLevel));
 
                         _mFontMenu.cmbFontList.Text = _changingFontField.fontTypeface;
                         _mFontMenu.cmbFontSizes.Text = _changingFontField.fontSize.ToString();
@@ -783,7 +781,7 @@ namespace AnotoWorkshop {
                         }
 
 
-                        _mFontMenuContainer.Show(testX, testY);
+                        _mFontMenuContainer.Show(fontMenuPosX, fontMenuPosY);
                     }
 
                         break;
