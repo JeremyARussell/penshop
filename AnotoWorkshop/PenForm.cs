@@ -1584,6 +1584,9 @@ namespace AnotoWorkshop {
         public void exportPNG() {
 
             string versionString = _formVersion.ToString("D7");
+            SolidBrush pngFiller = new SolidBrush(Color.FromArgb(255, 222, 229, 255));
+            Pen pngBlue = new Pen(Color.FromArgb(255, 51, 102, 255));
+
 
             foreach(FormPage page in _formPages) {
                 Bitmap bitTest = new Bitmap(612, 792);
@@ -1599,68 +1602,44 @@ namespace AnotoWorkshop {
 
                 e.FillRectangle(new SolidBrush(Color.White), pageRectangle);
 
-                foreach (Field fi in page.Fields)
-                {
-                    if (!fi.hidden)
-                    {
-                        switch (fi.type)
-                        {
+                foreach (Field fi in page.Fields) {
+                    if (!fi.hidden) {
+                        switch (fi.type) {
                             case Type.TextField:
-                                Pen p1 = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                e.DrawRectangle(p1, new Rectangle((new Point(fi.x, fi.y)), (new Size(fi.width, fi.height))));
-                                p1.Color = Color.FromArgb(255, 51, 102, 255);
-                                e.DrawLine(p1, fi.x + 1, fi.y - 1 + fi.height, //Creates the shadow line for the text box.
-                                                        fi.x - 1 + fi.width, fi.y - 1 + fi.height);
+                                if (fi.readOnly) 
+                                    e.DrawLine(pngBlue, fi.x + 1, fi.y - 1 + fi.height, fi.x - 1 + fi.width, fi.y - 1 + fi.height);
+                                else
+                                    e.FillRectangle(pngFiller, new Rectangle((new Point(fi.x, fi.y)), (new Size(fi.width, fi.height))));
                                 break;
 
                             case Type.Label:
-                                Pen p2 = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                //e.Graphics.DrawRectangle(p2, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
-
-                                //p2.Color = Color.FromArgb(255, 51, 102, 255);
-                                e.DrawString(fi.text, fi.font(), p2.Brush, new Point(fi.x, fi.y));
+                                e.DrawString(fi.text, fi.font(), pngBlue.Brush, new Point(fi.x, fi.y));
                                 break;
 
                             case Type.RichLabel:
-                                //Pen flPen = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                //e.Graphics.DrawRectangle(flPen, new Rectangle((new Point(fi.x, fi.y)), fi.rect().Size));
-
-                                //e.DrawRtfText(fi.richBox.Rtf, fi.rect(), new Point(0, 0));
-
-                                //flPen.Color = Color.Black;
-                                //e.DrawString(fi.text, fi.formatSet.font(), flPen.Brush, new Point(fi.x, fi.y));
                                 break;
 
                             case Type.RectangleDraw:
-                                Pen recPen = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                e.DrawRectangle(recPen, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 break;
 
                             case Type.LineDraw:
-                                Pen linePen = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                e.DrawRectangle(linePen, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 break;
 
                             case Type.Checkbox:
-                                Pen p3 = new Pen(Color.FromArgb(255, 51, 102, 255));
-                                e.DrawRectangle(p3, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
-                                //p3.Color = Color.Black;
-                                e.DrawString(fi.text, fi.font(), p3.Brush, new Point(fi.x + fi.width, (int)(fi.y + (((fi.height - fi.font().Size) / 2)) - 4)));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x - 1, fi.y - 1)),  (new Size(fi.width + 1, fi.height + 1))));
+                                e.FillRectangle(pngFiller, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                e.DrawString(fi.text, fi.font(), pngBlue.Brush, new Point(fi.x + fi.width, (int)(fi.y + (((fi.height - fi.font().Size) / 2)) - 4)));
                                 break;
 
                             case Type.OptionsGroup:
-                                Pen p4 = new Pen(Color.Red);
-                                e.DrawRectangle(p4, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 break;
                         }
                     }
                 }
 
-                using (MagickImage image = new MagickImage(bitTest)) {
-
-                    var ime = image.Density;
-                    Console.WriteLine(ime.Width + " - " + ime.Height);
-                
+                using (MagickImage image = new MagickImage(bitTest)) {                
                     image.Format = MagickFormat.Png;
                     image.Write(_settings.exportFolder + @"\" + FormName + "." + versionString + "_" + page.PageNumber +  ".png");
                 }

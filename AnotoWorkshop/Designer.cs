@@ -1314,7 +1314,7 @@ namespace AnotoWorkshop {
             _currentForm.versionNumber++;
             _currentForm.exportXDP();
             _currentForm.exportEPS();
-            //currentForm.exportPNG();
+            _currentForm.exportPNG();
 
             _currentForm.saveForm();
 
