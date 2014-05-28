@@ -206,7 +206,7 @@ namespace AnotoWorkshop {
         private void processSection() {
             Match selectMatch = Regex.Match(_contents, @"select ", RegexOptions.IgnoreCase);
             Match columnMatch = Regex.Match(_contents, @"[aA-zZ]+\.[aA-zZ]+", RegexOptions.IgnoreCase);
-            Match aliasMatch = Regex.Match(_contents, @"\sas\s", RegexOptions.IgnoreCase);
+            Match aliasMatch = Regex.Match(_contents, @"\sas\s", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
             Match fromMatch = Regex.Match(_contents, @"from", RegexOptions.IgnoreCase);
             Match joinMatch = Regex.Match(_contents, @"((left(\s+outer)?|inner)\s+)?join\b", RegexOptions.IgnoreCase);
             Match whereMatch = Regex.Match(_contents, @"where", RegexOptions.IgnoreCase);
@@ -217,10 +217,30 @@ namespace AnotoWorkshop {
 
             if (columnMatch.Success) {
                 _type = SectionType.Column;
+
+                int startColumn = _contents.IndexOf(@".") + 1;
+                int startSpaceAfterColumn = _contents.IndexOf(@" ", startColumn);
+                int startCommaAfterColumn = _contents.IndexOf(@",", startColumn);
+                if (startSpaceAfterColumn == -1) startSpaceAfterColumn = startCommaAfterColumn;
+                if (startCommaAfterColumn == -1) startCommaAfterColumn = startSpaceAfterColumn - 1;
+                if (startSpaceAfterColumn > startCommaAfterColumn) {
+                    _name = _contents.Substring(startColumn, startCommaAfterColumn - startColumn);
+                } else {
+                    _name = _contents.Substring(startColumn, startSpaceAfterColumn - startColumn);
+                }
             }
 
             if (aliasMatch.Success) {
                 _type = SectionType.Alias;
+
+                int startAlias = aliasMatch.Index + 4;
+                string test = _contents.Substring(startAlias);
+                Match alias = Regex.Match(test, @"\W");
+
+                
+
+                _name = test.Substring(0, alias.Index);
+
             }
 
             if (fromMatch.Success) {
@@ -240,6 +260,11 @@ namespace AnotoWorkshop {
 
             return _type.ToString();
             
+        }
+
+        public string name {
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string contents {

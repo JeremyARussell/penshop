@@ -37,6 +37,7 @@
             this.Aliases = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnTest = new System.Windows.Forms.Button();
             this.btnSaveFile = new System.Windows.Forms.Button();
+            this.lblName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txt_QueryVars
@@ -123,11 +124,22 @@
             this.btnSaveFile.UseVisualStyleBackColor = true;
             this.btnSaveFile.Click += new System.EventHandler(this.btnSaveFile_Click);
             // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(425, 228);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(78, 29);
+            this.lblName.TabIndex = 27;
+            this.lblName.Text = "Name";
+            // 
             // aliasBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(954, 496);
+            this.Controls.Add(this.lblName);
             this.Controls.Add(this.btnSaveFile);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.txt_QueryVars);
@@ -156,5 +168,6 @@
         private System.Windows.Forms.ColumnHeader Aliases;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnSaveFile;
+        private System.Windows.Forms.Label lblName;
     }
 }

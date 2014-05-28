@@ -67,7 +67,6 @@
             this.btlLoadAliasBuilder.TabIndex = 21;
             this.btlLoadAliasBuilder.Text = "Variables";
             this.btlLoadAliasBuilder.UseVisualStyleBackColor = true;
-            this.btlLoadAliasBuilder.Visible = false;
             this.btlLoadAliasBuilder.Click += new System.EventHandler(this.btlLoadAliasBuilder_Click);
             // 
             // btnImportForms

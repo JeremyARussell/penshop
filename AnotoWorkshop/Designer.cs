@@ -1297,6 +1297,48 @@ namespace AnotoWorkshop {
         private void btnExportForm_Click(object sender, EventArgs e) {
             calculateLabelSizes();
 
+            /////
+            PrintConfig test = new PrintConfig(Application.StartupPath + @"\FusionPrintConfig.xml");
+            List<string> testList = new List<string>();
+
+
+            foreach (var testvar in test.sectionList) {
+                testList.Add(testvar.Value.name);
+            }
+
+            List<string> fieldsToCreate = new List<string>();
+
+
+
+            foreach (string ts in testList) {
+                if (ts != null) {
+                    fieldsToCreate.Add(ts);
+                }
+            }
+
+            foreach (string ts in testList) {
+                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                    if (ts == fi.name) {
+                        fieldsToCreate.Remove(fi.name);
+                    }
+                }
+            }
+
+
+            foreach (string nameToAdd in fieldsToCreate) {
+                Field testField = new Field(nameToAdd, Type.TextField);
+                testField.readOnly = true;
+                testField.hidden = true;
+                testField.x = 1;
+                testField.y = 1;
+                testField.width = 2;
+                testField.height = 2;
+
+                _currentForm.page(_currentPageNumber).Fields.Add(testField);
+            }
+
+            //////
+            
             if (_settings.exportFolder == @"") {
                 FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
                 DialogResult result = openFileDialog1.ShowDialog();

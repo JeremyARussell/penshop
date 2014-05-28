@@ -27,6 +27,7 @@ namespace AnotoWorkshop {
 
             activeIndexTest = lstv_Variables.SelectedItems[0].Index + 1;
             txt_QueryVars.Text = test.sectionList[activeIndexTest].contents;
+            lblName.Text = test.sectionList[activeIndexTest].name;
         }
 
         #endregion Loading FusionPrintConfig
