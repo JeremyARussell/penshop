@@ -43,7 +43,7 @@ namespace AnotoWorkshop {
             test = new PrintConfig(Application.StartupPath + @"\FusionPrintConfig.xml");
 
             foreach (var testvar in test.sectionList) {
-                lstv_Variables.Items.Add(testvar.Key.ToString() + " - " + testvar.Value.type());
+                lstv_Variables.Items.Add(testvar.Key.ToString() + " - " + testvar.Value.type.ToString());
             }
         }
 

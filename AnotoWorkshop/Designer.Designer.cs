@@ -36,6 +36,10 @@
             this.label23 = new System.Windows.Forms.Label();
             this.chkAddWritten = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkAddRectangle = new System.Windows.Forms.CheckBox();
+            this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
+            this.chkAddLine = new System.Windows.Forms.CheckBox();
+            this.chkAddLabel = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,10 +75,6 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.chkAddRectangle = new System.Windows.Forms.CheckBox();
-            this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
-            this.chkAddLine = new System.Windows.Forms.CheckBox();
-            this.chkAddLabel = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
@@ -180,7 +180,7 @@
             this.chkAddWritten.Name = "chkAddWritten";
             this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
             this.chkAddWritten.TabIndex = 12;
-            this.chkAddWritten.Text = "checkBox1";
+            this.chkAddWritten.Text = "✍";
             this.chkAddWritten.UseVisualStyleBackColor = true;
             this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
             // 
@@ -194,6 +194,58 @@
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Written";
+            // 
+            // chkAddRectangle
+            // 
+            this.chkAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddRectangle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddRectangle.Location = new System.Drawing.Point(8, 68);
+            this.chkAddRectangle.Name = "chkAddRectangle";
+            this.chkAddRectangle.Size = new System.Drawing.Size(44, 44);
+            this.chkAddRectangle.TabIndex = 14;
+            this.chkAddRectangle.Text = "▯";
+            this.chkAddRectangle.UseVisualStyleBackColor = true;
+            this.chkAddRectangle.Click += new System.EventHandler(this.addRectangle);
+            // 
+            // chkAddCheckbox
+            // 
+            this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddCheckbox.Location = new System.Drawing.Point(68, 3);
+            this.chkAddCheckbox.Name = "chkAddCheckbox";
+            this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
+            this.chkAddCheckbox.TabIndex = 15;
+            this.chkAddCheckbox.Text = "☑";
+            this.chkAddCheckbox.UseVisualStyleBackColor = true;
+            this.chkAddCheckbox.Click += new System.EventHandler(this.addCheckbox);
+            // 
+            // chkAddLine
+            // 
+            this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddLine.Location = new System.Drawing.Point(68, 68);
+            this.chkAddLine.Name = "chkAddLine";
+            this.chkAddLine.Size = new System.Drawing.Size(44, 44);
+            this.chkAddLine.TabIndex = 16;
+            this.chkAddLine.Text = "|";
+            this.chkAddLine.UseVisualStyleBackColor = true;
+            this.chkAddLine.Click += new System.EventHandler(this.addLine);
+            // 
+            // chkAddLabel
+            // 
+            this.chkAddLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddLabel.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAddLabel.Location = new System.Drawing.Point(128, 3);
+            this.chkAddLabel.Name = "chkAddLabel";
+            this.chkAddLabel.Size = new System.Drawing.Size(44, 44);
+            this.chkAddLabel.TabIndex = 17;
+            this.chkAddLabel.Text = "abc";
+            this.chkAddLabel.UseVisualStyleBackColor = true;
+            this.chkAddLabel.Click += new System.EventHandler(this.addLabel);
             // 
             // groupBox2
             // 
@@ -321,14 +373,14 @@
             // 
             // btnExportForm
             // 
-            this.btnExportForm.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.btnExportForm.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportForm.Location = new System.Drawing.Point(77, 14);
             this.btnExportForm.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
             this.btnExportForm.Name = "btnExportForm";
             this.btnExportForm.Size = new System.Drawing.Size(44, 44);
             this.btnExportForm.TabIndex = 4;
             this.btnExportForm.TabStop = false;
-            this.btnExportForm.Text = "btnExport";
+            this.btnExportForm.Text = "Ex";
             this.btnExportForm.UseVisualStyleBackColor = true;
             this.btnExportForm.Click += new System.EventHandler(this.btnExportForm_Click);
             // 
@@ -341,7 +393,7 @@
             this.btnSaveForm.Size = new System.Drawing.Size(44, 44);
             this.btnSaveForm.TabIndex = 3;
             this.btnSaveForm.TabStop = false;
-            this.btnSaveForm.Text = "btnSave";
+            this.btnSaveForm.Text = "S";
             this.btnSaveForm.UseVisualStyleBackColor = true;
             this.btnSaveForm.Click += new System.EventHandler(this.btnSaveForm_Click);
             // 
@@ -451,7 +503,7 @@
             this.btnNewPage.Size = new System.Drawing.Size(32, 33);
             this.btnNewPage.TabIndex = 3;
             this.btnNewPage.TabStop = false;
-            this.btnNewPage.Text = "new pg";
+            this.btnNewPage.Text = "*";
             this.btnNewPage.UseVisualStyleBackColor = true;
             this.btnNewPage.Click += new System.EventHandler(this.btnNewPage_Click);
             // 
@@ -610,58 +662,6 @@
             this.splitContainer4.SplitterDistance = 150;
             this.splitContainer4.TabIndex = 0;
             this.splitContainer4.TabStop = false;
-            // 
-            // chkAddRectangle
-            // 
-            this.chkAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddRectangle.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddRectangle.Location = new System.Drawing.Point(8, 68);
-            this.chkAddRectangle.Name = "chkAddRectangle";
-            this.chkAddRectangle.Size = new System.Drawing.Size(44, 44);
-            this.chkAddRectangle.TabIndex = 14;
-            this.chkAddRectangle.Text = "checkBox1";
-            this.chkAddRectangle.UseVisualStyleBackColor = true;
-            this.chkAddRectangle.Click += new System.EventHandler(this.addRectangle);
-            // 
-            // chkAddCheckbox
-            // 
-            this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddCheckbox.Location = new System.Drawing.Point(68, 3);
-            this.chkAddCheckbox.Name = "chkAddCheckbox";
-            this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
-            this.chkAddCheckbox.TabIndex = 15;
-            this.chkAddCheckbox.Text = "checkBox2";
-            this.chkAddCheckbox.UseVisualStyleBackColor = true;
-            this.chkAddCheckbox.Click += new System.EventHandler(this.addCheckbox);
-            // 
-            // chkAddLine
-            // 
-            this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddLine.Location = new System.Drawing.Point(68, 68);
-            this.chkAddLine.Name = "chkAddLine";
-            this.chkAddLine.Size = new System.Drawing.Size(44, 44);
-            this.chkAddLine.TabIndex = 16;
-            this.chkAddLine.Text = "checkBox3";
-            this.chkAddLine.UseVisualStyleBackColor = true;
-            this.chkAddLine.Click += new System.EventHandler(this.addLine);
-            // 
-            // chkAddLabel
-            // 
-            this.chkAddLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddLabel.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddLabel.Location = new System.Drawing.Point(128, 3);
-            this.chkAddLabel.Name = "chkAddLabel";
-            this.chkAddLabel.Size = new System.Drawing.Size(44, 44);
-            this.chkAddLabel.TabIndex = 17;
-            this.chkAddLabel.Text = "checkBox4";
-            this.chkAddLabel.UseVisualStyleBackColor = true;
-            this.chkAddLabel.Click += new System.EventHandler(this.addLabel);
             // 
             // Designer
             // 

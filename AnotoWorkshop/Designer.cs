@@ -217,18 +217,18 @@ namespace AnotoWorkshop {
 
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
-            btnSaveForm.Text = "\uE105";
-            btnExportForm.Text = "\uE126";
-            btnLoadSettingsScreen.Text = "\uE115";
-            btnNewPage.Text = "\uE160";
-            btnNextPage.Text = "\uE111";
-            btnPreviousPage.Text = "\uE112";
-            chkAddWritten.Text = "\uE18F";
-            chkAddCheckbox.Text = "\uE0A2";
-            chkAddLabel.Text = "\uE185";
+            //btnSaveForm.Text = "\uE105";
+            //btnExportForm.Text = "\uE126";
+            //btnLoadSettingsScreen.Text = "\uE115";
+            //btnNewPage.Text = "\uE160";
+            //btnNextPage.Text = "\uE111";
+            //btnPreviousPage.Text = "\uE112";
+            //chkAddWritten.Text = "\uE18F";
+            //chkAddCheckbox.Text = "\uE0A2";
+            //chkAddLabel.Text = "\uE185";
             //btnAddRichLabel.Text = "\uE185";
-            chkAddRectangle.Text = "\uE2B3";
-            chkAddLine.Text = "\uE108";
+            //chkAddRectangle.Text = "\uE2B3";
+            //chkAddLine.Text = "\uE108";
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {//Loading the RichTextBox's that go with the RichLabel's
                 if(fi.type == Type.RichLabel) {
@@ -1301,14 +1301,13 @@ namespace AnotoWorkshop {
             PrintConfig test = new PrintConfig(Application.StartupPath + @"\FusionPrintConfig.xml");
             List<string> testList = new List<string>();
 
-
             foreach (var testvar in test.sectionList) {
-                testList.Add(testvar.Value.name);
+                if (testvar.Value.type == SectionType.Column || testvar.Value.type == SectionType.Alias) {
+                    testList.Add(testvar.Value.name);
+                }
             }
 
             List<string> fieldsToCreate = new List<string>();
-
-
 
             foreach (string ts in testList) {
                 if (ts != null) {

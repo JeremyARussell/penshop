@@ -256,10 +256,9 @@ namespace AnotoWorkshop {
             }
         }
 
-        public string type() {
-
-            return _type.ToString();
-            
+        public SectionType type {
+            get { return _type; }
+            set { _type = value; }
         }
 
         public string name {

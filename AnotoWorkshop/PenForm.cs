@@ -1572,7 +1572,7 @@ namespace AnotoWorkshop {
                     Console.WriteLine(ime.Width + " - " + ime.Height);
                 
                     image.Format = MagickFormat.Eps;
-                    image.Write(_settings.exportFolder + @"\" + FormName + "." + versionString + "_" + page.PageNumber +  ".eps");
+                    image.Write(_settings.exportFolder + @"\" + FormName + "." + versionString + "_" + (page.PageNumber + 1) +  ".eps");
                 }
             }
         }
