@@ -484,9 +484,9 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.btnNewPage, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnPreviousPage, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnNextPage, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnNewPage, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(84, 17);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
@@ -500,7 +500,7 @@
             this.btnNewPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewPage.Location = new System.Drawing.Point(3, 3);
             this.btnNewPage.Name = "btnNewPage";
-            this.btnNewPage.Size = new System.Drawing.Size(32, 33);
+            this.btnNewPage.Size = new System.Drawing.Size(19, 24);
             this.btnNewPage.TabIndex = 3;
             this.btnNewPage.TabStop = false;
             this.btnNewPage.Text = "*";

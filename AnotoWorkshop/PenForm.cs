@@ -555,6 +555,57 @@ namespace AnotoWorkshop {
                     writer.WriteStartElement("subform");
                     writer.WriteAttributeString("w", "612pt");
                     writer.WriteAttributeString("h", "792pt");
+
+                                writer.WriteStartElement("field");
+                                writer.WriteAttributeString("name", "script");
+                                writer.WriteAttributeString("access", "readOnly");
+                                writer.WriteAttributeString("presence", "invisible");
+                                writer.WriteAttributeString("x", "0.353mm");
+                                writer.WriteAttributeString("y", "2.117mm");
+                                writer.WriteAttributeString("w", "0.353mm");
+                                writer.WriteAttributeString("h", "0.352mm");
+                                writer.WriteStartElement("ui");
+                                writer.WriteStartElement("textEdit");
+                                writer.WriteStartElement("border");
+                                    writer.WriteAttributeString("presence", "hidden");
+                                writer.WriteEndElement();//border                                
+                                writer.WriteStartElement("margin");
+                                writer.WriteEndElement();//margin
+                                writer.WriteEndElement();//textEdit
+                                writer.WriteEndElement();//ui
+
+                                writer.WriteStartElement("font");
+                                writer.WriteAttributeString("typeface", "Arial");
+                                    writer.WriteStartElement("fill");
+                                        writer.WriteStartElement("color");
+                                        writer.WriteAttributeString("value", "51,102,255");
+                                        writer.WriteEndElement();//color
+                                    writer.WriteEndElement();//fill
+                                writer.WriteEndElement();//font
+
+                                writer.WriteStartElement("margin");
+                                writer.WriteAttributeString("bottomInset", "0mm");
+                                writer.WriteAttributeString("leftInset", "0mm");
+                                writer.WriteAttributeString("rightInset", "0mm");
+                                writer.WriteAttributeString("topInset", "0mm");
+                                writer.WriteEndElement();//margin
+
+                                writer.WriteStartElement("para");
+                                writer.WriteAttributeString("vAlign", "middle");
+                                writer.WriteEndElement();//para
+
+                                writer.WriteStartElement("calculate");
+                                    writer.WriteStartElement("script");
+                                    writer.WriteAttributeString("contentType", @"application/x-javascript");
+                                    writer.WriteAttributeString("runAt", "server");
+                                    writer.WriteString(@"NextPen.Data.GenerateHistory(""EyeQ_DrKim_RetinaExam"");");//TODO - Get this going for my correctly generating whichever template needed.
+                                    writer.WriteEndElement();//script
+                                writer.WriteEndElement();//calculate
+
+                                writer.WriteEndElement();//field
+
+
+
                     foreach (Field fi in page.Fields) {
                         switch (fi.type) {
 
