@@ -516,6 +516,8 @@ namespace AnotoWorkshop {
                 writer.WriteProcessingInstruction("xfa", "generator=\"AdobeLiveCycleDesignerES_V9.0.0.2.20120627.2.874785\" APIVersion=\"3.1.20001.0\"");
 
                 writer.WriteStartElement(adobeXdpPrefix, "xdp", adobeXdpNs);
+                //Add attribute for timestamp
+                //Figure how how the uuid setup works, do they change each time? etc.
 
 
                 writer.WriteStartElement("template", adobeXfaNs);
@@ -558,16 +560,17 @@ namespace AnotoWorkshop {
 
                                 writer.WriteStartElement("field");
                                 writer.WriteAttributeString("name", "script");
+                                writer.WriteAttributeString("w", "0.353mm");
+                                writer.WriteAttributeString("h", "0.352mm");
                                 writer.WriteAttributeString("access", "readOnly");
                                 writer.WriteAttributeString("presence", "invisible");
                                 writer.WriteAttributeString("x", "0.353mm");
                                 writer.WriteAttributeString("y", "2.117mm");
-                                writer.WriteAttributeString("w", "0.353mm");
-                                writer.WriteAttributeString("h", "0.352mm");
                                 writer.WriteStartElement("ui");
                                 writer.WriteStartElement("textEdit");
                                 writer.WriteStartElement("border");
                                     writer.WriteAttributeString("presence", "hidden");
+                                    writer.WriteProcessingInstruction("templateDesigner", "StyleID aped0");//DONE
                                 writer.WriteEndElement();//border                                
                                 writer.WriteStartElement("margin");
                                 writer.WriteEndElement();//margin
@@ -584,10 +587,10 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//font
 
                                 writer.WriteStartElement("margin");
+                                writer.WriteAttributeString("topInset", "0mm");
                                 writer.WriteAttributeString("bottomInset", "0mm");
                                 writer.WriteAttributeString("leftInset", "0mm");
                                 writer.WriteAttributeString("rightInset", "0mm");
-                                writer.WriteAttributeString("topInset", "0mm");
                                 writer.WriteEndElement();//margin
 
                                 writer.WriteStartElement("para");
@@ -938,9 +941,13 @@ namespace AnotoWorkshop {
                 }
 
                 writer.WriteEndElement();//subform
+                    writer.WriteProcessingInstruction("templateDesigner", "Zoom 130");//TODO - What's this mean?
+                    writer.WriteProcessingInstruction("templateDesigner", "FormTargetVersion 26");//DONE
+                    writer.WriteProcessingInstruction("templateDesigner", "Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0");//DONE
+
                 writer.WriteEndElement();//template
 
-                writer.WriteStartElement("config", adobeXfaNs);    
+                writer.WriteStartElement("config", "http://www.xfa.org/schema/xci/2.6/");    
                     writer.WriteStartElement("agent");
                         writer.WriteAttributeString("name", "designer");
                             writer.WriteStartElement("destination");
@@ -958,32 +965,32 @@ namespace AnotoWorkshop {
                         writer.WriteEndElement();//destination
                         writer.WriteStartElement("pdf");
                             writer.WriteStartElement("fontInfo");
-                                    writer.WriteStartElement("embed");
+                                    writer.WriteStartElement("embed", adobeXfaNs);
                                     writer.WriteString("0");
                                     writer.WriteEndElement();//embed
                             writer.WriteEndElement();//fontInfo
-                            writer.WriteStartElement("tagged");
+                            writer.WriteStartElement("tagged", adobeXfaNs);
                             writer.WriteString("0");
                             writer.WriteEndElement();//tagged
-                            writer.WriteStartElement("version");
+                            writer.WriteStartElement("version", adobeXfaNs);
                             writer.WriteString("1.7");
                             writer.WriteEndElement();//version
-                            writer.WriteStartElement("adobeExtensionLevel");
+                            writer.WriteStartElement("adobeExtensionLevel", adobeXfaNs);
                             writer.WriteString("1");
                             writer.WriteEndElement();//adobeExtensionLevel
                         writer.WriteEndElement();//pdf
-                        writer.WriteStartElement("cache");
+                        writer.WriteStartElement("cache", adobeXfaNs);
                             writer.WriteStartElement("macroCache");
                             writer.WriteEndElement();//macroCache
                         writer.WriteEndElement();//cache
-                        writer.WriteStartElement("xdp");
+                        writer.WriteStartElement("xdp", adobeXfaNs);
                             writer.WriteStartElement("packets");
                             writer.WriteString("*");
                             writer.WriteEndElement();//packets
                         writer.WriteEndElement();//xdp
                     writer.WriteEndElement();//present
 
-                    writer.WriteStartElement("psMap");
+                    writer.WriteStartElement("psMap", adobeXfaNs);
                         writer.WriteStartElement("font");
                         writer.WriteAttributeString("typeface", "Calibri"); 
                         writer.WriteAttributeString("psName","Calibri");
@@ -1254,7 +1261,7 @@ namespace AnotoWorkshop {
 
                     writer.WriteStartElement("typefaces");
                         writer.WriteStartElement("typeface");
-                            writer.WriteAttributeString("name","Myraid Pro");
+                            writer.WriteAttributeString("name","Myriad Pro");
                         writer.WriteEndElement();//typeface
                         writer.WriteStartElement("typeface");
                             writer.WriteAttributeString("name","Minion Pro");
@@ -1346,7 +1353,7 @@ namespace AnotoWorkshop {
                             writer.WriteEndElement();//Producer
                         writer.WriteEndElement();//Description
 
-
+                /*
                         writer.WriteStartElement( adobeRdfPrefix, "Description", null);
                         writer.WriteAttributeString("xmlns", adobeDcPrefix, null, "http://purl.org/dc/elements/1.1/");
                         writer.WriteAttributeString(adobeRdfPrefix, "about", null, "");
@@ -1384,7 +1391,7 @@ namespace AnotoWorkshop {
                         
                         writer.WriteEndElement();//Description
 
-
+                */
                 writer.WriteEndElement();//xmpmeta
 
 
