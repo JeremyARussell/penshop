@@ -504,8 +504,8 @@ namespace AnotoWorkshop {
             //const string adobeParsePrefix = "xfa";
             //const string adobeXNs = "adobe:ns:meta/";
             //const string adobeXPrefix = "x";
-
-            XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "   " };//&#32; - Whitespace?
+                                                                                                                            ///UTF is to remove the BOM, which messes with the parsing done by the Anoto software
+            XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "   " , Encoding = new System.Text.UTF8Encoding(false)};//&#32; - Whitespace?
 
             //Create the export directory if it doesn't exist already. 
             Directory.CreateDirectory(_settings.exportFolder);
