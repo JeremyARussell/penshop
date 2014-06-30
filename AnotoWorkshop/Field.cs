@@ -47,6 +47,14 @@ namespace AnotoWorkshop {
         }
 
 
+        public Font pFont() {
+
+            FontFamily theFontFamily = new FontFamily(fontTypeface);
+
+            Font retFont = new Font(theFontFamily, fontSize, fontStyle);
+            return retFont;
+        }
+
         //public int group;
         public int listIndex;
 

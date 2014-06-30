@@ -1644,51 +1644,64 @@ namespace AnotoWorkshop {
             string versionString = _formVersion.ToString("D7");
             SolidBrush pngFiller = new SolidBrush(Color.FromArgb(255, 222, 229, 255));
             Pen pngBlue = new Pen(Color.FromArgb(255, 51, 102, 255));
-
+            double pngMulti = 2.08333;
 
             foreach(FormPage page in _formPages) {
-                Bitmap bitTest = new Bitmap(612, 792);
-                bitTest.SetResolution(72.0f, 72.0f);
+                Bitmap bitTest = new Bitmap(1275, 1650);
+                bitTest.SetResolution(150.0f, 150.0f);
 
                 Rectangle pageRectangle = new Rectangle();
                 pageRectangle.X = 0;
                 pageRectangle.Y = 0;
-                pageRectangle.Height = 792;
-                pageRectangle.Width = 612;
+                pageRectangle.Height = 1650;
+                pageRectangle.Width = 1275;
 
                 Graphics e = Graphics.FromImage(bitTest);
 
                 e.FillRectangle(new SolidBrush(Color.White), pageRectangle);
 
+
+
+                //(int)(() * pngMulti)
+
                 foreach (Field fi in page.Fields) {
                     if (!fi.hidden) {
                         switch (fi.type) {
                             case Type.TextField:
-                                if (fi.readOnly) 
-                                    e.DrawLine(pngBlue, fi.x + 1, fi.y - 1 + fi.height, fi.x - 1 + fi.width, fi.y - 1 + fi.height);
+                                if (fi.readOnly)
+                                    e.DrawLine(pngBlue, (int)((fi.x + 1) * pngMulti), (int)((fi.y - 1 + fi.height) * pngMulti),
+                                                        (int)((fi.x - 1 + fi.width) * pngMulti), (int)((fi.y - 1 + fi.height) * pngMulti));
                                 else
-                                    e.FillRectangle(pngFiller, new Rectangle((new Point(fi.x, fi.y)), (new Size(fi.width, fi.height))));
+                                    e.FillRectangle(pngFiller, new Rectangle((new Point((int)((fi.x) * pngMulti), (int)((fi.y) * pngMulti)))
+                                        , (new Size((int)((fi.width) * pngMulti), (int)((fi.height) * pngMulti)))));
                                 break;
 
                             case Type.Label:
-                                e.DrawString(fi.text, fi.font(), pngBlue.Brush, new Point(fi.x, fi.y));
+                                e.DrawString(fi.text, fi.pFont(), pngBlue.Brush, new Point((int)((fi.x) * pngMulti), (int)((fi.y) * pngMulti)));
                                 break;
 
                             case Type.RichLabel:
                                 break;
 
                             case Type.RectangleDraw:
-                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point((int)((fi.x) * pngMulti), (int)((fi.y) * pngMulti))), 
+                                    (new Size((int)((fi.width) * pngMulti), (int)((fi.height) * pngMulti)))));
                                 break;
 
                             case Type.LineDraw:
-                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point((int)((fi.x) * pngMulti), (int)((fi.y) * pngMulti))), 
+                                    (new Size((int)((fi.width) * pngMulti), (int)((fi.height) * pngMulti)))));
                                 break;
 
                             case Type.Checkbox:
-                                e.DrawRectangle(pngBlue, new Rectangle((new Point(fi.x - 1, fi.y - 1)),  (new Size(fi.width + 1, fi.height + 1))));
-                                e.FillRectangle(pngFiller, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
-                                e.DrawString(fi.text, fi.font(), pngBlue.Brush, new Point(fi.x + fi.width, (int)(fi.y + (((fi.height - fi.font().Size) / 2)) - 4)));
+                                e.DrawRectangle(pngBlue, new Rectangle((new Point((int)((fi.x - 1) * pngMulti), (int)((fi.y - 1) * pngMulti))),  
+                                    (new Size((int)((fi.width + 1) * pngMulti), (int)((fi.height + 1) * pngMulti)))));
+                                
+                                e.FillRectangle(pngFiller, new Rectangle((new Point((int)((fi.x) * pngMulti), (int)((fi.y) * pngMulti))), 
+                                    (new Size((int)((fi.width) * pngMulti), (int)((fi.height) * pngMulti)))));
+                               
+                                e.DrawString(fi.text, fi.pFont(), pngBlue.Brush, new Point((int)((fi.x + fi.width) * pngMulti), 
+                                                                                           (int)(((int)(fi.y + (((fi.height - fi.pFont().Size) / 2)) - 4)) * pngMulti)));
                                 break;
 
                             case Type.OptionsGroup:
