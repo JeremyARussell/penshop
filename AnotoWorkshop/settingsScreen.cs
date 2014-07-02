@@ -24,6 +24,7 @@ namespace AnotoWorkshop {
             _settings = Settings.instance;
             _settings.loadFromFile();
 
+/* Disable for now, once tutorial situation is figured out can reenable.
             if (!_settings.visitedSettingsScreen) {
                 if (MessageBox.Show("Hello, welcome to the Settings screen would you like to watch the video describing what the settings are?", "Settings Screen - Tutorial",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -34,6 +35,7 @@ namespace AnotoWorkshop {
                     //Watch Video
                 }
             }
+ */
 
             //foreach (FontFamily font in FontFamily.Families) {//Populate the font list with system fonts
             //    cmbFontList.Items.Add(font.Name);
@@ -193,25 +195,7 @@ namespace AnotoWorkshop {
         */
         #endregion Format Sets
 
-        private void btnSaveFormsFolders_Click(object sender, EventArgs e) {
-            _settings.formsFolderLocation = txtFormsFolder.Text;
-            _settings.exportFolder = txtExportFolder.Text;
-            Text = "Settings*";
-            _needToSaveSettings = true;
-        }
-
-        private void btnNewFormatSet_Click(object sender, EventArgs e) {
-            //createNewFormatSet();
-        }
-
-        private void txtSetName_TextChanged(object sender, EventArgs e) {
-            //if(_savingNewSet) {
-            //    _workingFormatSet.name = txtSetName.Text;
-            //}
-        }
-
-        private void settingsScreen_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        private void settingsScreen_FormClosing(object sender, FormClosingEventArgs e) {
             if(_needToSaveSettings) {
                 
                 DialogResult dRes = MessageBox.Show("You've made changes to your settings, would you like to save before you close?", "Do you want to save?",
@@ -220,9 +204,12 @@ namespace AnotoWorkshop {
 
                     if (dRes == DialogResult.Yes) {
                         _settings.saveToFile();
+                        Text = "Settings";
+                        _needToSaveSettings = false;
                     }
                     if (dRes == DialogResult.No) {
-                        
+                        Text = "Settings";
+                        _needToSaveSettings = false;
                     }
                     if (dRes == DialogResult.Cancel) {
 
@@ -231,6 +218,38 @@ namespace AnotoWorkshop {
               }    
         }
 
+        private void btnFormsFolderBrowser_Click(object sender, EventArgs e) {
+            FolderBrowserDialog openFileDialog = new FolderBrowserDialog();
+            openFileDialog.SelectedPath = txtFormsFolder.Text;
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK) {
+                txtFormsFolder.Text = openFileDialog.SelectedPath;
+                _settings.formsFolderLocation = txtFormsFolder.Text;
+                Text = "Settings*";
+                _needToSaveSettings = true;
+            }
+        }
 
+        private void btnExportFolderBrowser_Click(object sender, EventArgs e) {
+            FolderBrowserDialog openFileDialog = new FolderBrowserDialog();
+            openFileDialog.SelectedPath = txtExportFolder.Text;
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK) {
+                txtExportFolder.Text = openFileDialog.SelectedPath;
+                _settings.exportFolder = txtExportFolder.Text;
+                Text = "Settings*";
+                _needToSaveSettings = true;
+            }
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e) {
+            Text = "Settings";
+            _needToSaveSettings = false;
+            Close();
+        }
     }
 }

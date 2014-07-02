@@ -1418,7 +1418,7 @@ namespace AnotoWorkshop {
             XmlDocument fusionFormDom = new XmlDocument();
 
             try {
-                fusionFormDom.Load(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
+                fusionFormDom.Load(_settings.exportFolder + @"\" + @"FusionPrintForms.xml");
             }
             catch(Exception) {
                 throw;
@@ -1476,7 +1476,7 @@ namespace AnotoWorkshop {
             XmlDocument formsPadDom = new XmlDocument();
 
             try {
-                formsPadDom.Load(_settings.formsFolderLocation + @"\" + @"forms.pad");
+                formsPadDom.Load(_settings.exportFolder + @"\" + @"forms.pad");
 
             }
             catch(Exception) {

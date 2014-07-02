@@ -24,7 +24,7 @@ namespace AnotoWorkshop {
         private void loadingScreen_Load(object sender, EventArgs e) {
             _settings = Settings.instance;
             checkForForms();
-
+/* Disable for now, once tutorial situation is figured out can reenable.
             if (!_settings.visitedLoadingScreen) {
                 if (MessageBox.Show("Hello, welcome to the Pen Studio would you like to watch the video?", "Loading Screen - Tutorial",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -35,6 +35,7 @@ namespace AnotoWorkshop {
                     //Watch Video
                 }
             }
+ */
         }
 
         #endregion Initializers - Kind of Started
@@ -131,6 +132,7 @@ namespace AnotoWorkshop {
         //private Dictionary<int, FormatSet> _formatSets = new Dictionary<int, FormatSet>();
 
         private void btnImportForms_Click(object sender, EventArgs e) {
+/* Disable for now, once tutorial situation is figured out can reenable.
             if(!_settings.visitedImportWizard) {
                 if (MessageBox.Show("Hello, this is the first time you've visited the import wizard, would you like to watch the video?", "Import Wizard - Tutorial",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -141,6 +143,7 @@ namespace AnotoWorkshop {
                     //Watch Video
                 }
             }
+ */
             
             PenForm workingForm = new PenForm();
 

@@ -7,3 +7,4 @@ _ReSharper.AnotoWorkshop/
 *.pdb
 AnotoWorkshop/obj/
 AnotoWorkshop.sln.DotSettings.user
+AnotoWorkshop/bin/Debug/settings.xml

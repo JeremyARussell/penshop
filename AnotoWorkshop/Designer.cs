@@ -740,9 +740,15 @@ namespace AnotoWorkshop {
                     case MouseMode.Selected:
                         calculateSfBox();
 
+                        int fieldsCount = 0;//For tracking how many fields get selected, so that only one field will display in the properties
                         foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                             if (fi.selected) {
-                                refreshProperties(fi);
+                                fieldsCount++;
+                                if (fieldsCount > 1) {
+                                    refreshProperties(null);
+                                } else {
+                                    refreshProperties(fi);
+                                }
 
                                 if(fi.type == Type.Label || fi.type == Type.Checkbox) {
                                     _needFontMenu = true;
@@ -1298,7 +1304,7 @@ namespace AnotoWorkshop {
             calculateLabelSizes();
 
             /////
-            PrintConfig test = new PrintConfig(Application.StartupPath + @"\FusionPrintConfig.xml");
+            PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
             List<string> testList = new List<string>();
 
             foreach (var testvar in test.sectionList) {
@@ -1630,9 +1636,11 @@ namespace AnotoWorkshop {
             if (ModifierKeys.HasFlag(Keys.Control)) { //If CTRL is being held during the click.
                 _currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = //The field associated with the item clicked equals the opposite...
                !_currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected;  //...of what it was before it was clicked. To "toggle" if the item is selected.
+                refreshProperties(null);
             } else { //CTRL isn't being held down.
                 deselectAll();
                 _currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = true; //Selects the one field 
+                refreshProperties(_currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
             }
 
             highlightHeirarchy();

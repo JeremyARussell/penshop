@@ -47,10 +47,10 @@ namespace AnotoWorkshop {
         #endregion Instance Management
 
         #region Create New File
-        private void createNewFile() {
-            formsFolderLocation = @"C:\PenForms\";//TODO - See if I need to either turn this into a mbox or if it is and I just need to make this blank
-            saveToFile();
-        }
+        //private void createNewFile() {
+            //formsFolderLocation = @"C:\PenForms\";//TODO - See if I need to either turn this into a mbox or if it is and I just need to make this blank
+            //saveToFile();
+        //}
         #endregion Create New File
 
         #region File Loading
@@ -64,6 +64,41 @@ namespace AnotoWorkshop {
             _globalAliases = new Dictionary<string, Section>();
             _whiteList = new List<int>();
             
+            try {
+                _dom.Load(_saveDirectory + @"\settings.xml");
+            } catch(Exception) {
+
+                Form pf = new Form();
+
+                MessageBox.Show(pf, "Welcome to the PenShop, let's take a moment to set things up a bit."
+                    , "First run", MessageBoxButtons.OK);
+
+                MessageBox.Show(pf, "The first thing to do is select the folder you would like to save PenShop© forms to."
+                    , "Choose forms folder", MessageBoxButtons.OK);
+
+                FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+                DialogResult result1 = openFileDialog1.ShowDialog(pf);
+                if (result1 == DialogResult.OK) {
+                    formsFolderLocation = openFileDialog1.SelectedPath;
+                }
+
+                MessageBox.Show(pf, "Next is choosing your NextPen© forms location, this is where your forms will be exported to so that " +
+                                "they can be printed by the NextPen© Print program."
+                    , "Choose export folder", MessageBoxButtons.OK);
+
+                FolderBrowserDialog openFileDialog2 = new FolderBrowserDialog();
+                DialogResult result2 = openFileDialog2.ShowDialog(pf);
+                if (result2 == DialogResult.OK) {
+                    exportFolder = openFileDialog2.SelectedPath;
+                }
+
+                saveToFile();
+
+                MessageBox.Show(pf, "First time setup is complete, enjoy using PenShop"
+                    , "All done", MessageBoxButtons.OK);
+
+            }
+
             try {
                 _dom.Load(_saveDirectory + @"\settings.xml");
 
@@ -139,7 +174,7 @@ namespace AnotoWorkshop {
                 MessageBox.Show("Something weird happened loading the settings file, either it wasn't "
                 + "there or it didn't contain the correct information. -- TODO: Create backup and rewrite file."
                     , "Settings File Load Error", MessageBoxButtons.OK);
-                createNewFile();
+                //createNewFile();
                 //TODO - Handle backup, upgrades, etc.
                 //throw; - This was preventing the settings from instantiating and the loading screen 
                 //from loading all the way
