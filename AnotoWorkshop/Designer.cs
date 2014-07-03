@@ -199,6 +199,48 @@ namespace AnotoWorkshop {
 
         private void frmMain_Load(object sender, EventArgs e) {
 
+            /////
+            PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
+            List<string> testList = new List<string>();
+
+            foreach (var testvar in test.sectionList) {
+                if (testvar.Value.type == SectionType.Column || testvar.Value.type == SectionType.Alias) {
+                    testList.Add(testvar.Value.name);
+                }
+            }
+
+            List<string> fieldsToCreate = new List<string>();
+
+            foreach (string ts in testList) {
+                if (ts != null) {
+                    fieldsToCreate.Add(ts);
+                }
+            }
+
+            foreach (string ts in testList) {
+                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                    if (ts == fi.name) {
+                        fieldsToCreate.Remove(fi.name);
+                    }
+                }
+            }
+
+
+            foreach (string nameToAdd in fieldsToCreate) {
+                Field testField = new Field(nameToAdd, Type.TextField);
+                testField.readOnly = true;
+                testField.hidden = true;
+                testField.x = 1;
+                testField.y = 1;
+                testField.width = 2;
+                testField.height = 2;
+
+                _currentForm.page(_currentPageNumber).Fields.Add(testField);
+            }
+
+            //////
+
+
             _mFontMenu = new FontEditorMenu();
             _mFontMenuContainer = new PopupContainer(_mFontMenu, this);
 
@@ -704,8 +746,8 @@ namespace AnotoWorkshop {
                                     break;
 
                                 case Type.LineDraw:
-                                    if (_selectionRect.Height < _selectionRect.Width) _selectionRect.Height = 2;
-                                    else _selectionRect.Width = 2;
+                                    if (_selectionRect.Height < _selectionRect.Width) _selectionRect.Height = 1;
+                                    else _selectionRect.Width = 1;
                                     break;
                             }
                             break;
@@ -1302,47 +1344,6 @@ namespace AnotoWorkshop {
 
         private void btnExportForm_Click(object sender, EventArgs e) {
             calculateLabelSizes();
-
-            /////
-            PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
-            List<string> testList = new List<string>();
-
-            foreach (var testvar in test.sectionList) {
-                if (testvar.Value.type == SectionType.Column || testvar.Value.type == SectionType.Alias) {
-                    testList.Add(testvar.Value.name);
-                }
-            }
-
-            List<string> fieldsToCreate = new List<string>();
-
-            foreach (string ts in testList) {
-                if (ts != null) {
-                    fieldsToCreate.Add(ts);
-                }
-            }
-
-            foreach (string ts in testList) {
-                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                    if (ts == fi.name) {
-                        fieldsToCreate.Remove(fi.name);
-                    }
-                }
-            }
-
-
-            foreach (string nameToAdd in fieldsToCreate) {
-                Field testField = new Field(nameToAdd, Type.TextField);
-                testField.readOnly = true;
-                testField.hidden = true;
-                testField.x = 1;
-                testField.y = 1;
-                testField.width = 2;
-                testField.height = 2;
-
-                _currentForm.page(_currentPageNumber).Fields.Add(testField);
-            }
-
-            //////
             
             if (_settings.exportFolder == @"") {
                 FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
@@ -1607,10 +1608,6 @@ namespace AnotoWorkshop {
 
         #region Field Tree Management
 
-        private void btnRefreshFieldTree_Click(object sender, EventArgs e) {
-            refreshHierarchyView();
-        }
-
         /// <summary>
         /// Refreshes the fields listed in the field hierarchy tree view.
         /// </summary>
@@ -1619,8 +1616,16 @@ namespace AnotoWorkshop {
             int c = 0;
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                 fi.listIndex = c;
-
-                TreeNode workingNode = new TreeNode(fi.name);
+                TreeNode workingNode;
+                if (fi.type == Type.Checkbox || fi.type == Type.TextField) {
+                    if (fi.name == "") {
+                        workingNode = new TreeNode("blank - " + fi.type);
+                    } else {
+                        workingNode = new TreeNode(fi.name + " - " + fi.type);
+                    }
+                } else {
+                    workingNode = new TreeNode(fi.name);
+                }
                 if(fi.selected) {
                     workingNode.BackColor = SystemColors.Highlight;
                     workingNode.ForeColor = SystemColors.HighlightText;
@@ -1699,6 +1704,8 @@ namespace AnotoWorkshop {
             _shouldMove = false;
 
             _activeTextEditBox.ZoomFactor = _zoomLevel;
+            _activeTextEditBox.ContentsResized += activeTextEditBox_ContentsResized;
+
 
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {    //Iterate through the fields on the current page...
                 if (fi.selected) { 
@@ -1710,6 +1717,7 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Font = fi.font();
                         _activeTextEditBox.Text = fi.text;
+                        _activeTextEditBox.Select(_activeTextEditBox.TextLength, 0);
                         _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
                         _activeTextEditBox.Size = new Size((int)(fi.width * _zoomLevel) + 1, (int)(fi.height * _zoomLevel) + 1);
 
@@ -1729,6 +1737,7 @@ namespace AnotoWorkshop {
                         _activeTextEditBox.Multiline = true;
                     
                         _activeTextEditBox.Rtf = fi.richBox.Rtf;
+                        _activeTextEditBox.Select(_activeTextEditBox.TextLength, 0);
                         _activeTextEditBox.Location = new Point((int)((fi.x + _xOffset) * _zoomLevel) + 1, (int)((fi.y + _yOffset) * _zoomLevel));
                         _activeTextEditBox.Size = new Size((int)(fi.width * _zoomLevel) + 1, (int)(fi.height * _zoomLevel) + 1);
 
@@ -1747,6 +1756,7 @@ namespace AnotoWorkshop {
 
                         _activeTextEditBox.Font = fi.font();
                         _activeTextEditBox.Text = fi.text;
+                        _activeTextEditBox.Select(_activeTextEditBox.TextLength, 0);
                         _activeTextEditBox.Location = new Point(//Checkbox locations are a bit special to adjust for the checkbox being bigger than the text.
                                                             (int)((fi.x + _xOffset + fi.width) * _zoomLevel) + 2
                                                             , (int)((fi.y + _yOffset + (((fi.height - fi.font().Size) / 2)) - 4) * _zoomLevel)
@@ -1764,6 +1774,12 @@ namespace AnotoWorkshop {
             }
 
             designPanel.Invalidate();
+        }
+
+        private void activeTextEditBox_ContentsResized(object sender, ContentsResizedEventArgs e) {
+            _activeTextEditBox.Height = e.NewRectangle.Height + 5;
+            _activeTextEditBox.Width = e.NewRectangle.Width + 5;
+
         }
 
         public void stopEditing() {
@@ -1835,6 +1851,22 @@ namespace AnotoWorkshop {
             refreshHierarchyView();
             calculateLabelSizes();
             designPanel.Invalidate();
+        }
+
+
+
+        private void btnGenerateTemplates_Click(object sender, EventArgs e) {
+
+            using (var form = new generateTemplates(_currentForm.generatingTemplates)) {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK) {
+                    List<string> val = form.templates;
+                    _currentForm.generatingTemplates = val;
+                }
+            }
+
+            //generateTemplates testg = new generateTemplates();
+            //testg.ShowDialog();
         }
     }
 }

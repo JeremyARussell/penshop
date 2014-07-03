@@ -64,14 +64,15 @@
             this.lblTotalpages = new System.Windows.Forms.Label();
             this.lblCurrentPage = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnNewPage = new System.Windows.Forms.Button();
             this.btnPreviousPage = new System.Windows.Forms.Button();
             this.btnNextPage = new System.Windows.Forms.Button();
+            this.btnNewPage = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.trvFieldList = new System.Windows.Forms.TreeView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnGenerateTemplates = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
@@ -105,7 +106,7 @@
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(63, 50);
+            this.label19.Location = new System.Drawing.Point(65, 50);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(53, 13);
             this.label19.TabIndex = 7;
@@ -116,7 +117,7 @@
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(133, 50);
+            this.label20.Location = new System.Drawing.Point(136, 50);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(33, 13);
             this.label20.TabIndex = 8;
@@ -124,7 +125,7 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -146,7 +147,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 130);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 130);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label22
@@ -165,7 +166,7 @@
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(76, 115);
+            this.label23.Location = new System.Drawing.Point(78, 115);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(27, 13);
             this.label23.TabIndex = 11;
@@ -189,7 +190,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.label1.Location = new System.Drawing.Point(9, 50);
+            this.label1.Location = new System.Drawing.Point(10, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 13;
@@ -213,7 +214,7 @@
             this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddCheckbox.Location = new System.Drawing.Point(68, 3);
+            this.chkAddCheckbox.Location = new System.Drawing.Point(69, 3);
             this.chkAddCheckbox.Name = "chkAddCheckbox";
             this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
             this.chkAddCheckbox.TabIndex = 15;
@@ -226,7 +227,7 @@
             this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddLine.Location = new System.Drawing.Point(68, 68);
+            this.chkAddLine.Location = new System.Drawing.Point(69, 68);
             this.chkAddLine.Name = "chkAddLine";
             this.chkAddLine.Size = new System.Drawing.Size(44, 44);
             this.chkAddLine.TabIndex = 16;
@@ -239,7 +240,7 @@
             this.chkAddLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.chkAddLabel.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkAddLabel.Font = new System.Drawing.Font("Segoe UI Symbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAddLabel.Location = new System.Drawing.Point(128, 3);
+            this.chkAddLabel.Location = new System.Drawing.Point(131, 3);
             this.chkAddLabel.Name = "chkAddLabel";
             this.chkAddLabel.Size = new System.Drawing.Size(44, 44);
             this.chkAddLabel.TabIndex = 17;
@@ -254,7 +255,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(271, 150);
+            this.groupBox2.Size = new System.Drawing.Size(291, 184);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toolbox";
@@ -267,6 +268,7 @@
             this.lblDebugMMode.Size = new System.Drawing.Size(42, 13);
             this.lblDebugMMode.TabIndex = 36;
             this.lblDebugMMode.Text = "Debug:";
+            this.lblDebugMMode.Visible = false;
             // 
             // alignHorizontallyToolStripMenuItem
             // 
@@ -344,7 +346,7 @@
             this.designPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.designPanel.Location = new System.Drawing.Point(0, 0);
             this.designPanel.Name = "designPanel";
-            this.designPanel.Size = new System.Drawing.Size(687, 584);
+            this.designPanel.Size = new System.Drawing.Size(734, 584);
             this.designPanel.TabIndex = 2;
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designer_Paint);
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
@@ -400,15 +402,16 @@
             // btnLoadSettingsScreen
             // 
             this.btnLoadSettingsScreen.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
             this.btnLoadSettingsScreen.Location = new System.Drawing.Point(137, 25);
             this.btnLoadSettingsScreen.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
             this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
             this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
             this.btnLoadSettingsScreen.TabIndex = 6;
             this.btnLoadSettingsScreen.TabStop = false;
-            this.btnLoadSettingsScreen.Text = "btnSettings";
             this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Visible = false;
             this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // label17
@@ -419,6 +422,7 @@
             this.label17.Size = new System.Drawing.Size(45, 13);
             this.label17.TabIndex = 11;
             this.label17.Text = "Settings";
+            this.label17.Visible = false;
             // 
             // groupBox1
             // 
@@ -429,7 +433,7 @@
             this.groupBox1.Controls.Add(this.lblCurrentPage);
             this.groupBox1.Controls.Add(this.tableLayoutPanel2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(920, 12);
+            this.groupBox1.Location = new System.Drawing.Point(1001, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
             this.groupBox1.Size = new System.Drawing.Size(247, 59);
@@ -495,18 +499,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(115, 39);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // btnNewPage
-            // 
-            this.btnNewPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPage.Location = new System.Drawing.Point(3, 3);
-            this.btnNewPage.Name = "btnNewPage";
-            this.btnNewPage.Size = new System.Drawing.Size(19, 24);
-            this.btnNewPage.TabIndex = 3;
-            this.btnNewPage.TabStop = false;
-            this.btnNewPage.Text = "*";
-            this.btnNewPage.UseVisualStyleBackColor = true;
-            this.btnNewPage.Click += new System.EventHandler(this.btnNewPage_Click);
-            // 
             // btnPreviousPage
             // 
             this.btnPreviousPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F);
@@ -532,6 +524,18 @@
             this.btnNextPage.UseVisualStyleBackColor = true;
             this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
             // 
+            // btnNewPage
+            // 
+            this.btnNewPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewPage.Location = new System.Drawing.Point(3, 3);
+            this.btnNewPage.Name = "btnNewPage";
+            this.btnNewPage.Size = new System.Drawing.Size(19, 24);
+            this.btnNewPage.TabIndex = 3;
+            this.btnNewPage.TabStop = false;
+            this.btnNewPage.Text = "*";
+            this.btnNewPage.UseVisualStyleBackColor = true;
+            this.btnNewPage.Click += new System.EventHandler(this.btnNewPage_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.propertyGrid);
@@ -539,7 +543,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(271, 430);
+            this.groupBox3.Size = new System.Drawing.Size(291, 396);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Properties";
@@ -550,7 +554,7 @@
             this.propertyGrid.Location = new System.Drawing.Point(3, 22);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid.Size = new System.Drawing.Size(265, 405);
+            this.propertyGrid.Size = new System.Drawing.Size(285, 371);
             this.propertyGrid.TabIndex = 3;
             this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
@@ -559,7 +563,7 @@
             this.trvFieldList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvFieldList.Location = new System.Drawing.Point(3, 22);
             this.trvFieldList.Name = "trvFieldList";
-            this.trvFieldList.Size = new System.Drawing.Size(207, 559);
+            this.trvFieldList.Size = new System.Drawing.Size(221, 559);
             this.trvFieldList.TabIndex = 0;
             this.trvFieldList.TabStop = false;
             this.trvFieldList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvFieldList_AfterSelect);
@@ -573,7 +577,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(213, 584);
+            this.groupBox4.Size = new System.Drawing.Size(227, 584);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Layout Hierarchy";
@@ -589,6 +593,7 @@
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.AutoScrollMinSize = new System.Drawing.Size(0, 100);
+            this.splitContainer1.Panel1.Controls.Add(this.btnGenerateTemplates);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.lblDebugMMode);
             this.splitContainer1.Panel1.Controls.Add(this.btnLoadSettingsScreen);
@@ -602,10 +607,22 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1179, 688);
+            this.splitContainer1.Size = new System.Drawing.Size(1260, 688);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 37;
             this.splitContainer1.TabStop = false;
+            // 
+            // btnGenerateTemplates
+            // 
+            this.btnGenerateTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGenerateTemplates.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateTemplates.Location = new System.Drawing.Point(903, 24);
+            this.btnGenerateTemplates.Name = "btnGenerateTemplates";
+            this.btnGenerateTemplates.Size = new System.Drawing.Size(92, 41);
+            this.btnGenerateTemplates.TabIndex = 1;
+            this.btnGenerateTemplates.Text = "Generate Templates";
+            this.btnGenerateTemplates.UseVisualStyleBackColor = true;
+            this.btnGenerateTemplates.Click += new System.EventHandler(this.btnGenerateTemplates_Click);
             // 
             // splitContainer2
             // 
@@ -620,8 +637,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(1179, 584);
-            this.splitContainer2.SplitterDistance = 213;
+            this.splitContainer2.Size = new System.Drawing.Size(1260, 584);
+            this.splitContainer2.SplitterDistance = 227;
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.TabStop = false;
             // 
@@ -638,8 +655,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(962, 584);
-            this.splitContainer3.SplitterDistance = 687;
+            this.splitContainer3.Size = new System.Drawing.Size(1029, 584);
+            this.splitContainer3.SplitterDistance = 734;
             this.splitContainer3.TabIndex = 0;
             this.splitContainer3.TabStop = false;
             // 
@@ -658,8 +675,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer4.Size = new System.Drawing.Size(271, 584);
-            this.splitContainer4.SplitterDistance = 150;
+            this.splitContainer4.Size = new System.Drawing.Size(291, 584);
+            this.splitContainer4.SplitterDistance = 184;
             this.splitContainer4.TabIndex = 0;
             this.splitContainer4.TabStop = false;
             // 
@@ -667,7 +684,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1179, 688);
+            this.ClientSize = new System.Drawing.Size(1260, 688);
             this.Controls.Add(this.splitContainer1);
             this.KeyPreview = true;
             this.Name = "Designer";
@@ -756,6 +773,7 @@
         private System.Windows.Forms.CheckBox chkAddCheckbox;
         private System.Windows.Forms.CheckBox chkAddLine;
         private System.Windows.Forms.CheckBox chkAddLabel;
+        private System.Windows.Forms.Button btnGenerateTemplates;
 
     }
 }

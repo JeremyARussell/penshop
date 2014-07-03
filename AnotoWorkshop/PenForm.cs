@@ -14,6 +14,8 @@ namespace AnotoWorkshop {
         public string FormName;
         public string ThisFormsPath; //Todo - Internal Filepath for forms, needed during import really
         public List<int> FormTemplates = new List<int>();
+       
+        public List<string> generatingTemplates = new List<string>();
 
         private List<FormPage> _formPages = new List<FormPage>();
         private int _formVersion;
@@ -94,6 +96,15 @@ namespace AnotoWorkshop {
                 }
                 writer.WriteEndElement();//Templates
 
+                writer.WriteStartElement("GeneratingTemplates");//Saving the template association list
+                foreach (string template in generatingTemplates) {
+                    writer.WriteStartElement("GeneratingTemplate");
+                    writer.WriteString(template);
+                    writer.WriteEndElement();//GeneratingTemplate                  
+                }
+                writer.WriteEndElement();//GeneratingTemplates
+
+
                 foreach (FormPage page in formPages) {
                     writer.WriteStartElement("Page");
                     writer.WriteAttributeString("pageNumber", page.PageNumber.ToString());
@@ -144,6 +155,9 @@ namespace AnotoWorkshop {
                 if (xn1.Name == @"Templates") {//For the templates
                     processTemplatesList(xn1);
                 }
+                if (xn1.Name == @"GeneratingTemplates") {//For the templates
+                    processGeneratingTemplatesList(xn1);
+                }
                 if (xn1.Name == @"Page") {//For the pages
                     pages[_counter] = xn1;
                     _counter++;
@@ -167,6 +181,16 @@ namespace AnotoWorkshop {
                 }
             }
         }
+
+        private void processGeneratingTemplatesList(XmlNode node) {
+            foreach(XmlNode nd in node) {
+                if(nd.Name == "GeneratingTemplate") {
+                    generatingTemplates.Add(nd.InnerText);
+                }
+            }
+        }
+
+        
 
         /// <summary>
         /// Helper method to work with Properties as out parameters.
@@ -458,7 +482,7 @@ namespace AnotoWorkshop {
         }
 
         public void addNewBlankPage() {
-            FormPage workingPage = new FormPage(_totalPages + 1);
+            FormPage workingPage = new FormPage(_totalPages);
             addPage(workingPage);
         }
 
@@ -553,60 +577,68 @@ namespace AnotoWorkshop {
                 writer.WriteProcessingInstruction("templateDesigner", "expand 1");
                 writer.WriteEndElement();//pageSet
 
+                int pageCount = 0;
+
                 foreach (FormPage page in formPages) {
+                    pageCount++;
                     writer.WriteStartElement("subform");
                     writer.WriteAttributeString("w", "612pt");
                     writer.WriteAttributeString("h", "792pt");
 
-                                writer.WriteStartElement("field");
-                                writer.WriteAttributeString("name", "script");
-                                writer.WriteAttributeString("w", "0.353mm");
-                                writer.WriteAttributeString("h", "0.352mm");
-                                writer.WriteAttributeString("access", "readOnly");
-                                writer.WriteAttributeString("presence", "invisible");
-                                writer.WriteAttributeString("x", "0.353mm");
-                                writer.WriteAttributeString("y", "2.117mm");
-                                writer.WriteStartElement("ui");
-                                writer.WriteStartElement("textEdit");
-                                writer.WriteStartElement("border");
-                                    writer.WriteAttributeString("presence", "hidden");
-                                    writer.WriteProcessingInstruction("templateDesigner", "StyleID aped0");//DONE
-                                writer.WriteEndElement();//border                                
-                                writer.WriteStartElement("margin");
-                                writer.WriteEndElement();//margin
-                                writer.WriteEndElement();//textEdit
-                                writer.WriteEndElement();//ui
+                    if (pageCount == 1) {
+                        writer.WriteStartElement("field");
+                        writer.WriteAttributeString("name", "script");
+                        writer.WriteAttributeString("w", "0.353mm");
+                        writer.WriteAttributeString("h", "0.352mm");
+                        writer.WriteAttributeString("access", "readOnly");
+                        writer.WriteAttributeString("presence", "invisible");
+                        writer.WriteAttributeString("x", "0.353mm");
+                        writer.WriteAttributeString("y", "2.117mm");
+                        writer.WriteStartElement("ui");
+                        writer.WriteStartElement("textEdit");
+                        writer.WriteStartElement("border");
+                        writer.WriteAttributeString("presence", "hidden");
+                        writer.WriteProcessingInstruction("templateDesigner", "StyleID aped0"); //DONE
+                        writer.WriteEndElement(); //border                                
+                        writer.WriteStartElement("margin");
+                        writer.WriteEndElement(); //margin
+                        writer.WriteEndElement(); //textEdit
+                        writer.WriteEndElement(); //ui
 
-                                writer.WriteStartElement("font");
-                                writer.WriteAttributeString("typeface", "Arial");
-                                    writer.WriteStartElement("fill");
-                                        writer.WriteStartElement("color");
-                                        writer.WriteAttributeString("value", "51,102,255");
-                                        writer.WriteEndElement();//color
-                                    writer.WriteEndElement();//fill
-                                writer.WriteEndElement();//font
+                        writer.WriteStartElement("font");
+                        writer.WriteAttributeString("typeface", "Arial");
+                        writer.WriteStartElement("fill");
+                        writer.WriteStartElement("color");
+                        writer.WriteAttributeString("value", "51,102,255");
+                        writer.WriteEndElement(); //color
+                        writer.WriteEndElement(); //fill
+                        writer.WriteEndElement(); //font
 
-                                writer.WriteStartElement("margin");
-                                writer.WriteAttributeString("topInset", "0mm");
-                                writer.WriteAttributeString("bottomInset", "0mm");
-                                writer.WriteAttributeString("leftInset", "0mm");
-                                writer.WriteAttributeString("rightInset", "0mm");
-                                writer.WriteEndElement();//margin
+                        writer.WriteStartElement("margin");
+                        writer.WriteAttributeString("topInset", "0mm");
+                        writer.WriteAttributeString("bottomInset", "0mm");
+                        writer.WriteAttributeString("leftInset", "0mm");
+                        writer.WriteAttributeString("rightInset", "0mm");
+                        writer.WriteEndElement(); //margin
 
-                                writer.WriteStartElement("para");
-                                writer.WriteAttributeString("vAlign", "middle");
-                                writer.WriteEndElement();//para
+                        writer.WriteStartElement("para");
+                        writer.WriteAttributeString("vAlign", "middle");
+                        writer.WriteEndElement(); //para
 
-                                writer.WriteStartElement("calculate");
-                                    writer.WriteStartElement("script");
-                                    writer.WriteAttributeString("contentType", @"application/x-javascript");
-                                    writer.WriteAttributeString("runAt", "server");
-                                    writer.WriteString(@"NextPen.Data.GenerateHistory(""EyeQ_DrKim_RetinaExam"");");//TODO - Get this going for my correctly generating whichever template needed.
-                                    writer.WriteEndElement();//script
-                                writer.WriteEndElement();//calculate
+                        writer.WriteStartElement("calculate");
+                        writer.WriteStartElement("script");
+                        writer.WriteAttributeString("contentType", @"application/x-javascript");
+                        writer.WriteAttributeString("runAt", "server");
+                        foreach (string template in generatingTemplates) {
+                            writer.WriteString(@"NextPen.Data.GenerateHistory(" + template + ");" + "\n");
+                        }
 
-                                writer.WriteEndElement();//field
+                            //TODO - Get this going for my correctly generating whichever template needed.
+                        writer.WriteEndElement(); //script
+                        writer.WriteEndElement(); //calculate
 
+                        writer.WriteEndElement(); //field
+                    }
 
 
                     foreach (Field fi in page.Fields) {
@@ -1461,7 +1493,7 @@ namespace AnotoWorkshop {
 
                 fusionFormDom.DocumentElement.AppendChild(formsNode);
 
-                fusionFormDom.Save(_settings.formsFolderLocation + @"\" + @"FusionPrintForms.xml");
+                fusionFormDom.Save(_settings.exportFolder + @"\" + @"FusionPrintForms.xml");
             }
             catch (Exception)
             {
@@ -1536,7 +1568,7 @@ namespace AnotoWorkshop {
                 //Appending our main node to a specific
                 formsPadDom.SelectSingleNode("pad/POD").AppendChild(podInfoNode);
 
-                formsPadDom.Save(_settings.formsFolderLocation + @"\" + @"forms.pad");
+                formsPadDom.Save(_settings.exportFolder + @"\" + @"forms.pad");
             }
             catch (Exception)
             {

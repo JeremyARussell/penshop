@@ -8,3 +8,5 @@ _ReSharper.AnotoWorkshop/
 AnotoWorkshop/obj/
 AnotoWorkshop.sln.DotSettings.user
 AnotoWorkshop/bin/Debug/settings.xml
+AnotoWorkshop/bin/Release/
+AnotoWorkshop/bin/
