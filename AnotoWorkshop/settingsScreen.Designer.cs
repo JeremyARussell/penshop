@@ -33,8 +33,6 @@
             this.txtExportFolder = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.label7 = new System.Windows.Forms.Label();
             this.txtDbUser = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -100,25 +98,6 @@
             this.label6.Size = new System.Drawing.Size(69, 13);
             this.label6.TabIndex = 45;
             this.label6.Text = "Export Folder";
-            // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(497, 102);
-            this.shapeContainer1.TabIndex = 47;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // lineShape1
-            // 
-            this.lineShape1.Name = "lineShape1";
-            this.lineShape1.X1 = 25;
-            this.lineShape1.X2 = 454;
-            this.lineShape1.Y1 = 232;
-            this.lineShape1.Y2 = 232;
             // 
             // label7
             // 
@@ -294,7 +273,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 102);
+            this.ClientSize = new System.Drawing.Size(501, 105);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.btnExportFolderBrowser);
@@ -317,7 +296,6 @@
             this.Controls.Add(this.txtExportFolder);
             this.Controls.Add(this.btnSaveFile);
             this.Controls.Add(this.txtFormsFolder);
-            this.Controls.Add(this.shapeContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -340,8 +318,6 @@
         private System.Windows.Forms.TextBox txtExportFolder;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtDbUser;
         private System.Windows.Forms.Label label8;

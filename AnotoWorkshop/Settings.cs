@@ -27,7 +27,7 @@ namespace AnotoWorkshop {
         public bool visitedSettingsScreen;
         #endregion Tutorial Flags
         #region Private Variables
-        private string _saveDirectory = Application.StartupPath;
+        private string _saveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\PenShop\";
         //private Dictionary<string, FormatSet> _globalFormatSet;
         private Dictionary<string, Section> _globalAliases;
         private List<int> _whiteList; 
