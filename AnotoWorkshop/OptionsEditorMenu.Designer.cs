@@ -48,7 +48,8 @@
             this.btnRemoveSubitem.Location = new System.Drawing.Point(242, 126);
             this.btnRemoveSubitem.Name = "btnRemoveSubitem";
             this.btnRemoveSubitem.Size = new System.Drawing.Size(61, 23);
-            this.btnRemoveSubitem.TabIndex = 11;
+            this.btnRemoveSubitem.TabIndex = 0;
+            this.btnRemoveSubitem.TabStop = false;
             this.btnRemoveSubitem.Text = "Remove";
             this.btnRemoveSubitem.UseVisualStyleBackColor = true;
             // 
@@ -57,7 +58,7 @@
             this.lstvSubitems.Location = new System.Drawing.Point(63, 11);
             this.lstvSubitems.Name = "lstvSubitems";
             this.lstvSubitems.Size = new System.Drawing.Size(173, 165);
-            this.lstvSubitems.TabIndex = 10;
+            this.lstvSubitems.TabIndex = 2;
             this.lstvSubitems.UseCompatibleStateImageBehavior = false;
             this.lstvSubitems.View = System.Windows.Forms.View.List;
             // 
@@ -66,14 +67,15 @@
             this.txtSubitemValue.Location = new System.Drawing.Point(10, 193);
             this.txtSubitemValue.Name = "txtSubitemValue";
             this.txtSubitemValue.Size = new System.Drawing.Size(289, 20);
-            this.txtSubitemValue.TabIndex = 9;
+            this.txtSubitemValue.TabIndex = 3;
             // 
             // btnAddSubitem
             // 
             this.btnAddSubitem.Location = new System.Drawing.Point(250, 219);
             this.btnAddSubitem.Name = "btnAddSubitem";
             this.btnAddSubitem.Size = new System.Drawing.Size(49, 23);
-            this.btnAddSubitem.TabIndex = 8;
+            this.btnAddSubitem.TabIndex = 0;
+            this.btnAddSubitem.TabStop = false;
             this.btnAddSubitem.Text = "Add";
             this.btnAddSubitem.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +93,7 @@
             this.nmColumns.Location = new System.Drawing.Point(10, 14);
             this.nmColumns.Name = "nmColumns";
             this.nmColumns.Size = new System.Drawing.Size(44, 20);
-            this.nmColumns.TabIndex = 6;
+            this.nmColumns.TabIndex = 1;
             this.nmColumns.Value = new decimal(new int[] {
             1,
             0,
@@ -121,14 +123,15 @@
             this.txtSubitemLabel.Location = new System.Drawing.Point(10, 248);
             this.txtSubitemLabel.Name = "txtSubitemLabel";
             this.txtSubitemLabel.Size = new System.Drawing.Size(289, 20);
-            this.txtSubitemLabel.TabIndex = 14;
+            this.txtSubitemLabel.TabIndex = 4;
             // 
             // btnMoveSubitemUp
             // 
             this.btnMoveSubitemUp.Location = new System.Drawing.Point(242, 56);
             this.btnMoveSubitemUp.Name = "btnMoveSubitemUp";
             this.btnMoveSubitemUp.Size = new System.Drawing.Size(49, 23);
-            this.btnMoveSubitemUp.TabIndex = 15;
+            this.btnMoveSubitemUp.TabIndex = 0;
+            this.btnMoveSubitemUp.TabStop = false;
             this.btnMoveSubitemUp.Text = "Up";
             this.btnMoveSubitemUp.UseVisualStyleBackColor = true;
             // 
@@ -137,7 +140,8 @@
             this.btnMoveSubitemDown.Location = new System.Drawing.Point(242, 79);
             this.btnMoveSubitemDown.Name = "btnMoveSubitemDown";
             this.btnMoveSubitemDown.Size = new System.Drawing.Size(49, 23);
-            this.btnMoveSubitemDown.TabIndex = 16;
+            this.btnMoveSubitemDown.TabIndex = 0;
+            this.btnMoveSubitemDown.TabStop = false;
             this.btnMoveSubitemDown.Text = "Down";
             this.btnMoveSubitemDown.UseVisualStyleBackColor = true;
             // 

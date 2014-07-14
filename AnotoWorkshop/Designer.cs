@@ -163,6 +163,10 @@ namespace AnotoWorkshop {
 
             setupActiveOptionsGroup();
             needToSave();
+
+            _OGEditor.txtSubitemValue.Clear();
+            _OGEditor.txtSubitemLabel.Clear();
+
         }
 
         private void removeSubitem(object sender, EventArgs a) {
@@ -304,6 +308,8 @@ namespace AnotoWorkshop {
             _OGEditor.btnMoveSubitemUp.Click += moveSubitemUp;
             _OGEditor.btnMoveSubitemDown.Click += moveSubitemDown;
             #endregion Option Group Editor
+
+            splitContainer2.Panel1MinSize = _OGEditor.Width;//So the hierarchy view will always fit the OGediter
 
             //Icon stuff more or less
             //btnUndo.Text = "\uE10D";
@@ -503,9 +509,9 @@ namespace AnotoWorkshop {
                                 e.Graphics.DrawRectangle(p4, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
 
                                 foreach (var item in fi.items) {
-                                    e.Graphics.DrawRectangle(p4, new Rectangle(item.Value.x + fi.x + _xOffset, item.Value.y +  fi.y + _yOffset, 4, 4));
+                                    e.Graphics.DrawRectangle(p4, new Rectangle(item.Value.x + fi.x + _xOffset + 2, item.Value.y +  fi.y + _yOffset + 2, 12, 12));
                                     
-                                    e.Graphics.DrawString(item.Value.text, Font, p4.Brush, item.Value.x + fi.x + _xOffset + 5, item.Value.y +  fi.y + _yOffset);
+                                    e.Graphics.DrawString(item.Value.text, Font, p4.Brush, item.Value.x + fi.x + _xOffset + 14, item.Value.y +  fi.y + _yOffset);
                                 }
                                 break;
                         }
@@ -883,8 +889,7 @@ namespace AnotoWorkshop {
                     }
 
                     if(_needOGEditor && _activeOGField != null) {
-                        int fontMenuPosX = designPanel.PointToScreen(new Point((int)((_activeOGField.x + _xOffset) * _zoomLevel), (int)((_activeOGField.y + _yOffset) * _zoomLevel))).X + (int)(10 * _zoomLevel);
-                        int fontMenuPosY = designPanel.PointToScreen(new Point((int)((_activeOGField.x + _xOffset) * _zoomLevel), (int)((_activeOGField.y + _yOffset) * _zoomLevel))).Y + (int)(_activeOGField.height + (8 * _zoomLevel));
+
 
                         _OGEditor.lstvSubitems.Clear();
                         foreach (var si in _activeOGField.items) {
@@ -898,7 +903,14 @@ namespace AnotoWorkshop {
                         _OGEditor.txtSubitemValue.Clear();
                         _OGEditor.txtSubitemLabel.Clear();
 
+                        Point position = trvFieldList.PointToScreen(new Point(0, 0));
+                        int fontMenuPosX = position.X;
+                        int fontMenuPosY = position.Y;
+
+
                         _OGEditorContainer.Show(fontMenuPosX, fontMenuPosY);
+                        _OGEditor.nmColumns.Focus();
+
                     }
 
 

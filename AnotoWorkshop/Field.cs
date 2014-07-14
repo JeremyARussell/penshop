@@ -253,7 +253,7 @@ namespace AnotoWorkshop {
 
 
         public Dictionary<int, SubItem> items = new Dictionary<int, SubItem>();
-        public int columns;
+        public int columns = 1;
 
         #endregion Options Group Specific - Not Started
 
