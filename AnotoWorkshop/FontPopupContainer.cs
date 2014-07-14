@@ -5,14 +5,14 @@ using System.Windows.Forms;
 
 
 namespace AnotoWorkshop {
-    public partial class PopupContainer : ToolStripDropDown {
+    public partial class FontPopupContainer : ToolStripDropDown {
         
         private FontEditorMenu _mToolStrip;
         private ToolStripControlHost _mHost;
         private bool _mFade = true;
         private Designer _mDesignerForm;
 
-        public PopupContainer(FontEditorMenu toolStrip, Designer designerForm) {
+        public FontPopupContainer(FontEditorMenu toolStrip, Designer designerForm) {
             InitializeComponent();
 
             if (toolStrip == null)

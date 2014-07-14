@@ -93,9 +93,29 @@ namespace AnotoWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap option_group {
+            get {
+                object obj = ResourceManager.GetObject("option_group", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tweed {
             get {
                 object obj = ResourceManager.GetObject("tweed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap written {
+            get {
+                object obj = ResourceManager.GetObject("written", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

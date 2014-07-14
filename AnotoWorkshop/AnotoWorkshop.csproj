@@ -118,6 +118,18 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OptionsEditorMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptionsEditorMenu.Designer.cs">
+      <DependentUpon>OptionsEditorMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionsPopupContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OptionsPopupContainer.Designer.cs">
+      <DependentUpon>OptionsPopupContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="fieldSelection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,11 +171,11 @@
     </Compile>
     <Compile Include="LogWriter.cs" />
     <Compile Include="PenForm.cs" />
-    <Compile Include="PopupContainer.cs">
+    <Compile Include="FontPopupContainer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PopupContainer.Designer.cs">
-      <DependentUpon>PopupContainer.cs</DependentUpon>
+    <Compile Include="FontPopupContainer.Designer.cs">
+      <DependentUpon>FontPopupContainer.cs</DependentUpon>
     </Compile>
     <Compile Include="PrintConfig.cs" />
     <Compile Include="Program.cs" />
@@ -195,6 +207,9 @@
     <Compile Include="whiteList.Designer.cs">
       <DependentUpon>whiteList.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="OptionsEditorMenu.resx">
+      <DependentUpon>OptionsEditorMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fieldSelection.resx">
       <DependentUpon>fieldSelection.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -282,6 +297,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\Icon1.ico" />
+    <None Include="images\written.png" />
+    <None Include="images\option_group.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

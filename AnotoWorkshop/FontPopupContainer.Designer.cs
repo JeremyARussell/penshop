@@ -1,6 +1,6 @@
 ﻿namespace AnotoWorkshop
 {
-    partial class PopupContainer
+    partial class FontPopupContainer
     {
         /// <summary>
         /// Required designer variable.

@@ -288,16 +288,15 @@ namespace AnotoWorkshop {
                 XmlNodeList selectedPage = pages[i].ChildNodes;
                 FormPage workingPage = new FormPage(i);
                 foreach (XmlNode fieldNode in selectedPage) {
-                    workingPage.Fields.Add(processNode(fieldNode/*, workingFormatSets*/));
+                    workingPage.Fields.Add(processNodeForImporting(fieldNode));
                 }
 
                 addPage(workingPage);
             }
         }
 
-        private Field processNode(XmlNode field/*, Dictionary<int, FormatSet> workingFormatSets*/) {
+        private Field processNodeForImporting(XmlNode field) {
             try {
-                //FormatSet workingFormatSet = new FormatSet();
                 Field workingField = new Field();
                 int fieldFlag = 0;
 
@@ -835,7 +834,7 @@ namespace AnotoWorkshop {
 
                             #region Options Group - Not Started
 
-                            case Type.OptionsGroup:
+                            case Type.OptionGroup:
                                 //writer.WriteStartElement("field");
                                 //writer.WriteEndElement();//end field
                                 break;
@@ -1648,7 +1647,7 @@ namespace AnotoWorkshop {
                                 e.DrawString(fi.text, fi.font(), p3.Brush, new Point(fi.x + fi.width, (int)(fi.y + (((fi.height - fi.font().Size) / 2)) - 4)));
                                 break;
 
-                            case Type.OptionsGroup:
+                            case Type.OptionGroup:
                                 Pen p4 = new Pen(Color.Red);
                                 e.DrawRectangle(p4, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
                                 break;
@@ -1736,7 +1735,7 @@ namespace AnotoWorkshop {
                                                                                            (int)(((int)(fi.y + (((fi.height - fi.pFont().Size) / 2)) - 4)) * pngMulti)));
                                 break;
 
-                            case Type.OptionsGroup:
+                            case Type.OptionGroup:
                                 break;
                         }
                     }

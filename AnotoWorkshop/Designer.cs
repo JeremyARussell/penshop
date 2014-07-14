@@ -25,6 +25,12 @@ namespace AnotoWorkshop {
         private Rectangle _selectionRect;      //This is the Rectangle used to actively track where the user is "selecting"
         private Rectangle _groupSelectionRect; //This Rectangle is the group selection rectangle used to encompass a group of things that have been selected.
 
+        private int _oldXOffset = 35;        //The old X and Y offset values are needed due to the fact that during the move event the offsets are changing constantly as the...
+        private int _oldYOffset = 35;        //...mouse moves, you get some weird exponential math problems that made the page jump off the screen soon after the mouse is moved.
+
+        private int _xOffset = 35;           //The variables used to ultimately track how...
+        private int _yOffset = 35;           //...much the user has moved the page around.
+
         //variables needed for editing the labels
         private RichTextBox _activeTextEditBox = new RichTextBox();
         private Field _activeEditField;
@@ -40,79 +46,19 @@ namespace AnotoWorkshop {
 
         private Mode _globalMode = new Mode(); //global mode instance
 
-        public class Mode {
-            private MouseMode _internalMode = MouseMode.None; //The MouseMode is used to keep track of what we should be doing with the mouse during the misc mouse events
 
-// ReSharper disable InconsistentNaming
-            public bool None = true;
-            public bool TextEditing = false;
-            public bool Selecting = false;
-            public bool Selected = false;
-            public bool Resizing = false;
-            public bool Adding = false;
-// ReSharper restore InconsistentNaming
-            public MouseMode mode() {
-                return _internalMode; // Internal mode keeper
-            }
+        private bool _needFontMenu = false;
+        Field _changingFontField = null;
 
-            private void reset() {
-                None = false;
-                TextEditing = false;
-                Selecting = false;
-                Selected = false;
-                Resizing = false;
-                Adding = false;
-            }
+        FontEditorMenu _mFontMenu;
+        FontPopupContainer _mFontMenuContainer;
 
-            public void setMode(MouseMode m){
-                reset(); // Reset Bools
-                switch (m){
-                    case MouseMode.None:
-                        None = true;
-                        _internalMode = m;
-                        break;
 
-                    case MouseMode.Adding:
-                        Adding = true;
-                        _internalMode = m;
-                        break;
+        private bool _needOGEditor = false;
+        Field _activeOGField = null;
+        OptionsEditorMenu _OGEditor;
+        OptionsPopupContainer _OGEditorContainer;
 
-                    case MouseMode.Resizing:
-                        Resizing = true;
-                        _internalMode = m;
-                        break;
-
-                    case MouseMode.Selected:
-                        Selected = true;
-                        _internalMode = m;
-                        break;
-
-                    case MouseMode.Selecting:
-                        Selecting = true;
-                        _internalMode = m;
-                        break;
-
-                    case MouseMode.TextEditing:
-                        TextEditing = true;
-                        _internalMode = m;
-                        break;
-
-                    default:
-                        None = true;
-                        _internalMode = MouseMode.None; // If the mousemode is nothing known (errors) apply No mousemode
-                        break;
-                }
-            }
-        }
-
-        public enum MouseMode {                   //The MouseMode enum, pretty basic here but I'll run through each mode.
-            None,                                 //This is a placeholder for switching the mode to when we want the mouse to act as it would normally act.
-            TextEditing,                          //This is the mode for editing text labels and rich text label inline.
-            Selecting,                            //This mode is used to let the paint event know to draw the selection rectangle, etc, as well as highlight fields and such.
-            Selected,                             //When you are done selecting, if you have selected something this is the mode you'll be in, so that things like moving stuff can happen.
-            Resizing,                             //This mode is activated when resizing, so that the movement of the mouse can be used for that instead of anything else.
-            Adding                                //Mode used when adding new fields, lets the adding box get painted and the mouse events get tailored for adding the new field.
-        }
 
         #endregion Variables
 
@@ -131,7 +77,7 @@ namespace AnotoWorkshop {
             MouseWheel += mouseWheel; //To override the built in MouseWheel event with my own.
         }
 
-
+        #region Font Editor
         //Names
         private void fontNameCmbValueChanged (object sender, EventArgs a) {
             _changingFontField.fontTypeface = _mFontMenu.cmbFontList.Text;
@@ -196,9 +142,93 @@ namespace AnotoWorkshop {
             calculateLabelSizes();
         }        
          
+        #endregion Font Editor
+
+        #region Option Group Editor
+
+        private void addSubitem(object sender, EventArgs a) {
+
+            if(isDupSubitem(_activeOGField.items ,_OGEditor.txtSubitemValue.Text)) {
+                return;
+            }
+
+            _OGEditor.lstvSubitems.Items.Add(_OGEditor.txtSubitemValue.Text + " - " +_OGEditor.txtSubitemLabel.Text);
+
+            int items = _activeOGField.items.Count;
+
+            SubItem subItem = new SubItem();
+            subItem.value = _OGEditor.txtSubitemValue.Text;
+            subItem.text = _OGEditor.txtSubitemLabel.Text;
+            _activeOGField.items.Add(items + 1, subItem);
+
+            setupActiveOptionsGroup();
+        }
+
+        private void removeSubitem(object sender, EventArgs a) {
+            
+        }
+
+        private void changeOGColumns(object sender, EventArgs a) {
+            _activeOGField.columns = (int)_OGEditor.nmColumns.Value;
+            setupActiveOptionsGroup();
+        }
+
+        private void moveSubitemUp(object sender, EventArgs a) {
+            
+        }
+
+        private void moveSubitemDown(object sender, EventArgs a) {
+            
+        }
+
+        private void setupActiveOptionsGroup() {
+            int columns     = _activeOGField.columns;
+            int qtyOptions  = _activeOGField.items.Count;
+            double width    = _activeOGField.width;
+            double height   = _activeOGField.height;
+            int rows        = (int)Math.Ceiling(((double)qtyOptions / columns));
+            double xSpacing = width / columns;
+            double ySpacing = height / rows;
+
+            int curColumn = 1;
+            int curRow    = 1;
+            int curItem;
+
+            for (curItem = 1; curItem <= qtyOptions; curItem++) {
+                if (curColumn < columns) {
+                    _activeOGField.items[curItem].x = (int)((curColumn - 1) * xSpacing);
+                    _activeOGField.items[curItem].y = (int)((curRow - 1) * ySpacing);
+
+                    curColumn++;
+                } else if (curColumn == columns) {
+                    _activeOGField.items[curItem].x = (int)((curColumn - 1) * xSpacing);
+                    _activeOGField.items[curItem].y = (int)((curRow - 1) * ySpacing);
+
+                    curRow++;
+                    curColumn = 1;
+                }
+
+            }
+
+            //_changingTaskField.items
+                
+        }
+
+        private bool isDupSubitem(Dictionary<int, SubItem> toCheckAgainst, string toCheck) {
+            for (int i = 1; i <= toCheckAgainst.Count; i++) {
+                if (toCheck == toCheckAgainst[i].value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion Option Group Editor
 
         private void frmMain_Load(object sender, EventArgs e) {
 
+
+            #region turn to method
             /////
             PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
             List<string> testList = new List<string>();
@@ -236,13 +266,14 @@ namespace AnotoWorkshop {
                 testField.height = 2;
 
                 _currentForm.page(_currentPageNumber).Fields.Add(testField);
-            }
-
+            }     
+            
             //////
+            #endregion turn to method
 
-
+            #region Font Editor
             _mFontMenu = new FontEditorMenu();
-            _mFontMenuContainer = new PopupContainer(_mFontMenu, this);
+            _mFontMenuContainer = new FontPopupContainer(_mFontMenu, this);
 
             //Names
             _mFontMenu.cmbFontList.SelectedValueChanged += fontNameCmbValueChanged;
@@ -256,7 +287,20 @@ namespace AnotoWorkshop {
             _mFontMenu.chkBoldToggle.CheckedChanged += chkFontBold;
             _mFontMenu.chkItalicToggle.CheckedChanged += chkFontItalic;
             _mFontMenu.chkUnderlineToggle.CheckedChanged += chkFontUnderline;
+            #endregion Font Editor
 
+            #region Option Group Editor
+            _OGEditor = new OptionsEditorMenu();
+            _OGEditorContainer = new OptionsPopupContainer(_OGEditor);
+            
+            _OGEditor.btnAddSubitem.Click += addSubitem;
+            _OGEditor.btnRemoveSubitem.Click += removeSubitem;
+            _OGEditor.nmColumns.ValueChanged += changeOGColumns;
+            _OGEditor.btnMoveSubitemUp.Click += moveSubitemUp;
+            _OGEditor.btnMoveSubitemDown.Click += moveSubitemDown;
+            #endregion Option Group Editor
+
+            //Icon stuff more or less
             //btnUndo.Text = "\uE10D";
             //btnRedo.Text = "\uE10E";
             //btnSaveForm.Text = "\uE105";
@@ -444,9 +488,15 @@ namespace AnotoWorkshop {
                                     , (int)(fi.y + _yOffset + (((fi.height - fi.font().Size) / 2)) - zhmod)));    //...but here we get really fancy, in order to center along the height and account for different sizes of checkbox...
                                 break;                                                                                                  //...and different levels of zoom and font size, etc.
 
-                            case Type.OptionsGroup:
+                            case Type.OptionGroup:
                                 Pen p4 = new Pen(Color.Red);
                                 e.Graphics.DrawRectangle(p4, new Rectangle((new Point(fi.x + _xOffset, fi.y + _yOffset)), fi.rect().Size));
+
+                                foreach (var item in fi.items) {
+                                    e.Graphics.DrawRectangle(p4, new Rectangle(item.Value.x + fi.x + _xOffset, item.Value.y +  fi.y + _yOffset, 4, 4));
+                                    
+                                    e.Graphics.DrawString(item.Value.text, Font, p4.Brush, item.Value.x + fi.x + _xOffset + 5, item.Value.y +  fi.y + _yOffset);
+                                }
                                 break;
                         }
                     }
@@ -467,15 +517,6 @@ namespace AnotoWorkshop {
             }
         }
 
-        //++Mouse Variables
-        //+Left Click
-
-        //+Middle Click
-        private int _oldXOffset = 35;        //The old X and Y offset values are needed due to the fact that during the move event the offsets are changing constantly as the...
-        private int _oldYOffset = 35;        //...mouse moves, you get some weird exponential math problems that made the page jump off the screen soon after the mouse is moved.
-
-        private int _xOffset = 35;           //The variables used to ultimately track how...
-        private int _yOffset = 35;           //...much the user has moved the page around.
 
         //+Right Click
         //Nothing yet
@@ -598,14 +639,6 @@ namespace AnotoWorkshop {
             }
         }
 
-        private bool _needFontMenu = false;
-        Field _changingFontField = null;
-
-        FontEditorMenu _mFontMenu;
-        PopupContainer _mFontMenuContainer;
-
-
-
         private void designer_MouseMove(object sender, MouseEventArgs e) {//Handling what happens when the mouse is moving.
             if (_currentForm.totalPages() > 0) {    //
 
@@ -688,7 +721,7 @@ namespace AnotoWorkshop {
                                         if(fi.width < 2) fi.width = 2;                                  //Without letting it get smaller then 2 points in size.
                                         if(fi.height < 2) fi.height = 2;
                                     }
-                                    if(fi.type == Type.RectangleDraw || fi.type == Type.RichLabel) {
+                                    if(fi.type == Type.RectangleDraw || fi.type == Type.RichLabel || fi.type == Type.OptionGroup) {
                                         fi.width = fi.resizeStart.Width - (_startPoint.X - zx);  //For the Rectangles and Rich Labels we freely resize width...
                                         fi.height = fi.resizeStart.Height - (_startPoint.Y - zy);//...and height
 
@@ -724,8 +757,8 @@ namespace AnotoWorkshop {
                                     _selectionRect.Height = 16;
                                     break;
 
-                                case Type.OptionsGroup:
-                                    _selectionRect.Height = 16;
+                                case Type.OptionGroup:
+                                    //Nothing special, no constraints
                                     break;
 
                                 case Type.Checkbox:
@@ -800,6 +833,14 @@ namespace AnotoWorkshop {
                                     _changingFontField = null;
                                 }
 
+                                if(fi.type == Type.OptionGroup) {
+                                    _needOGEditor = true;
+                                    _activeOGField = fi;
+                                } else {
+                                    _needOGEditor = false;
+                                    _activeOGField = null;
+                                }
+
                             }
                         }
 
@@ -828,9 +869,26 @@ namespace AnotoWorkshop {
                             _mFontMenu.chkUnderlineToggle.Checked = false;
                         }
 
-
                         _mFontMenuContainer.Show(fontMenuPosX, fontMenuPosY);
                     }
+
+                    if(_needOGEditor && _activeOGField != null) {
+                        int fontMenuPosX = designPanel.PointToScreen(new Point((int)((_activeOGField.x + _xOffset) * _zoomLevel), (int)((_activeOGField.y + _yOffset) * _zoomLevel))).X + (int)(10 * _zoomLevel);
+                        int fontMenuPosY = designPanel.PointToScreen(new Point((int)((_activeOGField.x + _xOffset) * _zoomLevel), (int)((_activeOGField.y + _yOffset) * _zoomLevel))).Y + (int)(_activeOGField.height + (8 * _zoomLevel));
+
+                        _OGEditor.lstvSubitems.Clear();
+                        foreach (var si in _activeOGField.items) {
+                            _OGEditor.lstvSubitems.Items.Add(si.Value.value + " - " + si.Value.text);
+                        }
+
+                        _OGEditor.nmColumns.Value = _activeOGField.columns;
+                       
+                        _OGEditor.txtSubitemValue.Clear();
+                        _OGEditor.txtSubitemLabel.Clear();
+
+                        _OGEditorContainer.Show(fontMenuPosX, fontMenuPosY);
+                    }
+
 
                         break;
                     case MouseMode.Resizing:
@@ -849,7 +907,9 @@ namespace AnotoWorkshop {
                                     _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
 
-                                case Type.OptionsGroup:
+                                case Type.OptionGroup:
+                                    _fieldToAdd.x = _selectionRect.X - _xOffset;
+                                    _fieldToAdd.y = _selectionRect.Y - _yOffset;
                                     break;
 
                                 case Type.Checkbox:
@@ -1032,7 +1092,7 @@ namespace AnotoWorkshop {
             }
 
             needToSave();
-            deselectAll();              //Nothing should be selected, this is ran to be double sure.
+            deselectAllFields();              //Nothing should be selected, this is ran to be double sure.
             refreshHierarchyView();            
             designPanel.Invalidate();
         }
@@ -1057,7 +1117,7 @@ namespace AnotoWorkshop {
         /// The Designer's pasting function. Pastes all the fields that have been cut or copied.
         /// </summary>
         private void paste() {                                                      
-            deselectAll();//We run this here to prevent an issue with what's being copied remaining selected.
+            deselectAllFields();//We run this here to prevent an issue with what's being copied remaining selected.
 
             foreach (Field fi in _fieldsToCopy) {                                   
                 //fi.x = fi.x + 15; //TODO - Added pasting in different positions depensing on if it's a right click and paste or a CTRL-V paste.
@@ -1123,7 +1183,7 @@ namespace AnotoWorkshop {
                     _currentForm.page(_currentPageNumber).Fields.Remove(fi);
                 }
                 needToSave();
-                deselectAll();
+                deselectAllFields();
                 refreshHierarchyView();
             }
         }
@@ -1144,13 +1204,14 @@ namespace AnotoWorkshop {
             if (me != chkAddLine) chkAddLine.Checked = false;
             if (me != chkAddRectangle) chkAddRectangle.Checked = false;
             if (me != chkAddWritten) chkAddWritten.Checked = false;
+            if (me != chkAddOptionGroup) chkAddOptionGroup.Checked = false;
         }
 
         //These methods are attached to the adder checkboxes click event. They each set things up 
         //for their respective fields to be added to the page.
         private void addWritten(object sender, EventArgs e) {
             disableOtherAdders((CheckBox)sender);
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             if(!chkAddWritten.Checked) _globalMode.setMode(MouseMode.None);
@@ -1170,7 +1231,7 @@ namespace AnotoWorkshop {
 
         private void addCheckbox(object sender, EventArgs e) {
             disableOtherAdders((CheckBox)sender);
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             if(!chkAddCheckbox.Checked) _globalMode.setMode(MouseMode.None);
@@ -1183,7 +1244,7 @@ namespace AnotoWorkshop {
 
         private void addLabel(object sender, EventArgs e) {
             disableOtherAdders((CheckBox)sender);
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             if(!chkAddLabel.Checked) _globalMode.setMode(MouseMode.None);
@@ -1195,7 +1256,7 @@ namespace AnotoWorkshop {
 
         private void addRectangle(object sender, EventArgs e) {
             disableOtherAdders((CheckBox)sender);
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             if(!chkAddRectangle.Checked) _globalMode.setMode(MouseMode.None);
@@ -1205,7 +1266,7 @@ namespace AnotoWorkshop {
 
         private void addLine(object sender, EventArgs e) {
             disableOtherAdders((CheckBox)sender);
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             if(!chkAddLine.Checked) _globalMode.setMode(MouseMode.None);
@@ -1213,9 +1274,20 @@ namespace AnotoWorkshop {
             _fieldToAdd = new Field("Line", Type.LineDraw);
         }
 
+        private void addOptionGroup(object sender, EventArgs e) {
+            disableOtherAdders((CheckBox)sender);
+            deselectAllFields();
+
+            _globalMode.setMode(MouseMode.Adding);
+            if(!chkAddOptionGroup.Checked) _globalMode.setMode(MouseMode.None);
+
+            _fieldToAdd = new Field("Line", Type.OptionGroup);
+        }
+
+        //Not using now
         private void addRichLabel(object sender, EventArgs e) {
 
-            deselectAll();
+            deselectAllFields();
 
             _globalMode.setMode(MouseMode.Adding);
             _fieldToAdd = new Field("Rich Label", Type.RichLabel);
@@ -1252,7 +1324,7 @@ namespace AnotoWorkshop {
             }
         }
 
-        private void deselectAll() {
+        private void deselectAllFields() {
             foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
                 fi.selected = false;
             }
@@ -1282,7 +1354,7 @@ namespace AnotoWorkshop {
 
             //TODO - Page zoom level, offset position changing
 
-            deselectAll();
+            deselectAllFields();
             refreshHierarchyView();
             designPanel.Invalidate();
         }
@@ -1298,7 +1370,7 @@ namespace AnotoWorkshop {
             }
 
             //TODO - Zoom and offset per page
-            deselectAll();
+            deselectAllFields();
             refreshHierarchyView();
             designPanel.Invalidate();
         }
@@ -1604,8 +1676,6 @@ namespace AnotoWorkshop {
         #endregion Keyboard Bindings
 
 
-
-
         #region Field Tree Management
 
         /// <summary>
@@ -1643,7 +1713,7 @@ namespace AnotoWorkshop {
                !_currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected;  //...of what it was before it was clicked. To "toggle" if the item is selected.
                 refreshProperties(null);
             } else { //CTRL isn't being held down.
-                deselectAll();
+                deselectAllFields();
                 _currentForm.page(_currentPageNumber).Fields[e.Node.Index].selected = true; //Selects the one field 
                 refreshProperties(_currentForm.page(_currentPageNumber).Fields[e.Node.Index]);
             }
@@ -1684,6 +1754,7 @@ namespace AnotoWorkshop {
         }
 
         #endregion Field Tree Management
+
 
 
         #region Editing Labels
@@ -1853,8 +1924,6 @@ namespace AnotoWorkshop {
             designPanel.Invalidate();
         }
 
-
-
         private void btnGenerateTemplates_Click(object sender, EventArgs e) {
 
             using (var form = new generateTemplates(_currentForm.generatingTemplates)) {
@@ -1869,4 +1938,79 @@ namespace AnotoWorkshop {
             //testg.ShowDialog();
         }
     }
+
+        public class Mode {
+            private MouseMode _internalMode = MouseMode.None; //The MouseMode is used to keep track of what we should be doing with the mouse during the misc mouse events
+
+            // ReSharper disable InconsistentNaming
+            public bool None = true;
+            public bool TextEditing = false;
+            public bool Selecting = false;
+            public bool Selected = false;
+            public bool Resizing = false;
+            public bool Adding = false;
+            // ReSharper restore InconsistentNaming
+            public MouseMode mode() {
+                return _internalMode; // Internal mode keeper
+            }
+
+            private void reset() {
+                None = false;
+                TextEditing = false;
+                Selecting = false;
+                Selected = false;
+                Resizing = false;
+                Adding = false;
+            }
+
+            public void setMode(MouseMode m){
+                reset(); // Reset Bools
+                switch (m){
+                    case MouseMode.None:
+                        None = true;
+                        _internalMode = m;
+                        break;
+
+                    case MouseMode.Adding:
+                        Adding = true;
+                        _internalMode = m;
+                        break;
+
+                    case MouseMode.Resizing:
+                        Resizing = true;
+                        _internalMode = m;
+                        break;
+
+                    case MouseMode.Selected:
+                        Selected = true;
+                        _internalMode = m;
+                        break;
+
+                    case MouseMode.Selecting:
+                        Selecting = true;
+                        _internalMode = m;
+                        break;
+
+                    case MouseMode.TextEditing:
+                        TextEditing = true;
+                        _internalMode = m;
+                        break;
+
+                    default:
+                        None = true;
+                        _internalMode = MouseMode.None; // If the mousemode is nothing known (errors) apply No mousemode
+                        break;
+                }
+            }
+        }
+
+        public enum MouseMode {                   //The MouseMode enum, pretty basic here but I'll run through each mode.
+            None,                                 //This is a placeholder for switching the mode to when we want the mouse to act as it would normally act.
+            TextEditing,                          //This is the mode for editing text labels and rich text label inline.
+            Selecting,                            //This mode is used to let the paint event know to draw the selection rectangle, etc, as well as highlight fields and such.
+            Selected,                             //When you are done selecting, if you have selected something this is the mode you'll be in, so that things like moving stuff can happen.
+            Resizing,                             //This mode is activated when resizing, so that the movement of the mouse can be used for that instead of anything else.
+            Adding                                //Mode used when adding new fields, lets the adding box get painted and the mouse events get tailored for adding the new field.
+        }
+
 }

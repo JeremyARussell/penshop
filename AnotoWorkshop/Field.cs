@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -12,7 +13,7 @@ namespace AnotoWorkshop {
         Checkbox,//check box, attached to an appropriate checkbox field in nextgen/other EMR stuff.
         RichLabel,
         Label,//basically static labels and such.
-        OptionsGroup,//The main thing to watch for here is the naming scheme with the XML version.
+        OptionGroup,//The main thing to watch for here is the naming scheme with the XML version.
         LineDraw,
         RectangleDraw
     }
@@ -208,6 +209,7 @@ namespace AnotoWorkshop {
 
                 case Type.RichLabel:
                 case Type.RectangleDraw:
+                case Type.OptionGroup:
                     retRect = new Rectangle(
                         (int)(_x + _width + 4),
                         (int)(_y + _height + 4),
@@ -249,10 +251,24 @@ namespace AnotoWorkshop {
 
         #region Options Group Specific - Not Started
 
+
+        public Dictionary<int, SubItem> items = new Dictionary<int, SubItem>();
+        public int columns;
+
         #endregion Options Group Specific - Not Started
 
         #region Scripting - Not Started
 
         #endregion Scripting - Not Started
     }
+
+    public class SubItem {
+        public int x;
+        public int y;
+
+        public string value;
+        public string text;
+
+    }
+
 }
