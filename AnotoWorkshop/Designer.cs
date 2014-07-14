@@ -162,15 +162,20 @@ namespace AnotoWorkshop {
             _activeOGField.items.Add(items + 1, subItem);
 
             setupActiveOptionsGroup();
+            needToSave();
         }
 
         private void removeSubitem(object sender, EventArgs a) {
             
         }
 
+        private bool ignoreOGChange = false;
         private void changeOGColumns(object sender, EventArgs a) {
-            _activeOGField.columns = (int)_OGEditor.nmColumns.Value;
-            setupActiveOptionsGroup();
+            if(!ignoreOGChange) {
+                _activeOGField.columns = (int)_OGEditor.nmColumns.Value;
+                setupActiveOptionsGroup();
+                needToSave();
+            }
         }
 
         private void moveSubitemUp(object sender, EventArgs a) {
@@ -320,6 +325,11 @@ namespace AnotoWorkshop {
                 if(fi.type == Type.RichLabel) {
                     fi.richBox = new RichTextBox();
                     fi.richBox.Rtf = fi.rtc;
+                }
+                if(fi.type == Type.OptionGroup) {
+                    _activeOGField = fi;
+                    setupActiveOptionsGroup();
+                    _activeOGField = null;
                 }
             }
 
@@ -699,10 +709,10 @@ namespace AnotoWorkshop {
                                 if (fi.selected) {//Moving stuff around code.
                                     fi.x = fi.moveStart.X - (_startPoint.X - zx);
                                     fi.y = fi.moveStart.Y - (_startPoint.Y - zy);
+                                    if (_startPoint.X - zx != 0 && _startPoint.Y - zy != 0) needToSave(); //Only trigger if it actually changes, fixing a weird error when a menu is open and you click on a field
                                 }
                             }
-
-                            needToSave(); 
+                            
                             calculateSfBox();
                             break;
 
@@ -881,7 +891,9 @@ namespace AnotoWorkshop {
                             _OGEditor.lstvSubitems.Items.Add(si.Value.value + " - " + si.Value.text);
                         }
 
+                        ignoreOGChange = true;
                         _OGEditor.nmColumns.Value = _activeOGField.columns;
+                        ignoreOGChange = false;
                        
                         _OGEditor.txtSubitemValue.Clear();
                         _OGEditor.txtSubitemLabel.Clear();

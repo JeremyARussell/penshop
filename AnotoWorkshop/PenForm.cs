@@ -118,17 +118,27 @@ namespace AnotoWorkshop {
                         writer.WriteAttributeString("height", fi.height.ToString());
                         writer.WriteAttributeString("type", fi.type.ToString());
                         writer.WriteAttributeString("text", fi.text);
-                        //writer.WriteAttributeString("formatSetName", fi.formatSet.name);
                         writer.WriteAttributeString("fontFamily", fi.fontTypeface);
                         writer.WriteAttributeString("fontSize", fi.fontSize.ToString());
                         writer.WriteAttributeString("fontStyle", fi.fontStyle.ToString());
-                        //writer.WriteAttributeString("text", fi.text);
 
                         writer.WriteAttributeString("hidden", fi.hidden.ToString());
                         writer.WriteAttributeString("readOnly", fi.readOnly.ToString());
                         //writer.WriteAttributeString("name", fi.group);
                         //writer.WriteAttributeString("name", fi.textTypes);
                         if(fi.type == Type.RichLabel && fi.richBox != null) writer.WriteAttributeString("RTC", fi.richBox.Rtf);//For Fancy Labels
+                        if(fi.type == Type.OptionGroup) {//Options group saving stuff
+                            writer.WriteStartElement("SubItems");
+                            writer.WriteAttributeString("columns", fi.columns.ToString());
+                            foreach (var si in fi.items) {
+                                writer.WriteStartElement("item");
+                                writer.WriteAttributeString("number", si.Key.ToString());
+                                writer.WriteAttributeString("value", si.Value.value);
+                                writer.WriteAttributeString("label_text", si.Value.text);
+                                writer.WriteEndElement();//item                  
+                            }
+                            writer.WriteEndElement();//SubItems
+                        }
 
                         writer.WriteEndElement();//Field
                     }
@@ -246,8 +256,26 @@ namespace AnotoWorkshop {
                         if (workingField.type == Type.RichLabel) {//Fancy Label code
                             workingField.rtc = reader["RTC"];
                         }
+                        
+                    }
+
+                    if (reader.Name == "SubItems") {
+                        int.TryParse(reader["columns"], out workingField.columns);
+
+                        XmlReader ogReader = XmlReader.Create(new StringReader(reader.ReadOuterXml()));
+
+                        while (ogReader.Read()) {
+                            if (ogReader.Name == "item") {
+                                SubItem subToAdd = new SubItem();
+                                subToAdd.value = ogReader["value"];
+                                subToAdd.text  = ogReader["label_text"];
+
+                                workingField.items.Add(Convert.ToInt32(ogReader["number"]), subToAdd);
+                            }
+                        }
 
                     }
+
                 }//End loop
 
                 return workingField;
