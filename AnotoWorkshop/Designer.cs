@@ -147,7 +147,6 @@ namespace AnotoWorkshop {
         #region Option Group Editor
 
         private void addSubitem(object sender, EventArgs a) {
-
             if(isDupSubitem(_activeOGField.items ,_OGEditor.txtSubitemValue.Text)) {
                 return;
             }
@@ -158,11 +157,17 @@ namespace AnotoWorkshop {
 
             SubItem subItem = new SubItem();
             subItem.value = _OGEditor.txtSubitemValue.Text;
-            subItem.text = _OGEditor.txtSubitemLabel.Text;
+            if (_OGEditor.txtSubitemLabel.Text != "") {
+                subItem.text = _OGEditor.txtSubitemLabel.Text;
+            } else {
+                subItem.text = _OGEditor.txtSubitemValue.Text;
+            }
             _activeOGField.items.Add(items + 1, subItem);
 
             setupActiveOptionsGroup();
             needToSave();
+
+            designPanel.Invalidate();
 
             _OGEditor.txtSubitemValue.Clear();
             _OGEditor.txtSubitemLabel.Clear();
@@ -170,24 +175,142 @@ namespace AnotoWorkshop {
         }
 
         private void removeSubitem(object sender, EventArgs a) {
-            
+            if (_OGEditor.lstvSubitems.SelectedItems.Count == 0) return;
+            string valToRemove = _OGEditor.lstvSubitems.SelectedItems[0].Text.Split(new string[] { " - " }, StringSplitOptions.None)[0];
+
+            int toRemove = 0;
+
+            foreach (var subItem in _activeOGField.items) {
+                if (subItem.Value.value == valToRemove) toRemove = subItem.Key;
+            }
+
+            List<int> toDecrease = new List<int>();
+
+            if (toRemove != 0) {
+                _activeOGField.items.Remove(toRemove);
+                for (int i = toRemove; i <= _activeOGField.items.Count; i++) {
+                    toDecrease.Add(i + 1);
+                }
+                foreach (var i in toDecrease) {
+                    SubItem newItem = new SubItem();
+
+                    newItem.value = _activeOGField.items[i].value;
+                    newItem.text = _activeOGField.items[i].text;
+
+                    _activeOGField.items.Remove(i);
+                    _activeOGField.items.Add(i - 1, newItem);
+                }
+                toDecrease.Clear();
+            }
+
+            _OGEditor.lstvSubitems.Clear();
+
+            for (int i = 1; i <= _activeOGField.items.Count; i++) {
+                _OGEditor.lstvSubitems.Items.Add(_activeOGField.items[i].value + " - " + _activeOGField.items[i].text);
+            }
+
+            setupActiveOptionsGroup();
+            needToSave();
+            designPanel.Invalidate();
         }
 
-        private bool ignoreOGChange = false;
+        private bool _ignoreOGChange = false;
         private void changeOGColumns(object sender, EventArgs a) {
-            if(!ignoreOGChange) {
+            if(!_ignoreOGChange) {
                 _activeOGField.columns = (int)_OGEditor.nmColumns.Value;
                 setupActiveOptionsGroup();
                 needToSave();
+                designPanel.Invalidate();
             }
         }
 
         private void moveSubitemUp(object sender, EventArgs a) {
-            
+            if (_OGEditor.lstvSubitems.SelectedItems.Count == 0) return;
+
+            string valToRaise = _OGEditor.lstvSubitems.SelectedItems[0].Text.Split(new string[] { " - " }, StringSplitOptions.None)[0];
+
+            int toRaise = 0;
+
+            foreach (var subItem in _activeOGField.items) {
+                if (subItem.Value.value == valToRaise) toRaise = subItem.Key;
+            }
+
+            if (toRaise == 1) return;
+
+            if (toRaise != 0) {
+
+                SubItem oldItem = new SubItem();
+                oldItem.value = _activeOGField.items[toRaise].value;
+                oldItem.text = _activeOGField.items[toRaise].text;
+
+                _activeOGField.items.Remove(toRaise);
+
+                SubItem newItem = new SubItem();
+                newItem.value = _activeOGField.items[toRaise - 1].value;
+                newItem.text = _activeOGField.items[toRaise - 1].text;
+
+                _activeOGField.items.Remove(toRaise - 1);
+
+                _activeOGField.items.Add(toRaise, newItem);
+
+                _activeOGField.items.Add(toRaise - 1, oldItem);
+            }
+
+            _OGEditor.lstvSubitems.Clear();
+            for (int i = 1; i <= _activeOGField.items.Count; i++) {
+                _OGEditor.lstvSubitems.Items.Add(_activeOGField.items[i].value + " - " + _activeOGField.items[i].text);
+            }
+            _OGEditor.lstvSubitems.Items[toRaise - 2].Selected = true;
+            _OGEditor.lstvSubitems.Focus();
+
+            setupActiveOptionsGroup();
+            needToSave();
+            designPanel.Invalidate();
         }
 
         private void moveSubitemDown(object sender, EventArgs a) {
-            
+            if (_OGEditor.lstvSubitems.SelectedItems.Count == 0) return;
+
+            string valToLower = _OGEditor.lstvSubitems.SelectedItems[0].Text.Split(new string[] { " - " }, StringSplitOptions.None)[0];
+
+            int toLower = 0;
+
+            foreach (var subItem in _activeOGField.items) {
+                if (subItem.Value.value == valToLower) toLower = subItem.Key;
+            }
+
+            if (toLower == _activeOGField.items.Count) return;
+
+            if (toLower != 0) {
+
+                SubItem oldItem = new SubItem();
+                oldItem.value = _activeOGField.items[toLower].value;
+                oldItem.text = _activeOGField.items[toLower].text;
+
+                _activeOGField.items.Remove(toLower);
+
+                SubItem newItem = new SubItem();
+                newItem.value = _activeOGField.items[toLower + 1].value;
+                newItem.text = _activeOGField.items[toLower + 1].text;
+
+                _activeOGField.items.Remove(toLower + 1);
+
+                _activeOGField.items.Add(toLower, newItem);
+
+                _activeOGField.items.Add(toLower + 1, oldItem);
+            }
+
+            _OGEditor.lstvSubitems.Clear();
+            for (int i = 1; i <= _activeOGField.items.Count; i++) {
+                _OGEditor.lstvSubitems.Items.Add(_activeOGField.items[i].value + " - " + _activeOGField.items[i].text);
+            }
+            _OGEditor.lstvSubitems.Items[toLower].Selected = true;
+            _OGEditor.lstvSubitems.Focus();
+
+            setupActiveOptionsGroup();
+            needToSave();
+            designPanel.Invalidate();
+
         }
 
         private void setupActiveOptionsGroup() {
@@ -195,7 +318,7 @@ namespace AnotoWorkshop {
             int qtyOptions  = _activeOGField.items.Count;
             double width    = _activeOGField.width;
             double height   = _activeOGField.height;
-            int rows        = (int)Math.Ceiling(((double)qtyOptions / columns));
+            int rows        = (int)Math.Ceiling(( (double)qtyOptions / columns));
             double xSpacing = width / columns;
             double ySpacing = height / rows;
 
@@ -216,11 +339,7 @@ namespace AnotoWorkshop {
                     curRow++;
                     curColumn = 1;
                 }
-
-            }
-
-            //_changingTaskField.items
-                
+            }                
         }
 
         private bool isDupSubitem(Dictionary<int, SubItem> toCheckAgainst, string toCheck) {
@@ -237,7 +356,7 @@ namespace AnotoWorkshop {
         private void frmMain_Load(object sender, EventArgs e) {
 
 
-            #region turn to method
+            #region turn to method loadQueryFields
             /////
             PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
             List<string> testList = new List<string>();
@@ -272,7 +391,7 @@ namespace AnotoWorkshop {
                 testField.x = 1;
                 testField.y = 1;
                 testField.width = 2;
-                testField.height = 2;
+                testField.height = 16;
 
                 _currentForm.page(_currentPageNumber).Fields.Add(testField);
             }     
@@ -744,6 +863,10 @@ namespace AnotoWorkshop {
                                         if(fi.width < 5) fi.width = 5;                             //Here we limit them from getting smaller then 5 points for width...
                                         if(fi.height < 5) fi.height = 5;                           //...and height
                                         
+                                        if(fi.type == Type.OptionGroup && _activeOGField != null) {
+                                            setupActiveOptionsGroup();
+                                        }
+
                                     }
                                 }
                             }
@@ -892,13 +1015,13 @@ namespace AnotoWorkshop {
 
 
                         _OGEditor.lstvSubitems.Clear();
-                        foreach (var si in _activeOGField.items) {
-                            _OGEditor.lstvSubitems.Items.Add(si.Value.value + " - " + si.Value.text);
+                        for (int i = 1; i <= _activeOGField.items.Count; i++) {
+                            _OGEditor.lstvSubitems.Items.Add(_activeOGField.items[i].value + " - " + _activeOGField.items[i].text);
                         }
 
-                        ignoreOGChange = true;
+                        _ignoreOGChange = true;
                         _OGEditor.nmColumns.Value = _activeOGField.columns;
-                        ignoreOGChange = false;
+                        _ignoreOGChange = false;
                        
                         _OGEditor.txtSubitemValue.Clear();
                         _OGEditor.txtSubitemLabel.Clear();

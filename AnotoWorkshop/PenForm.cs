@@ -681,46 +681,46 @@ namespace AnotoWorkshop {
                                 writer.WriteAttributeString("y", convertToMm(fi.y));
                                 writer.WriteAttributeString("w", convertToMm(fi.width));
                                 writer.WriteAttributeString("h", convertToMm(fi.height));
-                                writer.WriteStartElement("ui");
-                                writer.WriteStartElement("textEdit");
-                                writer.WriteStartElement("border");
-                                if (fi.hidden || fi.readOnly) {//TODO - Later, sometimes when fi is readonly we still have some drawn border,
-                                    //Todo - like an underline, need to fix this up at some point. Edge settings will need to be in the TextType class.
-                                    //Todo - There is a difference between a hidden border, and an invisible field, I have them combined right now (they need to not be).
-                                    writer.WriteAttributeString("presence", "hidden");
-                                    writer.WriteEndElement();//border
-                                } else {
-                                    writer.WriteStartElement("edge");
-                                    writer.WriteAttributeString("presence", "hidden");
-                                    writer.WriteEndElement();//edge
-                                    writer.WriteStartElement("edge");
-                                    writer.WriteAttributeString("presence", "hidden");
-                                    writer.WriteEndElement();//edge
-                                    writer.WriteStartElement("edge");
-                                    writer.WriteStartElement("color");
-                                    writer.WriteAttributeString("value", "51,102,255");
-                                    writer.WriteEndElement();//color
-                                    writer.WriteEndElement();//edge
-                                    writer.WriteStartElement("edge");
-                                    writer.WriteAttributeString("presence", "hidden");
-                                    writer.WriteEndElement();//edge
-                                    writer.WriteStartElement("corner");
-                                    writer.WriteEndElement();//corner
-                                    writer.WriteStartElement("corner");
-                                    writer.WriteEndElement();//corner
-                                    writer.WriteStartElement("corner");
-                                    writer.WriteStartElement("color");
-                                    writer.WriteAttributeString("value", "51,102,255");
-                                    writer.WriteEndElement();//color
-                                    writer.WriteEndElement();//corner
-                                    writer.WriteStartElement("corner");
-                                    writer.WriteEndElement();//corner
-                                    writer.WriteEndElement();//border
-                                }
-                                writer.WriteStartElement("margin");
-                                writer.WriteEndElement();//margin
-                                writer.WriteEndElement();//textEdit
-                                writer.WriteEndElement();//ui
+                                    writer.WriteStartElement("ui");
+                                        writer.WriteStartElement("textEdit");
+                                            writer.WriteStartElement("border");
+                                            if (fi.hidden || fi.readOnly) {//TODO - Later, sometimes when fi is readonly we still have some drawn border,
+                                            //Todo - like an underline, need to fix this up at some point. Edge settings will need to be in the TextType class.
+                                            //Todo - There is a difference between a hidden border, and an invisible field, I have them combined right now (they need to not be).
+                                            writer.WriteAttributeString("presence", "hidden");
+                                            writer.WriteEndElement();//border
+                                            } else {
+                                                writer.WriteStartElement("edge");
+                                                writer.WriteAttributeString("presence", "hidden");
+                                                writer.WriteEndElement();//edge
+                                                writer.WriteStartElement("edge");
+                                                writer.WriteAttributeString("presence", "hidden");
+                                                writer.WriteEndElement();//edge
+                                                writer.WriteStartElement("edge");
+                                                writer.WriteStartElement("color");
+                                                writer.WriteAttributeString("value", "51,102,255");
+                                                writer.WriteEndElement();//color
+                                                writer.WriteEndElement();//edge
+                                                writer.WriteStartElement("edge");
+                                                writer.WriteAttributeString("presence", "hidden");
+                                                writer.WriteEndElement();//edge
+                                                writer.WriteStartElement("corner");
+                                                writer.WriteEndElement();//corner
+                                                writer.WriteStartElement("corner");
+                                                writer.WriteEndElement();//corner
+                                                writer.WriteStartElement("corner");
+                                                writer.WriteStartElement("color");
+                                                writer.WriteAttributeString("value", "51,102,255");
+                                                writer.WriteEndElement();//color
+                                                writer.WriteEndElement();//corner
+                                                writer.WriteStartElement("corner");
+                                                writer.WriteEndElement();//corner
+                                            writer.WriteEndElement();//border
+                                            }
+                                            writer.WriteStartElement("margin");
+                                            writer.WriteEndElement();//margin
+                                        writer.WriteEndElement();//textEdit
+                                    writer.WriteEndElement();//ui
 
                                 writer.WriteStartElement("font");//TODO - TOTALLY NEED NEW FONT EXPORTING CODE AS WELL
                                 //if (fi.formatSet.fontTypeface != null || fi.formatSet.fontTypeface != "") {
@@ -863,8 +863,89 @@ namespace AnotoWorkshop {
                             #region Options Group - Not Started
 
                             case Type.OptionGroup:
-                                //writer.WriteStartElement("field");
-                                //writer.WriteEndElement();//end field
+
+                                //Exclusion group
+                                writer.WriteStartElement("exclGroup");
+                                writer.WriteAttributeString("name", fi.name);
+                                writer.WriteAttributeString("x", convertToMm(fi.x));//exclGroups in designer only use the position, then ...
+                                writer.WriteAttributeString("y", convertToMm(fi.y));//...recalculate the controls border size using the individual items
+
+                                    //Fields for each subtiem
+                                    for(int i = 1; i <= fi.items.Count; i++) {
+                                        writer.WriteStartElement("field");
+                                    //...name is value without spaces, width and height same square for each one) position is the subitem x and y (calculated before hand for the group)
+                                        writer.WriteAttributeString("w", "3.4999mm");
+                                        writer.WriteAttributeString("h", "3.4999mm");
+                                        string nameSansSpaces = fi.items[i].value.Replace(" ", "");
+                                        writer.WriteAttributeString("name", nameSansSpaces);
+                                        writer.WriteAttributeString("x", convertToMm(fi.items[i].x));
+                                        writer.WriteAttributeString("y", convertToMm(fi.items[i].y));
+                                        //All the same standard ui elements and values
+                                            writer.WriteStartElement("ui");
+                                                writer.WriteStartElement("checkButton");
+                                                writer.WriteAttributeString("size", "3.175mm");
+                                                    writer.WriteStartElement("border");
+                                                        writer.WriteStartElement("fill");
+                                                            writer.WriteStartElement("color");
+                                                            writer.WriteAttributeString("value", "255, 255, 255");
+                                                            writer.WriteEndElement();//color
+                                                        writer.WriteEndElement();//fill
+                                                        writer.WriteStartElement("edge");
+                                                        writer.WriteAttributeString("thickness", "0.2501mm");
+                                                            writer.WriteStartElement("color");
+                                                            writer.WriteAttributeString("value", "51,102,255");
+                                                            writer.WriteEndElement();//color
+                                                        writer.WriteEndElement();//edge
+                                                        writer.WriteStartElement("corner");
+                                                        writer.WriteAttributeString("thickness", "0.25mm");
+                                                            writer.WriteStartElement("color");
+                                                            writer.WriteAttributeString("value", "51,102,255");
+                                                            writer.WriteEndElement();//color
+                                                        writer.WriteEndElement();//corner
+                                                    writer.WriteEndElement();//border
+                                                    writer.WriteStartElement("margin");
+                                                    writer.WriteEndElement();//margin
+                                                writer.WriteEndElement();//checkButton
+                                            writer.WriteEndElement();//ui
+                                            writer.WriteStartElement("font");
+                                            writer.WriteAttributeString("typeface", "Arial");//TODO - fonts are not handled at all for OG's, need to do this
+                                            writer.WriteEndElement();//font
+                                            writer.WriteStartElement("margin");
+                                            writer.WriteAttributeString("leftInset", "0mm");
+                                            writer.WriteAttributeString("rightInset", "0mm");
+                                            writer.WriteEndElement();//margin
+                                            writer.WriteStartElement("para");
+                                            writer.WriteAttributeString("vAlign", "middle");
+                                            writer.WriteEndElement();//para
+                                            writer.WriteStartElement("border");
+                                                writer.WriteStartElement("edge");
+                                                writer.WriteAttributeString("thickness", "0.25mm");
+                                                writer.WriteAttributeString("presense", "hidden");
+                                                    writer.WriteStartElement("color");
+                                                    writer.WriteAttributeString("value", "51,102,255");
+                                                    writer.WriteEndElement();//color
+                                                writer.WriteEndElement();//edge
+                                                writer.WriteStartElement("corner");
+                                                writer.WriteAttributeString("thickness", "0.25mm");
+                                                writer.WriteAttributeString("presense", "hidden");
+                                                    writer.WriteStartElement("color");
+                                                    writer.WriteAttributeString("value", "51,102,255");
+                                                    writer.WriteEndElement();//color
+                                                writer.WriteEndElement();//corner
+                                            writer.WriteEndElement();//border
+                                        //The items has the char for char value of the subitem value
+                                            writer.WriteStartElement("items");
+                                                writer.WriteStartElement("text");
+                                                writer.WriteString(fi.items[i].value);
+                                                writer.WriteEndElement();//text
+                                            writer.WriteEndElement();//items    
+
+                                        writer.WriteEndElement();//field
+                                    }
+                                writer.WriteEndElement();//exclGroup
+
+                                //Last is for each item make a label using their label text.
+                                
                                 break;
 
                             #endregion Options Group - Not Started
@@ -885,7 +966,7 @@ namespace AnotoWorkshop {
                                 writer.WriteAttributeString("name", fi.name);
                                 writer.WriteAttributeString("x", convertToMm(fi.x));
                                 writer.WriteAttributeString("y", convertToMm(fi.y));
-                                writer.WriteAttributeString("w", convertToMm(fi.width));
+                                writer.WriteAttributeString("w", convertToMm(fi.width + 10));//Abuffer needed for the actual PenDesktop program
                                 writer.WriteAttributeString("h", convertToMm(fi.height));
                                 writer.WriteStartElement("ui");
                                 writer.WriteStartElement("textEdit");
