@@ -945,7 +945,44 @@ namespace AnotoWorkshop {
                                 writer.WriteEndElement();//exclGroup
 
                                 //Last is for each item make a label using their label text.
-                                
+                                for(int i = 1; i <= fi.items.Count; i++) {
+                                    writer.WriteStartElement("draw");
+                                    writer.WriteAttributeString("name", fi.name);
+                                    writer.WriteAttributeString("x", convertToMm(fi.x + fi.items[i].x + 14));
+                                    writer.WriteAttributeString("y", convertToMm(fi.y + fi.items[i].y));
+                                    writer.WriteAttributeString("w", convertToMm(fi.items[i].width + 10));//Abuffer needed for the actual PenDesktop program
+                                    writer.WriteAttributeString("h", convertToMm(fi.items[i].height));
+                                        writer.WriteStartElement("ui");
+                                            writer.WriteStartElement("textEdit");
+                                            writer.WriteEndElement();//textEdit
+                                        writer.WriteEndElement();//ui
+
+                                        writer.WriteStartElement("value");
+                                            writer.WriteStartElement("text");
+                                            writer.WriteString(fi.items[i].text);
+                                            writer.WriteEndElement();//text
+                                        writer.WriteEndElement();//value
+
+                                        writer.WriteStartElement("font");
+                                        writer.WriteAttributeString("typeface", "Arial");
+                                        writer.WriteAttributeString("baselineShift", "0pt");
+                                        writer.WriteAttributeString("size", "12pt");
+                                            writer.WriteStartElement("fill");
+                                                writer.WriteStartElement("color");
+                                                writer.WriteAttributeString("value", "51,102,255");
+                                                writer.WriteEndElement();//color                                    writer.WriteEndElement();//font
+                                            writer.WriteEndElement();//fill                                    writer.WriteEndElement();//font
+                                        writer.WriteEndElement();//font                                    writer.WriteEndElement();//font
+
+                                        writer.WriteStartElement("margin");
+                                        writer.WriteAttributeString("bottomInset", "0mm");
+                                        writer.WriteAttributeString("leftInset", "0mm");
+                                        writer.WriteAttributeString("rightInset", "0mm");
+                                        writer.WriteAttributeString("topInset", "0mm");
+                                        writer.WriteEndElement();//margin
+                                    writer.WriteEndElement();//draw
+                                }
+
                                 break;
 
                             #endregion Options Group - Not Started
@@ -968,51 +1005,51 @@ namespace AnotoWorkshop {
                                 writer.WriteAttributeString("y", convertToMm(fi.y));
                                 writer.WriteAttributeString("w", convertToMm(fi.width + 10));//Abuffer needed for the actual PenDesktop program
                                 writer.WriteAttributeString("h", convertToMm(fi.height));
-                                writer.WriteStartElement("ui");
-                                writer.WriteStartElement("textEdit");
-                                writer.WriteEndElement();//textEdit
-                                writer.WriteEndElement();//ui
+                                    writer.WriteStartElement("ui");
+                                        writer.WriteStartElement("textEdit");
+                                        writer.WriteEndElement();//textEdit
+                                    writer.WriteEndElement();//ui
 
-                                writer.WriteStartElement("value");
-                                writer.WriteStartElement("text");
-                                if (fi.text != null) { writer.WriteString(fi.text.ToString()); }
-                                writer.WriteEndElement();//text
-                                writer.WriteEndElement();//value
+                                    writer.WriteStartElement("value");
+                                        writer.WriteStartElement("text");
+                                        if (fi.text != null) { writer.WriteString(fi.text.ToString()); }
+                                        writer.WriteEndElement();//text
+                                    writer.WriteEndElement();//value
 
-                                writer.WriteStartElement("font");//TODO - NEW FONT CODE HERE AS WELL
-                                if (fi.fontTypeface != null) {
-                                    writer.WriteAttributeString("typeface", fi.fontTypeface);
-                                }
-                                writer.WriteAttributeString("baselineShift", "0pt");
+                                    writer.WriteStartElement("font");//TODO - NEW FONT CODE HERE AS WELL
+                                    if (fi.fontTypeface != null) {
+                                        writer.WriteAttributeString("typeface", fi.fontTypeface);
+                                    }
+                                    writer.WriteAttributeString("baselineShift", "0pt");
 
-                                if (fi.fontSize > 0) {
-                                    writer.WriteAttributeString("size", fi.fontSize.ToString() + "pt");
-                                }
-                                //Font
-                                if (fi.fontStyle.HasFlag(FontStyle.Bold)) {
-                                    writer.WriteAttributeString("weight", "bold");
-                                }
-                                if (fi.fontStyle.HasFlag(FontStyle.Italic)) {
-                                    writer.WriteAttributeString("posture", "italic");
-                                }
-                                if (fi.fontStyle.HasFlag(FontStyle.Underline)) {
-                                    writer.WriteAttributeString("underline", "1");
-                                }
+                                    if (fi.fontSize > 0) {
+                                        writer.WriteAttributeString("size", fi.fontSize.ToString() + "pt");
+                                    }
+                                    //Font
+                                    if (fi.fontStyle.HasFlag(FontStyle.Bold)) {
+                                        writer.WriteAttributeString("weight", "bold");
+                                    }
+                                    if (fi.fontStyle.HasFlag(FontStyle.Italic)) {
+                                        writer.WriteAttributeString("posture", "italic");
+                                    }
+                                    if (fi.fontStyle.HasFlag(FontStyle.Underline)) {
+                                        writer.WriteAttributeString("underline", "1");
+                                    }
 
-                                writer.WriteStartElement("fill");
-                                writer.WriteStartElement("color");
-                                writer.WriteAttributeString("value", "51,102,255");
-                                writer.WriteEndElement();//color                                    writer.WriteEndElement();//font
-                                writer.WriteEndElement();//fill                                    writer.WriteEndElement();//font
-                                writer.WriteEndElement();//font                                    writer.WriteEndElement();//font
+                                        writer.WriteStartElement("fill");
+                                            writer.WriteStartElement("color");
+                                            writer.WriteAttributeString("value", "51,102,255");
+                                            writer.WriteEndElement();//color                                    writer.WriteEndElement();//font
+                                        writer.WriteEndElement();//fill                                    writer.WriteEndElement();//font
+                                    writer.WriteEndElement();//font                                    writer.WriteEndElement();//font
 
-                                writer.WriteStartElement("margin");
-                                writer.WriteAttributeString("bottomInset", "0mm");
-                                writer.WriteAttributeString("leftInset", "0mm");
-                                writer.WriteAttributeString("rightInset", "0mm");
-                                writer.WriteAttributeString("topInset", "0mm");
-                                writer.WriteEndElement();//margin
-                                writer.WriteEndElement();//field
+                                    writer.WriteStartElement("margin");
+                                    writer.WriteAttributeString("bottomInset", "0mm");
+                                    writer.WriteAttributeString("leftInset", "0mm");
+                                    writer.WriteAttributeString("rightInset", "0mm");
+                                    writer.WriteAttributeString("topInset", "0mm");
+                                    writer.WriteEndElement();//margin
+                                writer.WriteEndElement();//draw
                                 break;
 
                             #endregion Label - Mostly Done, double check before ".xdp export" is complete
@@ -1757,8 +1794,13 @@ namespace AnotoWorkshop {
                                 break;
 
                             case Type.OptionGroup:
-                                Pen p4 = new Pen(Color.Red);
-                                e.DrawRectangle(p4, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                Pen p4 = new Pen(Color.FromArgb(255, 51, 102, 255)) {Width = 2};
+                                //e.DrawRectangle(p4, new Rectangle((new Point(fi.x, fi.y)),  (new Size(fi.width, fi.height))));
+                                foreach (var item in fi.items) {
+                                    e.DrawRectangle(p4, new Rectangle(item.Value.x + fi.x + 2, item.Value.y +  fi.y + 2, 12, 12));
+                                    
+                                    e.DrawString(item.Value.text, new Font(new FontFamily("Arial"), 12 ), p4.Brush, item.Value.x + fi.x + 14, item.Value.y +  fi.y);
+                                }
                                 break;
                         }
                     }
@@ -1845,6 +1887,17 @@ namespace AnotoWorkshop {
                                 break;
 
                             case Type.OptionGroup:
+                                Pen p4 = new Pen(Color.FromArgb(255, 51, 102, 255)) {Width = 2};
+                                foreach (var item in fi.items) {
+                                    e.DrawRectangle(p4, new Rectangle((int)((item.Value.x + fi.x + 2) * pngMulti), (int)((item.Value.y +  fi.y + 2) * pngMulti),
+                                        (int)((12) * pngMulti), (int)((12) * pngMulti)));
+                                    
+                                    e.FillRectangle(pngFiller, new Rectangle((new Point((int)((item.Value.x + fi.x + 2) * pngMulti), (int)((item.Value.y +  fi.y + 2) * pngMulti))), 
+                                        (new Size((int)((12) * pngMulti), (int)((12) * pngMulti)))));
+                                    
+                                    e.DrawString(item.Value.text, new Font(new FontFamily("Arial"), 12), p4.Brush, 
+                                        (int)((item.Value.x + fi.x + 14) * pngMulti), (int)((item.Value.y +  fi.y) * pngMulti));
+                                }
                                 break;
                         }
                     }

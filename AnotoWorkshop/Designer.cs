@@ -159,8 +159,12 @@ namespace AnotoWorkshop {
             subItem.value = _OGEditor.txtSubitemValue.Text;
             if (_OGEditor.txtSubitemLabel.Text != "") {
                 subItem.text = _OGEditor.txtSubitemLabel.Text;
+                subItem.width = TextRenderer.MeasureText(subItem.text, Font).Width;
+                subItem.height = TextRenderer.MeasureText(subItem.text, Font).Height;
             } else {
                 subItem.text = _OGEditor.txtSubitemValue.Text;
+                subItem.width = TextRenderer.MeasureText(subItem.text, Font).Width;
+                subItem.height = TextRenderer.MeasureText(subItem.text, Font).Height;
             }
             _activeOGField.items.Add(items + 1, subItem);
 
@@ -1454,6 +1458,12 @@ namespace AnotoWorkshop {
                 if (fi.type == Type.Checkbox) {
                     fi.exWidth = TextRenderer.MeasureText(fi.text, fi.font()).Width;
                     fi.exHeight = TextRenderer.MeasureText(fi.text, fi.font()).Height;
+                }
+                if (fi.type == Type.OptionGroup) {
+                    foreach(var sub in fi.items) {
+                        sub.Value.width = TextRenderer.MeasureText(sub.Value.text, Font).Width;
+                        sub.Value.height = TextRenderer.MeasureText(sub.Value.text, Font).Height;
+                    }
                 }
 
             }
