@@ -357,11 +357,8 @@ namespace AnotoWorkshop {
 
         #endregion Option Group Editor
 
-        private void frmMain_Load(object sender, EventArgs e) {
+        void loadQueryFields() {
 
-
-            #region turn to method loadQueryFields
-            /////
             PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
             List<string> testList = new List<string>();
 
@@ -400,8 +397,11 @@ namespace AnotoWorkshop {
                 _currentForm.page(_currentPageNumber).Fields.Add(testField);
             }     
             
-            //////
-            #endregion turn to method
+        }
+
+        private void frmMain_Load(object sender, EventArgs e) {
+
+            loadQueryFields();
 
             #region Font Editor
             _mFontMenu = new FontEditorMenu();
@@ -503,6 +503,7 @@ namespace AnotoWorkshop {
                 return;
             }
         }
+        
         /// <summary>
         /// Just a void function for doing some on load prep work.
         /// </summary>
@@ -1194,11 +1195,12 @@ namespace AnotoWorkshop {
         private void designPanel_MouseEnter(object sender, EventArgs e) {
             if (!_globalMode.TextEditing) {
                 ((Panel)sender).Focus();
+                _shouldZoom = true;
             }
         }
 
         private void designPanel_MouseLeave(object sender, EventArgs e) {
-
+            _shouldZoom = false;
         }
 
         #endregion Designer Focus

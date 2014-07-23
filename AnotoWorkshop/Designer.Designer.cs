@@ -32,13 +32,16 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
+            this.chkAddWritten = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.chkAddRectangle = new System.Windows.Forms.CheckBox();
             this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
             this.chkAddLine = new System.Windows.Forms.CheckBox();
             this.chkAddLabel = new System.Windows.Forms.CheckBox();
+            this.chkAddOptionGroup = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,9 +74,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnGenerateTemplates = new System.Windows.Forms.Button();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -85,16 +86,15 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.chkAddWritten = new System.Windows.Forms.CheckBox();
-            this.chkAddOptionGroup = new System.Windows.Forms.CheckBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
@@ -106,6 +106,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -118,8 +120,6 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label19
@@ -173,6 +173,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 130);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(135, 115);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(36, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Group";
+            // 
             // label22
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -194,6 +205,19 @@
             this.label23.Size = new System.Drawing.Size(27, 13);
             this.label23.TabIndex = 11;
             this.label23.Text = "Line";
+            // 
+            // chkAddWritten
+            // 
+            this.chkAddWritten.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddWritten.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddWritten.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddWritten.Image = global::AnotoWorkshop.Properties.Resources.written;
+            this.chkAddWritten.Location = new System.Drawing.Point(8, 3);
+            this.chkAddWritten.Name = "chkAddWritten";
+            this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
+            this.chkAddWritten.TabIndex = 12;
+            this.chkAddWritten.UseVisualStyleBackColor = true;
+            this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
             // 
             // label1
             // 
@@ -257,6 +281,19 @@
             this.chkAddLabel.Text = "abc";
             this.chkAddLabel.UseVisualStyleBackColor = true;
             this.chkAddLabel.Click += new System.EventHandler(this.addLabel);
+            // 
+            // chkAddOptionGroup
+            // 
+            this.chkAddOptionGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddOptionGroup.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddOptionGroup.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddOptionGroup.Image = global::AnotoWorkshop.Properties.Resources.option_group;
+            this.chkAddOptionGroup.Location = new System.Drawing.Point(131, 68);
+            this.chkAddOptionGroup.Name = "chkAddOptionGroup";
+            this.chkAddOptionGroup.Size = new System.Drawing.Size(44, 44);
+            this.chkAddOptionGroup.TabIndex = 37;
+            this.chkAddOptionGroup.UseVisualStyleBackColor = true;
+            this.chkAddOptionGroup.Click += new System.EventHandler(this.addOptionGroup);
             // 
             // groupBox2
             // 
@@ -361,6 +398,7 @@
             this.designPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.designer_Paint);
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
             this.designPanel.MouseEnter += new System.EventHandler(this.designPanel_MouseEnter);
+            this.designPanel.MouseLeave += new System.EventHandler(this.designPanel_MouseLeave);
             this.designPanel.MouseHover += new System.EventHandler(this.designPanel_MouseLeave);
             this.designPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.designer_MouseMove);
             this.designPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.designer_MouseUp);
@@ -585,7 +623,7 @@
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // Panel1
+            // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.AutoScrollMinSize = new System.Drawing.Size(0, 100);
@@ -629,61 +667,20 @@
             this.btnGenerateTemplates.UseVisualStyleBackColor = true;
             this.btnGenerateTemplates.Click += new System.EventHandler(this.btnGenerateTemplates_Click);
             // 
-            // splitContainer2
+            // btnLoadSettingsScreen
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox4);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(1260, 584);
-            this.splitContainer2.SplitterDistance = 227;
-            this.splitContainer2.TabIndex = 0;
-            this.splitContainer2.TabStop = false;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.designPanel);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(1029, 584);
-            this.splitContainer3.SplitterDistance = 734;
-            this.splitContainer3.TabIndex = 0;
-            this.splitContainer3.TabStop = false;
-            // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer4.Panel1MinSize = 150;
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer4.Size = new System.Drawing.Size(291, 584);
-            this.splitContainer4.SplitterDistance = 184;
-            this.splitContainer4.TabIndex = 0;
-            this.splitContainer4.TabStop = false;
+            this.btnLoadSettingsScreen.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(137, 25);
+            this.btnLoadSettingsScreen.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
+            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
+            this.btnLoadSettingsScreen.TabIndex = 6;
+            this.btnLoadSettingsScreen.TabStop = false;
+            this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Visible = false;
+            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // button1
             // 
@@ -815,6 +812,20 @@
             this.label6.Text = "Debug:";
             this.label6.Visible = false;
             // 
+            // button5
+            // 
+            this.button5.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.button5.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.button5.Location = new System.Drawing.Point(137, 25);
+            this.button5.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(33, 33);
+            this.button5.TabIndex = 6;
+            this.button5.TabStop = false;
+            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Visible = false;
+            // 
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
@@ -867,71 +878,61 @@
             this.label9.TabIndex = 9;
             this.label9.Text = "Save";
             // 
-            // label10
+            // splitContainer2
             // 
-            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(135, 115);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(36, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "Group";
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
             // 
-            // btnLoadSettingsScreen
+            // splitContainer2.Panel1
             // 
-            this.btnLoadSettingsScreen.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
-            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
-            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(137, 25);
-            this.btnLoadSettingsScreen.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
-            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
-            this.btnLoadSettingsScreen.TabIndex = 6;
-            this.btnLoadSettingsScreen.TabStop = false;
-            this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
-            this.btnLoadSettingsScreen.Visible = false;
-            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
+            this.splitContainer2.Panel1.Controls.Add(this.groupBox4);
             // 
-            // button5
+            // splitContainer2.Panel2
             // 
-            this.button5.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
-            this.button5.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
-            this.button5.Location = new System.Drawing.Point(137, 25);
-            this.button5.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(33, 33);
-            this.button5.TabIndex = 6;
-            this.button5.TabStop = false;
-            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer2.Size = new System.Drawing.Size(1260, 584);
+            this.splitContainer2.SplitterDistance = 227;
+            this.splitContainer2.TabIndex = 0;
+            this.splitContainer2.TabStop = false;
             // 
-            // chkAddWritten
+            // splitContainer3
             // 
-            this.chkAddWritten.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddWritten.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddWritten.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddWritten.Image = global::AnotoWorkshop.Properties.Resources.written;
-            this.chkAddWritten.Location = new System.Drawing.Point(8, 3);
-            this.chkAddWritten.Name = "chkAddWritten";
-            this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
-            this.chkAddWritten.TabIndex = 12;
-            this.chkAddWritten.UseVisualStyleBackColor = true;
-            this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
             // 
-            // chkAddOptionGroup
+            // splitContainer3.Panel1
             // 
-            this.chkAddOptionGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddOptionGroup.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddOptionGroup.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddOptionGroup.Image = global::AnotoWorkshop.Properties.Resources.option_group;
-            this.chkAddOptionGroup.Location = new System.Drawing.Point(131, 68);
-            this.chkAddOptionGroup.Name = "chkAddOptionGroup";
-            this.chkAddOptionGroup.Size = new System.Drawing.Size(44, 44);
-            this.chkAddOptionGroup.TabIndex = 37;
-            this.chkAddOptionGroup.UseVisualStyleBackColor = true;
-            this.chkAddOptionGroup.Click += new System.EventHandler(this.addOptionGroup);
+            this.splitContainer3.Panel1.Controls.Add(this.designPanel);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
+            this.splitContainer3.Size = new System.Drawing.Size(1029, 584);
+            this.splitContainer3.SplitterDistance = 734;
+            this.splitContainer3.TabIndex = 0;
+            this.splitContainer3.TabStop = false;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer4.Panel1MinSize = 150;
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer4.Size = new System.Drawing.Size(291, 584);
+            this.splitContainer4.SplitterDistance = 184;
+            this.splitContainer4.TabIndex = 0;
+            this.splitContainer4.TabStop = false;
             // 
             // Designer
             // 
@@ -961,6 +962,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -974,9 +978,6 @@
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

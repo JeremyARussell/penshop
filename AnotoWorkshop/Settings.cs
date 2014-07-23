@@ -193,6 +193,10 @@ namespace AnotoWorkshop {
 
         #region File Saving
         public void saveToFile() {
+
+            bool isExists = System.IO.Directory.Exists(_saveDirectory);
+            if(!isExists) System.IO.Directory.CreateDirectory(_saveDirectory);
+
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
             using (XmlWriter writer = XmlWriter.Create(_saveDirectory + @"\settings.xml", settings)) {
                 writer.WriteStartDocument();
