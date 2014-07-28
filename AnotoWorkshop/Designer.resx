@@ -120,7 +120,18 @@
   <metadata name="cntxtFieldControls.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>156, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnExportForm.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjExR/NC
+        NwAAAL5JREFUOE+t0NsNwyAMBVAPRcZphgns0lUgk5jHDi4WUIEgDUT9uD9c+4CAcCraAAhWsik6Q6Bm
+        N58lsAyEAEsZgd4k0HhP3ntYCu9WIBv3YOx3ZS67RyAvbSN0BDojSQhJxjlyzkEX7svS/m5n6i4bLVgP
+        XKW+/C8gZzT/GCyzUy+s/6ekXpr5Q6sTqK0lay104T4uCKn7PncFZGMKfI2w3K2DvzICUR8RPEgjEiLC
+        Unj3CyajPZxNeUAHIn0AhF60kEggr1gAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>44</value>
+    <value>115</value>
   </metadata>
 </root>

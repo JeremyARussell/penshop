@@ -358,45 +358,50 @@ namespace AnotoWorkshop {
         #endregion Option Group Editor
 
         void loadQueryFields() {
+            try {
+                PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
+                List<string> testList = new List<string>();
 
-            PrintConfig test = new PrintConfig(_settings.exportFolder + @"\FusionPrintConfig.xml");
-            List<string> testList = new List<string>();
-
-            foreach (var testvar in test.sectionList) {
-                if (testvar.Value.type == SectionType.Column || testvar.Value.type == SectionType.Alias) {
-                    testList.Add(testvar.Value.name);
-                }
-            }
-
-            List<string> fieldsToCreate = new List<string>();
-
-            foreach (string ts in testList) {
-                if (ts != null) {
-                    fieldsToCreate.Add(ts);
-                }
-            }
-
-            foreach (string ts in testList) {
-                foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
-                    if (ts == fi.name) {
-                        fieldsToCreate.Remove(fi.name);
+                foreach (var testvar in test.sectionList) {
+                    if (testvar.Value.type == SectionType.Column || testvar.Value.type == SectionType.Alias) {
+                        testList.Add(testvar.Value.name);
                     }
                 }
+
+                List<string> fieldsToCreate = new List<string>();
+
+                foreach (string ts in testList) {
+                    if (ts != null) {
+                        fieldsToCreate.Add(ts);
+                    }
+                }
+
+                foreach (string ts in testList) {
+                    foreach (Field fi in _currentForm.page(_currentPageNumber).Fields) {
+                        if (ts == fi.name) {
+                            fieldsToCreate.Remove(fi.name);
+                        }
+                    }
+                }
+
+                foreach (string nameToAdd in fieldsToCreate) {
+                    Field testField = new Field(nameToAdd, Type.TextField);
+                    testField.readOnly = true;
+                    testField.hidden = true;
+                    testField.x = 1;
+                    testField.y = 1;
+                    testField.width = 2;
+                    testField.height = 16;
+
+                    _currentForm.page(_currentPageNumber).Fields.Add(testField);
+                }
             }
-
-
-            foreach (string nameToAdd in fieldsToCreate) {
-                Field testField = new Field(nameToAdd, Type.TextField);
-                testField.readOnly = true;
-                testField.hidden = true;
-                testField.x = 1;
-                testField.y = 1;
-                testField.width = 2;
-                testField.height = 16;
-
-                _currentForm.page(_currentPageNumber).Fields.Add(testField);
+            catch (Exception) {
+                MessageBox.Show("The export folder is missing the FusionPrintConfig.xml file, please copy it to your export folder or choose the correct folder to export to.", "File Not Found",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                throw;
             }     
-            
         }
 
         private void frmMain_Load(object sender, EventArgs e) {

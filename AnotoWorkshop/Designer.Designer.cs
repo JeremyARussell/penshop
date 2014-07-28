@@ -29,19 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Designer));
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.chkAddWritten = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.chkAddRectangle = new System.Windows.Forms.CheckBox();
-            this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
-            this.chkAddLine = new System.Windows.Forms.CheckBox();
             this.chkAddLabel = new System.Windows.Forms.CheckBox();
-            this.chkAddOptionGroup = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblDebugMMode = new System.Windows.Forms.Label();
             this.alignHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,8 +52,6 @@
             this.designPanel = new System.Windows.Forms.Panel();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.btnExportForm = new System.Windows.Forms.Button();
-            this.btnSaveForm = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblVersionNumber = new System.Windows.Forms.Label();
@@ -65,8 +59,6 @@
             this.lblTotalpages = new System.Windows.Forms.Label();
             this.lblCurrentPage = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnPreviousPage = new System.Windows.Forms.Button();
-            this.btnNextPage = new System.Windows.Forms.Button();
             this.btnNewPage = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -74,7 +66,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnGenerateTemplates = new System.Windows.Forms.Button();
-            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -86,7 +77,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
@@ -95,6 +85,17 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.btnPreviousPage = new System.Windows.Forms.Button();
+            this.btnNextPage = new System.Windows.Forms.Button();
+            this.btnLoadSettingsScreen = new System.Windows.Forms.Button();
+            this.btnSaveForm = new System.Windows.Forms.Button();
+            this.btnExportForm = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.chkAddWritten = new System.Windows.Forms.CheckBox();
+            this.chkAddRectangle = new System.Windows.Forms.CheckBox();
+            this.chkAddCheckbox = new System.Windows.Forms.CheckBox();
+            this.chkAddLine = new System.Windows.Forms.CheckBox();
+            this.chkAddOptionGroup = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.cntxtFieldControls.SuspendLayout();
@@ -206,19 +207,6 @@
             this.label23.TabIndex = 11;
             this.label23.Text = "Line";
             // 
-            // chkAddWritten
-            // 
-            this.chkAddWritten.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddWritten.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddWritten.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddWritten.Image = global::AnotoWorkshop.Properties.Resources.written;
-            this.chkAddWritten.Location = new System.Drawing.Point(8, 3);
-            this.chkAddWritten.Name = "chkAddWritten";
-            this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
-            this.chkAddWritten.TabIndex = 12;
-            this.chkAddWritten.UseVisualStyleBackColor = true;
-            this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
-            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -229,45 +217,6 @@
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Written";
-            // 
-            // chkAddRectangle
-            // 
-            this.chkAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddRectangle.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddRectangle.Location = new System.Drawing.Point(8, 68);
-            this.chkAddRectangle.Name = "chkAddRectangle";
-            this.chkAddRectangle.Size = new System.Drawing.Size(44, 44);
-            this.chkAddRectangle.TabIndex = 14;
-            this.chkAddRectangle.Text = "▯";
-            this.chkAddRectangle.UseVisualStyleBackColor = true;
-            this.chkAddRectangle.Click += new System.EventHandler(this.addRectangle);
-            // 
-            // chkAddCheckbox
-            // 
-            this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddCheckbox.Location = new System.Drawing.Point(69, 3);
-            this.chkAddCheckbox.Name = "chkAddCheckbox";
-            this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
-            this.chkAddCheckbox.TabIndex = 15;
-            this.chkAddCheckbox.Text = "☑";
-            this.chkAddCheckbox.UseVisualStyleBackColor = true;
-            this.chkAddCheckbox.Click += new System.EventHandler(this.addCheckbox);
-            // 
-            // chkAddLine
-            // 
-            this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddLine.Location = new System.Drawing.Point(69, 68);
-            this.chkAddLine.Name = "chkAddLine";
-            this.chkAddLine.Size = new System.Drawing.Size(44, 44);
-            this.chkAddLine.TabIndex = 16;
-            this.chkAddLine.Text = "|";
-            this.chkAddLine.UseVisualStyleBackColor = true;
-            this.chkAddLine.Click += new System.EventHandler(this.addLine);
             // 
             // chkAddLabel
             // 
@@ -281,19 +230,6 @@
             this.chkAddLabel.Text = "abc";
             this.chkAddLabel.UseVisualStyleBackColor = true;
             this.chkAddLabel.Click += new System.EventHandler(this.addLabel);
-            // 
-            // chkAddOptionGroup
-            // 
-            this.chkAddOptionGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkAddOptionGroup.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAddOptionGroup.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
-            this.chkAddOptionGroup.Image = global::AnotoWorkshop.Properties.Resources.option_group;
-            this.chkAddOptionGroup.Location = new System.Drawing.Point(131, 68);
-            this.chkAddOptionGroup.Name = "chkAddOptionGroup";
-            this.chkAddOptionGroup.Size = new System.Drawing.Size(44, 44);
-            this.chkAddOptionGroup.TabIndex = 37;
-            this.chkAddOptionGroup.UseVisualStyleBackColor = true;
-            this.chkAddOptionGroup.Click += new System.EventHandler(this.addOptionGroup);
             // 
             // groupBox2
             // 
@@ -399,7 +335,6 @@
             this.designPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.designer_MouseDown);
             this.designPanel.MouseEnter += new System.EventHandler(this.designPanel_MouseEnter);
             this.designPanel.MouseLeave += new System.EventHandler(this.designPanel_MouseLeave);
-            this.designPanel.MouseHover += new System.EventHandler(this.designPanel_MouseLeave);
             this.designPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.designer_MouseMove);
             this.designPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.designer_MouseUp);
             // 
@@ -420,32 +355,6 @@
             this.label15.Size = new System.Drawing.Size(32, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "Save";
-            // 
-            // btnExportForm
-            // 
-            this.btnExportForm.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportForm.Location = new System.Drawing.Point(77, 14);
-            this.btnExportForm.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.btnExportForm.Name = "btnExportForm";
-            this.btnExportForm.Size = new System.Drawing.Size(44, 44);
-            this.btnExportForm.TabIndex = 4;
-            this.btnExportForm.TabStop = false;
-            this.btnExportForm.Text = "Ex";
-            this.btnExportForm.UseVisualStyleBackColor = true;
-            this.btnExportForm.Click += new System.EventHandler(this.btnExportForm_Click);
-            // 
-            // btnSaveForm
-            // 
-            this.btnSaveForm.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
-            this.btnSaveForm.Location = new System.Drawing.Point(17, 14);
-            this.btnSaveForm.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.btnSaveForm.Name = "btnSaveForm";
-            this.btnSaveForm.Size = new System.Drawing.Size(44, 44);
-            this.btnSaveForm.TabIndex = 3;
-            this.btnSaveForm.TabStop = false;
-            this.btnSaveForm.Text = "S";
-            this.btnSaveForm.UseVisualStyleBackColor = true;
-            this.btnSaveForm.Click += new System.EventHandler(this.btnSaveForm_Click);
             // 
             // label17
             // 
@@ -487,7 +396,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(215, 28);
+            this.label12.Location = new System.Drawing.Point(214, 14);
             this.label12.Margin = new System.Windows.Forms.Padding(0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 20);
@@ -497,7 +406,7 @@
             // lblTotalpages
             // 
             this.lblTotalpages.AutoSize = true;
-            this.lblTotalpages.Location = new System.Drawing.Point(223, 28);
+            this.lblTotalpages.Location = new System.Drawing.Point(222, 14);
             this.lblTotalpages.Margin = new System.Windows.Forms.Padding(0);
             this.lblTotalpages.Name = "lblTotalpages";
             this.lblTotalpages.Size = new System.Drawing.Size(18, 20);
@@ -507,7 +416,7 @@
             // lblCurrentPage
             // 
             this.lblCurrentPage.AutoSize = true;
-            this.lblCurrentPage.Location = new System.Drawing.Point(202, 28);
+            this.lblCurrentPage.Location = new System.Drawing.Point(201, 14);
             this.lblCurrentPage.Margin = new System.Windows.Forms.Padding(0);
             this.lblCurrentPage.Name = "lblCurrentPage";
             this.lblCurrentPage.Size = new System.Drawing.Size(18, 20);
@@ -531,31 +440,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(115, 39);
             this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // btnPreviousPage
-            // 
-            this.btnPreviousPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F);
-            this.btnPreviousPage.Location = new System.Drawing.Point(41, 3);
-            this.btnPreviousPage.Name = "btnPreviousPage";
-            this.btnPreviousPage.Size = new System.Drawing.Size(32, 33);
-            this.btnPreviousPage.TabIndex = 1;
-            this.btnPreviousPage.TabStop = false;
-            this.btnPreviousPage.Text = "<";
-            this.btnPreviousPage.UseVisualStyleBackColor = true;
-            this.btnPreviousPage.Click += new System.EventHandler(this.btnPreviousPage_Click);
-            // 
-            // btnNextPage
-            // 
-            this.btnNextPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNextPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F);
-            this.btnNextPage.Location = new System.Drawing.Point(79, 3);
-            this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(33, 33);
-            this.btnNextPage.TabIndex = 2;
-            this.btnNextPage.TabStop = false;
-            this.btnNextPage.Text = ">";
-            this.btnNextPage.UseVisualStyleBackColor = true;
-            this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
             // 
             // btnNewPage
             // 
@@ -666,21 +550,6 @@
             this.btnGenerateTemplates.Text = "Generate Templates";
             this.btnGenerateTemplates.UseVisualStyleBackColor = true;
             this.btnGenerateTemplates.Click += new System.EventHandler(this.btnGenerateTemplates_Click);
-            // 
-            // btnLoadSettingsScreen
-            // 
-            this.btnLoadSettingsScreen.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
-            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
-            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(137, 25);
-            this.btnLoadSettingsScreen.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
-            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
-            this.btnLoadSettingsScreen.TabIndex = 6;
-            this.btnLoadSettingsScreen.TabStop = false;
-            this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
-            this.btnLoadSettingsScreen.Visible = false;
-            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
             // 
             // button1
             // 
@@ -812,20 +681,6 @@
             this.label6.Text = "Debug:";
             this.label6.Visible = false;
             // 
-            // button5
-            // 
-            this.button5.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
-            this.button5.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
-            this.button5.Location = new System.Drawing.Point(137, 25);
-            this.button5.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(33, 33);
-            this.button5.TabIndex = 6;
-            this.button5.TabStop = false;
-            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
-            // 
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
@@ -933,6 +788,151 @@
             this.splitContainer4.SplitterDistance = 184;
             this.splitContainer4.TabIndex = 0;
             this.splitContainer4.TabStop = false;
+            // 
+            // btnPreviousPage
+            // 
+            this.btnPreviousPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F);
+            this.btnPreviousPage.Image = global::AnotoWorkshop.Properties.Resources.previous_page;
+            this.btnPreviousPage.Location = new System.Drawing.Point(41, 3);
+            this.btnPreviousPage.Name = "btnPreviousPage";
+            this.btnPreviousPage.Size = new System.Drawing.Size(32, 33);
+            this.btnPreviousPage.TabIndex = 1;
+            this.btnPreviousPage.TabStop = false;
+            this.btnPreviousPage.UseVisualStyleBackColor = true;
+            this.btnPreviousPage.Click += new System.EventHandler(this.btnPreviousPage_Click);
+            // 
+            // btnNextPage
+            // 
+            this.btnNextPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNextPage.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F);
+            this.btnNextPage.Image = global::AnotoWorkshop.Properties.Resources.next_page;
+            this.btnNextPage.Location = new System.Drawing.Point(79, 3);
+            this.btnNextPage.Name = "btnNextPage";
+            this.btnNextPage.Size = new System.Drawing.Size(33, 33);
+            this.btnNextPage.TabIndex = 2;
+            this.btnNextPage.TabStop = false;
+            this.btnNextPage.UseVisualStyleBackColor = true;
+            this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
+            // 
+            // btnLoadSettingsScreen
+            // 
+            this.btnLoadSettingsScreen.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.btnLoadSettingsScreen.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.btnLoadSettingsScreen.Location = new System.Drawing.Point(137, 25);
+            this.btnLoadSettingsScreen.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.btnLoadSettingsScreen.Name = "btnLoadSettingsScreen";
+            this.btnLoadSettingsScreen.Size = new System.Drawing.Size(33, 33);
+            this.btnLoadSettingsScreen.TabIndex = 6;
+            this.btnLoadSettingsScreen.TabStop = false;
+            this.btnLoadSettingsScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLoadSettingsScreen.UseVisualStyleBackColor = true;
+            this.btnLoadSettingsScreen.Visible = false;
+            this.btnLoadSettingsScreen.Click += new System.EventHandler(this.btnLoadSettingsScreen_Click);
+            // 
+            // btnSaveForm
+            // 
+            this.btnSaveForm.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.btnSaveForm.Image = global::AnotoWorkshop.Properties.Resources.save;
+            this.btnSaveForm.Location = new System.Drawing.Point(17, 14);
+            this.btnSaveForm.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.btnSaveForm.Name = "btnSaveForm";
+            this.btnSaveForm.Size = new System.Drawing.Size(44, 44);
+            this.btnSaveForm.TabIndex = 3;
+            this.btnSaveForm.TabStop = false;
+            this.btnSaveForm.UseVisualStyleBackColor = true;
+            this.btnSaveForm.Click += new System.EventHandler(this.btnSaveForm_Click);
+            // 
+            // btnExportForm
+            // 
+            this.btnExportForm.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportForm.Image = ((System.Drawing.Image)(resources.GetObject("btnExportForm.Image")));
+            this.btnExportForm.Location = new System.Drawing.Point(77, 14);
+            this.btnExportForm.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.btnExportForm.Name = "btnExportForm";
+            this.btnExportForm.Size = new System.Drawing.Size(44, 44);
+            this.btnExportForm.TabIndex = 4;
+            this.btnExportForm.TabStop = false;
+            this.btnExportForm.UseVisualStyleBackColor = true;
+            this.btnExportForm.Click += new System.EventHandler(this.btnExportForm_Click);
+            // 
+            // button5
+            // 
+            this.button5.Font = new System.Drawing.Font("Segoe UI Symbol", 20F);
+            this.button5.Image = global::AnotoWorkshop.Properties.Resources.cog_24x24;
+            this.button5.Location = new System.Drawing.Point(137, 25);
+            this.button5.Margin = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(33, 33);
+            this.button5.TabIndex = 6;
+            this.button5.TabStop = false;
+            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Visible = false;
+            // 
+            // chkAddWritten
+            // 
+            this.chkAddWritten.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddWritten.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddWritten.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddWritten.Image = global::AnotoWorkshop.Properties.Resources.written;
+            this.chkAddWritten.Location = new System.Drawing.Point(8, 3);
+            this.chkAddWritten.Name = "chkAddWritten";
+            this.chkAddWritten.Size = new System.Drawing.Size(44, 44);
+            this.chkAddWritten.TabIndex = 12;
+            this.chkAddWritten.UseVisualStyleBackColor = true;
+            this.chkAddWritten.Click += new System.EventHandler(this.addWritten);
+            // 
+            // chkAddRectangle
+            // 
+            this.chkAddRectangle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddRectangle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddRectangle.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddRectangle.Image = global::AnotoWorkshop.Properties.Resources.rectangle;
+            this.chkAddRectangle.Location = new System.Drawing.Point(8, 68);
+            this.chkAddRectangle.Name = "chkAddRectangle";
+            this.chkAddRectangle.Size = new System.Drawing.Size(44, 44);
+            this.chkAddRectangle.TabIndex = 14;
+            this.chkAddRectangle.UseVisualStyleBackColor = true;
+            this.chkAddRectangle.Click += new System.EventHandler(this.addRectangle);
+            // 
+            // chkAddCheckbox
+            // 
+            this.chkAddCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddCheckbox.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddCheckbox.Image = global::AnotoWorkshop.Properties.Resources.checkbox;
+            this.chkAddCheckbox.Location = new System.Drawing.Point(69, 3);
+            this.chkAddCheckbox.Name = "chkAddCheckbox";
+            this.chkAddCheckbox.Size = new System.Drawing.Size(44, 44);
+            this.chkAddCheckbox.TabIndex = 15;
+            this.chkAddCheckbox.UseVisualStyleBackColor = true;
+            this.chkAddCheckbox.Click += new System.EventHandler(this.addCheckbox);
+            // 
+            // chkAddLine
+            // 
+            this.chkAddLine.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddLine.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddLine.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddLine.Image = global::AnotoWorkshop.Properties.Resources.line;
+            this.chkAddLine.Location = new System.Drawing.Point(69, 68);
+            this.chkAddLine.Name = "chkAddLine";
+            this.chkAddLine.Size = new System.Drawing.Size(44, 44);
+            this.chkAddLine.TabIndex = 16;
+            this.chkAddLine.UseVisualStyleBackColor = true;
+            this.chkAddLine.Click += new System.EventHandler(this.addLine);
+            // 
+            // chkAddOptionGroup
+            // 
+            this.chkAddOptionGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkAddOptionGroup.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAddOptionGroup.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F);
+            this.chkAddOptionGroup.Image = global::AnotoWorkshop.Properties.Resources.option_group;
+            this.chkAddOptionGroup.Location = new System.Drawing.Point(131, 68);
+            this.chkAddOptionGroup.Name = "chkAddOptionGroup";
+            this.chkAddOptionGroup.Size = new System.Drawing.Size(44, 44);
+            this.chkAddOptionGroup.TabIndex = 37;
+            this.chkAddOptionGroup.UseVisualStyleBackColor = true;
+            this.chkAddOptionGroup.Click += new System.EventHandler(this.addOptionGroup);
             // 
             // Designer
             // 

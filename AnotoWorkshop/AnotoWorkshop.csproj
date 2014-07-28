@@ -296,7 +296,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="images\rectangle.png" />
+    <None Include="images\line.png" />
+    <None Include="images\checkbox.png" />
     <Content Include="images\Icon1.ico" />
+    <None Include="images\previous page.png" />
+    <None Include="images\next page.png" />
+    <None Include="images\save.png" />
     <None Include="images\written.png" />
     <None Include="images\option_group.png" />
   </ItemGroup>
