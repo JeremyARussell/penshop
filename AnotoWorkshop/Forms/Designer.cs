@@ -399,8 +399,8 @@ namespace AnotoWorkshop {
             catch (Exception) {
                 MessageBox.Show("The export folder is missing the FusionPrintConfig.xml file, please copy it to your export folder or choose the correct folder to export to.", "File Not Found",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-                throw;
+                //this.Close();
+                //throw;
             }     
         }
 
